@@ -29,8 +29,9 @@ yarn-error.log*
 #documentation build does not go into master
 docs/build
 
-restapi/package-lock.json
-restapi/package.json
-webapp/package-lock.json
-webapp/package.json
+restapi\package-lock.json
+restapi\package.json
+webapp\package-lock.json
+webapp\package.json
+
 
