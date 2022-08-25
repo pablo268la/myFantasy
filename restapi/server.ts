@@ -4,6 +4,7 @@ import cors from "cors";
 import express, { Application, RequestHandler } from "express";
 import promBundle from "express-prom-bundle";
 import morgan from "morgan";
+import apiScrapper from "./scrapper/scrapperRoutes";
 
 const path = require("path");
 const fs = require("fs");
@@ -24,7 +25,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true, limit: "8mb" }));
 app.use(morgan("dev"));
 
-//app.use(apiUser);
+app.use(apiScrapper);
 
 app.use(helmet.hidePoweredBy());
 
@@ -53,4 +54,3 @@ mongoose
   .catch((err: Error) => {
     console.error(err);
   });
-
