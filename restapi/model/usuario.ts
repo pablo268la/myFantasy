@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const jugador = new Schema(
+export const usuario = new Schema(
   {
     id: {
       type: String,
@@ -14,34 +14,24 @@ export const jugador = new Schema(
       required: true,
       trim: true,
     },
-    posicion: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: ["Portero", "Defensa", "Mediocentro", "Delantero"],
-    },
-    idEquipo: {
+    apellido: {
       type: String,
       required: true,
       trim: true,
     },
-    valor: {
-      type: Number,
-      required: true,
-    },
-    puntos: {
-      type: Number,
-      required: true,
-    },
-    estado: {
+    email: {
       type: String,
       required: true,
       trim: true,
-      enum: ["Disponible", "Dudoso", "Lesionado", "No inscrito"],
     },
-    foto: {
+    contraseña: {
       type: String,
-      required: false,
+      required: true,
+      trim: true,
+    },
+    ligas: {
+      type: [String],
+      required: true,
       trim: true,
     },
   },
