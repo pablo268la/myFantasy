@@ -42,7 +42,3 @@ export const puntuacionFisica = new Schema(
   }
 );
 
-export const modeloPuntuacionFisica = model(
-  "PuntuacionFisica",
-  puntuacionFisica
-);

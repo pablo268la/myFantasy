@@ -30,5 +30,3 @@ export const equipo = new Schema(
     timestamps: true,
   }
 );
-
-export const modeloEquipo = model("Equipo", equipo);

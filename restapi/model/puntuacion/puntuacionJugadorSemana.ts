@@ -1,8 +1,8 @@
 import { puntuacionBasica } from "./puntuacionBasica";
 import { puntuacionDefensiva } from "./puntuacionDefensiva";
-import { modeloPuntuacionFisica } from "./puntuacionFisica";
+import { puntuacionFisica } from "./puntuacionFisica";
 import { puntuacionOfensiva } from "./puntuacionOfensiva";
-import { modeloPuntuacionPortero } from "./puntuacionPortero";
+import { puntuacionPortero } from "./puntuacionPortero";
 import { puntuacionPosesion } from "./puntuacionPosesion";
 
 const mongoose = require("mongoose");
@@ -55,11 +55,11 @@ export const puntuacionJugador = new Schema(
       required: true,
     },
     puntuacionFisico: {
-      type: modeloPuntuacionFisica,
+      type: puntuacionFisica,
       required: true,
     },
     puntuacionPortero: {
-      type: modeloPuntuacionPortero,
+      type: puntuacionPortero,
       required: true,
     },
   },
@@ -67,9 +67,4 @@ export const puntuacionJugador = new Schema(
     versionKey: false,
     timestamps: true,
   }
-);
-
-export const modeloPuntuacionJugador = model(
-  "PuntuacionJugador",
-  puntuacionJugador
 );

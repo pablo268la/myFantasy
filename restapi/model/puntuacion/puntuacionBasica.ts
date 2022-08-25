@@ -25,5 +25,3 @@ export const puntuacionBasica = new Schema(
     timestamps: true,
   }
 );
-
-export const modeloPuntuacionBasica = model("PuntuacionBasica", puntuacionBasica);

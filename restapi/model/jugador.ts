@@ -46,5 +46,3 @@ export const jugador = new Schema(
     timestamps: true,
   }
 );
-
-export const modeloJugador = model("Jugador", jugador);

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const puntiacionPortero = new Schema(
+export const puntuacionPortero = new Schema(
   {
     paradas: {
       type: Number,
@@ -32,9 +32,4 @@ export const puntiacionPortero = new Schema(
     versionKey: false,
     timestamps: true,
   }
-);
-
-export const modeloPuntuacionPortero = model(
-  "PuntuacionPortero",
-  puntiacionPortero
 );
