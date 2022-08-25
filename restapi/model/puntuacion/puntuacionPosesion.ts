@@ -38,6 +38,6 @@ export const puntuacionPosesion = new Schema(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: false,
   }
 );

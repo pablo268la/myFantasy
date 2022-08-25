@@ -38,7 +38,7 @@ export const puntuacionFisica = new Schema(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: false,
   }
 );
 

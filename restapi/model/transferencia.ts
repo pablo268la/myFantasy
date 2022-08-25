@@ -1,44 +1,43 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const jugador = new Schema(
+export const transferencia = new Schema(
   {
-    id: {
+    idComprador: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
-    nombre: {
+    idVendedor: {
       type: String,
       required: true,
       trim: true,
     },
-    posicion: {
+    idJugador: {
       type: String,
-      trim: true,
-      enum: ["Portero", "Defensa", "Mediocentro", "Delantero"],
-    },
-    equipo: {
-      type: String,
-      trim: true,
-    },
-    valor: {
-      type: Number,
       required: true,
+      trim: true,
     },
-    puntos: {
+    coste: {
       type: Number,
       required: true,
     },
     estado: {
       type: String,
       required: true,
-      enum: ["Disponible", "Dudoso", "Lesionado", "No inscrito"],
+      trim: true,
+      enum: ["ACEPTADA", "RECHAZADA", "ACTIVA"],
     },
-    foto: {
+    fechaOferta: {
       type: String,
-      required: false,
+      required: true,
+      trim: true,
+    },
+    fechaEstado: {
+      type: String,
+      required: true,
+      trim: true,
     },
   },
   {

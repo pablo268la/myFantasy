@@ -30,6 +30,6 @@ export const puntuacionDefensiva = new Schema(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: false,
   }
 );

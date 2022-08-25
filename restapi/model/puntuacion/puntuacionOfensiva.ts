@@ -26,6 +26,6 @@ export const puntuacionOfensiva = new Schema(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: false,
   }
 );

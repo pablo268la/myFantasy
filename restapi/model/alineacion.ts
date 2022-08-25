@@ -3,7 +3,7 @@ import { jugador } from "./jugador";
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const equipo = new Schema(
+export const alineacion = new Schema(
   {
     id: {
       type: String,
@@ -11,7 +11,7 @@ export const equipo = new Schema(
       trim: true,
       unique: true,
     },
-    nombre: {
+    idUsuario: {
       type: String,
       required: true,
       trim: true,
@@ -19,7 +19,22 @@ export const equipo = new Schema(
     jugadores: {
       type: [jugador],
     },
-    escudo: {
+    formacion: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: [
+        "5-4-1",
+        "5-3-2",
+        "5-2-3",
+        "4-5-1",
+        "4-4-2",
+        "4-3-3",
+        "3-5-2",
+        "3-4-3",
+      ],
+    },
+    guardadoEn: {
       type: String,
       required: true,
       trim: true,

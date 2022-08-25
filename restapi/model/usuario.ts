@@ -1,9 +1,7 @@
-import { jugador } from "./jugador";
-
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const equipo = new Schema(
+export const usuario = new Schema(
   {
     id: {
       type: String,
@@ -16,13 +14,23 @@ export const equipo = new Schema(
       required: true,
       trim: true,
     },
-    jugadores: {
-      type: [jugador],
-    },
-    escudo: {
+    apellido: {
       type: String,
       required: true,
       trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    contraseña: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    ligas: {
+      type: [String],
     },
   },
   {
