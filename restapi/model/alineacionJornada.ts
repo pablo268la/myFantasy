@@ -16,6 +16,10 @@ export const alineacionSemana = new Schema(
       required: true,
       trim: true,
     },
+    jornada: {
+      type: Number,
+      required: true,
+    },
     jugadores: {
       type: [jugador],
       required: true,
@@ -47,4 +51,7 @@ export const alineacionSemana = new Schema(
   }
 );
 
-export const modeloAlineacionSemana = model("alineacionSemana", alineacionSemana);
+export const modeloAlineacionSemana = model(
+  "alineacionSemana",
+  alineacionSemana
+);

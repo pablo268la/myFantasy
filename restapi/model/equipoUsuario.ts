@@ -31,7 +31,7 @@ export const equipoUsuario = new Schema(
       required: true,
       trim: true,
     },
-    idAlineacionesSemana: {
+    idAlineacionesJornada: {
       type: [String],
       required: true,
       trim: true,

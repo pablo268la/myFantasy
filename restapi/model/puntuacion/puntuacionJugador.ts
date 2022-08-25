@@ -25,14 +25,10 @@ export const puntuacionJugador = new Schema(
       type: Number,
       required: true,
     },
-    idEquipo: {
+    idPartido: {
       type: String,
       required: true,
       trim: true,
-    },
-    idEquipoRival: {
-      type: String,
-      required: true,
     },
     puntos: {
       type: Number,
