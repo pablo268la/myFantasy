@@ -18,6 +18,8 @@ export const alineacion = new Schema(
     },
     jugadores: {
       type: [jugador],
+      required: true,
+      trim: true,
     },
     formacion: {
       type: String,

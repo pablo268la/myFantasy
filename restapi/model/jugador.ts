@@ -16,6 +16,7 @@ export const jugador = new Schema(
     },
     posicion: {
       type: String,
+      required: true,
       trim: true,
       enum: ["Portero", "Defensa", "Mediocentro", "Delantero"],
     },
@@ -34,6 +35,7 @@ export const jugador = new Schema(
     estado: {
       type: String,
       required: true,
+      trim: true,
       enum: ["Disponible", "Dudoso", "Lesionado", "No inscrito"],
     },
     foto: {

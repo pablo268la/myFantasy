@@ -23,6 +23,8 @@ export const equipoUsuario = new Schema(
     },
     jugadores: {
       type: [jugador],
+      required: true,
+      trim: true,
     },
     idAlineacion: {
       type: String,
@@ -31,6 +33,8 @@ export const equipoUsuario = new Schema(
     },
     idAlineacionesSemana: {
       type: [String],
+      required: true,
+      trim: true,
     },
     valor: {
       type: Number,

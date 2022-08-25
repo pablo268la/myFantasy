@@ -18,6 +18,8 @@ export const equipo = new Schema(
     },
     jugadores: {
       type: [jugador],
+      required: true,
+      trim: true,
     },
     escudo: {
       type: String,

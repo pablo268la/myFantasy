@@ -29,12 +29,7 @@ export const transferencia = new Schema(
       trim: true,
       enum: ["ACEPTADA", "RECHAZADA", "ACTIVA"],
     },
-    fechaOferta: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    fechaEstado: {
+    fechaLimite: {
       type: String,
       required: true,
       trim: true,

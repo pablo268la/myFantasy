@@ -1,36 +1,21 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-export const usuario = new Schema(
+export const propiedadJugador = new Schema(
   {
-    id: {
+    idJugador: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
-    nombre: {
+    idUsuario: {
       type: String,
       required: true,
       trim: true,
     },
-    apellido: {
+    idLiga: {
       type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    contraseña: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    ligas: {
-      type: [String],
       required: true,
       trim: true,
     },
