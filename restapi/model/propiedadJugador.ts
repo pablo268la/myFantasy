@@ -25,3 +25,5 @@ export const propiedadJugador = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloPropiedadJugador = model("propiedadJugador", propiedadJugador);

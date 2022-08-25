@@ -41,3 +41,5 @@ export const puntuacionPosesion = new Schema(
     timestamps: false,
   }
 );
+
+export const modelPuntuacionPosesion = model("puntuacionPosesion", puntuacionPosesion);

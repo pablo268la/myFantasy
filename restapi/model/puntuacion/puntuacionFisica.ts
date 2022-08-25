@@ -42,3 +42,4 @@ export const puntuacionFisica = new Schema(
   }
 );
 
+export const modelPuntuacionFisica = model("puntuacionFisica", puntuacionFisica);

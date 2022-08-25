@@ -40,3 +40,5 @@ export const transferencia = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloTransferencia = model("transferencia", transferencia);

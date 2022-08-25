@@ -40,3 +40,5 @@ export const usuario = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloUsuario = model("usuario", usuario);

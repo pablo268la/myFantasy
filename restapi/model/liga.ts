@@ -35,3 +35,5 @@ export const liga = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloLiga = model("liga", liga);

@@ -46,3 +46,5 @@ export const alineacionSemana = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloAlineacionSemana = model("alineacionSemana", alineacionSemana);

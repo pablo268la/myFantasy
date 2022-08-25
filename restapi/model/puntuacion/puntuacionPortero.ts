@@ -33,3 +33,5 @@ export const puntuacionPortero = new Schema(
     timestamps: false,
   }
 );
+
+export const modelPuntuacionPortero = model("puntuacionPortero", puntuacionPortero);

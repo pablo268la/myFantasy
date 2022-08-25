@@ -29,3 +29,5 @@ export const puntuacionOfensiva = new Schema(
     timestamps: false,
   }
 );
+
+export const modelPuntuacionOfensiva = model("puntuacionOfensiva", puntuacionOfensiva);

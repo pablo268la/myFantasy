@@ -68,3 +68,5 @@ export const puntuacionJugador = new Schema(
     timestamps: false,
   }
 );
+
+export const modelPuntuacionJugador = model("puntuacionJugador", puntuacionJugador);

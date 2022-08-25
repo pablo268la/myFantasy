@@ -47,3 +47,5 @@ export const alineacion = new Schema(
     timestamps: false,
   }
 );
+
+export const modelAlineacion = model("alineacion", alineacion);

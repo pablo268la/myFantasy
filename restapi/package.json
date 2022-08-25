@@ -9,12 +9,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.3",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "express-prom-bundle": "^6.4.1",
     "express-validator": "^6.14.0",
+    "helmet": "^5.1.1",
     "mongoose-typescript": "^2.3.3",
+    "morgan": "^1.10.0",
     "prom-client": "^14.0.1"
   },
   "devDependencies": {

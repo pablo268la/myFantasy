@@ -50,3 +50,5 @@ export const equipoUsuario = new Schema(
     timestamps: false,
   }
 );
+
+export const modeloEquipoUsuario = model("equipoUsuario", equipoUsuario);
