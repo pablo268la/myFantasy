@@ -5,13 +5,18 @@ const { model, Schema } = mongoose;
 
 export const equipo = new Schema(
   {
-    id: {
+    _id: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
     nombre: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    slug: {
       type: String,
       required: true,
       trim: true,
@@ -32,5 +37,7 @@ export const equipo = new Schema(
     timestamps: false,
   }
 );
+
+equipo.index({ _id: 1 }, { unique: true });
 
 export const modeloEquipo = model("equipo", equipo);
