@@ -20,9 +20,17 @@ export const puntuacionOfensiva = new Schema(
       required: true,
     },
     regatesCompletados: {
-        type: Number,
-        required: true,
-      },
+      type: Number,
+      required: true,
+    },
+    tirosAlPalo: {
+      type: Number,
+      required: true,
+    },
+    ocasionClaraFallada: {
+      type: Number,
+      required: true,
+    },
   },
   {
     versionKey: false,
@@ -30,4 +38,7 @@ export const puntuacionOfensiva = new Schema(
   }
 );
 
-export const modelPuntuacionOfensiva = model("puntuacionOfensiva", puntuacionOfensiva);
+export const modelPuntuacionOfensiva = model(
+  "puntuacionOfensiva",
+  puntuacionOfensiva
+);
