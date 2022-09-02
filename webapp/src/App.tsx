@@ -1,37 +1,48 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import { useEffect, useState } from 'react';
-import { getUsers } from './api/api';
-import './App.css';
-import EmailForm from './components/EmailForm';
-import UserList from './components/UserList';
-import Welcome from './components/Welcome';
-import { User } from './shared/shareddtypes';
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
+import { useEffect, useState } from "react";
+import { getUsers } from "./api/api";
+import "./App.css";
+import EmailForm from "./components/EmailForm";
+import UserList from "./components/UserList";
+import Welcome from "./components/Welcome";
+import { User } from "./shared/shareddtypes";
 
 function App(): JSX.Element {
+	const [users, setUsers] = useState<User[]>([]);
 
-  const [users,setUsers] = useState<User[]>([]);
+	const refreshUserList = async () => {
+		setUsers(await getUsers());
+	};
 
-  const refreshUserList = async () => {
-    setUsers(await getUsers());
-  }
+	useEffect(() => {
+		refreshUserList();
+	}, []);
 
-  useEffect(()=>{
-    refreshUserList();
-  },[]);
-
-  return (
-    <>
-      <Container maxWidth="sm" style={{margin:"0 1rem 0 1rem", paddingTop: "env(safe-area-inset-top)"}}>
-        <Welcome message="ASW students"/>
-        <Box component="div" sx={{ py: 2}}>This is a basic example of a React application using Typescript. You can add your email to the list filling the form below.</Box>
-        <EmailForm OnUserListChange={refreshUserList}/>        
-        <UserList users={users}/>
-        <Link href="https://github.com/pglez82/asw2122_0">Source code</Link>
-      </Container>
-    </>
-  );
+	return (
+		<>
+			<Container
+				maxWidth="sm"
+				style={{
+					margin: "0 1rem 0 1rem",
+					paddingTop: "env(safe-area-inset-top)",
+				}}
+			>
+				<Welcome message="ASW students" />
+				<Box component="div" sx={{ py: 2 }}>
+					This is a basic example of a React application using
+					Typescript. You can add your email to the list filling the
+					form below.
+				</Box>
+				<EmailForm OnUserListChange={refreshUserList} />
+				<UserList users={users} />
+				<Link href="https://github.com/pglez82/asw2122_0">
+					Source code
+				</Link>
+			</Container>
+		</>
+	);
 }
 
 export default App;

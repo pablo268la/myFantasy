@@ -7,11 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
 	<React.StrictMode>
-		  <BrowserRouter>
-			    <Routes>
-				      <Route path="/" element={<App />}></Route>
-			    </Routes>
-		  </BrowserRouter>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<App />}>
+          {//<Route></Route> van dentro de <Outlet></Outlet> que haya dentro de la ruta padre
+          }
+        </Route>
+			</Routes>
+		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById("root")
 );

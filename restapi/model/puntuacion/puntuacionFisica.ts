@@ -35,6 +35,18 @@ export const puntuacionFisica = new Schema(
       type: Number,
       required: true,
     },
+    tarjetaAmarilla: {
+      type: Boolean,
+      required: true,
+    },
+    tarjetaRoja: {
+      type: Boolean,
+      required: true,
+    },
+    dobleTarjetaAmarilla: {
+      type: Boolean,
+      required: true,
+    }
   },
   {
     versionKey: false,

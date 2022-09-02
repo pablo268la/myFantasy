@@ -27,6 +27,10 @@ export const puntuacionDefensiva = new Schema(
       type: Number,
       required: true,
     },
+    golesEnPropia:{
+      type: Number,
+      required: true,
+    }
   },
   {
     versionKey: false,
