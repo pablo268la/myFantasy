@@ -10,7 +10,7 @@ const { model, Schema } = mongoose;
 
 export const puntuacionJugador = new Schema(
   {
-    id: {
+    _id: {
       type: String,
       required: true,
       trim: true,

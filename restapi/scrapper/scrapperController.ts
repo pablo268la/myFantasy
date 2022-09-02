@@ -13,16 +13,15 @@ export const getClasificacion: RequestHandler = async (req, res) => {
 			equipos.forEach(async (equipo: any) => {
 				let team = modeloEquipo.findOne({ _id: equipo.team.id });
 
-        team = new modeloEquipo({
-          _id: equipo.team.id,
-          nombre: equipo.team.name,
-          slug: equipo.team.slug,
-          jugadores: [],
-          escudo: "logo1",
-        });
-        
-				await guardarNuevoOActualizar(team, equipo);
+				team = new modeloEquipo({
+					_id: equipo.team.id,
+					nombre: equipo.team.name,
+					slug: equipo.team.slug,
+					jugadores: [],
+					escudo: "logo1",
+				});
 
+				await guardarNuevoOActualizar(team, equipo);
 			});
 		})
 		.catch((error) => {
@@ -32,17 +31,12 @@ export const getClasificacion: RequestHandler = async (req, res) => {
 	return res.json();
 };
 
-
-
 async function guardarNuevoOActualizar(team: any, equipo: any) {
-  if (team) {
-    await modeloEquipo.findOneAndUpdate(
-      { _id: equipo.team.id },
-      team,
-      { new: true }
-    );
-  } else {
-    await team.save();
-  }
+	if (team) {
+		await modeloEquipo.findOneAndUpdate({ _id: equipo.team.id }, team, {
+			new: true,
+		});
+	} else {
+		await team.save();
+	}
 }
-
