@@ -21,6 +21,11 @@ export const equipo = new Schema(
 			required: true,
 			trim: true,
 		},
+		shortName: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 		jugadores: {
 			type: [jugador],
 			required: true,

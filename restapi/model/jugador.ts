@@ -14,11 +14,16 @@ export const jugador = new Schema(
 			required: true,
 			trim: true,
 		},
+		slug: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 		posicion: {
 			type: String,
 			required: true,
 			trim: true,
-			enum: ["Portero", "Defensa", "Mediocentro", "Delantero"],
+			enum: ["Portero", "Defensa", "Mediocentro", "Delantero", "Sin asignar"],
 		},
 		idEquipo: {
 			type: String,

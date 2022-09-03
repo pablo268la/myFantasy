@@ -41,15 +41,10 @@ mongoose
   .connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    config: { autoIndex: false } 
   })
   .then(async () => {
     console.log("Database connected");
-    /*try {
-      const usuario = await new modeloUsuario().save();
-      console.log(1);
-    } catch (error) {
-      console.log(error);
-    }*/
   })
   .catch((err: Error) => {
     console.error(err);
