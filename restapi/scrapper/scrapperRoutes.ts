@@ -5,8 +5,6 @@ const api: Router = express.Router();
 
 api.get("/clasificacion", ScapperController.getClasificacion);
 
-
-api.get("/equipo", ScapperController.getEquipo);
-
+api.get("/partidos", ScapperController.getPartidos);
 
 export default api;
