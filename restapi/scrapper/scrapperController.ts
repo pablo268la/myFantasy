@@ -1,71 +1,158 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { RequestHandler } from "express";
+import { modeloAlineacion } from "../model/alineacion";
 import { modeloEquipo } from "../model/equipo";
 import { modeloJugador } from "../model/jugador";
+import { modeloPartido } from "../model/partido";
 
 // Obtaining products are unauthorized operations: everybody can list the products of the shop
 export const getClasificacion: RequestHandler = async (req, res) => {
-	let result: any[] = new Array();
 	let equipos: any;
+	let result: any = [];
+
 	await axios
 		.get(
 			"https://api.sofascore.com/api/v1/unique-tournament/8/season/42409/standings/total"
 		)
-		.then((response: AxiosResponse) => {
+		.then((response) => {
 			equipos = response.data.standings[0].rows;
-			equipos.forEach(async (team: any) => {
-				console.log(team.team.name + " empezando");
-
-				let e = new modeloEquipo({
-					_id: team.team.id,
-					nombre: team.team.name,
-					slug: team.team.slug,
-					shortName: team.team.shortName,
-					jugadores: [],
-					escudo:
-						"https://api.sofascore.app/api/v1/team/" + team.team.id + "/image",
-				});
-				let exists = await modeloEquipo.findOne({ _id: team.team.id });
-				if (exists) {
-					e = await modeloEquipo.findOneAndUpdate({ _id: e._id }, e, {
-						new: true,
-					});
-				} else {
-					e = await e.save();
-				}
-				result.push(e);
-
-				await cogerJugadoresEquipo(e._id);
-
-				console.log(e.nombre + " finalizado");
-			});
-		})
-		.catch((error) => {
-			console.log(error);
 		});
+
+	for (let i = 0; i < equipos.length; i++) {
+		let team = equipos[i];
+
+		let e = new modeloEquipo({
+			_id: team.team.id,
+			nombre: team.team.name,
+			slug: team.team.slug,
+			shortName: team.team.shortName,
+			escudo:
+				"https://api.sofascore.app/api/v1/team/" + team.team.id + "/image",
+		});
+
+		let exists = await modeloEquipo.findOne({ _id: team.team.id });
+		if (exists) {
+			e = await modeloEquipo.findOneAndUpdate({ _id: e._id }, e, { new: true });
+		} else {
+			e = await e.save();
+		}
+
+		await cogerJugadoresEquipo(e._id);
+
+		result.push(e);
+	}
 
 	return res.json(result);
 };
 
 export const getPartidos: RequestHandler = async (req, res) => {
-	let partidos: any[] = new Array();
-	for (let i = 1; i < 2; i++) {
-		await axios
-			.get(
-				"https://api.sofascore.com/api/v1/unique-tournament/8/season/42409/events/round/" +
-					i
-			)
-			.then(async (res) => {
-				partidos.push(res.data);
-				console.log(res.data);
+	let partidosJornada: any[] = [];
+	let partidos: any[] = [];
+	let round = req.body.round;
+
+	await axios
+		.get(
+			"https://api.sofascore.com/api/v1/unique-tournament/8/season/42409/events/round/" +
+				round
+		)
+		.then(async (response) => {
+			partidosJornada = response.data.events;
+		});
+
+	for (let i = 0; i < partidosJornada.length; i++) {
+		let p = partidosJornada[i];
+		let partido = new modeloPartido({
+			_id: p.id,
+			idLocal: p.homeTeam.id,
+			idVisitante: p.awayTeam.id,
+			alineacionLocal: [],
+			alineacionVisitante: [],
+			resultadoLocal: p.homeScore.current ? p.homeScore.current : 0,
+			resultadoVisitante: p.awayScore.current ? p.awayScore.current : 0,
+			jornada: p.roundInfo.round,
+			fecha: new Date(p.startTimestamp * 1000).toString(),
+			linkSofaScore: "https://sofascore.com/" + p.slug + "/" + p.customId,
+			estado: checkStatusPartido(p.status.type),
+		});
+
+		let exists = await modeloPartido.findOne({ _id: p.id });
+		if (exists) {
+			partido = await modeloPartido.findOneAndUpdate({ _id: p.id }, partido, {
+				new: true,
 			});
+		} else {
+			partido = await partido.save();
+		}
+
+		if (new Date(p.startTimestamp * 1000).getTime() < new Date().getTime()) {
+			partido = await cogerAlineaciones(partido.id);
+		}
+		partidos.push(partido);
 	}
 
-	res.json(partidos);
+	return res.json(partidos);
 };
+
+//export const getAlineaciones: RequestHandler = async (req, res) => {
+async function cogerAlineaciones(idPartido: any) {
+	let partido = await modeloPartido.findOne({ _id: idPartido });
+	let alineacionLocal;
+	let alineacionVisitante;
+
+	await axios
+		.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
+		.then(async (response) => {
+			alineacionLocal = response.data.home.players;
+			alineacionVisitante = response.data.away.players;
+		});
+
+	let localTitulares: any[] = [];
+	let localSuplentes: any[] = [];
+	await cogerAlineacion(alineacionLocal, localTitulares, localSuplentes);
+
+	let visitanteTitulares: any[] = [];
+	let visitanteSuplentes: any[] = [];
+	await cogerAlineacion(
+		alineacionVisitante,
+		visitanteTitulares,
+		visitanteSuplentes
+	);
+
+	alineacionLocal = new modeloAlineacion({
+		jugadoresTitulares: localTitulares,
+		jugadoresSuplentes: localSuplentes,
+	});
+
+	alineacionVisitante = new modeloAlineacion({
+		jugadoresTitulares: visitanteTitulares,
+		jugadoresSuplentes: visitanteSuplentes,
+	});
+
+	partido.alineacionLocal = alineacionLocal;
+	partido.alineacionVisitante = alineacionVisitante;
+	partido = await partido.save();
+	return partido;
+}
+
+async function cogerAlineacion(
+	alineacionLocal: any,
+	titulares: any,
+	suplentes: any
+) {
+	for (let i = 0; i < alineacionLocal.length; i++) {
+		let p = alineacionLocal[i];
+
+		if (p.substitute) {
+			suplentes.push(p.player.id);
+		} else {
+			titulares.push(p.player.id);
+		}
+	}
+}
 
 async function cogerJugadoresEquipo(id: any) {
 	let players: any;
+	let jugadores : any[]= [];
 	let equipo = await modeloEquipo.findOne({ _id: id });
 	await axios
 		.get("https://api.sofascore.com/api/v1/team/" + id + "/players")
@@ -73,9 +160,8 @@ async function cogerJugadoresEquipo(id: any) {
 			players = res.data.players;
 		});
 
-	console.log("Cogiendo jugadores del " + equipo.nombre);
-
-	players.forEach(async (p: any) => {
+	for (let i = 0; i < players.length; i++) {
+		let p = players[i];
 		if (p.player.team.shortName === equipo.shortName) {
 			let exists = await modeloJugador.findOne({ _id: p.player.id });
 
@@ -100,12 +186,12 @@ async function cogerJugadoresEquipo(id: any) {
 					new: true,
 				});
 			}
+
+			jugadores.push(jugador);
 		}
-	});
+	}
 
-	console.log("Jugadores cogidos del " + equipo.nombre);
-
-	return players;
+	return jugadores;
 }
 
 function checkPosition(position: String) {
@@ -120,5 +206,17 @@ function checkPosition(position: String) {
 			return "Delantero";
 		default:
 			return "Sin asignar";
+	}
+}
+function checkStatusPartido(status: any) {
+	switch (status) {
+		case "not_started":
+			return "Por jugar";
+		case "inprogress":
+			return "En juego";
+		case "finished":
+			return "Finalizado";
+		default:
+			return "Por jugar";
 	}
 }

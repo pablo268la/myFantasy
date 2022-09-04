@@ -1,4 +1,3 @@
-import { jugador } from "./jugador";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
@@ -21,7 +20,7 @@ export const alineacionSemana = new Schema(
 			required: true,
 		},
 		jugadores: {
-			type: [jugador],
+			type: [String],
 			required: true,
 			trim: true,
 		},
