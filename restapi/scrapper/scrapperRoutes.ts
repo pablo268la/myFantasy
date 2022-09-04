@@ -3,7 +3,7 @@ import * as ScapperController from "./scrapperController";
 
 const api: Router = express.Router();
 
-api.get("/clasificacion", ScapperController.getClasificacion);
+api.get("/clasificacion", ScapperController.getEquipos);
 
 api.get("/partidos", ScapperController.getPartidos);
 

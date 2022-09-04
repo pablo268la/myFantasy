@@ -6,7 +6,7 @@ import { modeloJugador } from "../model/jugador";
 import { modeloPartido } from "../model/partido";
 
 // Obtaining products are unauthorized operations: everybody can list the products of the shop
-export const getClasificacion: RequestHandler = async (req, res) => {
+export const getEquipos: RequestHandler = async (req, res) => {
 	let equipos: any;
 	let result: any = [];
 
@@ -108,14 +108,20 @@ async function cogerAlineaciones(idPartido: any) {
 
 	let localTitulares: any[] = [];
 	let localSuplentes: any[] = [];
-	await cogerAlineacion(alineacionLocal, localTitulares, localSuplentes);
+	await cogerAlineacion(
+		alineacionLocal,
+		localTitulares,
+		localSuplentes,
+		partido.idLocal
+	);
 
 	let visitanteTitulares: any[] = [];
 	let visitanteSuplentes: any[] = [];
 	await cogerAlineacion(
 		alineacionVisitante,
 		visitanteTitulares,
-		visitanteSuplentes
+		visitanteSuplentes,
+		partido.idVisitante
 	);
 
 	alineacionLocal = new modeloAlineacion({
@@ -135,12 +141,30 @@ async function cogerAlineaciones(idPartido: any) {
 }
 
 async function cogerAlineacion(
-	alineacionLocal: any,
+	alineacion: any,
 	titulares: any,
-	suplentes: any
+	suplentes: any,
+	idEquipo: any
 ) {
-	for (let i = 0; i < alineacionLocal.length; i++) {
-		let p = alineacionLocal[i];
+	for (let i = 0; i < alineacion.length; i++) {
+		let p = alineacion[i];
+		let exists = await modeloJugador.findOne({ _id: p.player.id });
+		if (exists === null || exists.idEquipo !== idEquipo) {
+			let jugador = new modeloJugador({
+				_id: "old" + p.player.id,
+				nombre: p.player.name,
+				slug: p.player.slug,
+				posicion: checkPosition(p.player.position),
+				idEquipo: idEquipo,
+				valor: p.player.proposedMarketValue || 0,
+				puntos: 0,
+				estado: "No disponible",
+				foto:
+					"https://api.sofascore.app/api/v1/player/" + p.player.id + "/image",
+			});
+			await jugador.save();
+			p.player.id = "old" + p.player.id;
+		}
 
 		if (p.substitute) {
 			suplentes.push(p.player.id);
@@ -152,7 +176,7 @@ async function cogerAlineacion(
 
 async function cogerJugadoresEquipo(id: any) {
 	let players: any;
-	let jugadores : any[]= [];
+	let jugadores: any[] = [];
 	let equipo = await modeloEquipo.findOne({ _id: id });
 	await axios
 		.get("https://api.sofascore.com/api/v1/team/" + id + "/players")

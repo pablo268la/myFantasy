@@ -7,7 +7,6 @@ export const jugador = new Schema(
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
 		},
 		nombre: {
 			type: String,
@@ -42,7 +41,7 @@ export const jugador = new Schema(
 			type: String,
 			required: true,
 			trim: true,
-			enum: ["Disponible", "Dudoso", "Lesionado", "No inscrito"],
+			enum: ["Disponible", "Dudoso", "Lesionado", "No disponible"],
 		},
 		foto: {
 			type: String,
