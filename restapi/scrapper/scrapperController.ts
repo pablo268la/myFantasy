@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import { modeloAlineacion } from "../model/alineacion";
 import { modeloEquipo } from "../model/equipo";
 import { modeloJugador } from "../model/jugador";
+import { modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { modeloPartido } from "../model/partido";
 
 // Obtaining products are unauthorized operations: everybody can list the products of the shop
@@ -112,7 +113,8 @@ async function cogerAlineaciones(idPartido: any) {
 		alineacionLocal,
 		localTitulares,
 		localSuplentes,
-		partido.idLocal
+		partido.idLocal,
+		partido.jornada
 	);
 
 	let visitanteTitulares: any[] = [];
@@ -121,7 +123,8 @@ async function cogerAlineaciones(idPartido: any) {
 		alineacionVisitante,
 		visitanteTitulares,
 		visitanteSuplentes,
-		partido.idVisitante
+		partido.idVisitante,
+		partido.jornada
 	);
 
 	alineacionLocal = new modeloAlineacion({
@@ -144,26 +147,38 @@ async function cogerAlineacion(
 	alineacion: any,
 	titulares: any,
 	suplentes: any,
-	idEquipo: any
+	idEquipo: any,
+	jornada: any
 ) {
 	for (let i = 0; i < alineacion.length; i++) {
 		let p = alineacion[i];
 		let exists = await modeloJugador.findOne({ _id: p.player.id });
-		if (exists === null || exists.idEquipo !== idEquipo) {
-			let jugador = new modeloJugador({
-				_id: "old" + p.player.id,
+		if (exists === null) {
+			exists = new modeloJugador({
+				_id: p.player.id,
 				nombre: p.player.name,
 				slug: p.player.slug,
 				posicion: checkPosition(p.player.position),
-				idEquipo: idEquipo,
+				idEquipo: "0",
 				valor: p.player.proposedMarketValue || 0,
 				puntos: 0,
 				estado: "No disponible",
 				foto:
 					"https://api.sofascore.app/api/v1/player/" + p.player.id + "/image",
 			});
-			await jugador.save();
-			p.player.id = "old" + p.player.id;
+			exists = await exists.save();
+		}
+		if (exists.idEquipo !== idEquipo) {
+			let jugadorAntiguo = new modeloJugadorAntiguo({
+				idEquipoAntiguo: idEquipo,
+				jornadaTraspaso: jornada,
+			});
+			exists.jugadorAntiguo = jugadorAntiguo;
+			exists = await modeloJugador.findOneAndUpdate(
+				{ _id: p.player.id },
+				exists,
+				{ new: true }
+			);
 		}
 
 		if (p.substitute) {

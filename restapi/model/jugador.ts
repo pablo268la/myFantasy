@@ -1,3 +1,5 @@
+import { jugadorAntiguo } from "./jugadorAntiguo";
+
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
@@ -47,6 +49,9 @@ export const jugador = new Schema(
 			type: String,
 			required: false,
 			trim: true,
+		},
+		jugadorAntiguo: {
+			type: jugadorAntiguo,
 		},
 	},
 	{
