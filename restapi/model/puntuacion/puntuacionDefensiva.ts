@@ -1,34 +1,34 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
-export const puntuacionDefensiva = new Schema(
+export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 	{
 		robos: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		tirosBloqueados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		intercepciones: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		entradas: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		regatesSuperado: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		erroresParaDisparo: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		golesEnPropia: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 	},
@@ -39,16 +39,16 @@ export const puntuacionDefensiva = new Schema(
 );
 
 export interface IPuntuacionDefensiva {
-	robos: number;
-	tirosBloqueados: number;
-	intercepciones: number;
-	entradas: number;
-	regatesSuperado: number;
-	erroresParaDisparo: number;
-	golesEnPropia: number;
+	robos: IPuntuacionTupple;
+	tirosBloqueados: IPuntuacionTupple;
+	intercepciones: IPuntuacionTupple;
+	entradas: IPuntuacionTupple;
+	regatesSuperado: IPuntuacionTupple;
+	erroresParaDisparo: IPuntuacionTupple;
+	golesEnPropia: IPuntuacionTupple;
 }
 
-export const modelPuntuacionDefensiva = model(
+export const modelPuntuacionDefensiva = model<IPuntuacionDefensiva>(
 	"puntuacionDefensiva",
 	puntuacionDefensiva
 );

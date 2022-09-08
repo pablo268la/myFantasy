@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const propiedadJugador = new Schema(
+export const propiedadJugador = new Schema<IPropiedadJugador>(
 	{
 		idJugador: {
 			type: String,
@@ -32,7 +31,7 @@ export interface IPropiedadJugador {
 	idLiga: string;
 }
 
-export const modeloPropiedadJugador = model(
+export const modeloPropiedadJugador = model<IPropiedadJugador>(
 	"propiedadJugador",
 	propiedadJugador
 );

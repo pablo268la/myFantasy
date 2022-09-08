@@ -1,36 +1,39 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
-export const puntuacionBasica = new Schema(
-  {
-    minutos: {
-      type: Number,
-      required: true,
-    },
-    goles: {
-      type: Number,
-      required: true,
-    },
-    asistencias: {
-      type: Number,
-      required: true,
-    },
-    valoracion: {
-      type: Number,
-      required: true,
-    },
-  },
-  {
-    versionKey: false,
-    timestamps: false,
-  }
+export const puntuacionBasica = new Schema<IPuntuacionBasica>(
+	{
+		minutos: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		goles: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		asistencias: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		valoracion: {
+			type: puntuacionTupple,
+			required: true,
+		},
+	},
+	{
+		versionKey: false,
+		timestamps: false,
+	}
 );
 
 export interface IPuntuacionBasica {
-  minutos: number;
-  goles: number;
-  asistencias: number;
-  valoracion: number;
+	minutos: IPuntuacionTupple;
+	goles: IPuntuacionTupple;
+	asistencias: IPuntuacionTupple;
+	valoracion: IPuntuacionTupple;
 }
 
-export const modelPuntuacionBasica = model("puntuacionBasica", puntuacionBasica);
+export const modelPuntuacionBasica = model<IPuntuacionBasica>(
+	"puntuacionBasica",
+	puntuacionBasica
+);

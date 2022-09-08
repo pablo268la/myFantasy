@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema, Types } from "mongoose";
 
-export const alineacionJugador = new Schema(
+export const alineacionJugador = new Schema<IAlineacionJugador>(
 	{
 		_id: {
 			type: String,
@@ -54,7 +53,7 @@ export const alineacionJugador = new Schema(
 export interface IAlineacionJugador {
 	_id: string;
 	idUsuario: string;
-	jugadores: string[];
+	jugadores: Types.DocumentArray<string>;
 	formacion: string;
 	guardadoEn: string;
 	idLiga: string;
@@ -62,7 +61,7 @@ export interface IAlineacionJugador {
 
 alineacionJugador.index({ _id: 1 }, { unique: true });
 
-export const modeloAlineacionJugador = model(
+export const modeloAlineacionJugador = model<IAlineacionJugador>(
 	"alineacionJugador",
 	alineacionJugador
 );

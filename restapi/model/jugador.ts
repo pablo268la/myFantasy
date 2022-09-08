@@ -1,10 +1,11 @@
+import { model, Schema, Types } from "mongoose";
 import { IJugadorAntiguo, jugadorAntiguo } from "./jugadorAntiguo";
-import { IPuntuacionJugador, puntuacionJugador } from "./puntuacion/puntuacionJugador";
+import {
+	IPuntuacionJugador,
+	puntuacionJugador
+} from "./puntuacion/puntuacionJugador";
 
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-
-export interface IJugador{
+export interface IJugador {
 	_id: string;
 	nombre: string;
 	slug: string;
@@ -14,11 +15,11 @@ export interface IJugador{
 	puntos: number;
 	estado: string;
 	foto: string;
-	jugadoresAntiguos: IJugadorAntiguo;
-	puntuaciones: IPuntuacionJugador[];
+	jugadorAntiguo: IJugadorAntiguo;
+	puntuaciones: Types.DocumentArray<IPuntuacionJugador>;
 }
 
-export const jugador = new Schema(
+export const jugador = new Schema<IJugador>(
 	{
 		_id: {
 			type: String,
@@ -81,4 +82,4 @@ export const jugador = new Schema(
 
 jugador.index({ _id: 1 }, { unique: true });
 
-export const modeloJugador = model("jugador", jugador);
+export const modeloJugador = model<IJugador>("jugador", jugador);

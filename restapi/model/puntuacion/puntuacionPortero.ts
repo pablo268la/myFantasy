@@ -1,30 +1,30 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
-export const puntuacionPortero = new Schema(
+export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 	{
 		paradas: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		despejes: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		salidasTotales: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		salidasCompletadas: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		highClaim: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		paradasArea: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 	},
@@ -35,15 +35,15 @@ export const puntuacionPortero = new Schema(
 );
 
 export interface IPuntuacionPortero {
-	paradas: number;
-	despejes: number;
-	salidasTotales: number;
-	salidasCompletadas: number;
-	highClaim: number;
-	paradasArea: number;
+	paradas: IPuntuacionTupple;
+	despejes: IPuntuacionTupple;
+	salidasTotales: IPuntuacionTupple;
+	salidasCompletadas: IPuntuacionTupple;
+	highClaim: IPuntuacionTupple;
+	paradasArea: IPuntuacionTupple;
 }
 
-export const modelPuntuacionPortero = model(
+export const modelPuntuacionPortero = model<IPuntuacionPortero>(
 	"puntuacionPortero",
 	puntuacionPortero
 );

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema, Types } from "mongoose";
 
-export const usuario = new Schema(
+export const usuario = new Schema<IUsuario>(
 	{
 		_id: {
 			type: String,
@@ -47,9 +46,9 @@ export interface IUsuario {
 	apellido: string;
 	email: string;
 	contraseña: string;
-	ligas: string[];
+	ligas: Types.DocumentArray<string>;
 }
 
 usuario.index({ _id: 1 }, { unique: true });
 
-export const modeloUsuario = model("usuario", usuario);
+export const modeloUsuario = model<IUsuario>("usuario", usuario);

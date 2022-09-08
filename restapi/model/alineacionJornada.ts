@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema, Types } from "mongoose";
 
-export const alineacionSemana = new Schema(
+export const alineacionSemana = new Schema<IAlineacionSemana>(
 	{
 		_id: {
 			type: String,
@@ -53,14 +52,14 @@ export interface IAlineacionSemana {
 	_id: string;
 	idUsuario: string;
 	jornada: number;
-	jugadores: string[];
+	jugadores: Types.DocumentArray<string>;
 	formacion: string;
 	puntuacion: number;
 }
 
 alineacionSemana.index({ _id: 1 }, { unique: true });
 
-export const modeloAlineacionSemana = model(
+export const modeloAlineacionSemana = model<IAlineacionSemana>(
 	"alineacionSemana",
 	alineacionSemana
 );

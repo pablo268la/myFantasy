@@ -1,14 +1,11 @@
+import { model, Schema, Types } from "mongoose";
 
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-
-export interface IAlineacion{
-	jugadoresTitulares: string[];
-	jugadoresSuplentes: string[];
+export interface IAlineacion {
+	jugadoresTitulares: Types.DocumentArray<string>;
+	jugadoresSuplentes: Types.DocumentArray<string>;
 }
 
-
-export const alineacion = new Schema(
+export const alineacion = new Schema<IAlineacion>(
 	{
 		jugadoresTitulares: {
 			type: [String],
@@ -27,4 +24,4 @@ export const alineacion = new Schema(
 	}
 );
 
-export const modeloAlineacion = model("alineacion", alineacion);
+export const modeloAlineacion = model<IAlineacion>("alineacion", alineacion);

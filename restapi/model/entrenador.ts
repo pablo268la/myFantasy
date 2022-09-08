@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const entrenador = new Schema(
+export const entrenador = new Schema<IEntrenador>(
 	{
 		_id: {
 			type: String,
@@ -14,7 +13,7 @@ export const entrenador = new Schema(
 			required: true,
 			trim: true,
 		},
-		nomber: {
+		nombre: {
 			type: String,
 			required: true,
 			trim: true,
@@ -55,4 +54,4 @@ export interface IEntrenador {
 
 entrenador.index({ _id: 1 }, { unique: true });
 
-export const modeloEntrenador = model("entrenador", entrenador);
+export const modeloEntrenador = model<IEntrenador>("entrenador", entrenador);
