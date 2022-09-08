@@ -1,21 +1,22 @@
 import { model, Schema } from "mongoose";
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
 export const puntuacionBasica = new Schema<IPuntuacionBasica>(
 	{
 		minutos: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		goles: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		asistencias: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		valoracion: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 	},
@@ -26,10 +27,10 @@ export const puntuacionBasica = new Schema<IPuntuacionBasica>(
 );
 
 export interface IPuntuacionBasica {
-	minutos: number;
-	goles: number;
-	asistencias: number;
-	valoracion: number;
+	minutos: IPuntuacionTupple;
+	goles: IPuntuacionTupple;
+	asistencias: IPuntuacionTupple;
+	valoracion: IPuntuacionTupple;
 }
 
 export const modelPuntuacionBasica = model<IPuntuacionBasica>(

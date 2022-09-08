@@ -34,11 +34,11 @@ export const partido = new Schema<IPartido>(
 			trim: true,
 		},
 		alineacionLocal: {
-			type: [alineacion],
+			type: alineacion,
 			required: true,
 		},
 		alineacionVisitante: {
-			type: [alineacion],
+			type: alineacion,
 			required: true,
 		},
 		resultadoLocal: {

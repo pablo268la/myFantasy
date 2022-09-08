@@ -6,13 +6,14 @@ import promBundle from "express-prom-bundle";
 import morgan from "morgan";
 import apiScrapper from "./scrapper/scrapperRoutes";
 
+const mongoose = require("mongoose");
+
 const path = require("path");
 const fs = require("fs");
 
 let helmet = require("helmet");
 
 const app: Application = express();
-
 
 const connectionString = process.env.MONGO_DB_URI;
 
@@ -30,22 +31,22 @@ app.use(apiScrapper);
 app.use(helmet.hidePoweredBy());
 
 app
-  .listen(5000, (): void => {
-    console.log("Restapi listening on " + 5000);
-  })
-  .on("error", (error: Error) => {
-    console.error("Error occured: " + error.message);
-  });
+	.listen(5000, (): void => {
+		console.log("Restapi listening on " + 5000);
+	})
+	.on("error", (error: Error) => {
+		console.error("Error occured: " + error.message);
+	});
 
 mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    config: { autoIndex: false } 
-  })
-  .then(async () => {
-    console.log("Database connected");
-  })
-  .catch((err: Error) => {
-    console.error(err);
-  });
+	.connect(connectionString, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		config: { autoIndex: false },
+	})
+	.then(async () => {
+		console.log("Database connected");
+	})
+	.catch((err: Error) => {
+		console.error(err);
+	});

@@ -1,15 +1,14 @@
 import axios from "axios";
 import { RequestHandler } from "express";
-import { modeloAlineacion } from "../model/alineacion";
-import { modeloEquipo } from "../model/equipo";
-import { modeloJugador } from "../model/jugador";
-import { modeloJugadorAntiguo } from "../model/jugadorAntiguo";
-import { modeloPartido } from "../model/partido";
+import { IAlineacion, modeloAlineacion } from "../model/alineacion";
+import { IEquipo, modeloEquipo } from "../model/equipo";
+import { IJugador, modeloJugador } from "../model/jugador";
+import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
+import { IPartido, modeloPartido } from "../model/partido";
 
-// Obtaining products are unauthorized operations: everybody can list the products of the shop
 export const getEquipos: RequestHandler = async (req, res) => {
 	let equipos: any;
-	let result: any = [];
+	let result: IEquipo[] = [];
 
 	await axios
 		.get(
@@ -22,7 +21,7 @@ export const getEquipos: RequestHandler = async (req, res) => {
 	for (let i = 0; i < equipos.length; i++) {
 		let team = equipos[i];
 
-		let e = new modeloEquipo({
+		let e: IEquipo | null = new modeloEquipo({
 			_id: team.team.id,
 			nombre: team.team.name,
 			slug: team.team.slug,
@@ -31,16 +30,20 @@ export const getEquipos: RequestHandler = async (req, res) => {
 				"https://api.sofascore.app/api/v1/team/" + team.team.id + "/image",
 		});
 
-		let exists = await modeloEquipo.findOne({ _id: team.team.id });
-		if (exists) {
+		let exists: IEquipo | null = await modeloEquipo.findOne({
+			_id: team.team.id,
+		});
+
+		if (exists !== null) {
 			e = await modeloEquipo.findOneAndUpdate({ _id: e._id }, e, { new: true });
 		} else {
-			e = await e.save();
+			e = await modeloEquipo.create(e);
 		}
 
-		await cogerJugadoresEquipo(e._id);
-
-		result.push(e);
+		if (e !== null) {
+			await cogerJugadoresEquipo(e._id);
+			result.push(e);
+		}
 	}
 
 	return res.json(result);
@@ -48,7 +51,7 @@ export const getEquipos: RequestHandler = async (req, res) => {
 
 export const getPartidos: RequestHandler = async (req, res) => {
 	let partidosJornada: any[] = [];
-	let partidos: any[] = [];
+	let result: IPartido[] = [];
 	let round = req.body.round;
 
 	await axios
@@ -62,12 +65,12 @@ export const getPartidos: RequestHandler = async (req, res) => {
 
 	for (let i = 0; i < partidosJornada.length; i++) {
 		let p = partidosJornada[i];
-		let partido = new modeloPartido({
+		let partido: IPartido | null = new modeloPartido({
 			_id: p.id,
 			idLocal: p.homeTeam.id,
 			idVisitante: p.awayTeam.id,
-			alineacionLocal: [],
-			alineacionVisitante: [],
+			alineacionLocal: new modeloAlineacion({}),
+			alineacionVisitante: new modeloAlineacion({}),
 			resultadoLocal: p.homeScore.current ? p.homeScore.current : 0,
 			resultadoVisitante: p.awayScore.current ? p.awayScore.current : 0,
 			jornada: p.roundInfo.round,
@@ -82,118 +85,123 @@ export const getPartidos: RequestHandler = async (req, res) => {
 				new: true,
 			});
 		} else {
-			partido = await partido.save();
+			partido = await modeloPartido.create(partido);
 		}
 
-		if (new Date(p.startTimestamp * 1000).getTime() < new Date().getTime()) {
-			partido = await cogerAlineaciones(partido.id);
+		if (
+			new Date(p.startTimestamp * 1000).getTime() < new Date().getTime() &&
+			partido !== null
+		) {
+			partido = await cogerAlineaciones(partido._id);
 		}
-		partidos.push(partido);
+
+		if (partido !== null) {
+			result.push(partido);
+		}
 	}
 
-	return res.json(partidos);
+	return res.json(result);
 };
 
-//export const getAlineaciones: RequestHandler = async (req, res) => {
-async function cogerAlineaciones(idPartido: any) {
-	let partido = await modeloPartido.findOne({ _id: idPartido });
-	let alineacionLocal;
-	let alineacionVisitante;
-
-	await axios
-		.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
-		.then(async (response) => {
-			alineacionLocal = response.data.home.players;
-			alineacionVisitante = response.data.away.players;
-		});
-
-	let localTitulares: any[] = [];
-	let localSuplentes: any[] = [];
-	await cogerAlineacion(
-		alineacionLocal,
-		localTitulares,
-		localSuplentes,
-		partido.idLocal,
-		partido.jornada
-	);
-
-	let visitanteTitulares: any[] = [];
-	let visitanteSuplentes: any[] = [];
-	await cogerAlineacion(
-		alineacionVisitante,
-		visitanteTitulares,
-		visitanteSuplentes,
-		partido.idVisitante,
-		partido.jornada
-	);
-
-	alineacionLocal = new modeloAlineacion({
-		jugadoresTitulares: localTitulares,
-		jugadoresSuplentes: localSuplentes,
+async function cogerAlineaciones(idPartido: any): Promise<IPartido | null> {
+	let partido: IPartido | null = await modeloPartido.findOne({
+		_id: idPartido,
 	});
+	let jugadoresLocal: any[] = [];
+	let jugadoresVisitante: any[] = [];
 
-	alineacionVisitante = new modeloAlineacion({
-		jugadoresTitulares: visitanteTitulares,
-		jugadoresSuplentes: visitanteSuplentes,
-	});
+	if (partido !== null) {
+		await axios
+			.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
+			.then(async (response) => {
+				jugadoresLocal = response.data.home.players;
+				jugadoresVisitante = response.data.away.players;
+			});
 
-	partido.alineacionLocal = alineacionLocal;
-	partido.alineacionVisitante = alineacionVisitante;
-	partido = await partido.save();
+		const alineacionLocal: IAlineacion = await cogerAlineacion(
+			jugadoresLocal,
+			partido.idLocal,
+			partido.jornada
+		);
+
+		const alineacionVisitante: IAlineacion = await cogerAlineacion(
+			jugadoresVisitante,
+			partido.idVisitante,
+			partido.jornada
+		);
+
+		partido.alineacionLocal = alineacionLocal;
+		partido.alineacionVisitante = alineacionVisitante;
+		partido = await modeloPartido.create(partido);
+	}
 	return partido;
 }
 
 async function cogerAlineacion(
-	alineacion: any,
-	titulares: any,
-	suplentes: any,
-	idEquipo: any,
-	jornada: any
-) {
-	for (let i = 0; i < alineacion.length; i++) {
-		let p = alineacion[i];
-		let exists = await modeloJugador.findOne({ _id: p.player.id });
+	jugadores: any,
+	idEquipo: string,
+	jornada: number
+): Promise<IAlineacion> {
+	let titulares: string[] = [];
+	let suplentes: string[] = [];
+
+	for (let i = 0; i < jugadores.length; i++) {
+		let jugador = jugadores[i];
+		let exists: IJugador | null = await modeloJugador.findOne({
+			_id: jugador.player.id,
+		});
+
 		if (exists === null) {
 			exists = new modeloJugador({
-				_id: p.player.id,
-				nombre: p.player.name,
-				slug: p.player.slug,
-				posicion: checkPosition(p.player.position),
+				_id: jugador.player.id,
+				nombre: jugador.player.name,
+				slug: jugador.player.slug,
+				posicion: checkPosition(jugador.player.position),
 				idEquipo: "0",
-				valor: p.player.proposedMarketValue || 0,
+				valor: jugador.player.proposedMarketValue || 0,
 				puntos: 0,
 				estado: "No disponible",
 				foto:
-					"https://api.sofascore.app/api/v1/player/" + p.player.id + "/image",
+					"https://api.sofascore.app/api/v1/player/" +
+					jugador.player.id +
+					"/image",
 				puntuaciones: [],
 			});
-			exists = await exists.save();
+			exists = await modeloJugador.create(exists);
 		}
 		if (exists.idEquipo !== idEquipo) {
-			let jugadorAntiguo = new modeloJugadorAntiguo({
+			let jugadorAntiguo: IJugadorAntiguo = new modeloJugadorAntiguo({
 				idEquipoAntiguo: idEquipo,
 				jornadaTraspaso: jornada,
 			});
 			exists.jugadorAntiguo = jugadorAntiguo;
 			exists = await modeloJugador.findOneAndUpdate(
-				{ _id: p.player.id },
+				{ _id: jugador.player.id },
 				exists,
 				{ new: true }
 			);
 		}
 
-		if (p.substitute) {
-			suplentes.push(p.player.id);
+		if (jugador.substitute) {
+			suplentes.push(jugador.player.id);
 		} else {
-			titulares.push(p.player.id);
+			titulares.push(jugador.player.id);
 		}
 	}
+
+	const alineacion: IAlineacion = new modeloAlineacion({
+		jugadoresTitulares: titulares,
+		jugadoresSuplentes: suplentes,
+	});
+
+	return alineacion;
 }
 
 async function cogerJugadoresEquipo(id: any) {
-	let players: any;
-	let jugadores: any[] = [];
-	let equipo = await modeloEquipo.findOne({ _id: id });
+	let players: any[] = [];
+	let jugadores: IJugador[] = [];
+	let equipo: IEquipo | null = await modeloEquipo.findOne({ _id: id });
+
 	await axios
 		.get("https://api.sofascore.com/api/v1/team/" + id + "/players")
 		.then(async (res) => {
@@ -202,10 +210,12 @@ async function cogerJugadoresEquipo(id: any) {
 
 	for (let i = 0; i < players.length; i++) {
 		let p = players[i];
-		if (p.player.team.shortName === equipo.shortName) {
-			let exists = await modeloJugador.findOne({ _id: p.player.id });
+		if (equipo !== null && p.player.team.shortName === equipo.shortName) {
+			let exists: IJugador | null = await modeloJugador.findOne({
+				_id: p.player.id,
+			});
 
-			let jugador = new modeloJugador({
+			let jugador: IJugador = new modeloJugador({
 				_id: p.player.id,
 				nombre: p.player.name,
 				slug: p.player.slug,
@@ -219,8 +229,8 @@ async function cogerJugadoresEquipo(id: any) {
 				puntuaciones: [],
 			});
 
-			if (!exists) {
-				await jugador.save();
+			if (exists === null) {
+				await modeloJugador.create(jugador);
 			} else {
 				jugador.puntos = exists.puntos;
 				jugador.puntuaciones = exists.puntuaciones;
@@ -251,6 +261,7 @@ function checkPosition(position: String) {
 			return "Sin asignar";
 	}
 }
+
 function checkStatusPartido(status: any) {
 	switch (status) {
 		case "not_started":

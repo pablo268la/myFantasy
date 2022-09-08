@@ -1,33 +1,34 @@
 import { model, Schema } from "mongoose";
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
 export const puntuacionOfensiva = new Schema<IPuntuacionOfensiva>(
 	{
 		tirosPuerta: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		tirosFuera: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		tirosBloqueados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		regatesIntentados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		regatesCompletados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		tirosAlPalo: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		ocasionClaraFallada: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 	},
@@ -38,13 +39,13 @@ export const puntuacionOfensiva = new Schema<IPuntuacionOfensiva>(
 );
 
 export interface IPuntuacionOfensiva {
-	tirosPuerta: number;
-	tirosFuera: number;
-	tirosBloqueados: number;
-	regatesIntentados: number;
-	regatesCompletados: number;
-	tirosAlPalo: number;
-	ocasionClaraFallada: number;
+	tirosPuerta: IPuntuacionTupple;
+	tirosFuera: IPuntuacionTupple;
+	tirosBloqueados: IPuntuacionTupple;
+	regatesIntentados: IPuntuacionTupple;
+	regatesCompletados: IPuntuacionTupple;
+	tirosAlPalo: IPuntuacionTupple;
+	ocasionClaraFallada: IPuntuacionTupple;
 }
 
 export const modelPuntuacionOfensiva = model<IPuntuacionOfensiva>(

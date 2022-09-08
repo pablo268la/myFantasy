@@ -1,37 +1,39 @@
 import { model, Schema } from "mongoose";
 
+import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
+
 export const puntuacionPosesion = new Schema<IPuntuacionPosesion>(
 	{
 		toquesBalon: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		pasesTotales: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		pasesCompletados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		pasesClave: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		centrosTotales: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		centrosCompletados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		pasesLargosTotales: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 		pasesLargosCompletados: {
-			type: Number,
+			type: puntuacionTupple,
 			required: true,
 		},
 	},
@@ -42,14 +44,14 @@ export const puntuacionPosesion = new Schema<IPuntuacionPosesion>(
 );
 
 export interface IPuntuacionPosesion {
-	toquesBalon: number;
-	pasesTotales: number;
-	pasesCompletados: number;
-	pasesClave: number;
-	centrosTotales: number;
-	centrosCompletados: number;
-	pasesLargosTotales: number;
-	pasesLargosCompletados: number;
+	toquesBalon: IPuntuacionTupple;
+	pasesTotales: IPuntuacionTupple;
+	pasesCompletados: IPuntuacionTupple;
+	pasesClave: IPuntuacionTupple;
+	centrosTotales: IPuntuacionTupple;
+	centrosCompletados: IPuntuacionTupple;
+	pasesLargosTotales: IPuntuacionTupple;
+	pasesLargosCompletados: IPuntuacionTupple;
 }
 
 export const modelPuntuacionPosesion = model<IPuntuacionPosesion>(
