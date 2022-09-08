@@ -21,6 +21,7 @@ export const puntuacionBasica = new Schema<IPuntuacionBasica>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}

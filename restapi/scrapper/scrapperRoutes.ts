@@ -7,4 +7,6 @@ api.get("/clasificacion", ScapperController.getEquipos);
 
 api.get("/partidos", ScapperController.getPartidos);
 
+api.get("/puntos", ScapperController.getPuntosJugador);
+
 export default api;

@@ -29,6 +29,7 @@ export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}

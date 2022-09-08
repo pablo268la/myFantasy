@@ -5,6 +5,11 @@ import { IEquipo, modeloEquipo } from "../model/equipo";
 import { IJugador, modeloJugador } from "../model/jugador";
 import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { IPartido, modeloPartido } from "../model/partido";
+import { modelPuntuacionBasica } from "../model/puntuacion/puntuacionBasica";
+import {
+	IPuntuacionTupple,
+	modeloPuntuacionTupple
+} from "../model/puntuacion/puntuacionTupple";
 
 export const getEquipos: RequestHandler = async (req, res) => {
 	let equipos: any;
@@ -278,4 +283,41 @@ function checkStatusPartido(status: any) {
 export const getPuntosJugador: RequestHandler = async (req, res) => {
 	let idPartido = req.body.idPartido;
 	let idJugador = req.body.idJugador;
+
+	let jugadoresLocal: any[] = [];
+	let jugadoresVisitante: any[] = [];
+
+	await axios
+		.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
+		.then(async (response) => {
+			jugadoresLocal = response.data.home.players;
+			jugadoresVisitante = response.data.away.players;
+		});
+
+	for (let i = 0; i < jugadoresLocal.length; i++) {
+		if (jugadoresLocal[i].player.id === idJugador) {
+			let puntuacionBasica = new modelPuntuacionBasica({
+				minutosJugados: createPuntuacionTupple(
+					jugadoresLocal[i].minutesPlayed,
+					0
+				),
+				goles: createPuntuacionTupple(jugadoresLocal[i].goals, 0),
+				asistencias: createPuntuacionTupple(jugadoresLocal[i].goalAssists, 0),
+				valoracion: createPuntuacionTupple(jugadoresLocal[i].rating, 0),
+			});
+			res.json(puntuacionBasica);
+		}
+	}
 };
+
+function createPuntuacionTupple(
+	estadistica: number,
+	puntuacion: number
+): IPuntuacionTupple {
+	const puntuacionTupple: IPuntuacionTupple = new modeloPuntuacionTupple({
+		estadistica: estadistica ? estadistica : 0,
+		puntuacion: puntuacion,
+	});
+
+	return puntuacionTupple;
+}

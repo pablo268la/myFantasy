@@ -38,6 +38,7 @@ export const puntuacionPosesion = new Schema<IPuntuacionPosesion>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}

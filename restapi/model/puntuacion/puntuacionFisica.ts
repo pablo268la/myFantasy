@@ -49,6 +49,7 @@ export const puntuacionFisica = new Schema<IPuntuacionFisica>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}

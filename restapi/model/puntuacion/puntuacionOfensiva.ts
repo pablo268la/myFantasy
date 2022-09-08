@@ -33,6 +33,7 @@ export const puntuacionOfensiva = new Schema<IPuntuacionOfensiva>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}

@@ -60,6 +60,7 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 		},
 	},
 	{
+		_id: false,
 		versionKey: false,
 		timestamps: false,
 	}
