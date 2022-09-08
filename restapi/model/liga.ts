@@ -1,4 +1,4 @@
-import { propiedadJugador } from "./propiedadJugador";
+import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
@@ -35,6 +35,14 @@ export const liga = new Schema(
 		timestamps: false,
 	}
 );
+
+export interface ILiga {
+	_id: string;
+	idUsuarios: string[];
+	propiedadJugadores: IPropiedadJugador[];
+	enlaceInvitacion: string;
+	configuracion: string;
+}
 
 liga.index({ _id: 1 }, { unique: true });
 

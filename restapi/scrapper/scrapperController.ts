@@ -165,6 +165,7 @@ async function cogerAlineacion(
 				estado: "No disponible",
 				foto:
 					"https://api.sofascore.app/api/v1/player/" + p.player.id + "/image",
+				puntuaciones: [],
 			});
 			exists = await exists.save();
 		}
@@ -215,12 +216,15 @@ async function cogerJugadoresEquipo(id: any) {
 				estado: "Disponible",
 				foto:
 					"https://api.sofascore.app/api/v1/player/" + p.player.id + "/image",
+				puntuaciones: [],
 			});
 
 			if (!exists) {
 				await jugador.save();
 			} else {
 				jugador.puntos = exists.puntos;
+				jugador.puntuaciones = exists.puntuaciones;
+				jugador.jugadorAntiguo = exists.jugadorAntiguo;
 				await modeloJugador.findOneAndUpdate({ _id: p.player.id }, jugador, {
 					new: true,
 				});
@@ -259,3 +263,8 @@ function checkStatusPartido(status: any) {
 			return "Por jugar";
 	}
 }
+
+export const getPuntosJugador: RequestHandler = async (req, res) => {
+	let idPartido = req.body.idPartido;
+	let idJugador = req.body.idJugador;
+};

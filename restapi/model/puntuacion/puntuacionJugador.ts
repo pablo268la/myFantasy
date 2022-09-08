@@ -1,68 +1,87 @@
-import { puntuacionBasica } from "./puntuacionBasica";
-import { puntuacionDefensiva } from "./puntuacionDefensiva";
-import { puntuacionFisica } from "./puntuacionFisica";
-import { puntuacionOfensiva } from "./puntuacionOfensiva";
-import { puntuacionPortero } from "./puntuacionPortero";
-import { puntuacionPosesion } from "./puntuacionPosesion";
+import { IPuntuacionBasica, puntuacionBasica } from "./puntuacionBasica";
+import {
+  IPuntuacionDefensiva,
+  puntuacionDefensiva
+} from "./puntuacionDefensiva";
+import { IPuntuacionFisica, puntuacionFisica } from "./puntuacionFisica";
+import { IPuntuacionOfensiva, puntuacionOfensiva } from "./puntuacionOfensiva";
+import { IPuntuacionPortero, puntuacionPortero } from "./puntuacionPortero";
+import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
 export const puntuacionJugador = new Schema(
-  {
-    _id: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    },
-    idJugador: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    semana: {
-      type: Number,
-      required: true,
-    },
-    idPartido: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    puntos: {
-      type: Number,
-      required: true,
-    },
-    puntuacionBasica: {
-      type: puntuacionBasica,
-      required: true,
-    },
-    puntuacionOfensiva: {
-      type: puntuacionOfensiva,
-      required: true,
-    },
-    puntuacionPoseision: {
-      type: puntuacionPosesion,
-      required: true,
-    },
-    puntuacionDefensiva: {
-      type: puntuacionDefensiva,
-      required: true,
-    },
-    puntuacionFisico: {
-      type: puntuacionFisica,
-      required: true,
-    },
-    puntuacionPortero: {
-      type: puntuacionPortero,
-      required: true,
-    },
-  },
-  {
-    versionKey: false,
-    timestamps: false,
-  }
+	{
+		idPartido: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		semana: {
+			type: Number,
+			required: true,
+		},
+		puntos: {
+			type: Number,
+			required: true,
+		},
+		puntuacionBasica: {
+			type: puntuacionBasica,
+			required: true,
+		},
+		puntuacionOfensiva: {
+			type: puntuacionOfensiva,
+			required: true,
+		},
+		puntuacionPoseision: {
+			type: puntuacionPosesion,
+			required: true,
+		},
+		puntuacionDefensiva: {
+			type: puntuacionDefensiva,
+			required: true,
+		},
+		puntuacionFisico: {
+			type: puntuacionFisica,
+			required: true,
+		},
+		puntuacionPortero: {
+			type: puntuacionPortero,
+			required: true,
+		},
+		idEquipo: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		idEquipoRival: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+	},
+	{
+		versionKey: false,
+		timestamps: false,
+	}
 );
 
-export const modelPuntuacionJugador = model("puntuacionJugador", puntuacionJugador);
+export interface IPuntuacionJugador {
+	idPartido: string;
+	semana: number;
+	puntos: number;
+	puntuacionBasica: IPuntuacionBasica;
+	puntuacionOfensiva: IPuntuacionOfensiva;
+	puntuacionPoseision: IPuntuacionPosesion;
+	puntuacionDefensiva: IPuntuacionDefensiva;
+	puntuacionFisico: IPuntuacionFisica;
+	puntuacionPortero: IPuntuacionPortero;
+	idEquipo: string;
+	idEquipoRival: string;
+}
+
+export const modelPuntuacionJugador = model(
+	"puntuacionJugador",
+	puntuacionJugador
+);

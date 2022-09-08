@@ -1,4 +1,3 @@
-import { jugador } from "./jugador";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
@@ -22,7 +21,7 @@ export const equipoUsuario = new Schema(
 			trim: true,
 		},
 		jugadores: {
-			type: [jugador],
+			type: [String],
 			required: true,
 			trim: true,
 		},
@@ -50,6 +49,17 @@ export const equipoUsuario = new Schema(
 		timestamps: false,
 	}
 );
+
+export interface IEquipoUsuario {
+	_id: string;
+	idUsuario: string;
+	idLiga: string;
+	jugadores: string[];
+	idAlineacion: string;
+	idAlineacionesJornada: string[];
+	valor: number;
+	puntos: number;
+}
 
 equipoUsuario.index({ _id: 1 }, { unique: true });
 

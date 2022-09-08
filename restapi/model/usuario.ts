@@ -41,6 +41,15 @@ export const usuario = new Schema(
 	}
 );
 
+export interface IUsuario {
+	_id: string;
+	nombre: string;
+	apellido: string;
+	email: string;
+	contraseña: string;
+	ligas: string[];
+}
+
 usuario.index({ _id: 1 }, { unique: true });
 
 export const modeloUsuario = model("usuario", usuario);

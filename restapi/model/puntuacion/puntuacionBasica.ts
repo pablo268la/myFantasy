@@ -26,4 +26,11 @@ export const puntuacionBasica = new Schema(
   }
 );
 
+export interface IPuntuacionBasica {
+  minutos: number;
+  goles: number;
+  asistencias: number;
+  valoracion: number;
+}
+
 export const modelPuntuacionBasica = model("puntuacionBasica", puntuacionBasica);

@@ -1,7 +1,22 @@
-import { jugadorAntiguo } from "./jugadorAntiguo";
+import { IJugadorAntiguo, jugadorAntiguo } from "./jugadorAntiguo";
+import { IPuntuacionJugador, puntuacionJugador } from "./puntuacion/puntuacionJugador";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
+
+export interface IJugador{
+	_id: string;
+	nombre: string;
+	slug: string;
+	posicion: string;
+	idEquipo: string;
+	valor: number;
+	puntos: number;
+	estado: string;
+	foto: string;
+	jugadoresAntiguos: IJugadorAntiguo;
+	puntuaciones: IPuntuacionJugador[];
+}
 
 export const jugador = new Schema(
 	{
@@ -52,6 +67,10 @@ export const jugador = new Schema(
 		},
 		jugadorAntiguo: {
 			type: jugadorAntiguo,
+		},
+		puntuaciones: {
+			type: [puntuacionJugador],
+			required: true,
 		},
 	},
 	{

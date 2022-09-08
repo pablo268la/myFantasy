@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
@@ -49,6 +48,15 @@ export const alineacionSemana = new Schema(
 		timestamps: false,
 	}
 );
+
+export interface IAlineacionSemana {
+	_id: string;
+	idUsuario: string;
+	jornada: number;
+	jugadores: string[];
+	formacion: string;
+	puntuacion: number;
+}
 
 alineacionSemana.index({ _id: 1 }, { unique: true });
 

@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
@@ -52,6 +51,18 @@ export const alineacionJugador = new Schema(
 	}
 );
 
+export interface IAlineacionJugador {
+	_id: string;
+	idUsuario: string;
+	jugadores: string[];
+	formacion: string;
+	guardadoEn: string;
+	idLiga: string;
+}
+
 alineacionJugador.index({ _id: 1 }, { unique: true });
 
-export const modeloAlineacionJugador = model("alineacionJugador", alineacionJugador);
+export const modeloAlineacionJugador = model(
+	"alineacionJugador",
+	alineacionJugador
+);

@@ -38,6 +38,16 @@ export const puntuacionOfensiva = new Schema(
 	}
 );
 
+export interface IPuntuacionOfensiva {
+	tirosPuerta: number;
+	tirosFuera: number;
+	tirosBloqueados: number;
+	regatesIntentados: number;
+	regatesCompletados: number;
+	tirosAlPalo: number;
+	ocasionClaraFallada: number;
+}
+
 export const modelPuntuacionOfensiva = model(
 	"puntuacionOfensiva",
 	puntuacionOfensiva

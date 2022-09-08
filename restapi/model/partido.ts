@@ -1,7 +1,21 @@
-import { alineacion } from "./alineacion";
+import { alineacion, IAlineacion } from "./alineacion";
 
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
+
+export interface IPartido{
+	_id: string;
+	idLocal: string;
+	idVisitante: string;
+	alineacionLocal: IAlineacion;
+	alineacionVisitante: IAlineacion;
+	resultadoLocal: number;
+	resultadoVisitante: number;
+	jornada: number;
+	fecha: string;
+	linkSofaScore: string;
+	estado: string;
+}
 
 export const partido = new Schema(
 	{

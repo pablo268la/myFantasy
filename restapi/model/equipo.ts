@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
@@ -36,6 +35,14 @@ export const equipo = new Schema(
 		timestamps: false,
 	}
 );
+
+export interface IEquipo {
+	_id: string;
+	nombre: string;
+	slug: string;
+	shortName: string;
+	escudo: string;
+}
 
 equipo.index({ _id: 1 }, { unique: true });
 

@@ -2,6 +2,12 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
+export interface IAlineacion{
+	jugadoresTitulares: string[];
+	jugadoresSuplentes: string[];
+}
+
+
 export const alineacion = new Schema(
 	{
 		jugadoresTitulares: {

@@ -45,6 +45,14 @@ export const entrenador = new Schema(
 	}
 );
 
+export interface IEntrenador {
+	_id: string;
+	idEquipo: string;
+	nombre: string;
+	puntos: number;
+	formacionFav: string;
+}
+
 entrenador.index({ _id: 1 }, { unique: true });
 
 export const modeloEntrenador = model("entrenador", entrenador);

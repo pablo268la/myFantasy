@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
+export interface IJugadorAntiguo{
+    idEquipoAntiguo: string;
+    jornadaTraspaso: number;
+}
+
 export const jugadorAntiguo = new Schema(
 	{
 		idEquipoAntiguo: {
