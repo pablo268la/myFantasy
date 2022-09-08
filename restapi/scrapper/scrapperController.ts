@@ -6,6 +6,8 @@ import { IJugador, modeloJugador } from "../model/jugador";
 import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { IPartido, modeloPartido } from "../model/partido";
 import { modelPuntuacionBasica } from "../model/puntuacion/puntuacionBasica";
+import { modelPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
+import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
 import {
 	IPuntuacionTupple,
 	modeloPuntuacionTupple
@@ -296,16 +298,36 @@ export const getPuntosJugador: RequestHandler = async (req, res) => {
 
 	for (let i = 0; i < jugadoresLocal.length; i++) {
 		if (jugadoresLocal[i].player.id === idJugador) {
+			const statistics = jugadoresLocal[i].statistics;
 			let puntuacionBasica = new modelPuntuacionBasica({
-				minutosJugados: createPuntuacionTupple(
-					jugadoresLocal[i].minutesPlayed,
+				minutos: createPuntuacionTupple(statistics.minutesPlayed, 0),
+				goles: createPuntuacionTupple(statistics.goals, 0),
+				asistencias: createPuntuacionTupple(statistics.goalAssists, 0),
+				valoracion: createPuntuacionTupple(statistics.rating, 0),
+			});
+
+			let puntuacionPortero = new modelPuntuacionPortero({
+				paradas: createPuntuacionTupple(statistics.saves, 0),
+				despejes: createPuntuacionTupple(statistics.punches, 0),
+				salidas: createPuntuacionTupple(statistics.totalKeeperSweeper, 0),
+				highClaim: createPuntuacionTupple(statistics.goodHighClaim, 0),
+				paradasArea: createPuntuacionTupple(
+					statistics.savedShotsFromInsideTheBox,
 					0
 				),
-				goles: createPuntuacionTupple(jugadoresLocal[i].goals, 0),
-				asistencias: createPuntuacionTupple(jugadoresLocal[i].goalAssists, 0),
-				valoracion: createPuntuacionTupple(jugadoresLocal[i].rating, 0),
+				penaltiesParados: createPuntuacionTupple(statistics.penaltySave, 0),
 			});
-			res.json(puntuacionBasica);
+
+			let puntuacionOfensiva = new modelPuntuacionOfensiva({
+				tirosPuerta: createPuntuacionTupple(statistics.onTargetScoringAttempt, 0),
+				tirosFuera: createPuntuacionTupple(statistics.shotOffTarget, 0),
+				tirosBloqueados: createPuntuacionTupple(statistics.blockedScoringAttempt, 0),
+				regatesIntentados: createPuntuacionTupple(statistics.totalContest, 0),
+				regatesCompletados: createPuntuacionTupple(statistics.wonContest, 0),
+				tirosAlPalo: createPuntuacionTupple(statistics.hitWoodwork, 0),
+				ocasionClaraFallada: createPuntuacionTupple(statistics.bigChanceMissed, 0),
+			});
+			res.json(puntuacionOfensiva);
 		}
 	}
 };
@@ -315,7 +337,7 @@ function createPuntuacionTupple(
 	puntuacion: number
 ): IPuntuacionTupple {
 	const puntuacionTupple: IPuntuacionTupple = new modeloPuntuacionTupple({
-		estadistica: estadistica ? estadistica : 0,
+		estadistica: estadistica !== undefined ? estadistica : 0,
 		puntuacion: puntuacion,
 	});
 

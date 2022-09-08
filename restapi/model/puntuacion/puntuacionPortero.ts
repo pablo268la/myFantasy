@@ -11,11 +11,7 @@ export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 			type: puntuacionTupple,
 			required: true,
 		},
-		salidasTotales: {
-			type: puntuacionTupple,
-			required: true,
-		},
-		salidasCompletadas: {
+		salidas: {
 			type: puntuacionTupple,
 			required: true,
 		},
@@ -24,6 +20,10 @@ export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 			required: true,
 		},
 		paradasArea: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		penaltiesParados: {
 			type: puntuacionTupple,
 			required: true,
 		},
@@ -38,10 +38,10 @@ export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 export interface IPuntuacionPortero {
 	paradas: IPuntuacionTupple;
 	despejes: IPuntuacionTupple;
-	salidasTotales: IPuntuacionTupple;
-	salidasCompletadas: IPuntuacionTupple;
+	salidas: IPuntuacionTupple;
 	highClaim: IPuntuacionTupple;
 	paradasArea: IPuntuacionTupple;
+	penaltiesParados: IPuntuacionTupple;
 }
 
 export const modelPuntuacionPortero = model<IPuntuacionPortero>(
