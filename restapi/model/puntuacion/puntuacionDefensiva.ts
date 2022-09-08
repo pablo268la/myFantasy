@@ -3,7 +3,7 @@ import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
 export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 	{
-		robos: {
+		despejes: {
 			type: puntuacionTupple,
 			required: true,
 		},
@@ -27,7 +27,15 @@ export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 			type: puntuacionTupple,
 			required: true,
 		},
+		despejesEnLineaDeGol: {
+			type: puntuacionTupple,
+			required: true,
+		},
 		golesEnPropia: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		penaltiCometido: {
 			type: puntuacionTupple,
 			required: true,
 		},
@@ -40,13 +48,15 @@ export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 );
 
 export interface IPuntuacionDefensiva {
-	robos: IPuntuacionTupple;
+	despejes: IPuntuacionTupple;
 	tirosBloqueados: IPuntuacionTupple;
 	intercepciones: IPuntuacionTupple;
 	entradas: IPuntuacionTupple;
 	regatesSuperado: IPuntuacionTupple;
 	erroresParaDisparo: IPuntuacionTupple;
+	despejesEnLineaDeGol: IPuntuacionTupple;
 	golesEnPropia: IPuntuacionTupple;
+	penaltiCometido: IPuntuacionTupple;
 }
 
 export const modelPuntuacionDefensiva = model<IPuntuacionDefensiva>(

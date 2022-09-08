@@ -1,13 +1,21 @@
 import axios from "axios";
 import { RequestHandler } from "express";
+import { getPuntosDeJugador } from "../helpers/puntuacionHelper";
 import { IAlineacion, modeloAlineacion } from "../model/alineacion";
 import { IEquipo, modeloEquipo } from "../model/equipo";
 import { IJugador, modeloJugador } from "../model/jugador";
 import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { IPartido, modeloPartido } from "../model/partido";
 import { modelPuntuacionBasica } from "../model/puntuacion/puntuacionBasica";
+import { modelPuntuacionDefensiva } from "../model/puntuacion/puntuacionDefensiva";
+import { modelPuntuacionFisica } from "../model/puntuacion/puntuacionFisica";
+import {
+	IPuntuacionJugador,
+	modelPuntuacionJugador
+} from "../model/puntuacion/puntuacionJugador";
 import { modelPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
 import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
+import { modelPuntuacionPosesion } from "../model/puntuacion/puntuacionPosesion";
 import {
 	IPuntuacionTupple,
 	modeloPuntuacionTupple
@@ -284,52 +292,181 @@ function checkStatusPartido(status: any) {
 
 export const getPuntosJugador: RequestHandler = async (req, res) => {
 	let idPartido = req.body.idPartido;
-	let idJugador = req.body.idJugador;
+
+	let partido: IPartido | null = await modeloPartido.findOne({
+		_id: idPartido,
+	});
+
+	let jugadores: any[] = [];
 
 	let jugadoresLocal: any[] = [];
 	let jugadoresVisitante: any[] = [];
-
-	await axios
-		.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
-		.then(async (response) => {
-			jugadoresLocal = response.data.home.players;
-			jugadoresVisitante = response.data.away.players;
-		});
-
-	for (let i = 0; i < jugadoresLocal.length; i++) {
-		if (jugadoresLocal[i].player.id === idJugador) {
-			const statistics = jugadoresLocal[i].statistics;
-			let puntuacionBasica = new modelPuntuacionBasica({
-				minutos: createPuntuacionTupple(statistics.minutesPlayed, 0),
-				goles: createPuntuacionTupple(statistics.goals, 0),
-				asistencias: createPuntuacionTupple(statistics.goalAssists, 0),
-				valoracion: createPuntuacionTupple(statistics.rating, 0),
+	if (partido !== null) {
+		await axios
+			.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/lineups")
+			.then(async (response) => {
+				jugadoresLocal = response.data.home.players;
+				jugadoresVisitante = response.data.away.players;
 			});
 
-			let puntuacionPortero = new modelPuntuacionPortero({
-				paradas: createPuntuacionTupple(statistics.saves, 0),
-				despejes: createPuntuacionTupple(statistics.punches, 0),
-				salidas: createPuntuacionTupple(statistics.totalKeeperSweeper, 0),
-				highClaim: createPuntuacionTupple(statistics.goodHighClaim, 0),
-				paradasArea: createPuntuacionTupple(
-					statistics.savedShotsFromInsideTheBox,
-					0
-				),
-				penaltiesParados: createPuntuacionTupple(statistics.penaltySave, 0),
+		for (let i = 0; i < jugadoresLocal.length; i++) {
+			let jugador: IJugador | null = await modeloJugador.findOne({
+				_id: jugadoresLocal[i].player.id,
 			});
 
-			let puntuacionOfensiva = new modelPuntuacionOfensiva({
-				tirosPuerta: createPuntuacionTupple(statistics.onTargetScoringAttempt, 0),
-				tirosFuera: createPuntuacionTupple(statistics.shotOffTarget, 0),
-				tirosBloqueados: createPuntuacionTupple(statistics.blockedScoringAttempt, 0),
-				regatesIntentados: createPuntuacionTupple(statistics.totalContest, 0),
-				regatesCompletados: createPuntuacionTupple(statistics.wonContest, 0),
-				tirosAlPalo: createPuntuacionTupple(statistics.hitWoodwork, 0),
-				ocasionClaraFallada: createPuntuacionTupple(statistics.bigChanceMissed, 0),
-			});
-			res.json(puntuacionOfensiva);
+			if (jugador !== null) {
+				const idEquipo = jugador.idEquipo;
+				const idEquipoRival =
+					partido.idLocal === idEquipo ? partido.idVisitante : partido.idLocal;
+				const statistics = jugadoresLocal[i].statistics;
+
+				let puntuacionBasica = new modelPuntuacionBasica({
+					minutos: createPuntuacionTupple(statistics.minutesPlayed, 0),
+					goles: createPuntuacionTupple(statistics.goals, 0),
+					asistencias: createPuntuacionTupple(statistics.goalAssists, 0),
+					valoracion: createPuntuacionTupple(statistics.rating, 0),
+				});
+
+				let puntuacionPortero = new modelPuntuacionPortero({
+					paradas: createPuntuacionTupple(statistics.saves, 0),
+					despejes: createPuntuacionTupple(statistics.punches, 0),
+					salidas: createPuntuacionTupple(statistics.totalKeeperSweeper, 0),
+					highClaim: createPuntuacionTupple(statistics.goodHighClaim, 0),
+					paradasArea: createPuntuacionTupple(
+						statistics.savedShotsFromInsideTheBox,
+						0
+					),
+					penaltiesParados: createPuntuacionTupple(statistics.penaltySave, 0),
+				});
+
+				let puntuacionOfensiva = new modelPuntuacionOfensiva({
+					tirosPuerta: createPuntuacionTupple(
+						statistics.onTargetScoringAttempt,
+						0
+					),
+					tirosFuera: createPuntuacionTupple(statistics.shotOffTarget, 0),
+					tirosBloqueados: createPuntuacionTupple(
+						statistics.blockedScoringAttempt,
+						0
+					),
+					regatesIntentados: createPuntuacionTupple(statistics.totalContest, 0),
+					regatesCompletados: createPuntuacionTupple(statistics.wonContest, 0),
+					tirosAlPalo: createPuntuacionTupple(statistics.hitWoodwork, 0),
+					ocasionClaraFallada: createPuntuacionTupple(
+						statistics.bigChanceMissed,
+						0
+					),
+					penaltiRecibido: createPuntuacionTupple(statistics.penaltyWon, 0),
+					penaltiFallado: createPuntuacionTupple(statistics.penaltyMiss, 0),
+				});
+
+				let puntuacionPosesion = new modelPuntuacionPosesion({
+					toquesBalon: createPuntuacionTupple(statistics.touches, 0),
+					pasesTotales: createPuntuacionTupple(statistics.totalPass, 0),
+					pasesCompletados: createPuntuacionTupple(statistics.accuratePass, 0),
+					pasesClave: createPuntuacionTupple(statistics.keyPass, 0),
+					centrosTotales: createPuntuacionTupple(statistics.totalCross, 0),
+					centrosCompletados: createPuntuacionTupple(
+						statistics.accurateCross,
+						0
+					),
+					pasesLargosTotales: createPuntuacionTupple(
+						statistics.totalLongBalls,
+						0
+					),
+					pasesLargosCompletados: createPuntuacionTupple(
+						statistics.accurateLongBalls,
+						0
+					),
+					grandesOcasiones: createPuntuacionTupple(
+						statistics.bigChanceCreated,
+						0
+					),
+				});
+
+				let puntuacionDefensiva = new modelPuntuacionDefensiva({
+					despejes: createPuntuacionTupple(statistics.totalClearance, 0),
+					tirosBloqueados: createPuntuacionTupple(
+						statistics.onTargetScoringAttempt,
+						0
+					),
+					intercepciones: createPuntuacionTupple(statistics.interceptionWon, 0),
+					entradas: createPuntuacionTupple(statistics.totalTackle, 0),
+					regatesSuperado: createPuntuacionTupple(statistics.challengeLost, 0),
+					erroresParaDisparo: createPuntuacionTupple(
+						statistics.errorLeadToShot,
+						0
+					),
+					despejesEnLineaDeGol: createPuntuacionTupple(
+						statistics.clearanceOffLine,
+						0
+					),
+					golesEnPropia: createPuntuacionTupple(statistics.ownGoals, 0),
+					penaltiCometido: createPuntuacionTupple(
+						statistics.penaltyConceded,
+						0
+					),
+				});
+
+				let puntuacionFisica = new modelPuntuacionFisica({
+					duelosGanados: createPuntuacionTupple(
+						statistics.duelWon - statistics.aerialWon,
+						0
+					),
+					duelosPerdidos: createPuntuacionTupple(
+						statistics.duelLost - statistics.aerialLost,
+						0
+					),
+					duelosAereosGanados: createPuntuacionTupple(statistics.aerialWon, 0),
+					duelosAereosPerdidos: createPuntuacionTupple(
+						statistics.aerialLost,
+						0
+					),
+					posesionPerdida: createPuntuacionTupple(
+						statistics.possessionLostCtrl,
+						0
+					),
+					faltasCometidas: createPuntuacionTupple(statistics.fouls, 0),
+					faltasRecibidas: createPuntuacionTupple(statistics.wasFouled, 0),
+					fuerasDeJuego: createPuntuacionTupple(statistics.totalOffside, 0),
+					tarjetaAmarilla: createPuntuacionTupple(statistics.yellowCard, 0),
+					tarjetaRoja: createPuntuacionTupple(statistics.redCard, 0),
+					dobleTarjetaAmarilla: createPuntuacionTupple(
+						statistics.secondYellowCard,
+						0
+					),
+				});
+
+				let puntuacion: IPuntuacionJugador = new modelPuntuacionJugador({
+					idJugador: jugador._id,
+					idPartido: idPartido,
+					semana: partido.jornada,
+					puntos: 0,
+					puntuacionBasica: puntuacionBasica,
+					puntuacionOfensiva: puntuacionOfensiva,
+					puntuacionPosesion: puntuacionPosesion,
+					puntuacionDefensiva: puntuacionDefensiva,
+					puntuacionFisico: puntuacionFisica,
+					puntuacionPortero: puntuacionPortero,
+					idEquipo: idEquipo,
+					idEquipoRival: idEquipoRival,
+				});
+
+				puntuacion.puntos = getPuntosDeJugador(puntuacion);
+
+				jugador.puntuaciones[partido.jornada - 1] = puntuacion;
+
+				jugador = await modeloJugador.findByIdAndUpdate(
+					{ _id: jugador._id },
+					jugador,
+					{ new: true }
+				);
+
+				jugadores.push(jugador);
+			}
 		}
 	}
+	res.json(jugadores);
 };
 
 function createPuntuacionTupple(
@@ -338,7 +475,7 @@ function createPuntuacionTupple(
 ): IPuntuacionTupple {
 	const puntuacionTupple: IPuntuacionTupple = new modeloPuntuacionTupple({
 		estadistica: estadistica !== undefined ? estadistica : 0,
-		puntuacion: puntuacion,
+		puntos: puntuacion,
 	});
 
 	return puntuacionTupple;

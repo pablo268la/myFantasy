@@ -36,6 +36,10 @@ export const puntuacionPosesion = new Schema<IPuntuacionPosesion>(
 			type: puntuacionTupple,
 			required: true,
 		},
+		grandesOcasiones: {
+			type: puntuacionTupple,
+			required: true,
+		},
 	},
 	{
 		_id: false,
@@ -53,6 +57,7 @@ export interface IPuntuacionPosesion {
 	centrosCompletados: IPuntuacionTupple;
 	pasesLargosTotales: IPuntuacionTupple;
 	pasesLargosCompletados: IPuntuacionTupple;
+	grandesOcasiones: IPuntuacionTupple;
 }
 
 export const modelPuntuacionPosesion = model<IPuntuacionPosesion>(

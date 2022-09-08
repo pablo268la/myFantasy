@@ -31,6 +31,14 @@ export const puntuacionOfensiva = new Schema<IPuntuacionOfensiva>(
 			type: puntuacionTupple,
 			required: true,
 		},
+		penaltiRecibido: {
+			type: puntuacionTupple,
+			required: true,
+		},
+		penaltiFallado: {
+			type: puntuacionTupple,
+			required: true,
+		},
 	},
 	{
 		_id: false,
@@ -47,6 +55,8 @@ export interface IPuntuacionOfensiva {
 	regatesCompletados: IPuntuacionTupple;
 	tirosAlPalo: IPuntuacionTupple;
 	ocasionClaraFallada: IPuntuacionTupple;
+	penaltiRecibido: IPuntuacionTupple;
+	penaltiFallado: IPuntuacionTupple;
 }
 
 export const modelPuntuacionOfensiva = model<IPuntuacionOfensiva>(

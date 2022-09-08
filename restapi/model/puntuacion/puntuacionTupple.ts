@@ -6,7 +6,7 @@ export const puntuacionTupple = new Schema<IPuntuacionTupple>(
 			type: Number,
 			required: true,
 		},
-		puntuacion: {
+		puntos: {
 			type: Number,
 			required: true,
 		},
@@ -18,7 +18,7 @@ export const puntuacionTupple = new Schema<IPuntuacionTupple>(
 
 export interface IPuntuacionTupple {
 	estadistica: number;
-	puntuacion: number;
+	puntos: number;
 }
 
 export const modeloPuntuacionTupple = model<IPuntuacionTupple>(

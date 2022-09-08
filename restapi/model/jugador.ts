@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IJugadorAntiguo, jugadorAntiguo } from "./jugadorAntiguo";
 import {
 	IPuntuacionJugador,
@@ -16,7 +16,7 @@ export interface IJugador {
 	estado: string;
 	foto: string;
 	jugadorAntiguo: IJugadorAntiguo;
-	puntuaciones: Types.DocumentArray<IPuntuacionJugador>;
+	puntuaciones: IPuntuacionJugador[];
 }
 
 export const jugador = new Schema<IJugador>(

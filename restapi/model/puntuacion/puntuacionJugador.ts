@@ -11,6 +11,11 @@ import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
 export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 	{
+		idJugador: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 		idPartido: {
 			type: String,
 			required: true,
@@ -32,7 +37,7 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 			type: puntuacionOfensiva,
 			required: true,
 		},
-		puntuacionPoseision: {
+		puntuacionPosesion: {
 			type: puntuacionPosesion,
 			required: true,
 		},
@@ -67,12 +72,13 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 );
 
 export interface IPuntuacionJugador {
+	idJugador: string;
 	idPartido: string;
 	semana: number;
 	puntos: number;
 	puntuacionBasica: IPuntuacionBasica;
 	puntuacionOfensiva: IPuntuacionOfensiva;
-	puntuacionPoseision: IPuntuacionPosesion;
+	puntuacionPosesion: IPuntuacionPosesion;
 	puntuacionDefensiva: IPuntuacionDefensiva;
 	puntuacionFisico: IPuntuacionFisica;
 	puntuacionPortero: IPuntuacionPortero;
