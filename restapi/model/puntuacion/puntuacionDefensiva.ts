@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const puntuacionDefensiva = new Schema(
+export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 	{
 		robos: {
 			type: Number,
@@ -48,7 +47,7 @@ export interface IPuntuacionDefensiva {
 	golesEnPropia: number;
 }
 
-export const modelPuntuacionDefensiva = model(
+export const modelPuntuacionDefensiva = model<IPuntuacionDefensiva>(
 	"puntuacionDefensiva",
 	puntuacionDefensiva
 );

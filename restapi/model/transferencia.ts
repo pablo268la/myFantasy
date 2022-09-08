@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const transferencia = new Schema(
+export const transferencia = new Schema<ITransferencia>(
 	{
 		idComprador: {
 			type: String,
@@ -50,4 +49,7 @@ export interface ITransferencia {
 	fechaLimite: string;
 }
 
-export const modeloTransferencia = model("transferencia", transferencia);
+export const modeloTransferencia = model<ITransferencia>(
+	"transferencia",
+	transferencia
+);

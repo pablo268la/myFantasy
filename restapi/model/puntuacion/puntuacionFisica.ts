@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const puntuacionFisica = new Schema(
+export const puntuacionFisica = new Schema<IPuntuacionFisica>(
 	{
 		duelosGanados: {
 			type: Number,
@@ -68,7 +67,7 @@ export interface IPuntuacionFisica {
 	dobleTarjetaAmarilla: boolean;
 }
 
-export const modelPuntuacionFisica = model(
+export const modelPuntuacionFisica = model<IPuntuacionFisica>(
 	"puntuacionFisica",
 	puntuacionFisica
 );

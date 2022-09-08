@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const puntuacionPortero = new Schema(
+export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 	{
 		paradas: {
 			type: Number,
@@ -43,7 +42,7 @@ export interface IPuntuacionPortero {
 	paradasArea: number;
 }
 
-export const modelPuntuacionPortero = model(
+export const modelPuntuacionPortero = model<IPuntuacionPortero>(
 	"puntuacionPortero",
 	puntuacionPortero
 );

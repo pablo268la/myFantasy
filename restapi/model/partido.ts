@@ -1,9 +1,7 @@
+import { model, Schema } from "mongoose";
 import { alineacion, IAlineacion } from "./alineacion";
 
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-
-export interface IPartido{
+export interface IPartido {
 	_id: string;
 	idLocal: string;
 	idVisitante: string;
@@ -17,7 +15,7 @@ export interface IPartido{
 	estado: string;
 }
 
-export const partido = new Schema(
+export const partido = new Schema<IPartido>(
 	{
 		_id: {
 			type: String,
@@ -80,4 +78,4 @@ export const partido = new Schema(
 
 partido.index({ _id: 1 }, { unique: true });
 
-export const modeloPartido = model("partido", partido);
+export const modeloPartido = model<IPartido>("partido", partido);

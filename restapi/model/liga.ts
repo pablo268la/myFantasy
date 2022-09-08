@@ -1,9 +1,7 @@
+import { model, Schema, Types } from "mongoose";
 import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-
-export const liga = new Schema(
+export const liga = new Schema<ILiga>(
 	{
 		_id: {
 			type: String,
@@ -38,12 +36,12 @@ export const liga = new Schema(
 
 export interface ILiga {
 	_id: string;
-	idUsuarios: string[];
-	propiedadJugadores: IPropiedadJugador[];
+	idUsuarios: Types.DocumentArray<string>;
+	propiedadJugadores: Types.DocumentArray<IPropiedadJugador>;
 	enlaceInvitacion: string;
 	configuracion: string;
 }
 
 liga.index({ _id: 1 }, { unique: true });
 
-export const modeloLiga = model("liga", liga);
+export const modeloLiga = model<ILiga>("liga", liga);

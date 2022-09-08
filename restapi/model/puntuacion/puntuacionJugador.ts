@@ -1,17 +1,15 @@
+import { model, Schema } from "mongoose";
 import { IPuntuacionBasica, puntuacionBasica } from "./puntuacionBasica";
 import {
-  IPuntuacionDefensiva,
-  puntuacionDefensiva
+	IPuntuacionDefensiva,
+	puntuacionDefensiva
 } from "./puntuacionDefensiva";
 import { IPuntuacionFisica, puntuacionFisica } from "./puntuacionFisica";
 import { IPuntuacionOfensiva, puntuacionOfensiva } from "./puntuacionOfensiva";
 import { IPuntuacionPortero, puntuacionPortero } from "./puntuacionPortero";
 import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-
-export const puntuacionJugador = new Schema(
+export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 	{
 		idPartido: {
 			type: String,
@@ -81,7 +79,7 @@ export interface IPuntuacionJugador {
 	idEquipoRival: string;
 }
 
-export const modelPuntuacionJugador = model(
+export const modelPuntuacionJugador = model<IPuntuacionJugador>(
 	"puntuacionJugador",
 	puntuacionJugador
 );

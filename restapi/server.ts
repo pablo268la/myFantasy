@@ -13,7 +13,7 @@ let helmet = require("helmet");
 
 const app: Application = express();
 
-const mongoose = require("mongoose");
+
 const connectionString = process.env.MONGO_DB_URI;
 
 const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });

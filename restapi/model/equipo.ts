@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
+import { model, Schema } from "mongoose";
 
-export const equipo = new Schema(
+export const equipo = new Schema<IEquipo>(
 	{
 		_id: {
 			type: String,
@@ -46,4 +45,4 @@ export interface IEquipo {
 
 equipo.index({ _id: 1 }, { unique: true });
 
-export const modeloEquipo = model("equipo", equipo);
+export const modeloEquipo = model<IEquipo>("equipo", equipo);
