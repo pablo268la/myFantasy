@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "@capacitor/android": "^4.1.0",
-    "@capacitor/core": "^4.1.0",
+    "@capacitor/core": "^4.2.0",
     "@capacitor/ios": "^4.1.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@capacitor/cli": "^4.2.0",
     "@types/expect-puppeteer": "^4.4.7",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
