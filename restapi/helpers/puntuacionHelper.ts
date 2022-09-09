@@ -1,4 +1,5 @@
 import { IPuntuacionBasica } from "../model/puntuacion/puntuacionBasica";
+import { IPuntuacionCalculable } from "../model/puntuacion/puntuacionCalculable";
 import { IPuntuacionDefensiva } from "../model/puntuacion/puntuacionDefensiva";
 import { IPuntuacionFisica } from "../model/puntuacion/puntuacionFisica";
 import { IPuntuacionJugador } from "../model/puntuacion/puntuacionJugador";
@@ -38,10 +39,7 @@ export function getPuntosFisicos(p: IPuntuacionFisica): number {
 		p.posesionPerdida.puntos +
 		p.faltasCometidas.puntos +
 		p.faltasRecibidas.puntos +
-		p.fuerasDeJuego.puntos +
-		p.tarjetaAmarilla.puntos +
-		p.tarjetaRoja.puntos +
-		p.dobleTarjetaAmarilla.puntos
+		p.fuerasDeJuego.puntos
 	);
 }
 
@@ -70,7 +68,7 @@ export function getPuntosPortero(p: IPuntuacionPortero): number {
 	);
 }
 
-export function getPuntoPosesion(p: IPuntuacionPosesion): number {
+export function getPuntosPosesion(p: IPuntuacionPosesion): number {
 	return (
 		p.toquesBalon.puntos +
 		p.pasesTotales.puntos +
@@ -84,6 +82,15 @@ export function getPuntoPosesion(p: IPuntuacionPosesion): number {
 	);
 }
 
+export function getPuntosCalculables(p: IPuntuacionCalculable): number {
+	return (
+		p.golesRecibidos.puntos +
+		p.tarjetasAmarilla.puntos +
+		p.tarjetasRoja.puntos +
+		p.dobleAmarilla.puntos
+	);
+}
+
 export function getPuntosDeJugador(p: IPuntuacionJugador): number {
 	return (
 		getPuntosBasicos(p.puntuacionBasica) +
@@ -91,6 +98,7 @@ export function getPuntosDeJugador(p: IPuntuacionJugador): number {
 		getPuntosFisicos(p.puntuacionFisico) +
 		getPuntosOfensivos(p.puntuacionOfensiva) +
 		getPuntosPortero(p.puntuacionPortero) +
-		getPuntoPosesion(p.puntuacionPosesion)
+		getPuntosPosesion(p.puntuacionPosesion) +
+		getPuntosCalculables(p.puntuacionCalculable)
 	);
 }

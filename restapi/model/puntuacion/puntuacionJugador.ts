@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IPuntuacionBasica, puntuacionBasica } from "./puntuacionBasica";
+import { IPuntuacionCalculable, puntuacionCalculable } from "./puntuacionCalculable";
 import {
 	IPuntuacionDefensiva,
 	puntuacionDefensiva
@@ -53,6 +54,10 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 			type: puntuacionPortero,
 			required: true,
 		},
+		puntuacionCalculable: {
+			type: puntuacionCalculable,
+			required: true,
+		},
 		idEquipo: {
 			type: String,
 			required: true,
@@ -82,6 +87,7 @@ export interface IPuntuacionJugador {
 	puntuacionDefensiva: IPuntuacionDefensiva;
 	puntuacionFisico: IPuntuacionFisica;
 	puntuacionPortero: IPuntuacionPortero;
+	puntuacionCalculable: IPuntuacionCalculable;
 	idEquipo: string;
 	idEquipoRival: string;
 }

@@ -35,18 +35,6 @@ export const puntuacionFisica = new Schema<IPuntuacionFisica>(
 			type: puntuacionTupple,
 			required: true,
 		},
-		tarjetaAmarilla: {
-			type: puntuacionTupple,
-			required: true,
-		},
-		tarjetaRoja: {
-			type: puntuacionTupple,
-			required: true,
-		},
-		dobleTarjetaAmarilla: {
-			type: puntuacionTupple,
-			required: true,
-		},
 	},
 	{
 		_id: false,
@@ -64,9 +52,6 @@ export interface IPuntuacionFisica {
 	faltasCometidas: IPuntuacionTupple;
 	faltasRecibidas: IPuntuacionTupple;
 	fuerasDeJuego: IPuntuacionTupple;
-	tarjetaAmarilla: IPuntuacionTupple;
-	tarjetaRoja: IPuntuacionTupple;
-	dobleTarjetaAmarilla: IPuntuacionTupple;
 }
 
 export const modelPuntuacionFisica = model<IPuntuacionFisica>(
