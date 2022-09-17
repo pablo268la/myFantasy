@@ -11,6 +11,6 @@ api.get("/puntos", ScapperController.getPuntosJugador);
 
 api.get("/incidentes", ScapperController.getIncidentesPartido);
 
-api.get("/marca", ScapperController.getMarcaInfo)
+api.get("/marca", ScapperController.getStatusJugador)
 
 export default api;

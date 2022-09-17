@@ -756,14 +756,40 @@ async function getIncidentesDePartido(idPartido: string) {
 	return jLocales;
 }
 
-export const getMarcaInfo: RequestHandler = async (req, res) => {
-	const id = req.body.id;
-	const idFantasy = req.body.idFantasy;
-
-	let j = await modeloJugador.findOne({ _id: id });
-	if (j !== null) {
-		j.fantasyMarcaId = idFantasy;
-		j = await modeloJugador.findOneAndUpdate({ _id: id }, j, { new: true });
+export const getStatusJugador: RequestHandler = async (req, res) => {
+	let j: IJugador[] = await modeloJugador.find();
+	for (let i = 0; j.length; i++) {
+		let jugador = j[i];
+		if (
+			jugador !== null &&
+			jugador.idEquipo !== "0" &&
+			jugador.fantasyMarcaId !== undefined
+		) {
+			await axios
+				.get(
+					"https://api.laligafantasymarca.com/api/v3/player/" +
+						jugador.fantasyMarcaId
+				)
+				.then(async (response) => {
+					jugador.estado = getEstado(response.data.playerStatus);
+					await modeloJugador.findOneAndUpdate({ _id: jugador._id }, jugador, {
+						new: true,
+					});
+				});
+		}
 	}
 	res.json(j);
 };
+
+function getEstado(status: string): string {
+	switch (status) {
+		case "injured":
+			return "Lesionado";
+		case "ok":
+			return "Disponible";
+		case "doubtful":
+			return "Dudoso";
+		default:
+			return "No disponible";
+	}
+}
