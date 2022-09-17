@@ -108,6 +108,7 @@ export const getPartidos: RequestHandler = async (req, res) => {
 			new Date(p.startTimestamp * 1000).getTime() < new Date().getTime() &&
 			partido !== null
 		) {
+			await getIncidentesDePartido(partido._id);
 			partido = await cogerAlineaciones(partido._id);
 		}
 
@@ -252,6 +253,8 @@ async function cogerJugadoresEquipo(id: any) {
 				jugador.puntos = exists.puntos;
 				jugador.puntuaciones = exists.puntuaciones;
 				jugador.jugadorAntiguo = exists.jugadorAntiguo;
+				jugador.estado = exists.estado;
+				jugador.fantasyMarcaId = exists.fantasyMarcaId;
 				await modeloJugador.findOneAndUpdate({ _id: p.player.id }, jugador, {
 					new: true,
 				});
@@ -338,11 +341,11 @@ async function cogerPuntuacionesJugador(
 		_id: jugadores[i].player.id,
 	});
 
-	if (jugador !== null) {
+	const statistics = jugadores[i].statistics;
+	if (jugador !== null && statistics !== undefined) {
 		const idEquipo = jugador.idEquipo;
 		const idEquipoRival =
 			partido.idLocal === idEquipo ? partido.idVisitante : partido.idLocal;
-		const statistics = jugadores[i].statistics;
 
 		let puntuacionBasica = new modelPuntuacionBasica({
 			minutos: createPuntuacionTupple(statistics.minutesPlayed, 0),
@@ -478,3 +481,289 @@ function createPuntuacionTupple(
 
 	return puntuacionTupple;
 }
+
+export const getIncidentesPartido: RequestHandler = async (req, res) => {
+	let j = await getIncidentesDePartido(req.body.idPartido);
+	res.json(j);
+};
+
+async function getIncidentesDePartido(idPartido: string) {
+	let eventosPartido: any;
+	let evento: { minuto: number; tipo: string; id: string; isHome: boolean }[] =
+		[];
+
+	await axios
+		.get("https://api.sofascore.com/api/v1/event/" + idPartido + "/incidents")
+		.then(async (response) => {
+			eventosPartido = response.data.incidents;
+		});
+
+	eventosPartido
+		.sort((n1: any, n2: any) => {
+			if (n1.time >= n2.time) {
+				return 1;
+			}
+
+			if (n1.time < n2.time) {
+				return -1;
+			}
+		})
+		.forEach((element: any) => {
+			if (element.incidentType === "card" && element.player !== undefined) {
+				evento.push({
+					minuto: element.time,
+					tipo: element.incidentClass,
+					id: element.player.id,
+					isHome: element.isHome,
+				});
+			} else if (element.incidentType === "substitution") {
+				evento.push({
+					minuto: element.time,
+					tipo: "substitution",
+					id: element.playerIn.id,
+					isHome: element.isHome,
+				});
+				evento.push({
+					minuto: element.time,
+					tipo: "substitution",
+					id: element.playerOut.id,
+					isHome: element.isHome,
+				});
+			} else if (element.incidentType === "goal") {
+				evento.push({
+					minuto: element.time,
+					tipo: "goal",
+					id: element.player.id,
+					isHome: element.isHome,
+				});
+			}
+		});
+
+	let partido = await modeloPartido.findOne({ _id: idPartido.toString() });
+	let jLocales: {
+		id: String;
+		golesContra: number;
+		jugando: boolean;
+		amarilla: boolean;
+		roja: boolean;
+		dobleA: boolean;
+	}[] = [];
+	let jVisitantes: {
+		id: String;
+		golesContra: number;
+		jugando: boolean;
+		amarilla: boolean;
+		roja: boolean;
+		dobleA: boolean;
+	}[] = [];
+
+	if (partido !== null) {
+		let aLocal: IAlineacion = partido.alineacionLocal;
+		let aVisitante: IAlineacion = partido.alineacionVisitante;
+
+		aLocal.jugadoresTitulares.forEach((id) => {
+			jLocales.push({
+				id: id,
+				golesContra: 0,
+				jugando: true,
+				amarilla: false,
+				roja: false,
+				dobleA: false,
+			});
+		});
+		aLocal.jugadoresSuplentes.forEach((id) => {
+			jLocales.push({
+				id: id,
+				golesContra: 0,
+				jugando: false,
+				amarilla: false,
+				roja: false,
+				dobleA: false,
+			});
+		});
+		aVisitante.jugadoresTitulares.forEach((id) => {
+			jVisitantes.push({
+				id: id,
+				golesContra: 0,
+				jugando: true,
+				amarilla: false,
+				roja: false,
+				dobleA: false,
+			});
+		});
+		aVisitante.jugadoresSuplentes.forEach((id) => {
+			jVisitantes.push({
+				id: id,
+				golesContra: 0,
+				jugando: false,
+				amarilla: false,
+				roja: false,
+				dobleA: false,
+			});
+		});
+	}
+
+	for (let i = 0; i < evento.length; i++) {
+		if (evento[i].tipo === "yellow") {
+			if (evento[i].isHome) {
+				jLocales.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.amarilla = true;
+					}
+				});
+			} else {
+				jVisitantes.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.amarilla = true;
+					}
+				});
+			}
+		}
+		if (evento[i].tipo === "red") {
+			if (evento[i].isHome) {
+				jLocales.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.roja = true;
+					}
+				});
+			} else {
+				jVisitantes.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.roja = true;
+					}
+				});
+			}
+		}
+		if (evento[i].tipo === "yellowRed") {
+			if (evento[i].isHome) {
+				jLocales.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.dobleA = true;
+					}
+				});
+			} else {
+				jVisitantes.forEach((element) => {
+					if (element.id.toString() === evento[i].id.toString()) {
+						element.dobleA = true;
+					}
+				});
+			}
+		}
+		if (evento[i].tipo === "substitution") {
+			if (evento[i].isHome) {
+				for (let j = 0; j < jLocales.length; j++) {
+					if (jLocales[j].id.toString() === evento[i].id.toString()) {
+						jLocales[j].jugando = !jLocales[j].jugando;
+					}
+				}
+			} else {
+				for (let j = 0; j < jVisitantes.length; j++) {
+					if (jVisitantes[j].id.toString() === evento[i].id.toString()) {
+						jVisitantes[j].jugando = !jVisitantes[j].jugando;
+					}
+				}
+			}
+		}
+		if (evento[i].tipo === "goal") {
+			if (!evento[i].isHome) {
+				for (let j = 0; j < jLocales.length; j++) {
+					if (jLocales[j].jugando) {
+						jLocales[j].golesContra++;
+					}
+				}
+			} else {
+				for (let j = 0; j < jVisitantes.length; j++) {
+					if (jVisitantes[j].jugando) {
+						jVisitantes[j].golesContra++;
+					}
+				}
+			}
+		}
+	}
+
+	for (let i = 0; i < jLocales.length; i++) {
+		let jugador = await modeloJugador.findOne({ _id: jLocales[i].id });
+		if (
+			jugador !== null &&
+			partido !== null &&
+			jugador.puntuaciones[partido.jornada - 1] !== undefined
+		) {
+			let puntuacionCalculable =
+				jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable;
+			puntuacionCalculable.golesRecibidos = createPuntuacionTupple(
+				jLocales[i].golesContra,
+				0
+			);
+			if (jLocales[i].amarilla) {
+				puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(1, 0);
+			}
+			if (jLocales[i].roja) {
+				puntuacionCalculable.tarjetasRoja = createPuntuacionTupple(1, 0);
+			}
+			if (jLocales[i].dobleA) {
+				puntuacionCalculable.dobleAmarilla = createPuntuacionTupple(1, 0);
+				puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(0, 0);
+			}
+			jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable =
+				puntuacionCalculable;
+			jugador.puntos = getPuntosDeJugador(
+				jugador.puntuaciones[partido.jornada - 1]
+			);
+			jugador = await modeloJugador.findOneAndUpdate(
+				{ _id: jLocales[i].id },
+				jugador,
+				{ new: true }
+			);
+		}
+	}
+
+	for (let i = 0; i < jVisitantes.length; i++) {
+		let jugador = await modeloJugador.findOne({ _id: jVisitantes[i].id });
+		if (
+			jugador !== null &&
+			partido !== null &&
+			jugador.puntuaciones[partido.jornada - 1] !== undefined
+		) {
+			let puntuacionCalculable =
+				jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable;
+			puntuacionCalculable.golesRecibidos = createPuntuacionTupple(
+				jVisitantes[i].golesContra,
+				0
+			);
+			if (jVisitantes[i].amarilla) {
+				puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(1, 0);
+			}
+			if (jVisitantes[i].roja) {
+				puntuacionCalculable.tarjetasRoja = createPuntuacionTupple(1, 0);
+			}
+			if (jVisitantes[i].dobleA) {
+				puntuacionCalculable.dobleAmarilla = createPuntuacionTupple(1, 0);
+				puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(0, 0);
+			}
+			jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable =
+				puntuacionCalculable;
+			jugador.puntos = getPuntosDeJugador(
+				jugador.puntuaciones[partido.jornada - 1]
+			);
+			jugador = await modeloJugador.findOneAndUpdate(
+				{ _id: jVisitantes[i].id },
+				jugador,
+				{ new: true }
+			);
+		}
+	}
+
+	return jLocales;
+}
+
+export const getMarcaInfo: RequestHandler = async (req, res) => {
+	const id = req.body.id;
+	const idFantasy = req.body.idFantasy;
+
+	let j = await modeloJugador.findOne({ _id: id });
+	if (j !== null) {
+		j.fantasyMarcaId = idFantasy;
+		j = await modeloJugador.findOneAndUpdate({ _id: id }, j, { new: true });
+	}
+	res.json(j);
+};

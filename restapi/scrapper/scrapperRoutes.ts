@@ -9,4 +9,8 @@ api.get("/partidos", ScapperController.getPartidos);
 
 api.get("/puntos", ScapperController.getPuntosJugador);
 
+api.get("/incidentes", ScapperController.getIncidentesPartido);
+
+api.get("/marca", ScapperController.getMarcaInfo)
+
 export default api;

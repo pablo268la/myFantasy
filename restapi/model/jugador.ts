@@ -17,6 +17,7 @@ export interface IJugador {
 	foto: string;
 	jugadorAntiguo: IJugadorAntiguo;
 	puntuaciones: IPuntuacionJugador[];
+	fantasyMarcaId: string;
 }
 
 export const jugador = new Schema<IJugador>(
@@ -72,6 +73,12 @@ export const jugador = new Schema<IJugador>(
 		puntuaciones: {
 			type: [puntuacionJugador],
 			required: true,
+		},
+		fantasyMarcaId: {
+			type: String,
+			required: false,
+			trim: true,
+			unqiue: true,
 		},
 	},
 	{
