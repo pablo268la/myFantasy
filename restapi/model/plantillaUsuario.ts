@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 
-export const equipoUsuario = new Schema<IEquipoUsuario>(
+export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 	{
 		_id: {
 			type: String,
@@ -48,7 +48,7 @@ export const equipoUsuario = new Schema<IEquipoUsuario>(
 	}
 );
 
-export interface IEquipoUsuario {
+export interface IPlantillaUsuario {
 	_id: string;
 	idUsuario: string;
 	idLiga: string;
@@ -59,9 +59,9 @@ export interface IEquipoUsuario {
 	puntos: number;
 }
 
-equipoUsuario.index({ _id: 1 }, { unique: true });
+plantillaUsuario.index({ _id: 1 }, { unique: true });
 
-export const modeloEquipoUsuario = model<IEquipoUsuario>(
-	"equipoUsuario",
-	equipoUsuario
+export const modeloPlantillaUsuario = model<IPlantillaUsuario>(
+	"plantillaUsuario",
+	plantillaUsuario
 );

@@ -4,6 +4,7 @@ import cors from "cors";
 import express, { Application, RequestHandler } from "express";
 import promBundle from "express-prom-bundle";
 import morgan from "morgan";
+import apiJugadores from "./routes/jugadoresRoutes";
 import apiSofaScore from "./routes/routesSofascore";
 
 const mongoose = require("mongoose");
@@ -27,6 +28,7 @@ app.use(bp.urlencoded({ extended: true, limit: "8mb" }));
 app.use(morgan("dev"));
 
 app.use(apiSofaScore);
+app.use(apiJugadores);
 
 app.use(helmet.hidePoweredBy());
 
