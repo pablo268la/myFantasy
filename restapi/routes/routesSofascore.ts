@@ -8,11 +8,11 @@ const api: Router = express.Router();
 
 api.get("/clasificacion", EquiposController.getEquiposSofascore);
 
-api.get("/partidos", PartidosController.getPartidosSofascore);
-
-api.get("/puntos", PartidosController.getPuntosPartidoSofascore);
+api.get("/partidos", PartidosController.getPartidosRondaSofascore);
 
 api.get("/alineaciones", PartidosController.getAlineacionesPartidoSofascore);
+
+api.get("/puntos", PuntosController.getPuntosPartidoSofascore);
 
 api.get("/incidentes", PuntosController.getIncidentesPartidoSofascore);
 

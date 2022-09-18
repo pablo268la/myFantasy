@@ -1,8 +1,8 @@
 import axios from "axios";
 import { RequestHandler } from "express";
 import {
-    createPuntuacionTupple,
-    getPuntosDeJugador
+	createPuntuacionTupple,
+	getPuntosDeJugador
 } from "../helpers/puntuacionHelper";
 import { IAlineacion } from "../model/alineacion";
 import { IJugador, modeloJugador } from "../model/jugador";
@@ -12,18 +12,38 @@ import { modelPuntuacionCalculable } from "../model/puntuacion/puntuacionCalcula
 import { modelPuntuacionDefensiva } from "../model/puntuacion/puntuacionDefensiva";
 import { modelPuntuacionFisica } from "../model/puntuacion/puntuacionFisica";
 import {
-    IPuntuacionJugador,
-    modelPuntuacionJugador
+	IPuntuacionJugador,
+	modelPuntuacionJugador
 } from "../model/puntuacion/puntuacionJugador";
 import { modelPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
 import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
 import { modelPuntuacionPosesion } from "../model/puntuacion/puntuacionPosesion";
 import { urlPartido } from "./partidosController";
 
-export const getIncidentesPartidoSofascore: RequestHandler = async (req, res) => {
+export const getIncidentesPartidoSofascore: RequestHandler = async (
+	req,
+	res
+) => {
 	let j = await getIncidentesDePartidoSofascore(req.body.idPartido);
 	res.json(j);
 };
+
+export const getPuntosPartidoSofascore: RequestHandler = async (req, res) => {
+	let partido: IPartido | null = await modeloPartido.findOne({
+		_id: req.body.idPartido,
+	});
+
+	if (partido !== null) res.json(await getPuntosDePartido(partido));
+	else res.json("Partido no encontrado");
+};
+
+async function getPuntosDePartido(partido: IPartido) {
+	if (new Date(partido.fecha).getTime() < new Date().getTime()) {
+		await getIncidentesDePartidoSofascore(partido._id);
+		return await getPuntosJugadoresPartido(partido._id);
+	}
+	return null;
+}
 
 export async function getPuntosJugadoresPartido(
 	idPartido: any
