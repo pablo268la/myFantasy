@@ -6,6 +6,22 @@ import { IPuntuacionJugador } from "../model/puntuacion/puntuacionJugador";
 import { IPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
 import { IPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
 import { IPuntuacionPosesion } from "../model/puntuacion/puntuacionPosesion";
+import {
+	IPuntuacionTupple,
+	modeloPuntuacionTupple
+} from "../model/puntuacion/puntuacionTupple";
+
+export function createPuntuacionTupple(
+	estadistica: number,
+	puntuacion: number
+): IPuntuacionTupple {
+	const puntuacionTupple: IPuntuacionTupple = new modeloPuntuacionTupple({
+		estadistica: estadistica !== undefined ? estadistica : 0,
+		puntos: puntuacion,
+	});
+
+	return puntuacionTupple;
+}
 
 export function getPuntosBasicos(p: IPuntuacionBasica): number {
 	return (
