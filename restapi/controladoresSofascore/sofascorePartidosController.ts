@@ -121,8 +121,7 @@ async function cogerAlineacion(
 		});
 
 		if (exists === null) {
-			exists = createJugadorNoDisponible(jugador);
-			exists = await modeloJugador.create(exists);
+			exists = await modeloJugador.create(createJugadorNoDisponible(jugador));
 		}
 
 		if (exists.idEquipo !== idEquipo) {

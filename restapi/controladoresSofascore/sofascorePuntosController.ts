@@ -95,97 +95,83 @@ async function cogerPuntuacionesJugador(
 			partido.idLocal === idEquipo ? partido.idVisitante : partido.idLocal;
 
 		let puntuacionBasica = new modelPuntuacionBasica({
-			minutos: createPuntuacionTupple(statistics.minutesPlayed, 0),
-			goles: createPuntuacionTupple(statistics.goals, 0),
-			asistencias: createPuntuacionTupple(statistics.goalAssist, 0),
-			valoracion: createPuntuacionTupple(statistics.rating, 0),
+			minutos: createPuntuacionTupple(statistics.minutesPlayed),
+			goles: createPuntuacionTupple(statistics.goals),
+			asistencias: createPuntuacionTupple(statistics.goalAssist),
+			valoracion: createPuntuacionTupple(statistics.rating),
 		});
 
 		let puntuacionPortero = new modelPuntuacionPortero({
-			paradas: createPuntuacionTupple(statistics.saves, 0),
-			despejes: createPuntuacionTupple(statistics.punches, 0),
-			salidas: createPuntuacionTupple(statistics.totalKeeperSweeper, 0),
-			highClaim: createPuntuacionTupple(statistics.goodHighClaim, 0),
+			paradas: createPuntuacionTupple(statistics.saves),
+			despejes: createPuntuacionTupple(statistics.punches),
+			salidas: createPuntuacionTupple(statistics.totalKeeperSweeper),
+			highClaim: createPuntuacionTupple(statistics.goodHighClaim),
 			paradasArea: createPuntuacionTupple(
-				statistics.savedShotsFromInsideTheBox,
-				0
+				statistics.savedShotsFromInsideTheBox
 			),
-			penaltiesParados: createPuntuacionTupple(statistics.penaltySave, 0),
+			penaltiesParados: createPuntuacionTupple(statistics.penaltySave),
 		});
 
 		let puntuacionOfensiva = new modelPuntuacionOfensiva({
-			tirosPuerta: createPuntuacionTupple(statistics.onTargetScoringAttempt, 0),
-			tirosFuera: createPuntuacionTupple(statistics.shotOffTarget, 0),
-			tirosBloqueados: createPuntuacionTupple(
-				statistics.blockedScoringAttempt,
-				0
-			),
-			regatesIntentados: createPuntuacionTupple(statistics.totalContest, 0),
-			regatesCompletados: createPuntuacionTupple(statistics.wonContest, 0),
-			tirosAlPalo: createPuntuacionTupple(statistics.hitWoodwork, 0),
-			ocasionClaraFallada: createPuntuacionTupple(
-				statistics.bigChanceMissed,
-				0
-			),
-			penaltiRecibido: createPuntuacionTupple(statistics.penaltyWon, 0),
-			penaltiFallado: createPuntuacionTupple(statistics.penaltyMiss, 0),
+			tirosPuerta: createPuntuacionTupple(statistics.onTargetScoringAttempt),
+			tirosFuera: createPuntuacionTupple(statistics.shotOffTarget),
+			tirosBloqueados: createPuntuacionTupple(statistics.blockedScoringAttempt),
+			regatesIntentados: createPuntuacionTupple(statistics.totalContest),
+			regatesCompletados: createPuntuacionTupple(statistics.wonContest),
+			tirosAlPalo: createPuntuacionTupple(statistics.hitWoodwork),
+			ocasionClaraFallada: createPuntuacionTupple(statistics.bigChanceMissed),
+			penaltiRecibido: createPuntuacionTupple(statistics.penaltyWon),
+			penaltiFallado: createPuntuacionTupple(statistics.penaltyMiss),
 		});
 
 		let puntuacionPosesion = new modelPuntuacionPosesion({
-			toquesBalon: createPuntuacionTupple(statistics.touches, 0),
-			pasesTotales: createPuntuacionTupple(statistics.totalPass, 0),
-			pasesCompletados: createPuntuacionTupple(statistics.accuratePass, 0),
-			pasesClave: createPuntuacionTupple(statistics.keyPass, 0),
-			centrosTotales: createPuntuacionTupple(statistics.totalCross, 0),
-			centrosCompletados: createPuntuacionTupple(statistics.accurateCross, 0),
-			pasesLargosTotales: createPuntuacionTupple(statistics.totalLongBalls, 0),
+			toquesBalon: createPuntuacionTupple(statistics.touches),
+			pasesTotales: createPuntuacionTupple(statistics.totalPass),
+			pasesCompletados: createPuntuacionTupple(statistics.accuratePass),
+			pasesClave: createPuntuacionTupple(statistics.keyPass),
+			centrosTotales: createPuntuacionTupple(statistics.totalCross),
+			centrosCompletados: createPuntuacionTupple(statistics.accurateCross),
+			pasesLargosTotales: createPuntuacionTupple(statistics.totalLongBalls),
 			pasesLargosCompletados: createPuntuacionTupple(
-				statistics.accurateLongBalls,
-				0
+				statistics.accurateLongBalls
 			),
-			grandesOcasiones: createPuntuacionTupple(statistics.bigChanceCreated, 0),
+			grandesOcasiones: createPuntuacionTupple(statistics.bigChanceCreated),
 		});
 
 		let puntuacionDefensiva = new modelPuntuacionDefensiva({
-			despejes: createPuntuacionTupple(statistics.totalClearance, 0),
+			despejes: createPuntuacionTupple(statistics.totalClearance),
 			tirosBloqueados: createPuntuacionTupple(
-				statistics.onTargetScoringAttempt,
-				0
+				statistics.onTargetScoringAttempt
 			),
-			intercepciones: createPuntuacionTupple(statistics.interceptionWon, 0),
-			entradas: createPuntuacionTupple(statistics.totalTackle, 0),
-			regatesSuperado: createPuntuacionTupple(statistics.challengeLost, 0),
-			erroresParaDisparo: createPuntuacionTupple(statistics.errorLeadToShot, 0),
-			despejesEnLineaDeGol: createPuntuacionTupple(
-				statistics.clearanceOffLine,
-				0
-			),
-			golesEnPropia: createPuntuacionTupple(statistics.ownGoals, 0),
-			penaltiCometido: createPuntuacionTupple(statistics.penaltyConceded, 0),
+			intercepciones: createPuntuacionTupple(statistics.interceptionWon),
+			entradas: createPuntuacionTupple(statistics.totalTackle),
+			regatesSuperado: createPuntuacionTupple(statistics.challengeLost),
+			erroresParaDisparo: createPuntuacionTupple(statistics.errorLeadToShot),
+			despejesEnLineaDeGol: createPuntuacionTupple(statistics.clearanceOffLine),
+			golesEnPropia: createPuntuacionTupple(statistics.ownGoals),
+			penaltiCometido: createPuntuacionTupple(statistics.penaltyConceded),
 		});
 
 		let puntuacionFisica = new modelPuntuacionFisica({
 			duelosGanados: createPuntuacionTupple(
-				statistics.duelWon - statistics.aerialWon,
-				0
+				statistics.duelWon - statistics.aerialWon
 			),
 			duelosPerdidos: createPuntuacionTupple(
-				statistics.duelLost - statistics.aerialLost,
-				0
+				statistics.duelLost - statistics.aerialLost
 			),
-			duelosAereosGanados: createPuntuacionTupple(statistics.aerialWon, 0),
-			duelosAereosPerdidos: createPuntuacionTupple(statistics.aerialLost, 0),
-			posesionPerdida: createPuntuacionTupple(statistics.possessionLostCtrl, 0),
-			faltasCometidas: createPuntuacionTupple(statistics.fouls, 0),
-			faltasRecibidas: createPuntuacionTupple(statistics.wasFouled, 0),
-			fuerasDeJuego: createPuntuacionTupple(statistics.totalOffside, 0),
+			duelosAereosGanados: createPuntuacionTupple(statistics.aerialWon),
+			duelosAereosPerdidos: createPuntuacionTupple(statistics.aerialLost),
+			posesionPerdida: createPuntuacionTupple(statistics.possessionLostCtrl),
+			faltasCometidas: createPuntuacionTupple(statistics.fouls),
+			faltasRecibidas: createPuntuacionTupple(statistics.wasFouled),
+			fuerasDeJuego: createPuntuacionTupple(statistics.totalOffside),
 		});
 
 		let puntuacionCalculable = new modelPuntuacionCalculable({
-			golesRecibidos: createPuntuacionTupple(statistics.goalsConceded, 0),
-			tarjetasAmarilla: createPuntuacionTupple(statistics.yellowCard, 0),
-			tarjetasRoja: createPuntuacionTupple(statistics.redCard, 0),
-			dobleAmarilla: createPuntuacionTupple(statistics.secondYellow, 0),
+			golesRecibidos: createPuntuacionTupple(statistics.goalsConceded),
+			tarjetasAmarilla: createPuntuacionTupple(statistics.yellowCard),
+			tarjetasRoja: createPuntuacionTupple(statistics.redCard),
+			dobleAmarilla: createPuntuacionTupple(statistics.secondYellow),
 		});
 
 		let puntuacion: IPuntuacionJugador = new modelPuntuacionJugador({
@@ -425,18 +411,17 @@ async function guardarPuntuacionCalculable(
 		let puntuacionCalculable =
 			jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable;
 		puntuacionCalculable.golesRecibidos = createPuntuacionTupple(
-			jLocales[i].golesContra,
-			0
+			jLocales[i].golesContra
 		);
 		if (jLocales[i].amarilla) {
-			puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(1, 0);
+			puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(1);
 		}
 		if (jLocales[i].roja) {
-			puntuacionCalculable.tarjetasRoja = createPuntuacionTupple(1, 0);
+			puntuacionCalculable.tarjetasRoja = createPuntuacionTupple(1);
 		}
 		if (jLocales[i].dobleA) {
-			puntuacionCalculable.dobleAmarilla = createPuntuacionTupple(1, 0);
-			puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(0, 0);
+			puntuacionCalculable.dobleAmarilla = createPuntuacionTupple(1);
+			puntuacionCalculable.tarjetasAmarilla = createPuntuacionTupple(0);
 		}
 		jugador.puntuaciones[partido.jornada - 1].puntuacionCalculable =
 			puntuacionCalculable;

@@ -11,13 +11,10 @@ import {
 	modeloPuntuacionTupple
 } from "../model/puntuacion/puntuacionTupple";
 
-export function createPuntuacionTupple(
-	estadistica: number,
-	puntuacion: number
-): IPuntuacionTupple {
+export function createPuntuacionTupple(estadistica: number): IPuntuacionTupple {
 	const puntuacionTupple: IPuntuacionTupple = new modeloPuntuacionTupple({
 		estadistica: estadistica !== undefined ? estadistica : 0,
-		puntos: puntuacion,
+		puntos: 0,
 	});
 
 	return puntuacionTupple;
