@@ -5,7 +5,7 @@ import { IAlineacion, modeloAlineacion } from "../model/alineacion";
 import { IJugador, modeloJugador } from "../model/jugador";
 import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { IPartido, modeloPartido } from "../model/partido";
-import { urlEquipo } from "./equiposController";
+import { urlEquipo } from "./sofascoreEquiposController";
 
 export const urlJornada =
 	"https://api.sofascore.com/api/v1/unique-tournament/8/season/42409/events/round/";

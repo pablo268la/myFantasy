@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import * as EquiposController from "../controladores/equiposController";
-import * as FantasyMarcaController from "../controladores/fantasyMarcaController";
-import * as PartidosController from "../controladores/partidosController";
-import * as PuntosController from "../controladores/puntosController";
+import * as FantasyMarcaController from "../controladoresSofascore/fantasyMarcaController";
+import * as EquiposController from "../controladoresSofascore/sofascoreEquiposController";
+import * as PartidosController from "../controladoresSofascore/sofascorePartidosController";
+import * as PuntosController from "../controladoresSofascore/sofascorePuntosController";
 
 const api: Router = express.Router();
 

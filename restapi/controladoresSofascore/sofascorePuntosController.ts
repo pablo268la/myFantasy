@@ -18,7 +18,7 @@ import {
 import { modelPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
 import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
 import { modelPuntuacionPosesion } from "../model/puntuacion/puntuacionPosesion";
-import { urlPartido } from "./partidosController";
+import { urlPartido } from "./sofascorePartidosController";
 
 export const getIncidentesPartidoSofascore: RequestHandler = async (
 	req,
