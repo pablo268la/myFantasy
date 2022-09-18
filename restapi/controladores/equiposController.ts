@@ -9,7 +9,7 @@ export const urlClasificacion =
 export const urlEquipo = "https://api.sofascore.app/api/v1/team/";
 export const urlJugador = "https://api.sofascore.app/api/v1/player/";
 
-export const getEquipos: RequestHandler = async (req, res) => {
+export const getEquiposSofascore: RequestHandler = async (req, res) => {
 	let equipos: any;
 	let result: IEquipo[] = [];
 

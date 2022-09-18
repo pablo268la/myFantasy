@@ -7,7 +7,7 @@ import { IJugadorAntiguo, modeloJugadorAntiguo } from "../model/jugadorAntiguo";
 import { IPartido, modeloPartido } from "../model/partido";
 import { urlEquipo } from "./equiposController";
 import {
-    getIncidentesDePartido,
+    getIncidentesDePartidoSofascore,
     getPuntosJugadoresPartido
 } from "./puntosController";
 
@@ -15,7 +15,16 @@ export const urlJornada =
 	"https://api.sofascore.com/api/v1/unique-tournament/8/season/42409/events/round/";
 export const urlPartido = "https://api.sofascore.com/api/v1/event/";
 
-export const getPuntosPartido: RequestHandler = async (req, res) => {
+export const getAlineacionesPartidoSofascore: RequestHandler = async (req, res) => {
+	let partido: IPartido | null = await modeloPartido.findOne({
+		_id: req.body.idPartido,
+	});
+
+	if (partido !== null) res.json(await getAlineacionesDePartido(partido));
+	else res.json("Partido no encontrado");
+};
+
+export const getPuntosPartidoSofascore: RequestHandler = async (req, res) => {
 	let partido: IPartido | null = await modeloPartido.findOne({
 		_id: req.body.idPartido,
 	});
@@ -24,7 +33,7 @@ export const getPuntosPartido: RequestHandler = async (req, res) => {
 	else res.json("Partido no encontrado");
 };
 
-export const getPartidos: RequestHandler = async (req, res) => {
+export const getPartidosSofascore: RequestHandler = async (req, res) => {
 	let partidosJornada: any[] = [];
 	let result: IPartido[] = [];
 	let round = req.body.round;
@@ -58,15 +67,7 @@ export const getPartidos: RequestHandler = async (req, res) => {
 			partido = await modeloPartido.create(partido);
 		}
 
-		if (
-			partido !== null &&
-			new Date(partido.fecha).getTime() < new Date().getTime()
-		) {
-			partido = await cogerAlineaciones(partido._id);
-		}
-
 		if (partido !== null) {
-			await getPuntosDePartido(partido);
 			result.push(partido);
 		}
 	}
@@ -74,11 +75,19 @@ export const getPartidos: RequestHandler = async (req, res) => {
 	return res.json(result);
 };
 
+async function getAlineacionesDePartido(partido: IPartido) {
+	if (new Date(partido.fecha).getTime() < new Date().getTime()) {
+		return await cogerAlineaciones(partido._id);
+	}
+	return null;
+}
+
 async function getPuntosDePartido(partido: IPartido) {
 	if (new Date(partido.fecha).getTime() < new Date().getTime()) {
-		await getIncidentesDePartido(partido._id);
+		await getIncidentesDePartidoSofascore(partido._id);
 		return await getPuntosJugadoresPartido(partido._id);
 	}
+	return null;
 }
 
 async function cogerAlineaciones(idPartido: any): Promise<IPartido | null> {

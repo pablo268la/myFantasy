@@ -20,8 +20,8 @@ import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
 import { modelPuntuacionPosesion } from "../model/puntuacion/puntuacionPosesion";
 import { urlPartido } from "./partidosController";
 
-export const getIncidentesPartido: RequestHandler = async (req, res) => {
-	let j = await getIncidentesDePartido(req.body.idPartido);
+export const getIncidentesPartidoSofascore: RequestHandler = async (req, res) => {
+	let j = await getIncidentesDePartidoSofascore(req.body.idPartido);
 	res.json(j);
 };
 
@@ -197,7 +197,7 @@ async function cogerPuntuacionesJugador(
 	return jugador;
 }
 
-export async function getIncidentesDePartido(idPartido: string) {
+export async function getIncidentesDePartidoSofascore(idPartido: string) {
 	let eventosPartido: any;
 	let evento: { minuto: number; tipo: string; id: string; isHome: boolean }[] =
 		[];
