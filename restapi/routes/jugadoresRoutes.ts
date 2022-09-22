@@ -3,6 +3,8 @@ import * as JugadoresController from "../controladores/jugadoresController";
 
 const api: Router = express.Router();
 
+api.get("/jugadores", JugadoresController.getJugadores);
+
 api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
 
 api.get("/jugadores/:idJugador", JugadoresController.getJugador);

@@ -1,0 +1,7 @@
+{
+  "name": "myFantasy",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

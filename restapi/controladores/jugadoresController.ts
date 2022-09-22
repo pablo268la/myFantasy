@@ -1,6 +1,10 @@
 import { RequestHandler } from "express";
 import { IJugador, modeloJugador } from "../model/jugador";
 
+export const getJugadores: RequestHandler = async (req, res) => {
+	res.json(await modeloJugador.find());
+};
+
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	const idEquipo = req.params.idEquipo;
 
