@@ -1,15 +1,26 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
+const container = document.getElementById("root");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	<React.StrictMode>
+		<BrowserRouter>
+			<Switch>
+				<Route path="/">
+					<App />
+					{
+						//<Route></Route> van dentro de <Outlet></Outlet> que haya dentro de la ruta padre
+					}
+				</Route>
+			</Switch>
+		</BrowserRouter>
+	</React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

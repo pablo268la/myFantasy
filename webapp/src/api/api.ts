@@ -17,6 +17,13 @@ export async function getJugadores(): Promise<Jugador[]> {
 	return response.json();
 }
 
+export async function getJugadoresPorEquipo(
+	equipoId: string
+): Promise<Jugador[]> {
+	let response = await fetch(apiEndPoint + "/jugadoresEquipo/" + equipoId);
+	return response.json();
+}
+
 export async function getJugadorById(id: string): Promise<Jugador> {
 	let response = await fetch(apiEndPoint + "/jugadores/" + id);
 	return response.json();
