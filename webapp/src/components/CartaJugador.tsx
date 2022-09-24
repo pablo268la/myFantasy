@@ -1,19 +1,17 @@
 import {
-	IonBadge,
 	IonCard,
 	IonCardContent,
 	IonCol,
-	IonIcon,
 	IonImg,
 	IonPage,
 	IonRow,
 	IonText
 } from "@ionic/react";
-import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
 
 import { useEffect, useState } from "react";
 import { getJugadorById } from "../api/api";
 import { Jugador } from "../shared/sharedTypes";
+import { getIconoEstado, urlBackground } from "./helpers";
 
 type CartaJugadorProps = {
 	id: string;
@@ -35,30 +33,17 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 		<IonCard>
 			<div
 				style={{
-					backgroundImage: `url(https://ih1.redbubble.net/image.389384727.9608/flat,128x,075,f-pad,128x128,f8f8f8.u5.jpg)`,
+					backgroundImage: urlBackground,
 				}}
 			>
 				<IonCardContent>
-					<IonRow>
-						<IonCol size="10">
-							<div>
+					<IonRow style={{ width: 100, height: 50 }}>
+						<IonCol style={{ width: 70, height: 70 }}>
+							<div style={{ width: 70, height: 70, marginTop: -18 }}>
 								<IonImg src={jugador.foto} />
 							</div>
 						</IonCol>
-						<IonCol size="1">{getIconoEstado(jugador)}</IonCol>
-					</IonRow>
-				</IonCardContent>
-			</div>
-
-			<div style={{ background: "red" }}>
-				<IonRow>
-					<IonCol size="8" offset="1">
-						<IonText style={{ color: "white", fontSize: "10px" }}>
-							{jugador.nombre}
-						</IonText>
-					</IonCol>
-					<IonCol size="2">
-						<div style={{ alignItems: "flex-start", width: 20, height: 20 }}>
+						<div style={{ width: 20, height: 20 }}>
 							<IonImg
 								src={
 									"https://api.sofascore.app/api/v1/team/" +
@@ -67,6 +52,21 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 								}
 							/>
 						</div>
+					</IonRow>
+				</IonCardContent>
+			</div>
+
+			<div style={{ background: "primary" }}>
+				<IonRow>
+					<IonCol size="7" offset="1">
+						<IonText style={{ color: "ligth", fontSize: "10px" }}>
+							{jugador.nombre}
+						</IonText>
+					</IonCol>
+					<IonCol>
+						<div style={{ width: 20, height: 20 }}>
+							<IonCol>{getIconoEstado(jugador)}</IonCol>
+						</div>
 					</IonCol>
 				</IonRow>
 			</div>
@@ -74,33 +74,4 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	) : (
 		<IonPage></IonPage>
 	);
-
-	function getIconoEstado(jugador: Jugador) {
-		switch (jugador.estado) {
-			case "Disponible":
-				return (
-					<IonBadge color={"success"}>
-						<IonIcon icon={checkmarkCircle} />
-					</IonBadge>
-				);
-			case "Lesionado":
-				return (
-					<IonBadge color={"danger"}>
-						<IonIcon icon={medkit} />
-					</IonBadge>
-				);
-			case "Dudoso":
-				return (
-					<IonBadge color={"warning"}>
-						<IonIcon icon={warning} />
-					</IonBadge>
-				);
-			case "No disponible":
-				return (
-					<IonBadge color={"danger"}>
-						<IonIcon icon={alertCircle} />
-					</IonBadge>
-				);
-		}
-	}
 }

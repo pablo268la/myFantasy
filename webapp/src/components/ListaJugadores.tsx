@@ -1,9 +1,9 @@
-import { IonCol, IonContent, IonGrid, IonRow } from "@ionic/react";
+import { IonCol, IonContent } from "@ionic/react";
 
 import { useEffect, useState } from "react";
 import { getJugadoresPorEquipo } from "../api/api";
 import { Jugador } from "../shared/sharedTypes";
-import { CartaJugador } from "./CartaJugador";
+import { CartaDetallesJugador } from "./CartaDetallesJugador";
 
 export function ListaJugadores(props: any): JSX.Element {
 	const [jugadores, setJugadores] = useState<Jugador[]>();
@@ -16,18 +16,14 @@ export function ListaJugadores(props: any): JSX.Element {
 		getJugadoresAPI();
 	}, []);
 	return (
-		<IonContent fullscreen>
-			<IonGrid>
-				<IonRow>
-					{jugadores?.map((j) => (
-						<IonCol size-lg="3" size-md="4" size-sm="6" key={j._id}>
-							<div style={{ width: 150, height: 120 }}>
-								<CartaJugador id={j._id} />
-							</div>
-						</IonCol>
-					))}
-				</IonRow>
-			</IonGrid>
+		<IonContent>
+			{jugadores?.map((j) => (
+				<IonCol key={j._id}>
+					<div style={{ width: 150, height: 120 }}>
+						<CartaDetallesJugador id={j._id} />
+					</div>
+				</IonCol>
+			))}
 		</IonContent>
 	);
 }
