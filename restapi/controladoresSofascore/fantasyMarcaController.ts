@@ -27,3 +27,29 @@ export const getStatusJugador: RequestHandler = async (req, res) => {
 	}
 	res.json(j);
 };
+
+export const getFotoJugadorMarca: RequestHandler = async (req, res) => {
+	let j: IJugador[] = await modeloJugador.find();
+	for (let i = 0; j.length - 1; i++) {
+		let jugador = j[i];
+		console.log(jugador.nombre);
+		if (
+			jugador !== null &&
+			jugador.idEquipo !== "0" &&
+			jugador.fantasyMarcaId !== undefined
+		) {
+			await axios
+				.get(urlPlayerMarca + jugador.fantasyMarcaId)
+				.then(async (response) => {
+					jugador.foto = response.data.images.transparent["256x256"];
+					await modeloJugador.findOneAndUpdate({ _id: jugador._id }, jugador, {
+						new: true,
+					});
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	}
+	res.json(j);
+};

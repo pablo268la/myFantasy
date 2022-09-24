@@ -18,4 +18,6 @@ api.get("/incidentes", PuntosController.getIncidentesPartidoSofascore);
 
 api.get("/marca", FantasyMarcaController.getStatusJugador);
 
+api.get("/marcaFoto", FantasyMarcaController.getFotoJugadorMarca);
+
 export default api;
