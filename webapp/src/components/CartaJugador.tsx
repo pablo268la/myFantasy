@@ -2,16 +2,14 @@ import {
 	IonBadge,
 	IonCard,
 	IonCardContent,
-	IonCardHeader,
-	IonCardTitle,
 	IonCol,
 	IonIcon,
 	IonImg,
-	IonItem,
 	IonPage,
-	IonRow
+	IonRow,
+	IonText
 } from "@ionic/react";
-import { checkmarkCircle } from "ionicons/icons";
+import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
 
 import { useEffect, useState } from "react";
 import { getJugadorById } from "../api/api";
@@ -23,6 +21,7 @@ type CartaJugadorProps = {
 
 export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	const [jugador, setJugador] = useState<Jugador>();
+	//`https:\/\/assets.laligafantasymarca.com\/players\/t186\/p${jugador.fantasyMarcaId}\/256x256\/p${jugador.fantasyMarcaId}_t186_1_001_000.png`
 
 	const getJugador = async () => {
 		setJugador(await getJugadorById(props.id));
@@ -34,38 +33,74 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 
 	return jugador ? (
 		<IonCard>
-			<IonCardHeader>
+			<div
+				style={{
+					backgroundImage: `url(https://ih1.redbubble.net/image.389384727.9608/flat,128x,075,f-pad,128x128,f8f8f8.u5.jpg)`,
+				}}
+			>
+				<IonCardContent>
+					<IonRow>
+						<IonCol size="10">
+							<div>
+								<IonImg src={jugador.foto} />
+							</div>
+						</IonCol>
+						<IonCol size="1">{getIconoEstado(jugador)}</IonCol>
+					</IonRow>
+				</IonCardContent>
+			</div>
+
+			<div style={{ background: "red" }}>
 				<IonRow>
-					<IonCol size="10">
-						<IonCardTitle>{jugador.nombre}</IonCardTitle>
+					<IonCol size="8" offset="1">
+						<IonText style={{ color: "white", fontSize: "10px" }}>
+							{jugador.nombre}
+						</IonText>
 					</IonCol>
 					<IonCol size="2">
-						<div style={{ alignItems: "center", width: 20, height: 20 }}>
-							<IonImg src={jugador.foto} />
+						<div style={{ alignItems: "flex-start", width: 20, height: 20 }}>
+							<IonImg
+								src={
+									"https://api.sofascore.app/api/v1/team/" +
+									jugador?.idEquipo +
+									"/image"
+								}
+							/>
 						</div>
 					</IonCol>
 				</IonRow>
-			</IonCardHeader>
-			<IonCardContent>
-				<IonRow>
-					<IonCol>
-						<div style={{ alignItems: "center", width: 100, height: 100 }}>
-							<IonImg src={jugador.foto} />
-						</div>
-					</IonCol>
-					<IonCol>
-						<div style={{ width: 100, height: 100 }}>
-							<IonItem>
-								<IonBadge slot="end" color={"light"} style={{ marginTop: 15 }}>
-									<IonIcon icon={checkmarkCircle} />
-								</IonBadge>
-							</IonItem>
-						</div>
-					</IonCol>
-				</IonRow>
-			</IonCardContent>
+			</div>
 		</IonCard>
 	) : (
 		<IonPage></IonPage>
 	);
+
+	function getIconoEstado(jugador: Jugador) {
+		switch (jugador.estado) {
+			case "Disponible":
+				return (
+					<IonBadge color={"success"}>
+						<IonIcon icon={checkmarkCircle} />
+					</IonBadge>
+				);
+			case "Lesionado":
+				return (
+					<IonBadge color={"danger"}>
+						<IonIcon icon={medkit} />
+					</IonBadge>
+				);
+			case "Dudoso":
+				return (
+					<IonBadge color={"warning"}>
+						<IonIcon icon={warning} />
+					</IonBadge>
+				);
+			case "No disponible":
+				return (
+					<IonBadge color={"danger"}>
+						<IonIcon icon={alertCircle} />
+					</IonBadge>
+				);
+		}
+	}
 }
