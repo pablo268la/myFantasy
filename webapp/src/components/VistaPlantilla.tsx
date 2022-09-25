@@ -8,7 +8,7 @@ import {
 	IonToolbar
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getJugadorById, getPlantilla } from "../api/api";
+import { getPlantilla } from "../api/api";
 import { PlantillaUsuario } from "../shared/sharedTypes";
 import { CartaJugador } from "./CartaJugador";
 import { ListaJugadores } from "./ListaJugadores";
@@ -18,15 +18,16 @@ export function VistaPlantilla(props: any): JSX.Element {
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
 
 	const getJugadoresAPI = async () => {
-		let p = await getPlantilla();
-		setPlantilla(p[0]);
+		let p = await getPlantilla().then((res) => {
+			setPlantilla(res[0]);
+		});
 	};
 
 	useEffect(() => {
 		getJugadoresAPI();
 	}, []);
 
-	return (
+	return plantilla ? (
 		<>
 			<IonPage>
 				<IonHeader>
@@ -49,43 +50,43 @@ export function VistaPlantilla(props: any): JSX.Element {
 						>
 							<IonRow>
 								<IonCol offset="5">
-									<CartaJugador jugador={j(plantilla?.jugadores[10] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[10] || "0"} />
 								</IonCol>
 							</IonRow>
 							<IonRow>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[9] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[9] || "0"} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[8] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[8] || "0"} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[7] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[7] || "0"} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[6] || "0")} />
-								</IonCol>
-							</IonRow>
-							<IonRow>
-								<IonCol offset="1">
-									<CartaJugador jugador={j(plantilla?.jugadores[5] || "0")} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[4] || "0")} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[3] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[6] || "0"} />
 								</IonCol>
 							</IonRow>
 							<IonRow>
 								<IonCol offset="1">
-									<CartaJugador jugador={j(plantilla?.jugadores[2] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[5] || "0"} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[1] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[4] || "0"} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador jugador={j(plantilla?.jugadores[0] || "0")} />
+									<CartaJugador id={plantilla?.jugadores[3] || "0"} />
+								</IonCol>
+							</IonRow>
+							<IonRow>
+								<IonCol offset="1">
+									<CartaJugador id={plantilla?.jugadores[2] || "0"} />
+								</IonCol>
+								<IonCol>
+									<CartaJugador id={plantilla?.jugadores[1] || "0"} />
+								</IonCol>
+								<IonCol>
+									<CartaJugador id={plantilla?.jugadores[0] || "0"} />
 								</IonCol>
 							</IonRow>
 						</div>
@@ -98,9 +99,7 @@ export function VistaPlantilla(props: any): JSX.Element {
 				</IonContent>
 			</IonPage>
 		</>
+	) : (
+		<></>
 	);
-
-	async function j(id: string) {
-		return await getJugadorById(id);
-	}
 }

@@ -32,7 +32,6 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 		getJugador();
 	}, []);
 
-	console.log(jugador);
 	return jugador ? (
 		<IonCard style={{ width: 500 }}>
 			<IonRow>
