@@ -1,13 +1,16 @@
 import {
+	IonButton,
 	IonCard,
 	IonCardContent,
 	IonCol,
 	IonImg,
+	IonModal,
 	IonRow,
-	IonText
+	IonText,
+	useIonActionSheet
 } from "@ionic/react";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getJugadorById } from "../api/api";
 import { Jugador } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
@@ -25,11 +28,31 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	};
 
 	useEffect(() => {
+		setPresentingElement(page.current);
 		getJugador();
 	}, []);
 
+	const modal = useRef<HTMLIonModalElement>(null);
+	const page = useRef(null);
+
+	const [presentingElement, setPresentingElement] =
+		useState<HTMLElement | null>(null);
+	const [present] = useIonActionSheet();
+
+	function dismiss() {
+		modal.current?.dismiss();
+	}
+
 	return jugador ? (
-		<IonCard onClick={() => console.log(jugador._id)} style={{ width: 100 }}>
+		<IonCard
+			onClick={() =>
+				present({
+					buttons: [{ text: "Ok" }, { text: "Cancel" }],
+					header: "Action Sheet",
+				})
+			}
+			style={{ width: 100 }}
+		>
 			<div
 				style={{
 					backgroundImage: urlBackground,
@@ -68,6 +91,14 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 					</IonCol>
 				</IonRow>
 			</div>
+
+			<IonModal
+				ref={modal}
+				trigger="open-modal"
+				presentingElement={presentingElement!}
+			>
+				<IonButton onClick={() => dismiss()}>Close</IonButton>
+			</IonModal>
 		</IonCard>
 	) : (
 		<></>
