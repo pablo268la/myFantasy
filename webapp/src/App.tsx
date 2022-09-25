@@ -11,7 +11,6 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 import { ellipse, square, triangle } from "ionicons/icons";
 import { Route } from "react-router-dom";
-import Tab2 from "./pages/Tab2";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -31,6 +30,7 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import Tab1 from "./pages/Tab1";
+import { Tab2 } from "./pages/Tab2";
 import Tab3 from "./pages/Tab3";
 import "./theme/variables.css";
 

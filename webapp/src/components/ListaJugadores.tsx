@@ -1,4 +1,4 @@
-import { IonCol, IonContent } from "@ionic/react";
+import { IonCol, IonContent, IonRow } from "@ionic/react";
 
 import { useEffect, useState } from "react";
 import { getJugadoresPorEquipo } from "../api/api";
@@ -15,14 +15,17 @@ export function ListaJugadores(props: any): JSX.Element {
 	useEffect(() => {
 		getJugadoresAPI();
 	}, []);
+
 	return (
 		<IonContent>
 			{jugadores?.map((j) => (
-				<IonCol key={j._id}>
-					<div style={{ width: 150, height: 120 }}>
-						<CartaDetallesJugador id={j._id} />
-					</div>
-				</IonCol>
+				<>
+					<IonRow key={j._id}>
+						<IonCol>
+							<CartaDetallesJugador id={j._id} />
+						</IonCol>
+					</IonRow>
+				</>
 			))}
 		</IonContent>
 	);

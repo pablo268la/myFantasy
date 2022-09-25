@@ -1,9 +1,7 @@
 import {
 	IonCard,
 	IonCardContent,
-	IonCol,
-	IonImg,
-	IonPage,
+	IonCol, IonImg,
 	IonRow,
 	IonText
 } from "@ionic/react";
@@ -30,16 +28,16 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	}, []);
 
 	return jugador ? (
-		<IonCard>
+		<IonCard onClick={() => console.log(jugador._id)} style={{ width: 100 }}>
 			<div
 				style={{
 					backgroundImage: urlBackground,
 				}}
 			>
 				<IonCardContent>
-					<IonRow style={{ width: 100, height: 50 }}>
-						<IonCol style={{ width: 70, height: 70 }}>
-							<div style={{ width: 70, height: 70, marginTop: -18 }}>
+					<IonRow style={{ width: 100, height: 50, marginLeft: -20 }}>
+						<IonCol>
+							<div style={{ marginTop: -18 }}>
 								<IonImg src={jugador.foto} />
 							</div>
 						</IonCol>
@@ -51,6 +49,8 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 									"/image"
 								}
 							/>
+
+							<div style={{ marginTop: 30 }}>{getIconoEstado(jugador)}</div>
 						</div>
 					</IonRow>
 				</IonCardContent>
@@ -58,20 +58,17 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 
 			<div style={{ background: "primary" }}>
 				<IonRow>
-					<IonCol size="7" offset="1">
-						<IonText style={{ color: "ligth", fontSize: "10px" }}>
+					<IonCol>
+						<IonText
+							style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
+						>
 							{jugador.nombre}
 						</IonText>
-					</IonCol>
-					<IonCol>
-						<div style={{ width: 20, height: 20 }}>
-							<IonCol>{getIconoEstado(jugador)}</IonCol>
-						</div>
 					</IonCol>
 				</IonRow>
 			</div>
 		</IonCard>
 	) : (
-		<IonPage></IonPage>
+		<></>
 	);
 }

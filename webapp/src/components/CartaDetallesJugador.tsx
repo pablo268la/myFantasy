@@ -1,15 +1,15 @@
 import {
-    IonBadge,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonImg,
-    IonItem,
-    IonLabel,
-    IonPage,
-    IonRow,
-    IonText
+	IonBadge,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonImg,
+	IonItem,
+	IonLabel,
+	IonPage,
+	IonRow,
+	IonText
 } from "@ionic/react";
 
 import { useEffect, useState } from "react";
