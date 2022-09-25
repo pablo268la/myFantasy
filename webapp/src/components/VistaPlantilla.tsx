@@ -91,9 +91,13 @@ export function VistaPlantilla(props: any): JSX.Element {
 							</IonRow>
 						</div>
 						<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
-							<ListaJugadores
-								plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
-							/>
+							{plantilla?.jugadores[0] === "3306" ? (
+								<ListaJugadores
+									plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
+								/>
+							) : (
+								<></>
+							)}
 						</div>
 					</IonRow>
 				</IonContent>

@@ -1,16 +1,14 @@
 import {
-	IonButton,
 	IonCard,
 	IonCardContent,
 	IonCol,
 	IonImg,
-	IonModal,
 	IonRow,
 	IonText,
 	useIonActionSheet
 } from "@ionic/react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getJugadorById } from "../api/api";
 import { Jugador } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
@@ -28,20 +26,10 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	};
 
 	useEffect(() => {
-		setPresentingElement(page.current);
 		getJugador();
 	}, []);
 
-	const modal = useRef<HTMLIonModalElement>(null);
-	const page = useRef(null);
-
-	const [presentingElement, setPresentingElement] =
-		useState<HTMLElement | null>(null);
 	const [present] = useIonActionSheet();
-
-	function dismiss() {
-		modal.current?.dismiss();
-	}
 
 	return jugador ? (
 		<IonCard
@@ -91,14 +79,6 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 					</IonCol>
 				</IonRow>
 			</div>
-
-			<IonModal
-				ref={modal}
-				trigger="open-modal"
-				presentingElement={presentingElement!}
-			>
-				<IonButton onClick={() => dismiss()}>Close</IonButton>
-			</IonModal>
 		</IonCard>
 	) : (
 		<></>
