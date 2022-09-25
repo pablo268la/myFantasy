@@ -73,7 +73,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				</div>
 				<IonCol style={{ backgroundColor: "primary" }}>
 					<IonItem color={"primary"}>
-						<IonBadge>
+						<IonBadge color={"secondary"}>
 							{jugador.posicion.substring(0, 3).toUpperCase()}
 						</IonBadge>
 						<IonLabel style={{ marginLeft: 10, color: "light" }}>
