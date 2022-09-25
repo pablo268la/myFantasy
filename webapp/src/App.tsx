@@ -20,7 +20,7 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { Clasificacion } from "./components/Clasificacion";
-import { Tab2 as Plantilla } from "./components/VistaPlantilla";
+import { VistaPlantilla } from "./components/VistaPlantilla";
 import "./theme/variables.css";
 
 setupIonicReact();
@@ -30,7 +30,7 @@ const App: React.FC = () => (
 		<IonReactRouter>
 			<IonRouterOutlet>
 				<Route path="/plantilla">
-					<Plantilla />
+					<VistaPlantilla />
 				</Route>
 				<Route path="/clasificacion">
 					<Clasificacion />

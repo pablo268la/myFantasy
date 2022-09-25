@@ -7,11 +7,25 @@ import {
 	IonTitle,
 	IonToolbar
 } from "@ionic/react";
+import { useEffect, useState } from "react";
+import { getJugadorById, getPlantilla } from "../api/api";
+import { PlantillaUsuario } from "../shared/sharedTypes";
 import { CartaJugador } from "./CartaJugador";
 import { ListaJugadores } from "./ListaJugadores";
 import { MenuLateral } from "./MenuLateral";
 
-export function Tab2(): JSX.Element {
+export function VistaPlantilla(props: any): JSX.Element {
+	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
+
+	const getJugadoresAPI = async () => {
+		let p = await getPlantilla();
+		setPlantilla(p[0]);
+	};
+
+	useEffect(() => {
+		getJugadoresAPI();
+	}, []);
+
 	return (
 		<>
 			<IonPage>
@@ -35,52 +49,58 @@ export function Tab2(): JSX.Element {
 						>
 							<IonRow>
 								<IonCol offset="5">
-									<CartaJugador id="70988" />
+									<CartaJugador jugador={j(plantilla?.jugadores[10] || "0")} />
 								</IonCol>
 							</IonRow>
 							<IonRow>
 								<IonCol>
-									<CartaJugador id="138572" />
+									<CartaJugador jugador={j(plantilla?.jugadores[9] || "0")} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador id="822519" />
+									<CartaJugador jugador={j(plantilla?.jugadores[8] || "0")} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador id="66492" />
+									<CartaJugador jugador={j(plantilla?.jugadores[7] || "0")} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador id="792073" />
-								</IonCol>
-							</IonRow>
-							<IonRow>
-								<IonCol offset="1">
-									<CartaJugador id="15466" />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id="859025" />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id="973887" />
+									<CartaJugador jugador={j(plantilla?.jugadores[6] || "0")} />
 								</IonCol>
 							</IonRow>
 							<IonRow>
 								<IonCol offset="1">
-									<CartaJugador id="910536" />
+									<CartaJugador jugador={j(plantilla?.jugadores[5] || "0")} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador id="3306" />
+									<CartaJugador jugador={j(plantilla?.jugadores[4] || "0")} />
 								</IonCol>
 								<IonCol>
-									<CartaJugador id="868812" />
+									<CartaJugador jugador={j(plantilla?.jugadores[3] || "0")} />
+								</IonCol>
+							</IonRow>
+							<IonRow>
+								<IonCol offset="1">
+									<CartaJugador jugador={j(plantilla?.jugadores[2] || "0")} />
+								</IonCol>
+								<IonCol>
+									<CartaJugador jugador={j(plantilla?.jugadores[1] || "0")} />
+								</IonCol>
+								<IonCol>
+									<CartaJugador jugador={j(plantilla?.jugadores[0] || "0")} />
 								</IonCol>
 							</IonRow>
 						</div>
 						<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
-							<ListaJugadores />
+							<ListaJugadores
+								plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
+							/>
 						</div>
 					</IonRow>
 				</IonContent>
 			</IonPage>
 		</>
 	);
+
+	async function j(id: string) {
+		return await getJugadorById(id);
+	}
 }

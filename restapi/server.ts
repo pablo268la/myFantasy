@@ -4,8 +4,9 @@ import cors from "cors";
 import express, { Application, RequestHandler } from "express";
 import promBundle from "express-prom-bundle";
 import morgan from "morgan";
-import apiJugadores from "./routes/jugadoresRoutes";
-import apiSofaScore from "./routes/routesSofascore";
+import apiEquipos from "./routes/rutasEquipos";
+import apiJugadores from "./routes/rutasJugador";
+import apiSofaScore from "./routes/rutasSofascoreMarca";
 
 const mongoose = require("mongoose");
 
@@ -29,6 +30,7 @@ app.use(morgan("dev"));
 
 app.use(apiSofaScore);
 app.use(apiJugadores);
+app.use(apiEquipos);
 
 app.use(helmet.hidePoweredBy());
 

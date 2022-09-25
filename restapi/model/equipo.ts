@@ -43,6 +43,4 @@ export interface IEquipo {
 	escudo: string;
 }
 
-equipo.index({ _id: 1 }, { unique: true });
-
 export const modeloEquipo = model<IEquipo>("equipo", equipo);

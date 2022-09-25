@@ -1,28 +1,21 @@
 import { IonCol, IonContent, IonRow } from "@ionic/react";
 
-import { useEffect, useState } from "react";
-import { getJugadoresPorEquipo } from "../api/api";
-import { Jugador } from "../shared/sharedTypes";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 
-export function ListaJugadores(props: any): JSX.Element {
-	const [jugadores, setJugadores] = useState<Jugador[]>();
+type ListaJugadoresProps = {
+	plantilla: string[];
+};
 
-	const getJugadoresAPI = async () => {
-		setJugadores(await getJugadoresPorEquipo("2828"));
-	};
-
-	useEffect(() => {
-		getJugadoresAPI();
-	}, []);
+export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
+	const plantilla: string[] = props.plantilla;
 
 	return (
 		<IonContent>
-			{jugadores?.map((j) => (
+			{plantilla.map((j) => (
 				<>
-					<IonRow key={j._id}>
+					<IonRow key={j}>
 						<IonCol>
-							<CartaDetallesJugador id={j._id} />
+							<CartaDetallesJugador id={j} />
 						</IonCol>
 					</IonRow>
 				</>

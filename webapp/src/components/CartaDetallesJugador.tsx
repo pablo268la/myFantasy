@@ -32,6 +32,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 		getJugador();
 	}, []);
 
+	console.log(jugador);
 	return jugador ? (
 		<IonCard style={{ width: 500 }}>
 			<IonRow>
@@ -57,7 +58,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 									</div>
 								</IonCol>
 								<IonCol>
-									<div style={{ width: 30, height: 30 }}>
+									<div style={{ width: 30, height: 30, marginTop: -20 }}>
 										<IonImg
 											src={
 												"https://api.sofascore.app/api/v1/team/" +

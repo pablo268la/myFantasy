@@ -76,6 +76,4 @@ export const partido = new Schema<IPartido>(
 	}
 );
 
-partido.index({ _id: 1 }, { unique: true });
-
 export const modeloPartido = model<IPartido>("partido", partido);
