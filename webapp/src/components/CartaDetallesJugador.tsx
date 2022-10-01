@@ -13,11 +13,14 @@ import {
 
 import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
 import { getIconoEstado, ponerPuntosAValor, urlBackground } from "./helpers";
+import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
 
 type CartaJugadorProps = {
 	jugador?: Jugador;
 	esParaCambio: boolean;
 	plantilla: PlantillaUsuario;
+	jugadores: Jugador[];
+	posicion?: string;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
@@ -88,33 +91,37 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				</IonRow>
 			</IonCard>
 
-			{/*	<>
+			{
+				<>
 					{renderCambios(
 						"Quitar de la alineación",
 						props.esParaCambio,
 						props.plantilla,
-						jugador.posicion
+						jugador.posicion,
+						props.jugadores
 					)}
-				</>*/}
+				</>
+			}
 		</>
 	) : (
-		<></>
-		/*<>
+		<>
 			{renderCambios(
 				"Dejar posicion vacia",
 				props.esParaCambio,
 				props.plantilla,
-				"posicion"
+				props.posicion || "",
+				props.jugadores
 			)}
-		</>*/
+		</>
 	);
 }
-/*
+
 function renderCambios(
 	texto: string,
 	esParaCambio: boolean,
 	plantilla: PlantillaUsuario,
-	posicion: string
+	posicion: string,
+	jugadores: Jugador[]
 ) {
 	if (esParaCambio)
 		return (
@@ -122,7 +129,11 @@ function renderCambios(
 				<IonButton shape="round" expand="block">
 					{texto}
 				</IonButton>
-				<ListaJugadoresCambio plantilla={plantilla} posicion={"del"} />
+				<ListaJugadoresCambio
+					plantilla={plantilla}
+					posicion={posicion}
+					jugadores={jugadores}
+				/>
 			</>
 		);
-}*/
+}

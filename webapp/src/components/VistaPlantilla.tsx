@@ -37,7 +37,6 @@ export function VistaPlantilla(props: any): JSX.Element {
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
 	const cambiarJugador = (idJugador: string) => {
-		console.log(jugadorPulsado);
 		if (idJugador === jugadorPulsado) setJugadorPulsado("");
 		else setJugadorPulsado(idJugador);
 	};
@@ -46,16 +45,24 @@ export function VistaPlantilla(props: any): JSX.Element {
 		await getPlantilla().then((res) => {
 			setPlantilla(res[0]);
 			setFormacion({
-				portero: 1, 
+				portero: 1,
 				defensa: Number(res[0].alineacion.formacion.split("-")[0]),
 				medio: Number(res[0].alineacion.formacion.split("-")[1]),
 				delantero: Number(res[0].alineacion.formacion.split("-")[2]),
 			});
 
-			plantilla?.jugadores.forEach(async (j) => {
+			let js: Jugador[] = [];
+			res[0].jugadores.forEach(async (j) => {
 				let jugador = await getJugadorById(j);
-				if (jugadores.find((ju) => ju._id === jugador._id) === undefined)
-					setJugadores((jugadores) => [...jugadores, jugador]);
+				if (jugadores.filter((jug) => jug._id === jugador._id).length === 0) {
+					js.push(jugador);
+				}
+
+				setJugadores(
+					js.filter((element, index) => {
+						return js.indexOf(element) === index;
+					})
+				);
 			});
 		});
 	};
@@ -80,7 +87,13 @@ export function VistaPlantilla(props: any): JSX.Element {
 								<IonList style={{ width: 200 }}>
 									<IonSelect
 										interface="popover"
-										placeholder="4-3-3"
+										placeholder={
+											formacion.defensa +
+											"-" +
+											formacion.medio +
+											"-" +
+											formacion.delantero
+										}
 										onIonChange={(e) => {
 											let f: Formacion = {
 												portero: 1,
@@ -134,6 +147,8 @@ export function VistaPlantilla(props: any): JSX.Element {
 												)}
 												esParaCambio={true}
 												plantilla={plantilla}
+												jugadores={jugadores}
+												posicion={jugadorPulsado}
 											/>
 										</>
 									)}

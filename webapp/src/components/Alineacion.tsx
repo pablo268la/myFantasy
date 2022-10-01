@@ -11,7 +11,6 @@ type AlineacionProps = {
 };
 
 export function Alineacion(props: AlineacionProps): JSX.Element {
-	console.log(props.jugadores);
 	return (
 		<>
 			<IonRow style={{ justifyContent: "center" }}>
@@ -21,7 +20,7 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 						(j) => j._id === props.plantilla.alineacion.portero
 					)}
 					setJugadorPulsado={props.setJugadorPulsado}
-					posicion={"portero"}
+					posicion={"Portero"}
 				/>
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
@@ -32,7 +31,7 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 							key={id}
 							jugador={props.jugadores.find((j) => j._id === id)}
 							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"defensa"}
+							posicion={"Defensa"}
 						/>
 					))}
 			</IonRow>
@@ -44,7 +43,7 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 							key={id}
 							jugador={props.jugadores.find((j) => j._id === id)}
 							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"mediocentro"}
+							posicion={"Mediocentro"}
 						/>
 					))}
 			</IonRow>
@@ -56,7 +55,7 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 							key={id}
 							jugador={props.jugadores.find((j) => j._id === id)}
 							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"delantero"}
+							posicion={"Delantero"}
 						/>
 					))}
 			</IonRow>
