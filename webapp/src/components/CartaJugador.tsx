@@ -4,41 +4,24 @@ import {
 	IonCol,
 	IonImg,
 	IonRow,
-	IonText,
-	useIonActionSheet
+	IonText
 } from "@ionic/react";
 
-import { useEffect, useState } from "react";
-import { getJugadorById } from "../api/api";
 import { Jugador } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
 
 type CartaJugadorProps = {
-	id: string;
+	jugador?: Jugador;
+	setJugadorPulsado: (idJugador: string) => void;
+	posicion: string;
 };
 
 export function CartaJugador(props: CartaJugadorProps): JSX.Element {
-	const [jugador, setJugador] = useState<Jugador>();
-	//`https:\/\/assets.laligafantasymarca.com\/players\/t186\/p${jugador.fantasyMarcaId}\/256x256\/p${jugador.fantasyMarcaId}_t186_1_001_000.png`
-
-	const getJugador = async () => {
-		setJugador(await getJugadorById(props.id));
-	};
-
-	useEffect(() => {
-		getJugador();
-	}, []);
-
-	const [present] = useIonActionSheet();
-
-	return jugador ? (
+	return props.jugador !== undefined ? (
 		<IonCard
-			onClick={() =>
-				present({
-					buttons: [{ text: "Ok" }, { text: "Cancel" }],
-					header: "Action Sheet",
-				})
-			}
+			onClick={() => {
+				if (props.jugador) props.setJugadorPulsado(props.jugador._id);
+			}}
 			style={{ width: 100 }}
 		>
 			<div
@@ -56,19 +39,21 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 					>
 						<IonCol>
 							<div style={{ marginTop: -18 }}>
-								<IonImg src={jugador.foto} />
+								<IonImg src={props.jugador.foto} />
 							</div>
 						</IonCol>
 						<div style={{ width: 20, height: 20 }}>
 							<IonImg
 								src={
 									"https://api.sofascore.app/api/v1/team/" +
-									jugador?.idEquipo +
+									props.jugador?.idEquipo +
 									"/image"
 								}
 							/>
 
-							<div style={{ marginTop: 30 }}>{getIconoEstado(jugador)}</div>
+							<div style={{ marginTop: 30 }}>
+								{getIconoEstado(props.jugador)}
+							</div>
 						</div>
 					</IonRow>
 				</IonCardContent>
@@ -80,7 +65,7 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 						<IonText
 							style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
 						>
-							{jugador.nombre}
+							{props.jugador.nombre}
 						</IonText>
 					</IonCol>
 				</IonRow>
@@ -89,12 +74,7 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	) : (
 		<>
 			<IonCard
-				onClick={() =>
-					present({
-						buttons: [{ text: "Ok" }, { text: "Cancel" }],
-						header: "Action Sheet",
-					})
-				}
+				onClick={() => props.setJugadorPulsado(props.posicion)}
 				style={{ width: 100 }}
 			>
 				<div

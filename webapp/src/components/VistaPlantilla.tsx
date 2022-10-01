@@ -11,9 +11,10 @@ import {
 	IonToolbar
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getPlantilla } from "../api/api";
-import { PlantillaUsuario } from "../shared/sharedTypes";
+import { getJugadorById, getPlantilla } from "../api/api";
+import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
 import { Alineacion } from "./Alineacion";
+import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { ListaJugadores } from "./ListaJugadores";
 import { MenuLateral } from "./MenuLateral";
 
@@ -32,15 +33,29 @@ export function VistaPlantilla(props: any): JSX.Element {
 		medio: 3,
 		delantero: 3,
 	});
+	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
+	const [jugadores, setJugadores] = useState<Jugador[]>([]);
+
+	const cambiarJugador = (idJugador: string) => {
+		console.log(jugadorPulsado);
+		if (idJugador === jugadorPulsado) setJugadorPulsado("");
+		else setJugadorPulsado(idJugador);
+	};
 
 	const getJugadoresAPI = async () => {
 		await getPlantilla().then((res) => {
 			setPlantilla(res[0]);
 			setFormacion({
-				portero: 1,
+				portero: 1, 
 				defensa: Number(res[0].alineacion.formacion.split("-")[0]),
 				medio: Number(res[0].alineacion.formacion.split("-")[1]),
 				delantero: Number(res[0].alineacion.formacion.split("-")[2]),
+			});
+
+			plantilla?.jugadores.forEach(async (j) => {
+				let jugador = await getJugadorById(j);
+				if (jugadores.find((ju) => ju._id === jugador._id) === undefined)
+					setJugadores((jugadores) => [...jugadores, jugador]);
 			});
 		});
 	};
@@ -97,13 +112,31 @@ export function VistaPlantilla(props: any): JSX.Element {
 										marginBottom: 25,
 									}}
 								>
-									<Alineacion plantilla={plantilla} formacion={formacion} />
+									<Alineacion
+										plantilla={plantilla}
+										formacion={formacion}
+										setJugadorPulsado={cambiarJugador}
+										jugadores={jugadores}
+									/>
 								</div>
 
 								<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
-									<ListaJugadores
-										plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
-									/>
+									{jugadorPulsado === "" ? (
+										<ListaJugadores
+											plantilla={plantilla}
+											jugadores={jugadores}
+										/>
+									) : (
+										<>
+											<CartaDetallesJugador
+												jugador={jugadores.find(
+													(j) => j._id === jugadorPulsado
+												)}
+												esParaCambio={true}
+												plantilla={plantilla}
+											/>
+										</>
+									)}
 								</div>
 							</IonRow>
 						</IonCol>
