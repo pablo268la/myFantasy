@@ -47,7 +47,13 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 				}}
 			>
 				<IonCardContent>
-					<IonRow style={{ width: 100, height: 50, marginLeft: -20 }}>
+					<IonRow
+						style={{
+							width: 100,
+							height: 50,
+							marginLeft: -20,
+						}}
+					>
 						<IonCol>
 							<div style={{ marginTop: -18 }}>
 								<IonImg src={jugador.foto} />
@@ -81,6 +87,49 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 			</div>
 		</IonCard>
 	) : (
-		<></>
+		<>
+			<IonCard
+				onClick={() =>
+					present({
+						buttons: [{ text: "Ok" }, { text: "Cancel" }],
+						header: "Action Sheet",
+					})
+				}
+				style={{ width: 100 }}
+			>
+				<div
+					style={{
+						backgroundImage: urlBackground,
+					}}
+				>
+					<IonCardContent>
+						<IonRow style={{ width: 100, height: 50, marginLeft: -5 }}>
+							<IonCol>
+								<div style={{ marginTop: -18 }}>
+									<IonImg
+										src={
+											"https://assets.laligafantasymarca.com/players/no-player.png"
+										}
+									/>
+								</div>
+							</IonCol>
+							<div style={{ width: 20, height: 20 }}>
+								<div style={{ marginTop: 30 }}></div>
+							</div>
+						</IonRow>
+					</IonCardContent>
+				</div>
+
+				<div style={{ background: "primary" }}>
+					<IonRow>
+						<IonCol>
+							<IonText
+								style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
+							></IonText>
+						</IonCol>
+					</IonRow>
+				</div>
+			</IonCard>
+		</>
 	);
 }

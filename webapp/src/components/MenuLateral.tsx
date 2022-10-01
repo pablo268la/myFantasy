@@ -5,7 +5,7 @@ export function MenuLateral(): JSX.Element {
 	const router = useIonRouter();
 	return (
 		<>
-			<IonList style={{ width: "15%", marginRight: "2%" }}>
+			<IonList style={{ width: "10%", marginRight: "3%" }}>
 				<IonButton
 					onClick={(e) => {
 						e.preventDefault();

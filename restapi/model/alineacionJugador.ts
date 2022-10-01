@@ -13,7 +13,22 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 			required: true,
 			trim: true,
 		},
-		jugadores: {
+		portero: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		defensas: {
+			type: [String],
+			required: true,
+			trim: true,
+		},
+		medios: {
+			type: [String],
+			required: true,
+			trim: true,
+		},
+		delanteros: {
 			type: [String],
 			required: true,
 			trim: true,
@@ -53,7 +68,10 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 export interface IAlineacionJugador {
 	_id: string;
 	idUsuario: string;
-	jugadores: Types.DocumentArray<string>;
+	portero: string;
+	defensas: Types.DocumentArray<string>;
+	medios: Types.DocumentArray<string>;
+	delanteros: Types.DocumentArray<string>;
 	formacion: string;
 	guardadoEn: string;
 	idLiga: string;

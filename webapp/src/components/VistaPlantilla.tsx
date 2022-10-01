@@ -2,23 +2,39 @@ import {
 	IonCol,
 	IonContent,
 	IonHeader,
+	IonList,
 	IonPage,
 	IonRow,
+	IonSelect,
+	IonSelectOption,
 	IonTitle,
 	IonToolbar
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getPlantilla } from "../api/api";
 import { PlantillaUsuario } from "../shared/sharedTypes";
-import { CartaJugador } from "./CartaJugador";
+import { Alineacion } from "./Alineacion";
 import { ListaJugadores } from "./ListaJugadores";
 import { MenuLateral } from "./MenuLateral";
 
+export type Formacion = {
+	portero: number;
+	defensa: number;
+	medio: number;
+	delantero: number;
+};
+
 export function VistaPlantilla(props: any): JSX.Element {
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
+	const [formacion, setFormacion] = useState<Formacion>({
+		portero: 1,
+		defensa: 4,
+		medio: 3,
+		delantero: 3,
+	});
 
 	const getJugadoresAPI = async () => {
-		let p = await getPlantilla().then((res) => {
+		await getPlantilla().then((res) => {
 			setPlantilla(res[0]);
 		});
 	};
@@ -38,67 +54,54 @@ export function VistaPlantilla(props: any): JSX.Element {
 				<IonContent>
 					<IonRow>
 						<MenuLateral />
-						<div
-							style={{
-								width: 600,
-								height: 600,
-								backgroundImage:
-									"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
-								backgroundSize: "cover",
-								marginBottom: 25,
-							}}
-						>
+						<IonCol>
+							<div>
+								<IonList style={{ width: 200 }}>
+									<IonSelect
+										interface="popover"
+										placeholder="4-3-3"
+										onIonChange={(e) => {
+											let f: Formacion = {
+												portero: 1,
+												defensa: e.detail.value.split("-")[0],
+												medio: e.detail.value.split("-")[1],
+												delantero: e.detail.value.split("-")[2],
+											};
+											setFormacion(f);
+										}}
+									>
+										<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
+										<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
+										<IonSelectOption value="5-2-3">5-2-3</IonSelectOption>
+										<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
+										<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
+										<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
+										<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
+										<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
+									</IonSelect>
+								</IonList>
+							</div>
 							<IonRow>
-								<IonCol offset="5">
-									<CartaJugador id={plantilla?.jugadores[10] || "0"} />
-								</IonCol>
+								<div
+									style={{
+										width: 650,
+										height: 600,
+										backgroundImage:
+											"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
+										backgroundSize: "cover",
+										marginBottom: 25,
+									}}
+								>
+									<Alineacion plantilla={plantilla} formacion={formacion} />
+								</div>
+
+								<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
+									<ListaJugadores
+										plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
+									/>
+								</div>
 							</IonRow>
-							<IonRow>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[9] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[8] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[7] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[6] || "0"} />
-								</IonCol>
-							</IonRow>
-							<IonRow>
-								<IonCol offset="1">
-									<CartaJugador id={plantilla?.jugadores[5] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[4] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[3] || "0"} />
-								</IonCol>
-							</IonRow>
-							<IonRow>
-								<IonCol offset="1">
-									<CartaJugador id={plantilla?.jugadores[2] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[1] || "0"} />
-								</IonCol>
-								<IonCol>
-									<CartaJugador id={plantilla?.jugadores[0] || "0"} />
-								</IonCol>
-							</IonRow>
-						</div>
-						<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
-							{plantilla?.jugadores[0] === "3306" ? (
-								<ListaJugadores
-									plantilla={plantilla?.jugadores ? plantilla.jugadores : []}
-								/>
-							) : (
-								<></>
-							)}
-						</div>
+						</IonCol>
 					</IonRow>
 				</IonContent>
 			</IonPage>

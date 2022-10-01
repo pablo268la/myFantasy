@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { modeloAlineacionJugador } from "../model/alineacionJugador";
 import { modeloJugador } from "../model/jugador";
 import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
 
@@ -21,4 +22,7 @@ export const getJugador: RequestHandler = async (req, res) => {
 };
 export const getPlantilla: RequestHandler = async (req, res) => {
 	res.json(await modeloPlantillaUsuario.find());
+};
+export const getAlineacionJugador: RequestHandler = async (req, res) => {
+	res.json(await modeloAlineacionJugador.find());
 };

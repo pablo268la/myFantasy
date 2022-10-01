@@ -17,7 +17,22 @@ export const alineacionSemana = new Schema<IAlineacionSemana>(
 			type: Number,
 			required: true,
 		},
-		jugadores: {
+		portero: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		defensas: {
+			type: [String],
+			required: true,
+			trim: true,
+		},
+		medios: {
+			type: [String],
+			required: true,
+			trim: true,
+		},
+		delanteros: {
 			type: [String],
 			required: true,
 			trim: true,
@@ -52,7 +67,10 @@ export interface IAlineacionSemana {
 	_id: string;
 	idUsuario: string;
 	jornada: number;
-	jugadores: Types.DocumentArray<string>;
+	portero: string;
+	defensas: Types.DocumentArray<string>;
+	medios: Types.DocumentArray<string>;
+	delanteros: Types.DocumentArray<string>;
 	formacion: string;
 	puntuacion: number;
 }

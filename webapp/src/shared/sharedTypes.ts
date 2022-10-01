@@ -23,3 +23,15 @@ export type PlantillaUsuario = {
 	valor: number;
 	puntos: number;
 };
+
+export type AlineacionJugador = {
+	_id: string;
+	idUsuario: string;
+	portero: string;
+	defensas: string[];
+	medios: string[];
+	delanteros: string[];
+	formacion: string;
+	guardadoEn: string;
+	idLiga: string;
+};

@@ -23,7 +23,7 @@ export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 			required: true,
 			trim: true,
 		},
-		idAlineacion: {
+		idAlineacionJugador: {
 			type: String,
 			required: true,
 			trim: true,
@@ -53,7 +53,7 @@ export interface IPlantillaUsuario {
 	idUsuario: string;
 	idLiga: string;
 	jugadores: Types.DocumentArray<string>;
-	idAlineacion: string;
+	idAlineacionJugador: string;
 	idAlineacionesJornada: Types.DocumentArray<string>;
 	valor: number;
 	puntos: number;
