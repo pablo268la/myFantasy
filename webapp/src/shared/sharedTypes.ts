@@ -18,8 +18,8 @@ export type PlantillaUsuario = {
 	idUsuario: string;
 	idLiga: string;
 	jugadores: string[];
-	idAlineacion: string;
-	idAlineacionesJornada: string[];
+	alineacion: AlineacionJugador;
+	alineacionesJornada: AlineacionJugador[];
 	valor: number;
 	puntos: number;
 };

@@ -1,7 +1,5 @@
 import { IonRow } from "@ionic/react";
-import { useEffect, useState } from "react";
-import { getAlineacionJugador } from "../api/api";
-import { AlineacionJugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { PlantillaUsuario } from "../shared/sharedTypes";
 import { CartaJugador } from "./CartaJugador";
 import { Formacion } from "./VistaPlantilla";
 
@@ -11,41 +9,35 @@ type AlineacionProps = {
 };
 
 export function Alineacion(props: AlineacionProps): JSX.Element {
-	const [alineacionJugador, setAlineacionJugador] =
-		useState<AlineacionJugador>();
-
-	const getAPI = async () => {
-		await getAlineacionJugador().then((res) => {
-			setAlineacionJugador(res[0]);
-		});
-		console.log(alineacionJugador);
-	};
-
-	useEffect(() => {
-		getAPI();
-	}, []);
-
+	console.log(props.formacion);
 	return (
 		<>
 			<IonRow style={{ justifyContent: "center" }}>
-				{props.plantilla?.jugadores.slice(0, 1).map((id) => (
-					<CartaJugador key={id} id={id} />
-				))}
+				<CartaJugador
+					key={props.plantilla.alineacion.portero}
+					id={props.plantilla.alineacion.portero}
+				/>
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{alineacionJugador?.defensas.map((id) => (
-					<CartaJugador key={id} id={id} />
-				))}
+				{props.plantilla.alineacion.defensas
+					.slice(0, props.formacion.defensa)
+					.map((id) => (
+						<CartaJugador key={id} id={id} />
+					))}
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{alineacionJugador?.medios.map((id) => (
-					<CartaJugador key={id} id={id} />
-				))}
+				{props.plantilla.alineacion.medios
+					.slice(0, props.formacion.medio)
+					.map((id) => (
+						<CartaJugador key={id} id={id} />
+					))}
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{alineacionJugador?.delanteros.map((id) => (
-					<CartaJugador key={id} id={id} />
-				))}
+				{props.plantilla.alineacion.delanteros
+					.slice(0, props.formacion.delantero)
+					.map((id) => (
+						<CartaJugador key={id} id={id} />
+					))}
 			</IonRow>
 		</>
 	);

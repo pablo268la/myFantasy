@@ -8,11 +8,6 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 			trim: true,
 			unique: true,
 		},
-		idUsuario: {
-			type: String,
-			required: true,
-			trim: true,
-		},
 		portero: {
 			type: String,
 			required: true,
@@ -40,23 +35,12 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 			enum: [
 				"5-4-1",
 				"5-3-2",
-				"5-2-3",
 				"4-5-1",
 				"4-4-2",
 				"4-3-3",
 				"3-5-2",
 				"3-4-3",
 			],
-		},
-		guardadoEn: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		idLiga: {
-			type: String,
-			required: true,
-			trim: true,
 		},
 	},
 	{
@@ -67,14 +51,11 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 
 export interface IAlineacionJugador {
 	_id: string;
-	idUsuario: string;
 	portero: string;
 	defensas: Types.DocumentArray<string>;
 	medios: Types.DocumentArray<string>;
 	delanteros: Types.DocumentArray<string>;
 	formacion: string;
-	guardadoEn: string;
-	idLiga: string;
 }
 
 alineacionJugador.index({ _id: 1 }, { unique: true });

@@ -36,6 +36,12 @@ export function VistaPlantilla(props: any): JSX.Element {
 	const getJugadoresAPI = async () => {
 		await getPlantilla().then((res) => {
 			setPlantilla(res[0]);
+			setFormacion({
+				portero: 1,
+				defensa: Number(res[0].alineacion.formacion.split("-")[0]),
+				medio: Number(res[0].alineacion.formacion.split("-")[1]),
+				delantero: Number(res[0].alineacion.formacion.split("-")[2]),
+			});
 		});
 	};
 
@@ -72,7 +78,6 @@ export function VistaPlantilla(props: any): JSX.Element {
 									>
 										<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
 										<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
-										<IonSelectOption value="5-2-3">5-2-3</IonSelectOption>
 										<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
 										<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
 										<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
