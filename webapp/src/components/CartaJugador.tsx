@@ -7,11 +7,11 @@ import {
 	IonText
 } from "@ionic/react";
 
-import { Jugador } from "../shared/sharedTypes";
+import { JugadorTitular } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
 
 type CartaJugadorProps = {
-	jugador?: Jugador;
+	jugador?: JugadorTitular;
 	setJugadorPulsado: (idJugador: string) => void;
 	posicion: string;
 };
@@ -20,7 +20,7 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	return props.jugador !== undefined ? (
 		<IonCard
 			onClick={() => {
-				if (props.jugador) props.setJugadorPulsado(props.jugador._id);
+				if (props.jugador) props.setJugadorPulsado(props.jugador.jugador._id);
 			}}
 			style={{ width: 100 }}
 		>
@@ -39,20 +39,20 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 					>
 						<IonCol>
 							<div style={{ marginTop: -18 }}>
-								<IonImg src={props.jugador.foto} />
+								<IonImg src={props.jugador.jugador.foto} />
 							</div>
 						</IonCol>
 						<div style={{ width: 20, height: 20 }}>
 							<IonImg
 								src={
 									"https://api.sofascore.app/api/v1/team/" +
-									props.jugador?.idEquipo +
+									props.jugador.jugador.idEquipo +
 									"/image"
 								}
 							/>
 
 							<div style={{ marginTop: 30 }}>
-								{getIconoEstado(props.jugador)}
+								{getIconoEstado(props.jugador.jugador)}
 							</div>
 						</div>
 					</IonRow>
@@ -65,7 +65,7 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 						<IonText
 							style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
 						>
-							{props.jugador.nombre}
+							{props.jugador.jugador.nombre}
 						</IonText>
 					</IonCol>
 				</IonRow>

@@ -11,16 +11,25 @@ import {
 	IonText
 } from "@ionic/react";
 
-import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { JugadorTitular } from "../shared/sharedTypes";
 import { getIconoEstado, ponerPuntosAValor, urlBackground } from "./helpers";
 import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
+import { Formacion } from "./VistaPlantilla";
 
 type CartaJugadorProps = {
-	jugador?: Jugador;
+	jugador?: JugadorTitular;
 	esParaCambio: boolean;
-	plantilla: PlantillaUsuario;
-	jugadores: Jugador[];
 	posicion?: string;
+	porteros: JugadorTitular[];
+	defensas: JugadorTitular[];
+	mediocentros: JugadorTitular[];
+	delanteros: JugadorTitular[];
+	formacion: Formacion;
+	cambiarTitulares: (
+		lista: JugadorTitular[],
+		idIn: string,
+		idOut: string
+	) => void;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
@@ -48,7 +57,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 												marginLeft: -8,
 											}}
 										>
-											<IonImg src={jugador.foto} />
+											<IonImg src={jugador.jugador.foto} />
 										</div>
 									</IonCol>
 									<IonCol>
@@ -56,7 +65,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 											<IonImg
 												src={
 													"https://api.sofascore.app/api/v1/team/" +
-													jugador?.idEquipo +
+													jugador.jugador.idEquipo +
 													"/image"
 												}
 											/>
@@ -69,19 +78,19 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 					<IonCol style={{ backgroundColor: "primary" }}>
 						<IonItem color={"primary"}>
 							<IonBadge color={"secondary"}>
-								{jugador.posicion.substring(0, 3).toUpperCase()}
+								{jugador.jugador.posicion.substring(0, 3).toUpperCase()}
 							</IonBadge>
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{jugador.nombre}
+								{jugador.jugador.nombre}
 							</IonLabel>
 							<IonLabel slot="end">PTS:</IonLabel>
-							<IonText slot="end">{jugador.puntos}</IonText>
+							<IonText slot="end">{jugador.jugador.puntos}</IonText>
 						</IonItem>
 
 						<IonItem lines="none" color={"primary"}>
-							{getIconoEstado(jugador)}
+							{getIconoEstado(jugador.jugador)}
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{ponerPuntosAValor(jugador.valor)}
+								{ponerPuntosAValor(jugador.jugador.valor)}
 							</IonLabel>
 							<IonButton color="secondary" slot="end">
 								ACCIONES
@@ -94,11 +103,23 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 			{
 				<>
 					{renderCambios(
+						jugador.jugador._id,
 						"Quitar de la alineación",
 						props.esParaCambio,
-						props.plantilla,
-						jugador.posicion,
-						props.jugadores
+						jugador.jugador.posicion,
+						props.porteros,
+						props.defensas,
+						props.mediocentros,
+						props.delanteros,
+						props.formacion,
+						props.cambiarTitulares,
+						() => {
+							props.cambiarTitulares(
+								getListaPosicion(jugador.jugador.posicion),
+								"",
+								jugador.jugador._id
+							);
+						}
 					)}
 				</>
 			}
@@ -106,33 +127,69 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	) : (
 		<>
 			{renderCambios(
+				"",
 				"Dejar posicion vacia",
 				props.esParaCambio,
-				props.plantilla,
 				props.posicion || "",
-				props.jugadores
+				props.porteros,
+				props.defensas,
+				props.mediocentros,
+				props.delanteros,
+				props.formacion,
+				props.cambiarTitulares,
+				() => {}
 			)}
 		</>
 	);
+
+	function getListaPosicion(pos: string): JugadorTitular[] {
+		switch (pos) {
+			case "Portero":
+				return props.porteros;
+			case "Defensa":
+				return props.defensas;
+			case "Mediocentro":
+				return props.mediocentros;
+			case "Delantero":
+				return props.delanteros;
+			default:
+				return [];
+		}
+	}
 }
 
 function renderCambios(
+	idJugador: string,
 	texto: string,
 	esParaCambio: boolean,
-	plantilla: PlantillaUsuario,
 	posicion: string,
-	jugadores: Jugador[]
+	porteros: JugadorTitular[],
+	defensas: JugadorTitular[],
+	mediocentros: JugadorTitular[],
+	delanteros: JugadorTitular[],
+	formacion: Formacion,
+	cambiarTitulares: (
+		lista: JugadorTitular[],
+		idIn: string,
+		idOut: string
+	) => void,
+	onclick: () => void
 ) {
 	if (esParaCambio)
 		return (
 			<>
-				<IonButton shape="round" expand="block">
+				<IonButton onClick={onclick} shape="round" expand="block">
 					{texto}
 				</IonButton>
 				<ListaJugadoresCambio
-					plantilla={plantilla}
+					idJugador={idJugador}
 					posicion={posicion}
-					jugadores={jugadores}
+					porteros={porteros}
+					defensas={defensas}
+					mediocentros={mediocentros}
+					delanteros={delanteros}
+					formacion={formacion}
+					cambiarTitulares={cambiarTitulares}
 				/>
 			</>
 		);

@@ -17,8 +17,7 @@ export type PlantillaUsuario = {
 	_id: string;
 	idUsuario: string;
 	idLiga: string;
-	jugadores: string[];
-	alineacion: AlineacionJugador;
+	alineacionJugador: AlineacionJugador;
 	alineacionesJornada: AlineacionJugador[];
 	valor: number;
 	puntos: number;
@@ -27,11 +26,21 @@ export type PlantillaUsuario = {
 export type AlineacionJugador = {
 	_id: string;
 	idUsuario: string;
-	portero: string;
-	defensas: string[];
-	medios: string[];
-	delanteros: string[];
+	porteros: JugadorEnPlantilla[];
+	defensas: JugadorEnPlantilla[];
+	medios: JugadorEnPlantilla[];
+	delanteros: JugadorEnPlantilla[];
 	formacion: string;
 	guardadoEn: string;
 	idLiga: string;
+};
+
+export type JugadorEnPlantilla = {
+	idJugador: string;
+	enPlantilla: boolean;
+};
+
+export type JugadorTitular = {
+	jugador: Jugador;
+	titular: boolean;
 };

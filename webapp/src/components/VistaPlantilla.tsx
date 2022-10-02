@@ -12,7 +12,11 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadorById, getPlantilla } from "../api/api";
-import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
+import {
+	Jugador,
+	JugadorTitular,
+	PlantillaUsuario
+} from "../shared/sharedTypes";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { ListaJugadores } from "./ListaJugadores";
@@ -34,7 +38,12 @@ export function VistaPlantilla(props: any): JSX.Element {
 		delantero: 3,
 	});
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
-	const [jugadores, setJugadores] = useState<Jugador[]>([]);
+
+	const [jugadores, setJugadores] = useState<JugadorTitular[]>([]);
+	const [porteros, setPorteros] = useState<JugadorTitular[]>([]);
+	const [defensas, setDefensas] = useState<JugadorTitular[]>([]);
+	const [mediocentros, setMediocentros] = useState<JugadorTitular[]>([]);
+	const [delanteros, setDelanteros] = useState<JugadorTitular[]>([]);
 
 	const cambiarJugador = (idJugador: string) => {
 		if (idJugador === jugadorPulsado) setJugadorPulsado("");
@@ -46,25 +55,125 @@ export function VistaPlantilla(props: any): JSX.Element {
 			setPlantilla(res[0]);
 			setFormacion({
 				portero: 1,
-				defensa: Number(res[0].alineacion.formacion.split("-")[0]),
-				medio: Number(res[0].alineacion.formacion.split("-")[1]),
-				delantero: Number(res[0].alineacion.formacion.split("-")[2]),
+				defensa: Number(res[0].alineacionJugador.formacion.split("-")[0]),
+				medio: Number(res[0].alineacionJugador.formacion.split("-")[1]),
+				delantero: Number(res[0].alineacionJugador.formacion.split("-")[2]),
 			});
 
-			let js: Jugador[] = [];
-			res[0].jugadores.forEach(async (j) => {
-				let jugador = await getJugadorById(j);
-				if (jugadores.filter((jug) => jug._id === jugador._id).length === 0) {
-					js.push(jugador);
-				}
+			let ju: JugadorTitular[] = [];
+			let po: JugadorTitular[] = [];
+			let de: JugadorTitular[] = [];
+			let me: JugadorTitular[] = [];
+			let dl: JugadorTitular[] = [];
 
-				setJugadores(
-					js.filter((element, index) => {
-						return js.indexOf(element) === index;
-					})
-				);
+			res[0].alineacionJugador.porteros.forEach(async (tupple) => {
+				let j = await getJugadorById(tupple.idJugador);
+				po.push({ jugador: j, titular: tupple.enPlantilla });
+
+				ju.push({ jugador: j, titular: tupple.enPlantilla });
+				po.sort(ordenarListaJugadoresPorTitular());
+				setPorteros(po);
 			});
+			res[0].alineacionJugador.defensas.forEach(async (tupple) => {
+				let j = await getJugadorById(tupple.idJugador);
+				de.push({ jugador: j, titular: tupple.enPlantilla });
+				ju.push({ jugador: j, titular: tupple.enPlantilla });
+				de.sort(ordenarListaJugadoresPorTitular());
+				setDefensas(de);
+			});
+			res[0].alineacionJugador.medios.forEach(async (tupple) => {
+				let j = await getJugadorById(tupple.idJugador);
+				me.push({ jugador: j, titular: tupple.enPlantilla });
+				ju.push({ jugador: j, titular: tupple.enPlantilla });
+				me.sort(ordenarListaJugadoresPorTitular());
+				setMediocentros(me);
+			});
+			res[0].alineacionJugador.delanteros.forEach(async (tupple) => {
+				let j = await getJugadorById(tupple.idJugador);
+				dl.push({ jugador: j, titular: tupple.enPlantilla });
+				ju.push({ jugador: j, titular: tupple.enPlantilla });
+				dl.sort(ordenarListaJugadoresPorTitular());
+				setDelanteros(dl);
+			});
+			setJugadores(ju);
 		});
+	};
+
+	const cambiarFormacion = (f: Formacion) => {
+		setFormacion(f);
+		defensas
+			.slice(0, f.defensa)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = true;
+			});
+		defensas
+			.slice(f.defensa)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = false;
+			});
+		setDefensas(defensas);
+
+		mediocentros
+			.slice(0, f.medio)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = true;
+			});
+		mediocentros
+			.slice(f.medio)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = false;
+			});
+		setMediocentros(mediocentros);
+
+		delanteros
+			.slice(0, f.delantero)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = true;
+			});
+		delanteros
+			.slice(f.delantero)
+			.filter((j) => j.titular)
+			.forEach((j) => {
+				j.titular = false;
+			});
+		setDelanteros(delanteros);
+	};
+
+	const cambiarTitulares = (
+		lista: JugadorTitular[],
+		idIn: string,
+		idOut: string
+	) => {
+		let jin = lista.find((j) => j.jugador._id === idIn);
+		let jout = lista.find((j) => j.jugador._id === idOut);
+		if (jin) {
+			jin.titular = !jin.titular;
+		}
+		if (jout) {
+			jout.titular = !jout.titular;
+		}
+
+		switch (lista[0].jugador.posicion) {
+			case "Portero":
+				setPorteros(lista.sort(ordenarListaJugadoresPorTitular()));
+				break;
+			case "Defensa":
+				setDefensas(lista.sort(ordenarListaJugadoresPorTitular()));
+				break;
+			case "Mediocentro":
+				setMediocentros(lista.sort(ordenarListaJugadoresPorTitular()));
+				break;
+			case "Delantero":
+				setDelanteros(lista.sort(ordenarListaJugadoresPorTitular()));
+				break;
+		}
+
+		setJugadorPulsado("");
 	};
 
 	useEffect(() => {
@@ -101,7 +210,7 @@ export function VistaPlantilla(props: any): JSX.Element {
 												medio: e.detail.value.split("-")[1],
 												delantero: e.detail.value.split("-")[2],
 											};
-											setFormacion(f);
+											cambiarFormacion(f);
 										}}
 									>
 										<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
@@ -126,29 +235,39 @@ export function VistaPlantilla(props: any): JSX.Element {
 									}}
 								>
 									<Alineacion
-										plantilla={plantilla}
 										formacion={formacion}
 										setJugadorPulsado={cambiarJugador}
-										jugadores={jugadores}
+										porteros={porteros}
+										defensas={defensas}
+										mediocentros={mediocentros}
+										delanteros={delanteros}
 									/>
 								</div>
 
 								<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
 									{jugadorPulsado === "" ? (
 										<ListaJugadores
-											plantilla={plantilla}
-											jugadores={jugadores}
+											porteros={porteros}
+											defensas={defensas}
+											mediocentros={mediocentros}
+											delanteros={delanteros}
+											formacion={formacion}
+											cambiarTitulares={cambiarTitulares}
 										/>
 									) : (
 										<>
 											<CartaDetallesJugador
 												jugador={jugadores.find(
-													(j) => j._id === jugadorPulsado
+													(j) => j.jugador._id === jugadorPulsado
 												)}
 												esParaCambio={true}
-												plantilla={plantilla}
-												jugadores={jugadores}
 												posicion={jugadorPulsado}
+												porteros={porteros}
+												defensas={defensas}
+												mediocentros={mediocentros}
+												delanteros={delanteros}
+												formacion={formacion}
+												cambiarTitulares={cambiarTitulares}
 											/>
 										</>
 									)}
@@ -162,4 +281,23 @@ export function VistaPlantilla(props: any): JSX.Element {
 	) : (
 		<></>
 	);
+}
+
+export function eliminarDuplicados(
+	js: Jugador[]
+): (value: Jugador, index: number, array: Jugador[]) => unknown {
+	return (element, index) => {
+		return js.indexOf(element) === index;
+	};
+}
+
+export function ordenarListaJugadoresPorTitular(): (
+	a: JugadorTitular,
+	b: JugadorTitular
+) => number {
+	return (a, b) => {
+		if (a.titular) return -1;
+		else if (b.titular) return 1;
+		else return 0;
+	};
 }

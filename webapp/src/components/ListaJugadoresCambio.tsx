@@ -1,41 +1,51 @@
 import { IonButton, IonCol, IonContent, IonRow } from "@ionic/react";
-import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { JugadorTitular } from "../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
+import { Formacion } from "./VistaPlantilla";
 
-type ListaJugadoresProps = {
-	plantilla: PlantillaUsuario;
+type ListaJugadoresCambioProps = {
+	idJugador: string;
 	posicion: string;
-	jugadores: Jugador[];
+	porteros: JugadorTitular[];
+	defensas: JugadorTitular[];
+	mediocentros: JugadorTitular[];
+	delanteros: JugadorTitular[];
+	formacion: Formacion;
+	cambiarTitulares: (
+		lista: JugadorTitular[],
+		idIn: string,
+		idOut: string
+	) => void;
 };
 
-export function ListaJugadoresCambio(props: ListaJugadoresProps): JSX.Element {
-	function getJugadoresACambiar(posicion: string): Jugador[] {
-		switch (props.posicion) {
+export function ListaJugadoresCambio(
+	props: ListaJugadoresCambioProps
+): JSX.Element {
+	function getJugadoresACambiar(posicion: string): JugadorTitular[] {
+		switch (posicion) {
 			case "Portero":
-				return props.jugadores.filter(
-					(jugador) =>
-						jugador.posicion === "Portero" &&
-						jugador._id !== props.plantilla.alineacion.portero
-				);
+				return props.porteros.slice(1);
 			case "Defensa":
-				return props.jugadores.filter(
-					(jugador) =>
-						jugador.posicion === "Defensa" &&
-						!props.plantilla.alineacion.defensas.includes(jugador._id)
-				);
+				return props.defensas.filter((j) => !j.titular);
 			case "Mediocentro":
-				return props.jugadores.filter(
-					(jugador) =>
-						jugador.posicion === "Mediocentro" &&
-						!props.plantilla.alineacion.medios.includes(jugador._id)
-				);
+				return props.mediocentros.filter((j) => !j.titular);
 			case "Delantero":
-				return props.jugadores.filter(
-					(jugador) =>
-						jugador.posicion === "Delantero" &&
-						!props.plantilla.alineacion.delanteros.includes(jugador._id)
-				);
+				return props.delanteros.filter((j) => !j.titular);
+			default:
+				return [];
+		}
+	}
+	function getLista(posicion: string): JugadorTitular[] {
+		switch (posicion) {
+			case "Portero":
+				return props.porteros;
+			case "Defensa":
+				return props.defensas;
+			case "Mediocentro":
+				return props.mediocentros;
+			case "Delantero":
+				return props.delanteros;
 			default:
 				return [];
 		}
@@ -45,16 +55,30 @@ export function ListaJugadoresCambio(props: ListaJugadoresProps): JSX.Element {
 		<>
 			<IonContent>
 				{getJugadoresACambiar(props.posicion).map((j) => (
-					<IonRow key={j._id}>
+					<IonRow key={j.jugador._id}>
 						<IonCol>
 							<CartaDetallesJugador
-								key={j._id}
+								key={j.jugador._id}
 								jugador={j}
 								esParaCambio={false}
-								plantilla={props.plantilla}
-								jugadores={props.jugadores}
+								porteros={props.porteros}
+								defensas={props.defensas}
+								mediocentros={props.mediocentros}
+								delanteros={props.delanteros}
+								formacion={props.formacion}
+								cambiarTitulares={props.cambiarTitulares}
 							/>
-							<IonButton>Seleccionar</IonButton>
+							<IonButton
+								onClick={() =>
+									props.cambiarTitulares(
+										getLista(props.posicion),
+										j.jugador._id,
+										props.idJugador
+									)
+								}
+							>
+								Seleccionar
+							</IonButton>
 						</IonCol>
 					</IonRow>
 				))}

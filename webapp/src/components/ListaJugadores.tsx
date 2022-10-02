@@ -1,53 +1,51 @@
 import { IonCol, IonContent, IonRow } from "@ionic/react";
-import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { JugadorTitular } from "../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
+import { Formacion } from "./VistaPlantilla";
 
 type ListaJugadoresProps = {
-	plantilla: PlantillaUsuario;
-	jugadores: Jugador[];
+	porteros: JugadorTitular[];
+	defensas: JugadorTitular[];
+	mediocentros: JugadorTitular[];
+	delanteros: JugadorTitular[];
+	formacion: Formacion;
+	cambiarTitulares: (
+		lista: JugadorTitular[],
+		idIn: string,
+		idOut: string
+	) => void;
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
-	const plantilla: PlantillaUsuario = props.plantilla;
-
 	return (
 		<IonContent>
-			{props.jugadores.sort(ordenarListaJugadoresPorPosicion()).map((j) => (
-				<IonRow key={j._id}>
-					<IonCol>
-						<CartaDetallesJugador
-							jugador={j}
-							esParaCambio={false}
-							plantilla={props.plantilla}
-							jugadores={props.jugadores}
-						/>
-					</IonCol>
-				</IonRow>
-			))}
+			{props.porteros.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.defensas.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.mediocentros.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.delanteros.map((j) => crearCartaDetallesJugador(j, props))}
 		</IonContent>
 	);
 }
 
-export function ordenarListaJugadoresPorPosicion():
-	| ((a: Jugador, b: Jugador) => number)
-	| undefined {
-	return (a, b) => {
-		if (a.posicion === "Portero") return -1;
-		else if (
-			a.posicion === "Defensa" &&
-			(b.posicion === "Defensa" ||
-				b.posicion === "Mediocentro" ||
-				b.posicion === "Delantero")
-		)
-			return -1;
-		else if (
-			a.posicion === "Mediocentro" &&
-			(b.posicion === "Mediocentro" || b.posicion === "Delantero")
-		)
-			return -1;
-		else if (a.posicion === "Delantero" && b.posicion === "Delantero")
-			return -1;
-		else return 1;
-	};
+function crearCartaDetallesJugador(
+	j: JugadorTitular,
+	props: ListaJugadoresProps
+): JSX.Element {
+	return (
+		<IonRow key={j.jugador._id}>
+			<IonCol>
+				<CartaDetallesJugador
+					jugador={j}
+					esParaCambio={false}
+					porteros={props.porteros}
+					defensas={props.defensas}
+					mediocentros={props.mediocentros}
+					delanteros={props.delanteros}
+					formacion={props.formacion}
+					cambiarTitulares={props.cambiarTitulares}
+				/>
+			</IonCol>
+		</IonRow>
+	);
 }

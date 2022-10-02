@@ -1,64 +1,60 @@
 import { IonRow } from "@ionic/react";
-import { Jugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { JugadorTitular } from "../shared/sharedTypes";
 import { CartaJugador } from "./CartaJugador";
 import { Formacion } from "./VistaPlantilla";
 
 type AlineacionProps = {
-	plantilla: PlantillaUsuario;
 	formacion: Formacion;
 	setJugadorPulsado: (idJugador: string) => void;
-	jugadores: Jugador[];
+	porteros: JugadorTitular[];
+	defensas: JugadorTitular[];
+	mediocentros: JugadorTitular[];
+	delanteros: JugadorTitular[];
 };
 
 export function Alineacion(props: AlineacionProps): JSX.Element {
 	return (
 		<>
 			<IonRow style={{ justifyContent: "center" }}>
-				<CartaJugador
-					key={props.plantilla.alineacion.portero}
-					jugador={props.jugadores.find(
-						(j) => j._id === props.plantilla.alineacion.portero
-					)}
-					setJugadorPulsado={props.setJugadorPulsado}
-					posicion={"Portero"}
-				/>
+				{props.porteros
+					.slice(0, 1)
+					.map((jugador) => crearCartaJugador(jugador, props, "Portero"))}
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.plantilla.alineacion.defensas
+				{props.defensas
 					.slice(0, props.formacion.defensa)
-					.map((id) => (
-						<CartaJugador
-							key={id}
-							jugador={props.jugadores.find((j) => j._id === id)}
-							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"Defensa"}
-						/>
-					))}
+					.map((jugador) => crearCartaJugador(jugador, props, "Defensa"))}
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.plantilla.alineacion.medios
+				{props.mediocentros
 					.slice(0, props.formacion.medio)
-					.map((id) => (
-						<CartaJugador
-							key={id}
-							jugador={props.jugadores.find((j) => j._id === id)}
-							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"Mediocentro"}
-						/>
-					))}
+					.map((jugador) => crearCartaJugador(jugador, props, "Mediocentro"))}
 			</IonRow>
 			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.plantilla.alineacion.delanteros
+				{props.delanteros
 					.slice(0, props.formacion.delantero)
-					.map((id) => (
-						<CartaJugador
-							key={id}
-							jugador={props.jugadores.find((j) => j._id === id)}
-							setJugadorPulsado={props.setJugadorPulsado}
-							posicion={"Delantero"}
-						/>
-					))}
+					.map((jugador) => crearCartaJugador(jugador, props, "Delantero"))}
 			</IonRow>
 		</>
+	);
+}
+function crearCartaJugador(
+	jugador: JugadorTitular,
+	props: AlineacionProps,
+	posicion: string
+): JSX.Element {
+	return jugador.titular ? (
+		<CartaJugador
+			key={jugador.jugador._id}
+			jugador={jugador}
+			setJugadorPulsado={props.setJugadorPulsado}
+			posicion={posicion}
+		/>
+	) : (
+		<CartaJugador
+			key={jugador.jugador._id}
+			setJugadorPulsado={props.setJugadorPulsado}
+			posicion={posicion}
+		/>
 	);
 }

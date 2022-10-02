@@ -19,11 +19,6 @@ export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 			required: true,
 			trim: true,
 		},
-		jugadores: {
-			type: [String],
-			required: true,
-			trim: true,
-		},
 		alineacionJugador: {
 			type: alineacionJugador,
 			required: true,
@@ -53,7 +48,6 @@ export interface IPlantillaUsuario {
 	_id: string;
 	idUsuario: string;
 	idLiga: string;
-	jugadores: Types.DocumentArray<string>;
 	alineacionJugador: IAlineacionJugador;
 	alineacionesJornada: Types.DocumentArray<IAlineacionJugador>;
 	valor: number;
