@@ -57,6 +57,10 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 			partido = await modeloPartido.create(partido);
 		}
 
+		/*if (partido !== null) {
+			partido = await getAlineacionesDePartido(partido);
+		}*/
+
 		if (partido !== null) {
 			result.push(partido);
 		}

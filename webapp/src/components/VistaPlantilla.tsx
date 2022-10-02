@@ -1,4 +1,5 @@
 import {
+	IonButton,
 	IonCol,
 	IonContent,
 	IonHeader,
@@ -38,6 +39,7 @@ export function VistaPlantilla(props: any): JSX.Element {
 		delantero: 3,
 	});
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
+	const [cambioAlineacion, setCambioAlineacion] = useState<boolean>(false);
 
 	const [jugadores, setJugadores] = useState<JugadorTitular[]>([]);
 	const [porteros, setPorteros] = useState<JugadorTitular[]>([]);
@@ -174,6 +176,7 @@ export function VistaPlantilla(props: any): JSX.Element {
 		}
 
 		setJugadorPulsado("");
+		setCambioAlineacion(true);
 	};
 
 	useEffect(() => {
@@ -192,36 +195,43 @@ export function VistaPlantilla(props: any): JSX.Element {
 					<IonRow>
 						<MenuLateral />
 						<IonCol>
-							<div>
-								<IonList style={{ width: 200 }}>
-									<IonSelect
-										interface="popover"
-										placeholder={
-											formacion.defensa +
-											"-" +
-											formacion.medio +
-											"-" +
-											formacion.delantero
-										}
-										onIonChange={(e) => {
-											let f: Formacion = {
-												portero: 1,
-												defensa: e.detail.value.split("-")[0],
-												medio: e.detail.value.split("-")[1],
-												delantero: e.detail.value.split("-")[2],
-											};
-											cambiarFormacion(f);
-										}}
-									>
-										<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
-										<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
-										<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
-										<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
-										<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
-										<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
-										<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
-									</IonSelect>
-								</IonList>
+							<div style={{ width: 650 }}>
+								<IonRow style={{ justifyContent: "space-between" }}>
+									<IonList style={{ width: 200 }}>
+										<IonSelect
+											interface="popover"
+											placeholder={
+												formacion.defensa +
+												"-" +
+												formacion.medio +
+												"-" +
+												formacion.delantero
+											}
+											onIonChange={(e) => {
+												let f: Formacion = {
+													portero: 1,
+													defensa: e.detail.value.split("-")[0],
+													medio: e.detail.value.split("-")[1],
+													delantero: e.detail.value.split("-")[2],
+												};
+												cambiarFormacion(f);
+											}}
+										>
+											<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
+											<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
+											<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
+											<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
+											<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
+											<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
+											<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
+										</IonSelect>
+									</IonList>
+									{cambioAlineacion ? (
+										<IonButton>Guardar cambios</IonButton>
+									) : (
+										<></>
+									)}
+								</IonRow>
 							</div>
 							<IonRow>
 								<div
@@ -296,8 +306,9 @@ export function ordenarListaJugadoresPorTitular(): (
 	b: JugadorTitular
 ) => number {
 	return (a, b) => {
+		if (a.titular && b.titular) return 0;
 		if (a.titular) return -1;
-		else if (b.titular) return 1;
-		else return 0;
+		if (b.titular) return 1;
+		return 0;
 	};
 }
