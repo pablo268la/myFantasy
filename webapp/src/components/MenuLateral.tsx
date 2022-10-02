@@ -7,10 +7,7 @@ export function MenuLateral(): JSX.Element {
 		<>
 			<IonList style={{ width: "10%", marginRight: "3%" }}>
 				<IonButton
-					onClick={(e) => {
-						e.preventDefault();
-						router.push("/clasificacion");
-					}}
+					href="/clasificacion"
 					color="dark"
 					expand="block"
 					fill="clear"

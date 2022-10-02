@@ -53,8 +53,7 @@ export function VistaPlantilla(props: any): JSX.Element {
 	};
 
 	const getJugadoresAPI = async () => {
-		await getPlantilla().then((res) => {
-			setPlantilla(res[0]);
+		await getPlantilla().then(async (res) => {
 			setFormacion({
 				portero: 1,
 				defensa: Number(res[0].alineacionJugador.formacion.split("-")[0]),
@@ -68,14 +67,6 @@ export function VistaPlantilla(props: any): JSX.Element {
 			let me: JugadorTitular[] = [];
 			let dl: JugadorTitular[] = [];
 
-			res[0].alineacionJugador.porteros.forEach(async (tupple) => {
-				let j = await getJugadorById(tupple.idJugador);
-				po.push({ jugador: j, titular: tupple.enPlantilla });
-
-				ju.push({ jugador: j, titular: tupple.enPlantilla });
-				po.sort(ordenarListaJugadoresPorTitular());
-				setPorteros(po);
-			});
 			res[0].alineacionJugador.defensas.forEach(async (tupple) => {
 				let j = await getJugadorById(tupple.idJugador);
 				de.push({ jugador: j, titular: tupple.enPlantilla });
@@ -97,7 +88,17 @@ export function VistaPlantilla(props: any): JSX.Element {
 				dl.sort(ordenarListaJugadoresPorTitular());
 				setDelanteros(dl);
 			});
+			res[0].alineacionJugador.porteros.forEach(async (tupple) => {
+				let j = await getJugadorById(tupple.idJugador);
+				po.push({ jugador: j, titular: tupple.enPlantilla });
+
+				ju.push({ jugador: j, titular: tupple.enPlantilla });
+				po.sort(ordenarListaJugadoresPorTitular());
+				setPorteros(po);
+			});
 			setJugadores(ju);
+			await new Promise((f) => setTimeout(f, 2000));
+			setPlantilla(res[0]);
 		});
 	};
 

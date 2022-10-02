@@ -20,24 +20,30 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { Clasificacion } from "./components/Clasificacion";
-import { VistaPlantilla } from "./components/VistaPlantilla";
+import { Home } from "./components/Home";
+import {
+	VistaPlantilla
+} from "./components/VistaPlantilla";
 import "./theme/variables.css";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<IonRouterOutlet>
-				<Route path="/plantilla">
-					<VistaPlantilla />
-				</Route>
-				<Route path="/clasificacion">
-					<Clasificacion />
-				</Route>
-			</IonRouterOutlet>
-		</IonReactRouter>
-	</IonApp>
-);
-
-export default App;
+export default function App(): JSX.Element {
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<Route path="/">
+						<Home />
+					</Route>
+					<Route path="/plantilla">
+						<VistaPlantilla />
+					</Route>
+					<Route path="/clasificacion">
+						<Clasificacion />
+					</Route>
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	);
+}
