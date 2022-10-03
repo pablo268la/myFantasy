@@ -77,7 +77,11 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 					</div>
 					<IonCol style={{ backgroundColor: "primary" }}>
 						<IonItem color={"primary"}>
-							<IonBadge color={"secondary"}>
+							<IonBadge
+								style={{
+									backgroundColor: getColorBadge(jugador.jugador.posicion),
+								}}
+							>
 								{jugador.jugador.posicion.substring(0, 3).toUpperCase()}
 							</IonBadge>
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
@@ -193,4 +197,19 @@ function renderCambios(
 				/>
 			</>
 		);
+}
+
+export function getColorBadge(posicion: string) {
+	switch (posicion) {
+		case "Portero":
+			return "#AA0000";
+		case "Defensa":
+			return "#00AA00";
+		case "Mediocentro":
+			return "#0000AA";
+		case "Delantero":
+			return "#CCAA00";
+		default:
+			return "#111111";
+	}
 }

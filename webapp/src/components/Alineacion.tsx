@@ -1,5 +1,5 @@
 import { IonRow } from "@ionic/react";
-import { JugadorTitular } from "../shared/sharedTypes";
+import { Jugador, JugadorTitular } from "../shared/sharedTypes";
 import { CartaJugador } from "./CartaJugador";
 import { Formacion } from "./VistaPlantilla";
 
@@ -13,6 +13,18 @@ type AlineacionProps = {
 };
 
 export function Alineacion(props: AlineacionProps): JSX.Element {
+	while (props.porteros.length < props.formacion.portero) {
+		props.porteros.push({ jugador: crearJugadorEmpty(), titular: false });
+	}
+	while (props.defensas.length < props.formacion.defensa) {
+		props.defensas.push({ jugador: crearJugadorEmpty(), titular: false });
+	}
+	while (props.mediocentros.length < props.formacion.medio) {
+		props.mediocentros.push({ jugador: crearJugadorEmpty(), titular: false });
+	}
+	while (props.delanteros.length < props.formacion.delantero) {
+		props.delanteros.push({ jugador: crearJugadorEmpty(), titular: false });
+	}
 	return (
 		<>
 			<IonRow style={{ justifyContent: "center" }}>
@@ -25,6 +37,10 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 			<IonRow style={{ justifyContent: "space-around" }}>
 				{props.defensas
 					.slice(0, props.formacion.defensa)
+					.map((jugador) => {
+						console.log(jugador);
+						return jugador;
+					})
 					.map((jugador) =>
 						crearCartaJugador(jugador, props.setJugadorPulsado, "Defensa")
 					)}
@@ -66,4 +82,21 @@ function crearCartaJugador(
 			posicion={posicion}
 		/>
 	);
+}
+
+function crearJugadorEmpty(): Jugador {
+	return {
+		_id: "empty",
+		nombre: "",
+		slug: "",
+		posicion: "",
+		idEquipo: "",
+		valor: 0,
+		puntos: 0,
+		estado: "",
+		foto: "",
+		jugadorAntiguo: {},
+		puntuaciones: [],
+		fantasyMarcaId: "",
+	};
 }

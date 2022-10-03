@@ -20,10 +20,18 @@ type ListaJugadoresProps = {
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 	return (
 		<IonContent>
-			{props.porteros.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.defensas.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.mediocentros.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.delanteros.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.porteros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.defensas
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.mediocentros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.delanteros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
 		</IonContent>
 	);
 }

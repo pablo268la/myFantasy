@@ -25,13 +25,21 @@ export function ListaJugadoresCambio(
 	function getJugadoresACambiar(posicion: string): JugadorTitular[] {
 		switch (posicion) {
 			case "Portero":
-				return props.porteros.slice(1);
+				return props.porteros.filter(
+					(j) => !j.titular && j.jugador._id !== "empty"
+				);
 			case "Defensa":
-				return props.defensas.filter((j) => !j.titular);
+				return props.defensas.filter(
+					(j) => !j.titular && j.jugador._id !== "empty"
+				);
 			case "Mediocentro":
-				return props.mediocentros.filter((j) => !j.titular);
+				return props.mediocentros.filter(
+					(j) => !j.titular && j.jugador._id !== "empty"
+				);
 			case "Delantero":
-				return props.delanteros.filter((j) => !j.titular);
+				return props.delanteros.filter(
+					(j) => !j.titular && j.jugador._id !== "empty"
+				);
 			default:
 				return [];
 		}
