@@ -33,6 +33,7 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 	});
 
 	for (let i = 0; i < partidosJornada.length; i++) {
+		await new Promise((f) => setTimeout(f, 2000));
 		let p = partidosJornada[i];
 		let partido: IPartido | null = new modeloPartido({
 			_id: p.id,
@@ -57,9 +58,9 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 			partido = await modeloPartido.create(partido);
 		}
 
-		/*if (partido !== null) {
+		if (partido !== null) {
 			partido = await getAlineacionesDePartido(partido);
-		}*/
+		}
 
 		if (partido !== null) {
 			result.push(partido);
@@ -84,6 +85,7 @@ async function cogerAlineaciones(idPartido: any): Promise<IPartido | null> {
 	let jugadoresVisitante: any[] = [];
 
 	if (partido !== null) {
+		await new Promise((f) => setTimeout(f, 1000));
 		await axios
 			.get(urlPartido + idPartido + "/lineups")
 			.then(async (response) => {

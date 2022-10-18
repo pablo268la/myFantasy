@@ -2,7 +2,7 @@ import axios from "axios";
 import { RequestHandler } from "express";
 import {
 	createPuntuacionTupple,
-	getPuntosDeJugador
+	getPuntosDeJugador,
 } from "../helpers/puntuacionHelper";
 import { IAlineacion } from "../model/alineacion";
 import { IJugador, modeloJugador } from "../model/jugador";
@@ -13,7 +13,7 @@ import { modelPuntuacionDefensiva } from "../model/puntuacion/puntuacionDefensiv
 import { modelPuntuacionFisica } from "../model/puntuacion/puntuacionFisica";
 import {
 	IPuntuacionJugador,
-	modelPuntuacionJugador
+	modelPuntuacionJugador,
 } from "../model/puntuacion/puntuacionJugador";
 import { modelPuntuacionOfensiva } from "../model/puntuacion/puntuacionOfensiva";
 import { modelPuntuacionPortero } from "../model/puntuacion/puntuacionPortero";
@@ -57,6 +57,7 @@ export async function getPuntosJugadoresPartido(
 	let jugadoresLocal: any[] = [];
 	let jugadoresVisitante: any[] = [];
 	if (partido !== null) {
+		await new Promise((f) => setTimeout(f, 1000));
 		await axios
 			.get(urlPartido + idPartido + "/lineups")
 			.then(async (response) => {
