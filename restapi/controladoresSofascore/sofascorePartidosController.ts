@@ -33,7 +33,7 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 	});
 
 	for (let i = 0; i < partidosJornada.length; i++) {
-		await new Promise((f) => setTimeout(f, 2000));
+		await new Promise((f) => setTimeout(f, 1000));
 		let p = partidosJornada[i];
 		let partido: IPartido | null = new modeloPartido({
 			_id: p.id,
