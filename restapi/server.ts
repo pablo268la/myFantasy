@@ -19,6 +19,8 @@ const app: Application = express();
 
 const connectionString = process.env.MONGO_DB_URI;
 
+const { spawn } = require("child_process");
+
 const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
@@ -54,3 +56,17 @@ mongoose
 	.catch((err: Error) => {
 		console.error(err);
 	});
+
+const python = spawn("python", ["python/env/crawler.py", "arg1", "arg2", "arg3"], {
+	shell: true,
+});
+python.stderr.pipe(process.stdout);
+
+python.stdout.on("data", function (data: any) {
+	console.log("Pipe data from python script ...");
+	console.log(data.toString());
+});
+
+python.on("close", (code: any) => {
+	console.log(`child process close all stdio with code ${code}`);
+});
