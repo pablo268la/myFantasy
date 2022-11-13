@@ -44,3 +44,11 @@ export type JugadorTitular = {
 	jugador: Jugador;
 	titular: boolean;
 };
+
+export type Usuario = {
+	nombre: string;
+	apellido: string;
+	email: string;
+	contraseña: string;
+	ligas: string[];
+}

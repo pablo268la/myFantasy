@@ -7,6 +7,7 @@ import morgan from "morgan";
 import apiEquipos from "./routes/rutasEquipos";
 import apiJugadores from "./routes/rutasJugador";
 import apiSofaScore from "./routes/rutasSofascoreMarca";
+import apiUsuarios from "./routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
 
@@ -33,6 +34,7 @@ app.use(morgan("dev"));
 app.use(apiSofaScore);
 app.use(apiJugadores);
 app.use(apiEquipos);
+app.use(apiUsuarios);
 
 app.use(helmet.hidePoweredBy());
 
@@ -56,7 +58,7 @@ mongoose
 	.catch((err: Error) => {
 		console.error(err);
 	});
-
+/*
 const python = spawn("python", ["python/env/crawler.py", "arg1", "arg2", "arg3"], {
 	shell: true,
 });
@@ -70,3 +72,4 @@ python.stdout.on("data", function (data: any) {
 python.on("close", (code: any) => {
 	console.log(`child process close all stdio with code ${code}`);
 });
+*/
