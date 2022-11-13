@@ -16,10 +16,12 @@ import {
 } from "@ionic/react";
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
+import * as UUID from "uuid";
 import { createUsuario, getUsuario } from "../api/api";
 import { Usuario } from "../shared/sharedTypes";
 
 export function Home(props: any): JSX.Element {
+	const [id, setId] = useState<string>(UUID.v4());
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [repPassword, setRepPassword] = useState<string>("");
@@ -81,7 +83,13 @@ export function Home(props: any): JSX.Element {
 				crearToast("Email o contraseña incorrectos");
 			}
 		} else {
-			setValidated(true);
+			if (usuario !== null) {
+				setValidated(false);
+				console.log(email);
+				crearToast("El email ya está en uso");
+			} else {
+				setValidated(true);
+			}
 		}
 	}
 
@@ -109,6 +117,7 @@ export function Home(props: any): JSX.Element {
 		} else {
 			setUsuario(
 				await createUsuario({
+					id: id,
 					nombre: nombre,
 					email: email,
 					contraseña: password,
@@ -201,7 +210,7 @@ export function Home(props: any): JSX.Element {
 							{validated ? (
 								<IonButton
 									expand="block"
-									href={"/plantilla/" + email}
+									href={"/plantilla/" + id}
 									onClick={() => entrarApp()}
 								>
 									Entrar

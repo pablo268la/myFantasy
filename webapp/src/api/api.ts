@@ -34,7 +34,7 @@ export async function getAlineacionJugador(): Promise<AlineacionJugador[]> {
 }
 
 export async function getUsuario(email: string): Promise<Usuario> {
-	let response = await fetch(apiEndPoint + "/usuario/" + email);
+	let response = await fetch(apiEndPoint + "/eusuario/" + email);
 	return response.json();
 }
 

@@ -1,11 +1,15 @@
 import { IonButton, IonIcon, IonList, useIonRouter } from "@ionic/react";
-import { cart, football, list, people } from "ionicons/icons";
+import { cart, football, home, list, people } from "ionicons/icons";
 
 export function MenuLateral(): JSX.Element {
 	const router = useIonRouter();
 	return (
 		<>
 			<IonList style={{ width: "10%", marginRight: "3%" }}>
+				<IonButton color="dark" expand="block" fill="clear">
+					<IonIcon slot="start" icon={home}></IonIcon>
+					Mis ligas
+				</IonButton>
 				<IonButton
 					href="/clasificacion"
 					color="dark"

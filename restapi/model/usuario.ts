@@ -2,6 +2,12 @@ import { model, Schema, Types } from "mongoose";
 
 export const usuario = new Schema<IUsuario>(
 	{
+		id: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
 		nombre: {
 			type: String,
 			required: true,
@@ -30,6 +36,7 @@ export const usuario = new Schema<IUsuario>(
 );
 
 export interface IUsuario {
+	id: string;
 	nombre: string;
 	email: string;
 	contraseña: string;
