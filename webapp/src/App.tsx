@@ -1,4 +1,4 @@
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Route } from "react-router-dom";
 
@@ -32,17 +32,15 @@ export default function App(): JSX.Element {
 		<GoogleOAuthProvider clientId="829892800883-h5tthfnolflirkj5h6ms387skbrodgdn.apps.googleusercontent.com">
 			<IonApp>
 				<IonReactRouter>
-					<IonRouterOutlet>
-						<Route path="/">
-							<Home />
-						</Route>
-						<Route path="/plantilla">
-							<VistaPlantilla />
-						</Route>
-						<Route path="/clasificacion">
-							<Clasificacion />
-						</Route>
-					</IonRouterOutlet>
+					<Route path="/">
+						<Home />
+					</Route>
+					<Route path="/plantilla">
+						<VistaPlantilla />
+					</Route>
+					<Route path="/clasificacion">
+						<Clasificacion />
+					</Route>
 				</IonReactRouter>
 			</IonApp>
 		</GoogleOAuthProvider>

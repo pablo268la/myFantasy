@@ -7,11 +7,6 @@ export const usuario = new Schema<IUsuario>(
 			required: true,
 			trim: true,
 		},
-		apellido: {
-			type: String,
-			required: true,
-			trim: true,
-		},
 		email: {
 			type: String,
 			required: true,
@@ -36,7 +31,6 @@ export const usuario = new Schema<IUsuario>(
 
 export interface IUsuario {
 	nombre: string;
-	apellido: string;
 	email: string;
 	contraseña: string;
 	ligas: Types.DocumentArray<string>;

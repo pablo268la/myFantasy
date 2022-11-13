@@ -47,8 +47,7 @@ export type JugadorTitular = {
 
 export type Usuario = {
 	nombre: string;
-	apellido: string;
 	email: string;
 	contraseña: string;
 	ligas: string[];
-}
+};
