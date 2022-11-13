@@ -2,6 +2,12 @@ FROM node:16.13.1
 LABEL org.opencontainers.image.source https://github.com/pglez82/ASW2122_0
 COPY . /app
 WORKDIR /app
-#Install the dependencies
+
 RUN npm install
+
+EXPOSE 5000
+
+ENV NODE_ENV MONGO_DB_URI
+#ENV MONGO_DB_URI=$MONGO_DB_URI
+
 CMD [ "npm", "start" ]

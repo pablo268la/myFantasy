@@ -38,7 +38,7 @@ app.use(helmet.hidePoweredBy());
 
 app
 	.listen(5000, (): void => {
-		console.log("Restapi listening on " + 5000);
+		console.log("Restapi listening on " + 5000 + " " + connectionString);
 	})
 	.on("error", (error: Error) => {
 		console.error("Error occured: " + error.message);
