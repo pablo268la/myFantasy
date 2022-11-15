@@ -61,14 +61,18 @@ export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
 export async function requestToken(
 	email: string,
 	contraseña: string
-): Promise<string> {
-	let response = await fetch(apiEndPoint + "/usuario/token", {
+): Promise<string | null> {
+	let response = await fetch(apiEndPoint + "/token", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ email, contraseña }),
 	});
 
-	return response.json();
+	if (response.ok) {
+		return response.json();
+	} else {
+		return null;
+	}
 }
 
 export async function verifyToken(
@@ -81,5 +85,8 @@ export async function verifyToken(
 		body: JSON.stringify({ token, email }),
 	});
 
-	return response.json();
+	if (response.ok) {
+		return true;
+	}
+	return false;
 }

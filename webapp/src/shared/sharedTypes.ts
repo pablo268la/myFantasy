@@ -51,4 +51,5 @@ export type Usuario = {
 	email: string;
 	contraseña: string;
 	ligas: string[];
+	token: string;
 };

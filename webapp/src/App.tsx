@@ -19,7 +19,6 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Clasificacion } from "./components/Clasificacion";
 import { Home } from "./components/Home";
 import { VistaPlantilla } from "./components/VistaPlantilla";
@@ -29,20 +28,20 @@ setupIonicReact();
 
 export default function App(): JSX.Element {
 	return (
-		<GoogleOAuthProvider clientId="829892800883-h5tthfnolflirkj5h6ms387skbrodgdn.apps.googleusercontent.com">
-			<IonApp>
-				<IonReactRouter>
-					<Route path="/">
-						<Home />
-					</Route>
-					<Route path="/plantilla">
-						<VistaPlantilla />
-					</Route>
-					<Route path="/clasificacion">
-						<Clasificacion />
-					</Route>
-				</IonReactRouter>
-			</IonApp>
-		</GoogleOAuthProvider>
+		//<GoogleOAuthProvider clientId="829892800883-h5tthfnolflirkj5h6ms387skbrodgdn.apps.googleusercontent.com">
+		<IonApp>
+			<IonReactRouter>
+				<Route path="/">
+					<Home />
+				</Route>
+				<Route path="/plantilla">
+					<VistaPlantilla />
+				</Route>
+				<Route path="/clasificacion">
+					<Clasificacion />
+				</Route>
+			</IonReactRouter>
+		</IonApp>
+		//</GoogleOAuthProvider>
 	);
 }

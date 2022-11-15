@@ -1,8 +1,10 @@
-import { IonButton, IonIcon, IonList, useIonRouter } from "@ionic/react";
+import { IonButton, IonIcon, IonList } from "@ionic/react";
 import { cart, football, home, list, people } from "ionicons/icons";
+import { useHistory } from "react-router-dom";
 
-export function MenuLateral(): JSX.Element {
-	const router = useIonRouter();
+export function MenuLateral(props: any): JSX.Element {
+	const history = useHistory();
+
 	return (
 		<>
 			<IonList style={{ width: "10%", marginRight: "3%" }}>

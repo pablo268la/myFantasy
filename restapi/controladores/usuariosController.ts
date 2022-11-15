@@ -66,7 +66,7 @@ export const requestToken: RequestHandler = async (req, res) => {
 				);
 				res.status(200).json({ token });
 			} else {
-				res.status(400).json({ message: "Contraseña incorrecta" });
+				res.status(401).json({ message: "Contraseña incorrecta" });
 			}
 		} else {
 			res.status(400).json({ message: "Usuario no existe" });

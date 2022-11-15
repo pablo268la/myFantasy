@@ -23,70 +23,72 @@ import { Usuario } from "../shared/sharedTypes";
 export function Home(props: any): JSX.Element {
 	const [id, setId] = useState<string>(UUID.v4());
 	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
+	const [contraseña, setContraseña] = useState<string>("");
 	const [repPassword, setRepPassword] = useState<string>("");
 	const [nombre, setNombre] = useState<string>("");
+	const [token, setToken] = useState<string>("");
 	const [isLogin, setIsLogin] = useState<boolean>(true);
 	const [validated, setValidated] = useState<boolean>();
 
 	const [usuario, setUsuario] = useState<Usuario>();
 
 	const [present] = useIonToast();
-	function crearToast(mensaje: string) {
-		present({
-			message: mensaje,
-			duration: 1500,
-		});
+	function crearToast(mensaje: string, mostrarToast: boolean) {
+		if (mostrarToast)
+			present({
+				message: mensaje,
+				duration: 1500,
+			});
 	}
 
 	useEffect(() => {}, []);
 
-	async function validateLogIn() {
-		if (!isLogin) {
-			if (password !== repPassword) {
-				crearToast("Las contraseñas no coinciden");
-				return;
-			}
-
-			if (nombre.length < 1) {
-				setValidated(false);
-				crearToast("Nombre invalido");
-				return;
-			}
-			if (!validatePassword(password)) {
-				setValidated(false);
-				crearToast(
-					"La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
-				);
-				return;
-			}
-		} else {
-			if (password.length < 1) {
-				setValidated(false);
-				crearToast("La contraseña no puede estar vacía");
-				return;
-			}
+	async function validateFields(mostrarToast: boolean) {
+		if (email === "" || contraseña === "") {
+			crearToast("Por favor, rellena todos los campos", mostrarToast);
+			return;
 		}
 
 		if (!validateEmail(email)) {
 			setValidated(false);
-			crearToast("Email invalido");
+			crearToast("Formato de email incorrecto", mostrarToast);
 			return;
 		}
 
+		if (!isLogin) {
+			if (nombre.length < 1) {
+				setValidated(false);
+				crearToast("El nombre no puede estar vacio", mostrarToast);
+				return;
+			}
+
+			if (!validatePassword(contraseña)) {
+				setValidated(false);
+				crearToast(
+					"La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+					mostrarToast
+				);
+				return;
+			}
+
+			if (contraseña !== repPassword) {
+				crearToast("Las contraseñas no coinciden", mostrarToast);
+				return;
+			}
+		}
 		let usuario = await getUsuario(email);
 		if (isLogin) {
-			if (usuario !== null && usuario.contraseña === password) {
+			if (usuario !== null && usuario.contraseña === contraseña) {
 				setValidated(true);
 			} else {
 				setValidated(false);
-				crearToast("Email o contraseña incorrectos");
+				crearToast("Email o contraseña incorrectos", mostrarToast);
 			}
 		} else {
 			if (usuario !== null) {
 				setValidated(false);
 				console.log(email);
-				crearToast("El email ya está en uso");
+				crearToast("El email ya está en uso", mostrarToast);
 			} else {
 				setValidated(true);
 			}
@@ -101,7 +103,7 @@ export function Home(props: any): JSX.Element {
 		return false;
 	}
 
-	function validatePassword(password: string) {
+	async function validatePassword(password: string) {
 		if (
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password) &&
 			password.length > 7
@@ -120,8 +122,9 @@ export function Home(props: any): JSX.Element {
 					id: id,
 					nombre: nombre,
 					email: email,
-					contraseña: password,
+					contraseña: contraseña,
 					ligas: [],
+					token: "",
 				})
 			);
 		}
@@ -153,7 +156,7 @@ export function Home(props: any): JSX.Element {
 											value={nombre}
 											onIonChange={(e) => {
 												setNombre(e.detail.value!.trim());
-												setValidated(false);
+												validateFields(false);
 											}}
 										></IonInput>
 									</IonItem>
@@ -167,7 +170,7 @@ export function Home(props: any): JSX.Element {
 									type="email"
 									onIonChange={(e) => {
 										setEmail(e.detail.value!.trim());
-										setValidated(false);
+										validateFields(false);
 									}}
 								></IonInput>
 							</IonItem>
@@ -175,10 +178,10 @@ export function Home(props: any): JSX.Element {
 								<IonLabel position="floating"> Contraseña</IonLabel>
 								<IonInput
 									type="password"
-									value={password}
+									value={contraseña}
 									onIonChange={(e) => {
-										setPassword(e.detail.value!.trim());
-										setValidated(false);
+										setContraseña(e.detail.value!.trim());
+										validateFields(false);
 									}}
 								></IonInput>
 							</IonItem>
@@ -191,7 +194,7 @@ export function Home(props: any): JSX.Element {
 											value={repPassword}
 											onIonChange={(e) => {
 												setRepPassword(e.detail.value!.trim());
-												setValidated(false);
+												validateFields(false);
 											}}
 										></IonInput>
 										<IonNote slot="error">Las contraseñas no coinciden</IonNote>
@@ -204,19 +207,18 @@ export function Home(props: any): JSX.Element {
 					</IonRow>
 					<IonRow>
 						<IonCol>
-							<IonButton expand="block" onClick={() => validateLogIn()}>
-								Validar datos
-							</IonButton>
 							{validated ? (
 								<IonButton
 									expand="block"
-									href={"/plantilla/" + id}
+									href={"/plantilla/" + token}
 									onClick={() => entrarApp()}
 								>
 									Entrar
 								</IonButton>
 							) : (
-								<></>
+								<IonButton expand="block" onClick={() => validateFields(true)}>
+									Entrar
+								</IonButton>
 							)}
 							{isLogin ? (
 								<p style={{ fontSize: "medium" }}>
