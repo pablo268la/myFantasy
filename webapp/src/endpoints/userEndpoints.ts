@@ -57,3 +57,29 @@ export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
 
 	return response.json();
 }
+
+export async function requestToken(
+	email: string,
+	contraseña: string
+): Promise<string> {
+	let response = await fetch(apiEndPoint + "/usuario/token", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ email, contraseña }),
+	});
+
+	return response.json();
+}
+
+export async function verifyToken(
+	token: string,
+	email: string
+): Promise<boolean> {
+	let response = await fetch(apiEndPoint + "/usuario/token", {
+		method: "GET",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ token, email }),
+	});
+
+	return response.json();
+}

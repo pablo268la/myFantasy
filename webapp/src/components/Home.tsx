@@ -17,7 +17,7 @@ import {
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import * as UUID from "uuid";
-import { createUsuario, getUsuario } from "../api/api";
+import { createUsuario, getUsuario } from "../endpoints/userEndpoints";
 import { Usuario } from "../shared/sharedTypes";
 
 export function Home(props: any): JSX.Element {

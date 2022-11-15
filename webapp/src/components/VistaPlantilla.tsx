@@ -13,7 +13,7 @@ import {
 	IonToolbar
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getJugadorById, getPlantilla } from "../api/api";
+import { getJugadorById, getPlantilla } from "../endpoints/userEndpoints";
 import {
 	Jugador,
 	JugadorTitular,
