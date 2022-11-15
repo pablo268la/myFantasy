@@ -21,7 +21,7 @@ export function MenuLateral(props: any): JSX.Element {
 					<IonIcon slot="start" icon={list}></IonIcon>
 					Clasificacion
 				</IonButton>
-				<IonButton color="dark" expand="block" fill="clear">
+				<IonButton color="dark" expand="block" fill="clear" href="/plantilla">
 					<IonIcon slot="start" icon={people}></IonIcon>
 					Plantilla
 				</IonButton>

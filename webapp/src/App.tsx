@@ -20,7 +20,7 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { Clasificacion } from "./components/Clasificacion";
-import { Home } from "./components/Home";
+import { LogIn } from "./components/LogIn";
 import { VistaPlantilla } from "./components/VistaPlantilla";
 import "./theme/variables.css";
 
@@ -32,7 +32,7 @@ export default function App(): JSX.Element {
 		<IonApp>
 			<IonReactRouter>
 				<Route path="/">
-					<Home />
+					<LogIn />
 				</Route>
 				<Route path="/plantilla">
 					<VistaPlantilla />
