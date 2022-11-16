@@ -1,6 +1,6 @@
 import { IonRow } from "@ionic/react";
 import { Jugador, JugadorTitular } from "../shared/sharedTypes";
-import { CartaJugador } from "./CartaJugador";
+import CartaJugador from "./CartaJugador";
 import { Formacion } from "./VistaPlantilla";
 
 type AlineacionProps = {

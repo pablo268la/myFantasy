@@ -12,7 +12,7 @@ import {
 	IonTitle,
 	IonToolbar
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getJugadorById, getPlantilla } from "../endpoints/userEndpoints";
 import {
 	Jugador,
@@ -31,7 +31,7 @@ export type Formacion = {
 	delantero: number;
 };
 
-export function VistaPlantilla(props: any): JSX.Element {
+const VistaPlantilla: React.FC = () => {
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
 	const [formacion, setFormacion] = useState<Formacion>({
 		portero: 1,
@@ -190,81 +190,95 @@ export function VistaPlantilla(props: any): JSX.Element {
 	}, []);
 
 	return (
-		<>
-			<IonPage>
-				<IonHeader>
-					<IonToolbar>
-						<IonTitle>Mi plantilla</IonTitle>
-					</IonToolbar>
-				</IonHeader>
-				<IonContent>
-					<IonRow>
-						<MenuLateral />
-						<IonCol>
-							{!loading ? (
-								<>
-									<div style={{ width: 650 }}>
-										<IonRow style={{ justifyContent: "space-between" }}>
-											<IonList style={{ width: 200 }}>
-												<IonSelect
-													interface="popover"
-													placeholder={
-														formacion.defensa +
-														"-" +
-														formacion.medio +
-														"-" +
-														formacion.delantero
-													}
-													onIonChange={(e) => {
-														let f: Formacion = {
-															portero: 1,
-															defensa: Number(e.detail.value.split("-")[0]),
-															medio: Number(e.detail.value.split("-")[1]),
-															delantero: Number(e.detail.value.split("-")[2]),
-														};
-														cambiarFormacion(f);
-													}}
-												>
-													<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
-													<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
-													<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
-													<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
-													<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
-													<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
-													<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
-												</IonSelect>
-											</IonList>
-											{cambioAlineacion ? (
-												<IonButton>Guardar cambios</IonButton>
-											) : (
-												<></>
-											)}
-										</IonRow>
+		<IonPage>
+			<IonHeader>
+				<IonToolbar>
+					<IonTitle>Mi plantilla</IonTitle>
+				</IonToolbar>
+			</IonHeader>
+			<IonContent>
+				<IonRow>
+					<MenuLateral />
+					<IonCol>
+						{!loading ? (
+							<>
+								<div style={{ width: 650 }}>
+									<IonRow style={{ justifyContent: "space-between" }}>
+										<IonList style={{ width: 200 }}>
+											<IonSelect
+												interface="popover"
+												placeholder={
+													formacion.defensa +
+													"-" +
+													formacion.medio +
+													"-" +
+													formacion.delantero
+												}
+												onIonChange={(e) => {
+													let f: Formacion = {
+														portero: 1,
+														defensa: Number(e.detail.value.split("-")[0]),
+														medio: Number(e.detail.value.split("-")[1]),
+														delantero: Number(e.detail.value.split("-")[2]),
+													};
+													cambiarFormacion(f);
+												}}
+											>
+												<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
+												<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
+												<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
+												<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
+												<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
+												<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
+												<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
+											</IonSelect>
+										</IonList>
+										{cambioAlineacion ? (
+											<IonButton>Guardar cambios</IonButton>
+										) : (
+											<></>
+										)}
+									</IonRow>
+								</div>
+								<IonRow>
+									<div
+										style={{
+											width: 650,
+											height: 600,
+											backgroundImage:
+												"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
+											backgroundSize: "cover",
+											marginBottom: 25,
+										}}
+									>
+										<Alineacion
+											formacion={formacion}
+											setJugadorPulsado={cambiarJugador}
+											porteros={porteros}
+											defensas={defensas}
+											mediocentros={mediocentros}
+											delanteros={delanteros}
+										/>
 									</div>
-									<IonRow>
-										<div
-											style={{
-												width: 650,
-												height: 600,
-												backgroundImage:
-													"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
-												backgroundSize: "cover",
-												marginBottom: 25,
-											}}
-										>
-											<Alineacion
-												formacion={formacion}
-												setJugadorPulsado={cambiarJugador}
+
+									<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
+										{jugadorPulsado === "" ? (
+											<ListaJugadores
 												porteros={porteros}
 												defensas={defensas}
 												mediocentros={mediocentros}
 												delanteros={delanteros}
+												formacion={formacion}
+												cambiarTitulares={cambiarTitulares}
 											/>
-										</div>
-
-										<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
-											{jugadorPulsado === "" ? (
-												<ListaJugadores
+										) : (
+											<>
+												<CartaDetallesJugador
+													jugador={jugadores.find(
+														(j) => j.jugador._id === jugadorPulsado
+													)}
+													esParaCambio={true}
+													posicion={jugadorPulsado}
 													porteros={porteros}
 													defensas={defensas}
 													mediocentros={mediocentros}
@@ -272,36 +286,20 @@ export function VistaPlantilla(props: any): JSX.Element {
 													formacion={formacion}
 													cambiarTitulares={cambiarTitulares}
 												/>
-											) : (
-												<>
-													<CartaDetallesJugador
-														jugador={jugadores.find(
-															(j) => j.jugador._id === jugadorPulsado
-														)}
-														esParaCambio={true}
-														posicion={jugadorPulsado}
-														porteros={porteros}
-														defensas={defensas}
-														mediocentros={mediocentros}
-														delanteros={delanteros}
-														formacion={formacion}
-														cambiarTitulares={cambiarTitulares}
-													/>
-												</>
-											)}
-										</div>
-									</IonRow>
-								</>
-							) : (
-								<IonProgressBar type="indeterminate"></IonProgressBar>
-							)}
-						</IonCol>
-					</IonRow>
-				</IonContent>
-			</IonPage>
-		</>
+											</>
+										)}
+									</div>
+								</IonRow>
+							</>
+						) : (
+							<IonProgressBar type="indeterminate"></IonProgressBar>
+						)}
+					</IonCol>
+				</IonRow>
+			</IonContent>
+		</IonPage>
 	);
-}
+};
 
 export function eliminarDuplicados(
 	js: Jugador[]
@@ -322,3 +320,5 @@ export function ordenarListaJugadoresPorTitular(): (
 		return 0;
 	};
 }
+
+export default VistaPlantilla;

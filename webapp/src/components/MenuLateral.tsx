@@ -1,9 +1,8 @@
-import { IonButton, IonIcon, IonList } from "@ionic/react";
+import { IonButton, IonIcon, IonList, useIonRouter } from "@ionic/react";
 import { cart, football, home, list, people } from "ionicons/icons";
-import { useHistory } from "react-router-dom";
 
 export function MenuLateral(props: any): JSX.Element {
-	const history = useHistory();
+	const nav = useIonRouter();
 
 	return (
 		<>
@@ -13,7 +12,7 @@ export function MenuLateral(props: any): JSX.Element {
 					Mis ligas
 				</IonButton>
 				<IonButton
-					href="/clasificacion"
+					onClick={() => nav.push("/clasificacion", "forward")}
 					color="dark"
 					expand="block"
 					fill="clear"
@@ -21,7 +20,12 @@ export function MenuLateral(props: any): JSX.Element {
 					<IonIcon slot="start" icon={list}></IonIcon>
 					Clasificacion
 				</IonButton>
-				<IonButton color="dark" expand="block" fill="clear" href="/plantilla">
+				<IonButton
+					color="dark"
+					expand="block"
+					fill="clear"
+					onClick={() => nav.push("/carta")}
+				>
 					<IonIcon slot="start" icon={people}></IonIcon>
 					Plantilla
 				</IonButton>

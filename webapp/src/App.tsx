@@ -1,4 +1,4 @@
-import { IonApp, setupIonicReact } from "@ionic/react";
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Route } from "react-router-dom";
 
@@ -19,29 +19,23 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { Clasificacion } from "./components/Clasificacion";
-import { LogIn } from "./components/LogIn";
-import { VistaPlantilla } from "./components/VistaPlantilla";
+import Clasificacion from "./components/Clasificacion";
+import VistaPlantilla from "./components/VistaPlantilla";
+import Login from "./pages/Login";
 import "./theme/variables.css";
 
 setupIonicReact();
 
-export default function App(): JSX.Element {
-	return (
-		//<GoogleOAuthProvider clientId="829892800883-h5tthfnolflirkj5h6ms387skbrodgdn.apps.googleusercontent.com">
-		<IonApp>
-			<IonReactRouter>
-				<Route path="/">
-					<LogIn />
-				</Route>
-				<Route path="/plantilla">
-					<VistaPlantilla />
-				</Route>
-				<Route path="/clasificacion">
-					<Clasificacion />
-				</Route>
-			</IonReactRouter>
-		</IonApp>
-		//</GoogleOAuthProvider>
-	);
-}
+const App: React.FC = () => (
+	<IonApp>
+		<IonReactRouter>
+			<IonRouterOutlet>
+				<Route exact path="/" component={Login} />
+				<Route exact path="/carta" component={VistaPlantilla} />
+				<Route exact path="/clasificacion" component={Clasificacion} />
+			</IonRouterOutlet>
+		</IonReactRouter>
+	</IonApp>
+);
+
+export default App;

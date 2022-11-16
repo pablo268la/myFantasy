@@ -2,10 +2,10 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCol,
-	IonImg,
-	IonRow,
+	IonImg, IonRow,
 	IonText
 } from "@ionic/react";
+import React from "react";
 
 import { JugadorTitular } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
@@ -16,7 +16,7 @@ type CartaJugadorProps = {
 	posicion: string;
 };
 
-export function CartaJugador(props: CartaJugadorProps): JSX.Element {
+const CartaJugador: React.FC<CartaJugadorProps> = (props) => {
 	return props.jugador !== undefined ? (
 		<IonCard
 			onClick={() => {
@@ -72,44 +72,44 @@ export function CartaJugador(props: CartaJugadorProps): JSX.Element {
 			</div>
 		</IonCard>
 	) : (
-		<>
-			<IonCard
-				onClick={() => props.setJugadorPulsado(props.posicion)}
-				style={{ width: 100 }}
+		<IonCard
+			onClick={() => props.setJugadorPulsado(props.posicion)}
+			style={{ width: 100 }}
+		>
+			<div
+				style={{
+					backgroundImage: urlBackground,
+				}}
 			>
-				<div
-					style={{
-						backgroundImage: urlBackground,
-					}}
-				>
-					<IonCardContent>
-						<IonRow style={{ width: 100, height: 50, marginLeft: -5 }}>
-							<IonCol>
-								<div style={{ marginTop: -18 }}>
-									<IonImg
-										src={
-											"https://assets.laligafantasymarca.com/players/no-player.png"
-										}
-									/>
-								</div>
-							</IonCol>
-							<div style={{ width: 20, height: 20 }}>
-								<div style={{ marginTop: 30 }}></div>
-							</div>
-						</IonRow>
-					</IonCardContent>
-				</div>
-
-				<div style={{ background: "primary" }}>
-					<IonRow>
+				<IonCardContent>
+					<IonRow style={{ width: 100, height: 50, marginLeft: -5 }}>
 						<IonCol>
-							<IonText
-								style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
-							></IonText>
+							<div style={{ marginTop: -18 }}>
+								<IonImg
+									src={
+										"https://assets.laligafantasymarca.com/players/no-player.png"
+									}
+								/>
+							</div>
 						</IonCol>
+						<div style={{ width: 20, height: 20 }}>
+							<div style={{ marginTop: 30 }}></div>
+						</div>
 					</IonRow>
-				</div>
-			</IonCard>
-		</>
+				</IonCardContent>
+			</div>
+
+			<div style={{ background: "primary" }}>
+				<IonRow>
+					<IonCol>
+						<IonText
+							style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
+						></IonText>
+					</IonCol>
+				</IonRow>
+			</div>
+		</IonCard>
 	);
-}
+};
+
+export default CartaJugador;

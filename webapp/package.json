@@ -1,32 +1,32 @@
 {
-  "name": "webapp",
-  "version": "0.1.0",
+  "name": "myMenu",
+  "version": "0.0.1",
+  "private": true,
   "dependencies": {
-    "@capacitor/android": "^4.3.0",
-    "@capacitor/app": "4.0.1",
-    "@capacitor/core": "4.3.0",
-    "@capacitor/haptics": "4.0.1",
-    "@capacitor/ios": "^4.3.0",
-    "@capacitor/keyboard": "4.0.1",
-    "@capacitor/status-bar": "4.0.1",
-    "@ionic/react": "^6.3.6",
-    "@ionic/react-router": "^6.3.6",
-    "@react-oauth/google": "^0.2.8",
+    "@capacitor/app": "4.1.1",
+    "@capacitor/core": "4.5.0",
+    "@capacitor/haptics": "4.1.0",
+    "@capacitor/keyboard": "4.1.0",
+    "@capacitor/status-bar": "4.1.0",
+    "@ionic/react": "^6.0.0",
+    "@ionic/react-router": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^12.6.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.19.15",
-    "@types/react": "^18.0.21",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "gapi-script": "^1.2.0",
-    "google-auth-library": "^8.5.2",
+    "@types/react-router": "^5.1.11",
+    "@types/react-router-dom": "^5.1.7",
+    "history": "^4.9.0",
     "ionicons": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.0",
     "typescript": "^4.1.3",
-    "uuid": "^9.0.0",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
@@ -44,10 +44,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
-    "test:e2e": "start-server-and-test 'npm --prefix ../restapi start' http://localhost:5000/api/users/list prod 3000 'cd e2e && jest'",
-    "eject": "react-scripts eject",
-    "prod": "ts-node-dev ./server.ts"
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -68,19 +66,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.2.0",
-    "@types/expect-puppeteer": "^4.4.7",
-    "@types/express": "^4.17.13",
-    "@types/jest": "^27.4.0",
-    "@types/puppeteer": "^5.4.4",
-    "@types/react-router-dom": "^5.3.3",
-    "expect-puppeteer": "^6.0.2",
-    "jest-cucumber": "^3.0.1",
-    "jest-puppeteer": "^6.0.3",
-    "puppeteer": "^13.0.1",
-    "react-scripts": "5.0.0",
-    "start-server-and-test": "^1.14.0",
-    "ts-jest": "^27.1.2",
-    "ts-node-dev": "^1.1.8"
-  }
+    "@capacitor/cli": "4.5.0"
+  },
+  "description": "An Ionic project"
 }

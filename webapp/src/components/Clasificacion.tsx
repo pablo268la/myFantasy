@@ -1,11 +1,11 @@
-import { IonActionSheet, IonButton, IonContent } from "@ionic/react";
+import { IonActionSheet, IonButton, IonContent, IonPage } from "@ionic/react";
 import { caretForwardCircle, close, heart, trash } from "ionicons/icons";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export function Clasificacion(props: any): JSX.Element {
+const Clasificacion: React.FC = () => {
 	const [showActionSheet, setShowActionSheet] = useState(false);
 	return (
-		<>
+		<IonPage>
 			<IonContent>
 				<IonButton onClick={() => setShowActionSheet(true)} expand="block">
 					Show Action Sheet
@@ -52,6 +52,8 @@ export function Clasificacion(props: any): JSX.Element {
 					]}
 				></IonActionSheet>
 			</IonContent>
-		</>
+		</IonPage>
 	);
-}
+};
+
+export default Clasificacion;
