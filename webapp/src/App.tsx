@@ -60,7 +60,7 @@ function App(): JSX.Element {
 						/>
 					</Route>
 					<Route exact path="/home">
-						<Home />
+						<Home c={VistaPlantilla}/>
 					</Route>
 					<Route exact path="/plantilla/">
 						<VistaPlantilla usuario={usuario} />

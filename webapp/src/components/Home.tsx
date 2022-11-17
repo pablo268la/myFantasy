@@ -13,7 +13,7 @@ import {
 	useIonRouter
 } from "@ionic/react";
 import { cart, football, home, list, people } from "ionicons/icons";
-import VistaPlantilla from "./VistaPlantilla";
+import { VistaLigas } from "./VistaLigas";
 
 export function Home(props: any): JSX.Element {
 	const nav = useIonRouter();
@@ -71,7 +71,7 @@ export function Home(props: any): JSX.Element {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent>
-					<VistaPlantilla usuario={undefined}></VistaPlantilla>
+					<VistaLigas />
 				</IonContent>
 			</IonPage>
 		</>
