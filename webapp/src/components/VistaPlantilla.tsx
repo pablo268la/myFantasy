@@ -12,12 +12,13 @@ import {
 	IonTitle,
 	IonToolbar
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getJugadorById, getPlantilla } from "../endpoints/userEndpoints";
 import {
 	Jugador,
 	JugadorTitular,
-	PlantillaUsuario
+	PlantillaUsuario,
+	Usuario
 } from "../shared/sharedTypes";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -31,7 +32,11 @@ export type Formacion = {
 	delantero: number;
 };
 
-const VistaPlantilla: React.FC = () => {
+type PlantillaProps = {
+	usuario: Usuario | undefined;
+};
+
+function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
 	const [formacion, setFormacion] = useState<Formacion>({
 		portero: 1,
@@ -299,7 +304,7 @@ const VistaPlantilla: React.FC = () => {
 			</IonContent>
 		</IonPage>
 	);
-};
+}
 
 export function eliminarDuplicados(
 	js: Jugador[]

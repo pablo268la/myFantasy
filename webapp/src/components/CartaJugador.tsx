@@ -2,10 +2,10 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCol,
-	IonImg, IonRow,
+	IonImg,
+	IonRow,
 	IonText
 } from "@ionic/react";
-import React from "react";
 
 import { JugadorTitular } from "../shared/sharedTypes";
 import { getIconoEstado, urlBackground } from "./helpers";
@@ -16,7 +16,7 @@ type CartaJugadorProps = {
 	posicion: string;
 };
 
-const CartaJugador: React.FC<CartaJugadorProps> = (props) => {
+function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	return props.jugador !== undefined ? (
 		<IonCard
 			onClick={() => {
@@ -110,6 +110,6 @@ const CartaJugador: React.FC<CartaJugadorProps> = (props) => {
 			</div>
 		</IonCard>
 	);
-};
+}
 
 export default CartaJugador;

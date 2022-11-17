@@ -17,11 +17,15 @@ import {
 } from "@ionic/react";
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { Home } from "../components/Home";
 import { createUsuario, getUsuario } from "../endpoints/userEndpoints";
 import { Usuario } from "../shared/sharedTypes";
 
-const Page1: React.FC = () => {
+type LoginProps = {
+	usuario: Usuario | undefined;
+	setUsuario: (usuario: Usuario) => void;
+};
+
+function Login(props: LoginProps): JSX.Element {
 	const navigate = useIonRouter();
 
 	const [email, setEmail] = useState<string>("");
@@ -29,9 +33,6 @@ const Page1: React.FC = () => {
 	const [repPassword, setRepPassword] = useState<string>("");
 	const [nombre, setNombre] = useState<string>("");
 	const [isLogin, setIsLogin] = useState<boolean>(true);
-	const [logged, setLogged] = useState<boolean>(false);
-
-	const [usuario, setUsuario] = useState<Usuario>();
 
 	const [present] = useIonToast();
 	function crearToast(mensaje: string, mostrarToast: boolean) {
@@ -115,9 +116,9 @@ const Page1: React.FC = () => {
 		if (!v) return;
 
 		if (isLogin) {
-			setUsuario(await getUsuario(email));
+			//props.setUsuario(await getUsuario(email));
 		} else {
-			setUsuario(
+			props.setUsuario(
 				await createUsuario({
 					id: "",
 					nombre: nombre,
@@ -127,127 +128,114 @@ const Page1: React.FC = () => {
 				})
 			);
 		}
-		setLogged(true);
-
-		// TODO - Guardar logged en el localStorage
+		navigate.push("/plantilla", "forward");
 	}
 
 	return (
 		<>
 			<IonPage>
-				{!logged ? (
-					<>
-						<IonHeader>
-							<IonToolbar>
-								<IonTitle>Login</IonTitle>
-							</IonToolbar>
-						</IonHeader>
-						<IonContent style={{ width: 400 }}>
-							<IonRow style={{ justifyContent: "center" }}>
-								<IonIcon
-									style={{ fontSize: "70px", color: "#562765" }}
-									icon={personCircle}
-								/>
-							</IonRow>
-							<IonRow>
-								<IonCol>
-									{!isLogin ? (
-										<>
-											<IonItem>
-												<IonLabel position="floating"> Nombre</IonLabel>
-												<IonInput
-													value={nombre}
-													onIonChange={(e) => {
-														setNombre(e.detail.value!.trim());
-													}}
-												></IonInput>
-											</IonItem>
-										</>
-									) : (
-										<></>
-									)}
+				<IonHeader>
+					<IonToolbar>
+						<IonTitle>Login</IonTitle>
+					</IonToolbar>
+				</IonHeader>
+				<IonContent style={{ width: 400 }}>
+					<IonRow style={{ justifyContent: "center" }}>
+						<IonIcon
+							style={{ fontSize: "70px", color: "#562765" }}
+							icon={personCircle}
+						/>
+					</IonRow>
+					<IonRow>
+						<IonCol>
+							{!isLogin ? (
+								<>
 									<IonItem>
-										<IonLabel position="floating">Email</IonLabel>
+										<IonLabel position="floating"> Nombre</IonLabel>
 										<IonInput
-											type="email"
+											value={nombre}
 											onIonChange={(e) => {
-												setEmail(e.detail.value!.trim());
+												setNombre(e.detail.value!.trim());
 											}}
 										></IonInput>
 									</IonItem>
+								</>
+							) : (
+								<></>
+							)}
+							<IonItem>
+								<IonLabel position="floating">Email</IonLabel>
+								<IonInput
+									type="email"
+									onIonChange={(e) => {
+										setEmail(e.detail.value!.trim());
+									}}
+								></IonInput>
+							</IonItem>
+							<IonItem>
+								<IonLabel position="floating"> Contraseña</IonLabel>
+								<IonInput
+									type="password"
+									value={contraseña}
+									onIonChange={(e) => {
+										setContraseña(e.detail.value!.trim());
+									}}
+								></IonInput>
+							</IonItem>
+							{!isLogin ? (
+								<>
 									<IonItem>
-										<IonLabel position="floating"> Contraseña</IonLabel>
+										<IonLabel position="floating"> Repetir contraseña</IonLabel>
 										<IonInput
 											type="password"
-											value={contraseña}
+											value={repPassword}
 											onIonChange={(e) => {
-												setContraseña(e.detail.value!.trim());
+												setRepPassword(e.detail.value!.trim());
 											}}
 										></IonInput>
+										<IonNote slot="error">Las contraseñas no coinciden</IonNote>
 									</IonItem>
-									{!isLogin ? (
-										<>
-											<IonItem>
-												<IonLabel position="floating">
-													{" "}
-													Repetir contraseña
-												</IonLabel>
-												<IonInput
-													type="password"
-													value={repPassword}
-													onIonChange={(e) => {
-														setRepPassword(e.detail.value!.trim());
-													}}
-												></IonInput>
-												<IonNote slot="error">
-													Las contraseñas no coinciden
-												</IonNote>
-											</IonItem>
-										</>
-									) : (
-										<></>
-									)}
-								</IonCol>
-							</IonRow>
-							<IonRow>
-								<IonCol>
-									<IonButton expand="block" onClick={() => entrarApp()}>
-										Entrar
-									</IonButton>
+								</>
+							) : (
+								<></>
+							)}
+						</IonCol>
+					</IonRow>
+					<IonRow>
+						<IonCol>
+							<IonButton expand="block" onClick={() => entrarApp()}>
+								Entrar
+							</IonButton>
 
-									{isLogin ? (
-										<p style={{ fontSize: "medium" }}>
-											¿No tienes cuenta?{"  "}
-											<a
-												onClick={(e) => {
-													setIsLogin(false);
-												}}
-											>
-												Crea una cuenta
-											</a>
-										</p>
-									) : (
-										<p style={{ fontSize: "medium" }}>
-											Ya tengo cuenta.{"  "}
-											<a
-												onClick={(e) => {
-													setIsLogin(true);
-												}}
-											>
-												Entrar con cuenta
-											</a>
-										</p>
-									)}
-								</IonCol>
-							</IonRow>
-						</IonContent>
-					</>
-				) : (
-					<Home></Home>
-				)}
+							{isLogin ? (
+								<p style={{ fontSize: "medium" }}>
+									¿No tienes cuenta?{"  "}
+									<a
+										onClick={(e) => {
+											setIsLogin(false);
+										}}
+									>
+										Crea una cuenta
+									</a>
+								</p>
+							) : (
+								<p style={{ fontSize: "medium" }}>
+									Ya tengo cuenta.{"  "}
+									<a
+										onClick={(e) => {
+											setIsLogin(true);
+										}}
+									>
+										Entrar con cuenta
+									</a>
+								</p>
+							)}
+						</IonCol>
+					</IonRow>
+				</IonContent>
 			</IonPage>
 		</>
 	);
-};
+}
 
-export default Page1;
+export default Login;

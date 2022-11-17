@@ -1,8 +1,13 @@
 import { IonActionSheet, IonButton, IonContent, IonPage } from "@ionic/react";
 import { caretForwardCircle, close, heart, trash } from "ionicons/icons";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Usuario } from "../shared/sharedTypes";
 
-const Clasificacion: React.FC = () => {
+type ClassificacionProps = {
+	usuario: Usuario | undefined;
+};
+
+function Clasificacion(props: ClassificacionProps): JSX.Element {
 	const [showActionSheet, setShowActionSheet] = useState(false);
 	return (
 		<IonPage>
@@ -54,6 +59,6 @@ const Clasificacion: React.FC = () => {
 			</IonContent>
 		</IonPage>
 	);
-};
+}
 
 export default Clasificacion;

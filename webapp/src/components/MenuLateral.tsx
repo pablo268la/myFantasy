@@ -24,7 +24,7 @@ export function MenuLateral(props: any): JSX.Element {
 					color="dark"
 					expand="block"
 					fill="clear"
-					onClick={() => nav.push("/carta")}
+					onClick={() => nav.push("/plantilla", "forward")}
 				>
 					<IonIcon slot="start" icon={people}></IonIcon>
 					Plantilla

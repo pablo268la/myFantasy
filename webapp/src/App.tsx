@@ -19,23 +19,35 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
+import { useState } from "react";
 import Clasificacion from "./components/Clasificacion";
+import Login from "./components/Login";
 import VistaPlantilla from "./components/VistaPlantilla";
-import Login from "./pages/Login";
+import { Usuario } from "./shared/sharedTypes";
 import "./theme/variables.css";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<IonRouterOutlet>
-				<Route exact path="/" component={Login} />
-				<Route exact path="/carta" component={VistaPlantilla} />
-				<Route exact path="/clasificacion" component={Clasificacion} />
-			</IonRouterOutlet>
-		</IonReactRouter>
-	</IonApp>
-);
+function App(): JSX.Element {
+	const [usuario, setUsuario] = useState<Usuario>();
+
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<Route exact path="/">
+						<Login usuario={usuario} setUsuario={setUsuario} />
+					</Route>
+					<Route exact path="/plantilla">
+						<VistaPlantilla usuario={usuario} />
+					</Route>
+					<Route exact path="/clasificacion" component={Clasificacion}>
+						<Clasificacion usuario={usuario} />
+					</Route>
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	);
+}
 
 export default App;
