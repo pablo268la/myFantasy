@@ -1,6 +1,7 @@
 import * as bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import * as jwt from "jsonwebtoken";
+import * as UUID from "uuid";
 import { modeloUsuario } from "../model/usuario";
 
 export const getUsuario: RequestHandler = async (req, res) => {
@@ -28,12 +29,14 @@ export const createUsuario: RequestHandler = async (req, res) => {
 		if (!find && !find2) {
 			let usuario = new modeloUsuario(req.body);
 			usuario.contraseña = await bcrypt.hash(usuario.contraseña, 10);
+			usuario.id = UUID.v4();
 			const usuarioGuardado = await usuario.save();
 			res.status(201).json(usuarioGuardado);
 		} else {
 			res.status(400).json({ message: "Usuario ya existe" });
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -59,6 +62,9 @@ export const requestToken: RequestHandler = async (req, res) => {
 				req.body.contraseña,
 				usuario.contraseña
 			);
+
+			console.log(usuario.contraseña + " " + req.body.contraseña);
+
 			if (contraseñaCorrecta) {
 				const token = jwt.sign(
 					{ id: usuario.id },

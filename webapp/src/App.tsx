@@ -21,8 +21,10 @@ import "@ionic/react/css/text-transformation.css";
 /* Theme variables */
 import { useState } from "react";
 import Clasificacion from "./components/Clasificacion";
+import { Home } from "./components/Home";
 import Login from "./components/Login";
 import VistaPlantilla from "./components/VistaPlantilla";
+import { requestToken } from "./endpoints/userEndpoints";
 import { Usuario } from "./shared/sharedTypes";
 import "./theme/variables.css";
 
@@ -30,15 +32,37 @@ setupIonicReact();
 
 function App(): JSX.Element {
 	const [usuario, setUsuario] = useState<Usuario>();
+	const [token, setToken] = useState<string>();
+
+	async function setUsuarioAndRequestToken(
+		email: string,
+		contraseña: string
+	): Promise<boolean> {
+		setUsuario(usuario);
+		console.log(usuario);
+		const newToken = await requestToken(email, contraseña);
+		if (newToken !== null && newToken !== undefined) {
+			setToken(newToken);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	return (
 		<IonApp>
 			<IonReactRouter>
 				<IonRouterOutlet>
 					<Route exact path="/">
-						<Login usuario={usuario} setUsuario={setUsuario} />
+						<Login
+							usuario={usuario}
+							setUsuarioAndRequestToken={setUsuarioAndRequestToken}
+						/>
 					</Route>
-					<Route exact path="/plantilla">
+					<Route exact path="/home">
+						<Home />
+					</Route>
+					<Route exact path="/plantilla/">
 						<VistaPlantilla usuario={usuario} />
 					</Route>
 					<Route exact path="/clasificacion" component={Clasificacion}>

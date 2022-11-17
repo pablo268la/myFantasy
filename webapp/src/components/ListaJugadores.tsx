@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonRow } from "@ionic/react";
+import { IonCol, IonList, IonRow } from "@ionic/react";
 import { JugadorTitular } from "../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -19,20 +19,21 @@ type ListaJugadoresProps = {
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 	return (
-		<IonContent>
-			{props.porteros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.defensas
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.mediocentros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
-			{props.delanteros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
-		</IonContent>
+		
+			<IonList>
+				{props.porteros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) => crearCartaDetallesJugador(j, props))}
+				{props.defensas
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) => crearCartaDetallesJugador(j, props))}
+				{props.mediocentros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) => crearCartaDetallesJugador(j, props))}
+				{props.delanteros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) => crearCartaDetallesJugador(j, props))}
+			</IonList>
 	);
 }
 

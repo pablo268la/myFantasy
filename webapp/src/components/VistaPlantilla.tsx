@@ -2,15 +2,11 @@ import {
 	IonButton,
 	IonCol,
 	IonContent,
-	IonHeader,
 	IonList,
-	IonPage,
 	IonProgressBar,
 	IonRow,
 	IonSelect,
-	IonSelectOption,
-	IonTitle,
-	IonToolbar
+	IonSelectOption
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadorById, getPlantilla } from "../endpoints/userEndpoints";
@@ -23,7 +19,6 @@ import {
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { ListaJugadores } from "./ListaJugadores";
-import { MenuLateral } from "./MenuLateral";
 
 export type Formacion = {
 	portero: number;
@@ -155,6 +150,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				j.titular = false;
 			});
 		setDelanteros(delanteros);
+		setCambioAlineacion(true);
 	};
 
 	const cambiarTitulares = (
@@ -195,15 +191,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	}, []);
 
 	return (
-		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Mi plantilla</IonTitle>
-				</IonToolbar>
-			</IonHeader>
-			<IonContent>
+		<>
+			<IonContent fullscreen>
 				<IonRow>
-					<MenuLateral />
 					<IonCol>
 						{!loading ? (
 							<>
@@ -245,7 +235,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 										)}
 									</IonRow>
 								</div>
-								<IonRow>
+								<IonRow style={{ height: "100%" }}>
 									<div
 										style={{
 											width: 650,
@@ -253,7 +243,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 											backgroundImage:
 												"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
 											backgroundSize: "cover",
-											marginBottom: 25,
+											marginBottom: "5%",
 										}}
 									>
 										<Alineacion
@@ -266,16 +256,20 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 										/>
 									</div>
 
-									<div style={{ width: 540, height: 600, marginLeft: "1%" }}>
+									<div
+										style={{ width: 540, height:"100%", marginLeft: "1%", marginBottom: "5%" }}
+									>
 										{jugadorPulsado === "" ? (
-											<ListaJugadores
-												porteros={porteros}
-												defensas={defensas}
-												mediocentros={mediocentros}
-												delanteros={delanteros}
-												formacion={formacion}
-												cambiarTitulares={cambiarTitulares}
-											/>
+											<IonContent>
+												<ListaJugadores
+													porteros={porteros}
+													defensas={defensas}
+													mediocentros={mediocentros}
+													delanteros={delanteros}
+													formacion={formacion}
+													cambiarTitulares={cambiarTitulares}
+												/>
+											</IonContent>
 										) : (
 											<>
 												<CartaDetallesJugador
@@ -302,7 +296,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 					</IonCol>
 				</IonRow>
 			</IonContent>
-		</IonPage>
+		</>
 	);
 }
 

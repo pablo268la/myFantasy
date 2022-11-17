@@ -22,7 +22,10 @@ import { Usuario } from "../shared/sharedTypes";
 
 type LoginProps = {
 	usuario: Usuario | undefined;
-	setUsuario: (usuario: Usuario) => void;
+	setUsuarioAndRequestToken: (
+		email: string,
+		contraseña: string
+	) => Promise<boolean>;
 };
 
 function Login(props: LoginProps): JSX.Element {
@@ -115,20 +118,24 @@ function Login(props: LoginProps): JSX.Element {
 		let v = await validateFields(true);
 		if (!v) return;
 
-		if (isLogin) {
-			//props.setUsuario(await getUsuario(email));
-		} else {
-			props.setUsuario(
-				await createUsuario({
-					id: "",
-					nombre: nombre,
-					email: email,
-					contraseña: contraseña,
-					ligas: [],
-				})
-			);
+		if (!isLogin) {
+			await createUsuario({
+				id: "",
+				nombre: nombre,
+				email: email,
+				contraseña: contraseña,
+				ligas: [],
+			});
 		}
-		navigate.push("/plantilla", "forward");
+		const b = await props.setUsuarioAndRequestToken(email, contraseña);
+		if (!b) {
+			crearToast(
+				"Ha habido un error. Por favor intentelo de nuevo más tarde",
+				true
+			);
+		} else {
+			navigate.push("/home", "forward");
+		}
 	}
 
 	return (
