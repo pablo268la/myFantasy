@@ -3,6 +3,7 @@ import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
 import { Jugador } from "../shared/sharedTypes";
 
 export const urlBackground: string = `url(https://ih1.redbubble.net/image.389384727.9608/flat,128x,075,f-pad,128x128,f8f8f8.u5.jpg)`;
+export const urlBackground2: string = `url(https://static.vecteezy.com/system/resources/previews/007/492/570/original/sport-background-illustration-suitable-for-banners-and-more-free-vector.jpg)`;
 
 export function ponerPuntosAValor(valor: number) {
 	let v = new Intl.NumberFormat("es-ES", {
