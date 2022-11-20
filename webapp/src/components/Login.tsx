@@ -18,15 +18,9 @@ import {
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { createUsuario, getUsuario } from "../endpoints/userEndpoints";
-import { Usuario } from "../shared/sharedTypes";
+import { setUsuarioAndRequestToken } from "./helpers";
 
-type LoginProps = {
-	usuario: Usuario | undefined;
-	setUsuarioAndRequestToken: (
-		email: string,
-		contraseña: string
-	) => Promise<boolean>;
-};
+type LoginProps = {};
 
 function Login(props: LoginProps): JSX.Element {
 	const navigate = useIonRouter();
@@ -127,7 +121,7 @@ function Login(props: LoginProps): JSX.Element {
 				ligas: [],
 			});
 		}
-		const b = await props.setUsuarioAndRequestToken(email, contraseña);
+		const b = await setUsuarioAndRequestToken(email, contraseña);
 		if (!b) {
 			crearToast(
 				"Ha habido un error. Por favor intentelo de nuevo más tarde",

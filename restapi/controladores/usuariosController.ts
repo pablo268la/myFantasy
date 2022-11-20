@@ -67,7 +67,7 @@ export const requestToken: RequestHandler = async (req, res) => {
 					{ id: usuario.id },
 					process.env.JWT_SECRET || "secret"
 				);
-				res.status(200).json({ token });
+				res.status(200).json(token);
 			} else {
 				res.status(401).json({ message: "Contraseña incorrecta" });
 			}

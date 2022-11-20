@@ -52,3 +52,18 @@ export type Usuario = {
 	contraseña: string;
 	ligas: string[];
 };
+
+export type Liga = {
+	_id: string;
+	nombre: string;
+	idUsuarios: string[];
+	propiedadJugadores: PropiedadJugador[];
+	enlaceInvitacion: string;
+	configuracion: string;
+};
+
+export type PropiedadJugador = {
+	idJugador: string;
+	idUsuario: string;
+	idLiga: string;
+};

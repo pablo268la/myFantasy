@@ -38,8 +38,6 @@ function App(): JSX.Element {
 		email: string,
 		contraseña: string
 	): Promise<boolean> {
-		setUsuario(usuario);
-		console.log(usuario);
 		const newToken = await requestToken(email, contraseña);
 		if (newToken !== null && newToken !== undefined) {
 			setToken(newToken);
@@ -54,19 +52,16 @@ function App(): JSX.Element {
 			<IonReactRouter>
 				<IonRouterOutlet>
 					<Route exact path="/">
-						<Login
-							usuario={usuario}
-							setUsuarioAndRequestToken={setUsuarioAndRequestToken}
-						/>
+						<Login />
 					</Route>
 					<Route exact path="/home">
-						<Home c={VistaPlantilla}/>
+						<Home />
 					</Route>
 					<Route exact path="/plantilla/">
-						<VistaPlantilla usuario={usuario} />
+						<VistaPlantilla />
 					</Route>
 					<Route exact path="/clasificacion" component={Clasificacion}>
-						<Clasificacion usuario={usuario} />
+						<Clasificacion />
 					</Route>
 				</IonRouterOutlet>
 			</IonReactRouter>

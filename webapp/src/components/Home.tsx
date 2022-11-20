@@ -13,9 +13,12 @@ import {
 	useIonRouter
 } from "@ionic/react";
 import { cart, football, home, list, people } from "ionicons/icons";
+import { getToken, getUsuarioLogueado } from "./helpers";
 import { VistaLigas } from "./VistaLigas";
 
-export function Home(props: any): JSX.Element {
+type HomeProps = {};
+
+export function Home(props: HomeProps): JSX.Element {
 	const nav = useIonRouter();
 
 	return (
@@ -71,7 +74,10 @@ export function Home(props: any): JSX.Element {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent>
-					<VistaLigas />
+					<VistaLigas
+						email={getUsuarioLogueado()?.email + ""}
+						token={getToken()}
+					/>
 				</IonContent>
 			</IonPage>
 		</>

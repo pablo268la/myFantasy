@@ -15,8 +15,7 @@ import { getPlantilla } from "../endpoints/plantillaEndpoints";
 import {
 	Jugador,
 	JugadorTitular,
-	PlantillaUsuario,
-	Usuario
+	PlantillaUsuario
 } from "../shared/sharedTypes";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -30,7 +29,7 @@ export type Formacion = {
 };
 
 type PlantillaProps = {
-	usuario: Usuario | undefined;
+	
 };
 
 function VistaPlantilla(props: PlantillaProps): JSX.Element {

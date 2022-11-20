@@ -12,12 +12,29 @@ import {
 	IonRow,
 	IonTitle
 } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLigasUsuario } from "../endpoints/ligasEndpoints";
+import { Liga } from "../shared/sharedTypes";
 import { CartaLiga } from "./CartaLiga";
-import { urlBackground2 } from "./helpers";
+import { getToken, getUsuarioLogueado, urlBackground2 } from "./helpers";
 
-export function VistaLigas(props: any): JSX.Element {
+type VistaLigasProps = {
+	email: string;
+	token: string;
+};
+
+export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const [crearLigas, setCrearLigas] = useState<boolean>(false);
+
+	const [ligas, setLigas] = useState<Liga[]>();
+
+	useEffect(() => {
+		getLigasUsuario(getUsuarioLogueado()?.email + "", getToken()).then(
+			(ligas) => {
+				setLigas(ligas);
+			}
+		);
+	}, []);
 
 	return (
 		<>
@@ -31,7 +48,9 @@ export function VistaLigas(props: any): JSX.Element {
 								</IonItem>
 								<div className="ion-padding" slot="content">
 									<IonList>
-										<CartaLiga />
+										{ligas?.map((liga) => (
+											<CartaLiga liga={liga} />
+										))}
 									</IonList>
 								</div>
 							</IonAccordion>

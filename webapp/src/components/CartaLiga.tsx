@@ -10,10 +10,19 @@ import {
 } from "@ionic/react";
 import { share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
+import { Liga } from "../shared/sharedTypes";
 import { urlBackground2 } from "./helpers";
+
+type CartaLigaProps = {
+	liga: Liga;
+};
 
 export function CartaLiga(props: any): JSX.Element {
 	const [showActionSheet, setShowActionSheet] = useState(false);
+
+	const [liga, setLiga] = useState<Liga>(props.liga);
+
+
 	return (
 		<>
 			<IonCard>
@@ -30,7 +39,7 @@ export function CartaLiga(props: any): JSX.Element {
 						</IonCol>
 						<IonCol>
 							<IonRow>
-								<IonTitle color={"light"}>Nombre liga</IonTitle>
+								<IonTitle color={"light"}>{liga.nombre}</IonTitle>
 								<IonButton onClick={() => setShowActionSheet(true)}>
 									A
 								</IonButton>

@@ -1,6 +1,7 @@
 import { IonBadge, IonIcon } from "@ionic/react";
 import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
-import { Jugador } from "../shared/sharedTypes";
+import { getUsuario, requestToken } from "../endpoints/userEndpoints";
+import { Jugador, Usuario } from "../shared/sharedTypes";
 
 export const urlBackground: string = `url(https://ih1.redbubble.net/image.389384727.9608/flat,128x,075,f-pad,128x128,f8f8f8.u5.jpg)`;
 export const urlBackground2: string = `url(https://static.vecteezy.com/system/resources/previews/007/492/570/original/sport-background-illustration-suitable-for-banners-and-more-free-vector.jpg)`;
@@ -40,4 +41,30 @@ export function getIconoEstado(jugador: Jugador) {
 				</IonBadge>
 			);
 	}
+}
+
+export async function setUsuarioAndRequestToken(
+	email: string,
+	contraseña: string
+): Promise<boolean> {
+	const newToken = await requestToken(email, contraseña);
+	if (newToken !== null && newToken !== undefined) {
+		let token = newToken;
+		let usuario = await getUsuario(email);
+		localStorage.setItem("token", token);
+		localStorage.setItem("usuario", JSON.stringify(usuario));
+		return true;
+	} else {
+		return false;
+	}
+}
+
+export function getToken(): string {
+	return localStorage.getItem("token") + "";
+}
+
+export function getUsuarioLogueado(): Usuario | undefined {
+	let u = JSON.parse(localStorage.getItem("usuario") + "");
+	console.log(u);
+	return u;
 }

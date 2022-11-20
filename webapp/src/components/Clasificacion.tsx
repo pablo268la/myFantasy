@@ -1,10 +1,9 @@
 import { IonActionSheet, IonButton, IonContent, IonPage } from "@ionic/react";
 import { caretForwardCircle, close, heart, trash } from "ionicons/icons";
 import { useState } from "react";
-import { Usuario } from "../shared/sharedTypes";
 
 type ClassificacionProps = {
-	usuario: Usuario | undefined;
+
 };
 
 function Clasificacion(props: ClassificacionProps): JSX.Element {
