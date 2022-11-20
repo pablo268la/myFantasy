@@ -7,22 +7,25 @@ import { verifyUser } from "./usuariosController";
 export const getLiga: RequestHandler = async (req, res) => {
 	const email = req.body.email;
 	const token = req.body.token;
+	try {
+		let usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
 
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
+		if (usuario && verified) {
+			const ligaEncontrada = await modeloLiga.findById(req.params.id);
+			if (!ligaEncontrada) return res.status(204).json();
 
-	if (usuario && verified) {
-		const ligaEncontrada = await modeloLiga.findById(req.params.id);
-		if (!ligaEncontrada) return res.status(204).json();
+			if (ligaEncontrada.idUsuarios.indexOf(usuario.id) === -1)
+				return res
+					.status(401)
+					.json({ message: "Usuario no autorizado: No pertence a esta liga" });
 
-		if (ligaEncontrada.idUsuarios.indexOf(usuario.id) === -1)
-			return res
-				.status(401)
-				.json({ message: "Usuario no autorizado: No pertence a esta liga" });
-
-		return res.status(200).json(ligaEncontrada);
-	} else {
-		return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(200).json(ligaEncontrada);
+		} else {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+	} catch (error) {
+		return res.status(500).json(error);
 	}
 };
 
