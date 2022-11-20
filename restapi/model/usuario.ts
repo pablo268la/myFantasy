@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export const usuario = new Schema<IUsuario>(
 	{
@@ -40,7 +40,7 @@ export interface IUsuario {
 	nombre: string;
 	email: string;
 	contraseña: string;
-	ligas: Types.DocumentArray<string>;
+	ligas: string[];
 }
 
 export const modeloUsuario = model<IUsuario>("usuario", usuario);

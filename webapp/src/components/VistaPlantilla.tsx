@@ -9,7 +9,9 @@ import {
 	IonSelectOption
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getJugadorById, getPlantilla } from "../endpoints/userEndpoints";
+import { getJugadorById } from "../endpoints/jugadorEndpoints";
+import { getPlantilla } from "../endpoints/plantillaEndpoints";
+
 import {
 	Jugador,
 	JugadorTitular,
@@ -257,7 +259,12 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									</div>
 
 									<div
-										style={{ width: 540, height:"100%", marginLeft: "1%", marginBottom: "5%" }}
+										style={{
+											width: 540,
+											height: "100%",
+											marginLeft: "1%",
+											marginBottom: "5%",
+										}}
 									>
 										{jugadorPulsado === "" ? (
 											<IonContent>

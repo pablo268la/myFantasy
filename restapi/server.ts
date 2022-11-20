@@ -6,6 +6,7 @@ import promBundle from "express-prom-bundle";
 import morgan from "morgan";
 import apiEquipos from "./routes/rutasEquipos";
 import apiJugadores from "./routes/rutasJugador";
+import apiLigas from "./routes/rutasLigas";
 import apiSofaScore from "./routes/rutasSofascoreMarca";
 import apiUsuarios from "./routes/rutasUsuarios";
 
@@ -35,6 +36,7 @@ app.use(apiSofaScore);
 app.use(apiJugadores);
 app.use(apiEquipos);
 app.use(apiUsuarios);
+app.use(apiLigas);
 
 app.use(helmet.hidePoweredBy());
 

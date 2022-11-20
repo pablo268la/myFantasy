@@ -9,6 +9,11 @@ export const liga = new Schema<ILiga>(
 			trim: true,
 			unique: true,
 		},
+		nombre: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 		idUsuarios: {
 			type: [String],
 			required: true,
@@ -36,6 +41,7 @@ export const liga = new Schema<ILiga>(
 
 export interface ILiga {
 	_id: string;
+	nombre: string;
 	idUsuarios: Types.DocumentArray<string>;
 	propiedadJugadores: Types.DocumentArray<IPropiedadJugador>;
 	enlaceInvitacion: string;

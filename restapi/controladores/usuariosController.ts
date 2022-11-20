@@ -36,7 +36,6 @@ export const createUsuario: RequestHandler = async (req, res) => {
 			res.status(400).json({ message: "Usuario ya existe" });
 		}
 	} catch (error) {
-		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -62,8 +61,6 @@ export const requestToken: RequestHandler = async (req, res) => {
 				req.body.contraseña,
 				usuario.contraseña
 			);
-
-			console.log(usuario.contraseña + " " + req.body.contraseña);
 
 			if (contraseñaCorrecta) {
 				const token = jwt.sign(
@@ -91,10 +88,9 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
 			return res.status(400).json({ message: "Token o email no recibidos" });
 		}
 
-		const payload : any = jwt.verify(token, process.env.JWT_SECRET || "secret");
-		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
 
-		if (usuario !== null && payload.id === usuario.id) {
+		if (verified) {
 			res.status(200).json({ message: "Token válido" });
 		} else {
 			res.status(401).json({ message: "No autorizado" });
@@ -103,3 +99,21 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
 		res.status(500).json(error);
 	}
 };
+
+export async function verifyUser(
+	email: string,
+	token: string
+): Promise<boolean> {
+	try {
+		const payload: any = jwt.verify(token, process.env.JWT_SECRET || "secret");
+		const usuario = await modeloUsuario.findOne({ email: email });
+
+		if (usuario !== null && payload.id === usuario.id) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (error) {
+		return false;
+	}
+}
