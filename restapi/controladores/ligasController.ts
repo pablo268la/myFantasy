@@ -30,8 +30,8 @@ export const getLiga: RequestHandler = async (req, res) => {
 };
 
 export const getLigasUsuario: RequestHandler = async (req, res) => {
-	const email = req.body.email;
-	const token = req.body.token;
+	const email = req.params.email;
+	const token = req.params.token;
 	try {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);

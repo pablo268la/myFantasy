@@ -8,9 +8,12 @@ export async function getLiga(
 	token: string
 ): Promise<Liga | null> {
 	let response = await fetch(apiEndPoint + "/ligas/" + idLiga, {
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ email, token }),
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
 	});
 
 	if (response.status === 200) {
@@ -25,16 +28,19 @@ export async function getLigasUsuario(
 	token: string
 ): Promise<Liga[]> {
 	let response = await fetch(apiEndPoint + "/ligas", {
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ email, token }),
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
 	});
 
 	if (response.status === 200) {
 		let ligas = [];
 		for (let liga of await response.json()) {
-			let l = await getLiga(liga, email, token)
-			if (l ) {
+			let l = await getLiga(liga, email, token);
+			if (l) {
 				ligas.push(l);
 			}
 		}
