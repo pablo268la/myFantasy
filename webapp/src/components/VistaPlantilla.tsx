@@ -1,12 +1,19 @@
 import {
 	IonButton,
+	IonButtons,
 	IonCol,
 	IonContent,
+	IonHeader,
 	IonList,
+	IonMenuButton,
+	IonPage,
 	IonProgressBar,
 	IonRow,
 	IonSelect,
-	IonSelectOption
+	IonSelectOption,
+	IonTitle,
+	IonToolbar,
+	useIonRouter
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadorById } from "../endpoints/jugadorEndpoints";
@@ -15,11 +22,12 @@ import { getPlantilla } from "../endpoints/plantillaEndpoints";
 import {
 	Jugador,
 	JugadorTitular,
-	PlantillaUsuario
+	PlantillaUsuario,
 } from "../shared/sharedTypes";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { ListaJugadores } from "./ListaJugadores";
+import { MenuLateral } from "./MenuLateral";
 
 export type Formacion = {
 	portero: number;
@@ -28,11 +36,11 @@ export type Formacion = {
 	delantero: number;
 };
 
-type PlantillaProps = {
-	
-};
+type PlantillaProps = {};
 
 function VistaPlantilla(props: PlantillaProps): JSX.Element {
+	const nav = useIonRouter();
+
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
 	const [formacion, setFormacion] = useState<Formacion>({
 		portero: 1,
@@ -193,115 +201,126 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	return (
 		<>
-			<IonContent fullscreen>
-				<IonRow>
-					<IonCol>
-						{!loading ? (
-							<>
-								<div style={{ width: 650 }}>
-									<IonRow style={{ justifyContent: "space-between" }}>
-										<IonList style={{ width: 200 }}>
-											<IonSelect
-												interface="popover"
-												placeholder={
-													formacion.defensa +
-													"-" +
-													formacion.medio +
-													"-" +
-													formacion.delantero
-												}
-												onIonChange={(e) => {
-													let f: Formacion = {
-														portero: 1,
-														defensa: Number(e.detail.value.split("-")[0]),
-														medio: Number(e.detail.value.split("-")[1]),
-														delantero: Number(e.detail.value.split("-")[2]),
-													};
-													cambiarFormacion(f);
-												}}
-											>
-												<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
-												<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
-												<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
-												<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
-												<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
-												<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
-												<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
-											</IonSelect>
-										</IonList>
-										{cambioAlineacion ? (
-											<IonButton>Guardar cambios</IonButton>
-										) : (
-											<></>
-										)}
-									</IonRow>
-								</div>
-								<IonRow style={{ height: "100%" }}>
-									<div
-										style={{
-											width: 650,
-											height: 600,
-											backgroundImage:
-												"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
-											backgroundSize: "cover",
-											marginBottom: "5%",
-										}}
-									>
-										<Alineacion
-											formacion={formacion}
-											setJugadorPulsado={cambiarJugador}
-											porteros={porteros}
-											defensas={defensas}
-											mediocentros={mediocentros}
-											delanteros={delanteros}
-										/>
+			<MenuLateral />
+			<IonPage id="main-content">
+				<IonHeader>
+					<IonToolbar>
+						<IonButtons slot="start">
+							<IonMenuButton></IonMenuButton>
+						</IonButtons>
+						<IonTitle>Menu</IonTitle>
+					</IonToolbar>
+				</IonHeader>
+				<IonContent>
+					<IonRow>
+						<IonCol>
+							{!loading ? (
+								<>
+									<div style={{ width: 650 }}>
+										<IonRow style={{ justifyContent: "space-between" }}>
+											<IonList style={{ width: 200 }}>
+												<IonSelect
+													interface="popover"
+													placeholder={
+														formacion.defensa +
+														"-" +
+														formacion.medio +
+														"-" +
+														formacion.delantero
+													}
+													onIonChange={(e) => {
+														let f: Formacion = {
+															portero: 1,
+															defensa: Number(e.detail.value.split("-")[0]),
+															medio: Number(e.detail.value.split("-")[1]),
+															delantero: Number(e.detail.value.split("-")[2]),
+														};
+														cambiarFormacion(f);
+													}}
+												>
+													<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
+													<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
+													<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
+													<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
+													<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
+													<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
+													<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
+												</IonSelect>
+											</IonList>
+											{cambioAlineacion ? (
+												<IonButton>Guardar cambios</IonButton>
+											) : (
+												<></>
+											)}
+										</IonRow>
 									</div>
+									<IonRow style={{ height: "100%" }}>
+										<div
+											style={{
+												width: 650,
+												height: 600,
+												backgroundImage:
+													"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
+												backgroundSize: "cover",
+												marginBottom: "5%",
+											}}
+										>
+											<Alineacion
+												formacion={formacion}
+												setJugadorPulsado={cambiarJugador}
+												porteros={porteros}
+												defensas={defensas}
+												mediocentros={mediocentros}
+												delanteros={delanteros}
+											/>
+										</div>
 
-									<div
-										style={{
-											width: 540,
-											height: "100%",
-											marginLeft: "1%",
-											marginBottom: "5%",
-										}}
-									>
-										{jugadorPulsado === "" ? (
-											<IonContent>
-												<ListaJugadores
-													porteros={porteros}
-													defensas={defensas}
-													mediocentros={mediocentros}
-													delanteros={delanteros}
-													formacion={formacion}
-													cambiarTitulares={cambiarTitulares}
-												/>
-											</IonContent>
-										) : (
-											<>
-												<CartaDetallesJugador
-													jugador={jugadores.find(
-														(j) => j.jugador._id === jugadorPulsado
-													)}
-													esParaCambio={true}
-													posicion={jugadorPulsado}
-													porteros={porteros}
-													defensas={defensas}
-													mediocentros={mediocentros}
-													delanteros={delanteros}
-													formacion={formacion}
-													cambiarTitulares={cambiarTitulares}
-												/>
-											</>
-										)}
-									</div>
-								</IonRow>
-							</>
-						) : (
-							<IonProgressBar type="indeterminate"></IonProgressBar>
-						)}
-					</IonCol>
-				</IonRow>
-			</IonContent>
+										<div
+											style={{
+												width: 540,
+												height: "100%",
+												marginLeft: "1%",
+												marginBottom: "5%",
+											}}
+										>
+											{jugadorPulsado === "" ? (
+												<IonContent>
+													<ListaJugadores
+														porteros={porteros}
+														defensas={defensas}
+														mediocentros={mediocentros}
+														delanteros={delanteros}
+														formacion={formacion}
+														cambiarTitulares={cambiarTitulares}
+													/>
+												</IonContent>
+											) : (
+												<>
+													<CartaDetallesJugador
+														jugador={jugadores.find(
+															(j) => j.jugador._id === jugadorPulsado
+														)}
+														esParaCambio={true}
+														posicion={jugadorPulsado}
+														porteros={porteros}
+														defensas={defensas}
+														mediocentros={mediocentros}
+														delanteros={delanteros}
+														formacion={formacion}
+														cambiarTitulares={cambiarTitulares}
+													/>
+												</>
+											)}
+										</div>
+									</IonRow>
+								</>
+							) : (
+								<IonProgressBar type="indeterminate"></IonProgressBar>
+							)}
+						</IonCol>
+					</IonRow>
+				</IonContent>
+			</IonPage>
 		</>
 	);
 }

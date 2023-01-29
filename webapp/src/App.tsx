@@ -57,7 +57,7 @@ function App(): JSX.Element {
 					<Route exact path="/home">
 						<Home />
 					</Route>
-					<Route exact path="/plantilla/">
+					<Route exact path="/plantilla">
 						<VistaPlantilla />
 					</Route>
 					<Route exact path="/clasificacion" component={Clasificacion}>
