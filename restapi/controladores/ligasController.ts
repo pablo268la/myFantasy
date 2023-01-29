@@ -5,8 +5,8 @@ import { modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
 
 export const getLiga: RequestHandler = async (req, res) => {
-	const email = req.body.email;
-	const token = req.body.token;
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
 	try {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
@@ -30,12 +30,12 @@ export const getLiga: RequestHandler = async (req, res) => {
 };
 
 export const getLigasUsuario: RequestHandler = async (req, res) => {
-	const email = req.params.email;
-	const token = req.params.token;
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
 	try {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
-
+	
 		if (usuario && verified) {
 			return res.status(200).json(usuario.ligas);
 		} else {

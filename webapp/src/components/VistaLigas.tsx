@@ -29,7 +29,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const [ligas, setLigas] = useState<Liga[]>();
 
 	useEffect(() => {
-		getLigasUsuario(getUsuarioLogueado()?.email + "", getToken()).then(
+		getLigasUsuario(getUsuarioLogueado()?.email as string, getToken()).then(
 			(ligas) => {
 				setLigas(ligas);
 			}

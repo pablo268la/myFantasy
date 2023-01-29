@@ -4,7 +4,7 @@ import * as LigasController from "../controladores/ligasController";
 
 const api: Router = express.Router();
 
-api.put("/ligas/:id", LigasController.getLiga);
+api.get("/ligas/:id", LigasController.getLiga);
 
 api.get("/ligas/", LigasController.getLigasUsuario);
 

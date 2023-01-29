@@ -27,6 +27,7 @@ export async function getLigasUsuario(
 	email: string,
 	token: string
 ): Promise<Liga[]> {
+	console.log(email + " " + token)
 	let response = await fetch(apiEndPoint + "/ligas", {
 		method: "GET",
 		headers: {

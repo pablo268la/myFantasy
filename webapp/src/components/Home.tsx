@@ -31,7 +31,7 @@ export function Home(props: HomeProps): JSX.Element {
 				</IonHeader>
 				<IonContent>
 					<VistaLigas
-						email={getUsuarioLogueado()?.email + ""}
+						email={getUsuarioLogueado()?.email as string}
 						token={getToken()}
 					/>
 				</IonContent>

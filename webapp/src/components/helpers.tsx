@@ -60,11 +60,10 @@ export async function setUsuarioAndRequestToken(
 }
 
 export function getToken(): string {
-	return localStorage.getItem("token") + "";
+	return localStorage.getItem("token") as string;
 }
 
 export function getUsuarioLogueado(): Usuario | undefined {
-	let u = JSON.parse(localStorage.getItem("usuario") + "");
-	console.log(u);
+	let u = JSON.parse(localStorage.getItem("usuario") as string);
 	return u;
 }
