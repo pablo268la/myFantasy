@@ -9,8 +9,6 @@ import {
 	useIonRouter
 } from "@ionic/react";
 import { MenuLateral } from "./MenuLateral";
-import { VistaLigas } from "./VistaLigas";
-import { getToken, getUsuarioLogueado } from "./helpers";
 
 type HomeProps = {};
 
@@ -30,10 +28,7 @@ export function Home(props: HomeProps): JSX.Element {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent>
-					<VistaLigas
-						email={getUsuarioLogueado()?.email as string}
-						token={getToken()}
-					/>
+					
 				</IonContent>
 			</IonPage>
 		</>

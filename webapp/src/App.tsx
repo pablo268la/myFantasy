@@ -19,34 +19,17 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { useState } from "react";
 import Clasificacion from "./components/Clasificacion";
 import { Home } from "./components/Home";
 import Login from "./components/Login";
+import { VistaLigas } from "./components/VistaLigas";
 import VistaPlantilla from "./components/VistaPlantilla";
-import { requestToken } from "./endpoints/userEndpoints";
-import { Usuario } from "./shared/sharedTypes";
+import { getToken, getUsuarioLogueado } from "./components/helpers";
 import "./theme/variables.css";
 
 setupIonicReact();
 
 function App(): JSX.Element {
-	const [usuario, setUsuario] = useState<Usuario>();
-	const [token, setToken] = useState<string>();
-
-	async function setUsuarioAndRequestToken(
-		email: string,
-		contraseña: string
-	): Promise<boolean> {
-		const newToken = await requestToken(email, contraseña);
-		if (newToken !== null && newToken !== undefined) {
-			setToken(newToken);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	return (
 		<IonApp>
 			<IonReactRouter>
@@ -57,10 +40,16 @@ function App(): JSX.Element {
 					<Route exact path="/home">
 						<Home />
 					</Route>
+					<Route exact path="/ligas">
+						<VistaLigas
+							email={getUsuarioLogueado()?.email as string}
+							token={getToken()}
+						/>
+					</Route>
 					<Route exact path="/plantilla">
 						<VistaPlantilla />
 					</Route>
-					<Route exact path="/clasificacion" component={Clasificacion}>
+					<Route exact path="/clasificacion">
 						<Clasificacion />
 					</Route>
 				</IonRouterOutlet>
