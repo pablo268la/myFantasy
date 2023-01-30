@@ -21,6 +21,7 @@ import "@ionic/react/css/text-transformation.css";
 /* Theme variables */
 import { Home } from "./components/Home";
 import Clasificacion from "./components/vistaClasificacion/Clasificacion";
+import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
 import Login from "./components/vistaLogin/Login";
 import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
@@ -46,6 +47,10 @@ function App(): JSX.Element {
 							token={getToken()}
 						/>
 					</Route>
+					<Route exact path="/ligas/create">
+						<VistaCrearLiga />
+					</Route>
+					<Route exact path="/ligas/join/:id"></Route>
 					<Route exact path="/plantilla">
 						<VistaPlantilla />
 					</Route>

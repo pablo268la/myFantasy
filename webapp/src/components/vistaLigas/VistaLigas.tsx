@@ -11,6 +11,7 @@ import {
 	IonLabel,
 	IonList,
 	IonPage,
+	IonRouterLink,
 	IonRow,
 	IonTitle,
 } from "@ionic/react";
@@ -79,22 +80,24 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 								<IonTitle>
 									<IonItem>LIGAS DISPONIBLES</IonItem>
 								</IonTitle>
-								<IonCard>
-									<IonCardContent
-										style={{
-											background: urlBackground2,
-										}}
-									>
-										<IonRow style={{ justifyContent: "center" }}>
-											<IonLabel
-												style={{ fontSize: "18px", fontWeight: "bold" }}
-												color={"light"}
-											>
-												Crear nueva liga
-											</IonLabel>
-										</IonRow>
-									</IonCardContent>
-								</IonCard>
+								<IonRouterLink href="/ligas/create">
+									<IonCard>
+										<IonCardContent
+											style={{
+												background: urlBackground2,
+											}}
+										>
+											<IonRow style={{ justifyContent: "center" }}>
+												<IonLabel
+													style={{ fontSize: "18px", fontWeight: "bold" }}
+													color={"light"}
+												>
+													Crear nueva liga
+												</IonLabel>
+											</IonRow>
+										</IonCardContent>
+									</IonCard>
+								</IonRouterLink>
 								<IonCard>
 									<IonCardContent
 										style={{
