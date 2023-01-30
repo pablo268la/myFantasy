@@ -1,18 +1,14 @@
 import {
 	IonButton,
-	IonButtons,
 	IonCol,
 	IonContent,
 	IonHeader,
 	IonList,
-	IonMenuButton,
 	IonPage,
 	IonProgressBar,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonTitle,
-	IonToolbar,
 	useIonRouter
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -24,6 +20,7 @@ import {
 	JugadorTitular,
 	PlantillaUsuario,
 } from "../../shared/sharedTypes";
+import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -204,12 +201,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			<MenuLateral />
 			<IonPage id="main-content">
 				<IonHeader>
-					<IonToolbar>
-						<IonButtons slot="start">
-							<IonMenuButton></IonMenuButton>
-						</IonButtons>
-						<IonTitle>Menu</IonTitle>
-					</IonToolbar>
+					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
 					<IonRow>

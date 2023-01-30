@@ -2,7 +2,6 @@ import {
 	IonAccordion,
 	IonAccordionGroup,
 	IonButton,
-	IonButtons,
 	IonCard,
 	IonCardContent,
 	IonCol,
@@ -11,16 +10,19 @@ import {
 	IonItem,
 	IonLabel,
 	IonList,
-	IonMenuButton,
 	IonPage,
 	IonRow,
 	IonTitle,
-	IonToolbar,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLigasUsuario } from "../../endpoints/ligasEndpoints";
-import { getToken, getUsuarioLogueado, urlBackground2 } from "../../helpers/helpers";
+import {
+	getToken,
+	getUsuarioLogueado,
+	urlBackground2,
+} from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
+import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { CartaLiga } from "./CartaLiga";
 
@@ -47,12 +49,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 			<MenuLateral />
 			<IonPage id="main-content">
 				<IonHeader>
-					<IonToolbar>
-						<IonButtons slot="start">
-							<IonMenuButton></IonMenuButton>
-						</IonButtons>
-						<IonTitle>Menu</IonTitle>
-					</IonToolbar>
+					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
 					<IonRow>
@@ -140,15 +137,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 							<></>
 						)}
 					</IonRow>
-
-					{/* <iframe
-					id="sofa-standings-embed-36-42409"
-					width="100%"
-					height="717"
-					src="https://www.sofascore.com/es/torneo/36/42409/clasificacion/tablas/introducir"
-					scrolling="yes"
-					style={{ height: "717px" }}
-				></iframe> */}
 				</IonContent>
 			</IonPage>
 		</>
