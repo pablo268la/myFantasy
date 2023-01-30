@@ -19,12 +19,12 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import Clasificacion from "./components/Clasificacion";
 import { Home } from "./components/Home";
-import Login from "./components/Login";
-import { VistaLigas } from "./components/VistaLigas";
-import VistaPlantilla from "./components/VistaPlantilla";
-import { getToken, getUsuarioLogueado } from "./components/helpers";
+import Clasificacion from "./components/vistaClasificacion/Clasificacion";
+import { VistaLigas } from "./components/vistaLigas/VistaLigas";
+import Login from "./components/vistaLogin/Login";
+import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
+import { getToken, getUsuarioLogueado } from "./helpers/helpers";
 import "./theme/variables.css";
 
 setupIonicReact();

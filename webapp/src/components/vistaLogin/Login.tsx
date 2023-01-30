@@ -17,8 +17,8 @@ import {
 } from "@ionic/react";
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { createUsuario, getUsuario } from "../endpoints/userEndpoints";
-import { setUsuarioAndRequestToken } from "./helpers";
+import { createUsuario, getUsuario } from "../../endpoints/userEndpoints";
+import { setUsuarioAndRequestToken } from "../../helpers/helpers";
 
 type LoginProps = {};
 

@@ -10,8 +10,8 @@ import {
 } from "@ionic/react";
 import { share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
-import { Liga } from "../shared/sharedTypes";
-import { urlBackground2 } from "./helpers";
+import { urlBackground2 } from "../../helpers/helpers";
+import { Liga } from "../../shared/sharedTypes";
 
 type CartaLigaProps = {
 	liga: Liga;

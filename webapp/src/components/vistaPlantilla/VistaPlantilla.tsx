@@ -16,18 +16,18 @@ import {
 	useIonRouter
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getJugadorById } from "../endpoints/jugadorEndpoints";
-import { getPlantilla } from "../endpoints/plantillaEndpoints";
+import { getJugadorById } from "../../endpoints/jugadorEndpoints";
+import { getPlantilla } from "../../endpoints/plantillaEndpoints";
 
 import {
 	Jugador,
 	JugadorTitular,
 	PlantillaUsuario,
-} from "../shared/sharedTypes";
+} from "../../shared/sharedTypes";
+import { MenuLateral } from "../comunes/MenuLateral";
 import { Alineacion } from "./Alineacion";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { ListaJugadores } from "./ListaJugadores";
-import { MenuLateral } from "./MenuLateral";
 
 export type Formacion = {
 	portero: number;

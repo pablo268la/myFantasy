@@ -18,11 +18,11 @@ import {
 	IonToolbar,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getLigasUsuario } from "../endpoints/ligasEndpoints";
-import { Liga } from "../shared/sharedTypes";
+import { getLigasUsuario } from "../../endpoints/ligasEndpoints";
+import { getToken, getUsuarioLogueado, urlBackground2 } from "../../helpers/helpers";
+import { Liga } from "../../shared/sharedTypes";
+import { MenuLateral } from "../comunes/MenuLateral";
 import { CartaLiga } from "./CartaLiga";
-import { MenuLateral } from "./MenuLateral";
-import { getToken, getUsuarioLogueado, urlBackground2 } from "./helpers";
 
 type VistaLigasProps = {
 	email: string;

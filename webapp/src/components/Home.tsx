@@ -8,7 +8,7 @@ import {
 	IonToolbar,
 	useIonRouter
 } from "@ionic/react";
-import { MenuLateral } from "./MenuLateral";
+import { MenuLateral } from "./comunes/MenuLateral";
 
 type HomeProps = {};
 

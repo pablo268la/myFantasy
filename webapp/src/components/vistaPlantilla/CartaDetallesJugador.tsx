@@ -11,8 +11,8 @@ import {
 	IonText
 } from "@ionic/react";
 
-import { JugadorTitular } from "../shared/sharedTypes";
-import { getIconoEstado, ponerPuntosAValor, urlBackground } from "./helpers";
+import { getIconoEstado, ponerPuntosAValor, urlBackground } from "../../helpers/helpers";
+import { JugadorTitular } from "../../shared/sharedTypes";
 import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
 import { Formacion } from "./VistaPlantilla";
 

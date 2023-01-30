@@ -1,5 +1,5 @@
 import { IonButton, IonCol, IonContent, IonRow } from "@ionic/react";
-import { JugadorTitular } from "../shared/sharedTypes";
+import { JugadorTitular } from "../../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { Formacion } from "./VistaPlantilla";

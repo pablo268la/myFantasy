@@ -7,8 +7,8 @@ import {
 	IonText
 } from "@ionic/react";
 
-import { JugadorTitular } from "../shared/sharedTypes";
-import { getIconoEstado, urlBackground } from "./helpers";
+import { getIconoEstado, urlBackground } from "../../helpers/helpers";
+import { JugadorTitular } from "../../shared/sharedTypes";
 
 type CartaJugadorProps = {
 	jugador?: JugadorTitular;
