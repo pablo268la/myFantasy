@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import * as UUID from "uuid";
 import { modeloLiga } from "../model/liga";
 import { modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
@@ -35,7 +34,7 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 	try {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
-	
+
 		if (usuario && verified) {
 			return res.status(200).json(usuario.ligas);
 		} else {
@@ -47,22 +46,21 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 };
 
 export const createLiga: RequestHandler = async (req, res) => {
-	const email = req.body.email;
-	const token = req.body.token;
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
 
 	let usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
 	try {
 		if (usuario && verified) {
-			const ligaCreada = new modeloLiga({
-				_id: UUID.v4(),
-				nombre: req.body.nombre,
-				idUsuarios: [usuario.id],
-				propiedadJugadores: [],
-				enlaceInvitacion: "miEnlace",
-				configuracion: "",
-			});
-			const ligaGuardada = await ligaCreada.save();
+
+			if (usuario.ligas.length >= 5){
+				return res.status(401).json({ message: "No puedes participar en más de 5 ligas." });
+			}
+
+			let liga = new modeloLiga(req.body.liga);
+
+			const ligaGuardada = await liga.save();
 
 			usuario.ligas.push(ligaGuardada._id);
 			await usuario.save();

@@ -18,9 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { getLigasUsuario } from "../../endpoints/ligasEndpoints";
 import {
-	getToken,
-	getUsuarioLogueado,
-	urlBackground2,
+	urlBackground2
 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -38,11 +36,9 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const [ligas, setLigas] = useState<Liga[]>();
 
 	useEffect(() => {
-		getLigasUsuario(getUsuarioLogueado()?.email as string, getToken()).then(
-			(ligas) => {
-				setLigas(ligas);
-			}
-		);
+		getLigasUsuario().then((ligas) => {
+			setLigas(ligas);
+		});
 	}, []);
 
 	return (

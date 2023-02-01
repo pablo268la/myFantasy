@@ -29,6 +29,10 @@ export const liga = new Schema<ILiga>(
 			required: true,
 			trim: true,
 		},
+		maxJugadores: {
+			type: Number,
+			required: true,
+		},
 		configuracion: {
 			type: String,
 		},
@@ -45,6 +49,7 @@ export interface ILiga {
 	idUsuarios: Types.DocumentArray<string>;
 	propiedadJugadores: Types.DocumentArray<IPropiedadJugador>;
 	enlaceInvitacion: string;
+	maxJugadores: number;
 	configuracion: string;
 }
 

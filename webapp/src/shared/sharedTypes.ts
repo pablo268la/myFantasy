@@ -1,3 +1,9 @@
+export type restApiResponse = {
+	status: number;
+	message: string;
+	data: any;
+};
+
 export type Jugador = {
 	_id: string;
 	nombre: string;
@@ -54,11 +60,12 @@ export type Usuario = {
 };
 
 export type Liga = {
-	_id: string;
+	_id: string | undefined;
 	nombre: string;
 	idUsuarios: string[];
 	propiedadJugadores: PropiedadJugador[];
 	enlaceInvitacion: string;
+	maxJugadores: number;
 	configuracion: string;
 };
 
