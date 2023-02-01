@@ -9,7 +9,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: elgohr/Publish-Docker-Github-Action@3.04  
         with:
-          name: pablo268/myFantasy
+          name: pablo268/myfantasy
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ghcr.io
