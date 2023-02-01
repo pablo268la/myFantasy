@@ -4,7 +4,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -29,4 +28,4 @@ jobs:
             docker stop restapi
             docker rm restapi
             docker pull ghcr.io/pablo268/restapi:latest
-            docker run -d -p 5000:5000 --net=host  --name restapi ghcr.io/pablo268/restapi:latest
+            docker run -d -p 5000:5000 --net=host --name restapi ghcr.io/pablo268/restapi:latest
