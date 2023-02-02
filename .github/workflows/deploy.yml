@@ -13,7 +13,7 @@ jobs:
           name: pablo268la/fantasyrestapi
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ghcr.io
+          registry: dockerhub
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
@@ -28,5 +28,5 @@ jobs:
           command: |
             docker stop restapi
             docker rm restapi
-            docker pull ghcr.io/pablo268la/fantasyrestapi:latest
+            docker pull dockerhub/pablo268la/fantasyrestapi:latest
             docker run -d -p 3000:3000 --net=host --name restapi ghcr.io/pablo268la/fantasyrestapi:latest
