@@ -1,5 +1,6 @@
 name: Build and push Docker images
-on: [push]
+on: 
+  [push, workflow_dispatch]
 
 jobs:
   build:
