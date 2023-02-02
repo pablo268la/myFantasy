@@ -9,7 +9,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: elgohr/Publish-Docker-Github-Action@3.04  
         with:
-          name: pablo268/myfantasy
+          name: pablo268la/fantasyrestapi
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ghcr.io
@@ -27,5 +27,5 @@ jobs:
           command: |
             docker stop restapi
             docker rm restapi
-            docker pull ghcr.io/pablo268/restapi:latest
-            docker run -d -p 5000:5000 --net=host --name restapi ghcr.io/pablo268/restapi:latest
+            docker pull ghcr.iopablo268la/fantasyrestapi:latest
+            docker run -d -p 5000:5000 --net=host --name restapi ghcr.io/pablo268la/fantasyrestapi:latest
