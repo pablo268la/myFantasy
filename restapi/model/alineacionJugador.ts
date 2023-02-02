@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IJugadorEnPlantilla, jugadorEnPlantilla } from "./jugadorEnPlantilla";
 
 export const alineacionJugador = new Schema<IAlineacionJugador>(
@@ -44,10 +44,10 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 
 export interface IAlineacionJugador {
 	_id: string;
-	porteros: Types.DocumentArray<IJugadorEnPlantilla>;
-	defensas: Types.DocumentArray<IJugadorEnPlantilla>;
-	medios: Types.DocumentArray<IJugadorEnPlantilla>;
-	delanteros: Types.DocumentArray<IJugadorEnPlantilla>;
+	porteros: IJugadorEnPlantilla[];
+	defensas: IJugadorEnPlantilla[];
+	medios: IJugadorEnPlantilla[];
+	delanteros: IJugadorEnPlantilla[];
 	formacion: string;
 }
 

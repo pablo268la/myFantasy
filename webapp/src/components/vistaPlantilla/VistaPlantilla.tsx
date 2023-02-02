@@ -9,12 +9,13 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	useIonRouter
+	useIonRouter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadorById } from "../../endpoints/jugadorEndpoints";
 import { getPlantilla } from "../../endpoints/plantillaEndpoints";
 
+import { getUsuarioLogueado } from "../../helpers/helpers";
 import {
 	Jugador,
 	JugadorTitular,
@@ -62,13 +63,16 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	const getJugadoresAPI = async () => {
-		await getPlantilla().then(async (res) => {
-			setPlantilla(res[0]);
+		await getPlantilla(
+			getUsuarioLogueado()?.ligas.at(0) as string,
+			getUsuarioLogueado()?.id as string
+		).then(async (res) => {
+			setPlantilla(res);
 			setFormacion({
 				portero: 1,
-				defensa: Number(res[0].alineacionJugador.formacion.split("-")[0]),
-				medio: Number(res[0].alineacionJugador.formacion.split("-")[1]),
-				delantero: Number(res[0].alineacionJugador.formacion.split("-")[2]),
+				defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
+				medio: Number(res.alineacionJugador.formacion.split("-")[1]),
+				delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
 			});
 
 			let ju: JugadorTitular[] = [];
@@ -77,28 +81,28 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			let me: JugadorTitular[] = [];
 			let dl: JugadorTitular[] = [];
 
-			res[0].alineacionJugador.defensas.forEach(async (tupple) => {
+			res.alineacionJugador.defensas.forEach(async (tupple) => {
 				let j = await getJugadorById(tupple.idJugador);
 				de.push({ jugador: j, titular: tupple.enPlantilla });
 				ju.push({ jugador: j, titular: tupple.enPlantilla });
 				de.sort(ordenarListaJugadoresPorTitular());
 				setDefensas(de);
 			});
-			res[0].alineacionJugador.medios.forEach(async (tupple) => {
+			res.alineacionJugador.medios.forEach(async (tupple) => {
 				let j = await getJugadorById(tupple.idJugador);
 				me.push({ jugador: j, titular: tupple.enPlantilla });
 				ju.push({ jugador: j, titular: tupple.enPlantilla });
 				me.sort(ordenarListaJugadoresPorTitular());
 				setMediocentros(me);
 			});
-			res[0].alineacionJugador.delanteros.forEach(async (tupple) => {
+			res.alineacionJugador.delanteros.forEach(async (tupple) => {
 				let j = await getJugadorById(tupple.idJugador);
 				dl.push({ jugador: j, titular: tupple.enPlantilla });
 				ju.push({ jugador: j, titular: tupple.enPlantilla });
 				dl.sort(ordenarListaJugadoresPorTitular());
 				setDelanteros(dl);
 			});
-			res[0].alineacionJugador.porteros.forEach(async (tupple) => {
+			res.alineacionJugador.porteros.forEach(async (tupple) => {
 				let j = await getJugadorById(tupple.idJugador);
 				po.push({ jugador: j, titular: tupple.enPlantilla });
 

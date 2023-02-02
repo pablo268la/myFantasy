@@ -21,7 +21,12 @@ export const getJugador: RequestHandler = async (req, res) => {
 	res.json(await modeloJugador.findOne({ _id: req.params.idJugador }));
 };
 export const getPlantilla: RequestHandler = async (req, res) => {
-	res.json(await modeloPlantillaUsuario.find());
+	const idLiga = req.params.idLiga;
+	const idUsuario = req.params.idUsuario;
+	
+	const p = await modeloPlantillaUsuario.find({ idLiga: idLiga, idUsuario: idUsuario })
+	res.json(p[0]);
+	
 };
 export const getAlineacionJugador: RequestHandler = async (req, res) => {
 	res.json(await modeloAlineacionJugador.find());

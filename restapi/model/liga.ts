@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 export const liga = new Schema<ILiga>(
@@ -46,8 +46,8 @@ export const liga = new Schema<ILiga>(
 export interface ILiga {
 	_id: string;
 	nombre: string;
-	idUsuarios: Types.DocumentArray<string>;
-	propiedadJugadores: Types.DocumentArray<IPropiedadJugador>;
+	idUsuarios:  string[];
+	propiedadJugadores:  IPropiedadJugador[];
 	enlaceInvitacion: string;
 	maxJugadores: number;
 	configuracion: string;

@@ -1,11 +1,12 @@
-FROM nikolaik/python-nodejs:latest
+#FROM nikolaik/python-nodejs:latest
+FROM node:16.13.1
 LABEL org.opencontainers.image.source https://github.com/pglez82/ASW2122_0
 COPY . /app
 WORKDIR /app
 
-RUN apt-get update || : && apt-get install python3 -y
-RUN python -m pip install requests
-RUN python -m pip install bs4
+#RUN apt-get update || : && apt-get install python3 -y
+#RUN python -m pip install requests
+#RUN python -m pip install bs4
 RUN npm install
 
 EXPOSE 5000

@@ -1,8 +1,8 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface IAlineacion {
-	jugadoresTitulares: Types.DocumentArray<string>;
-	jugadoresSuplentes: Types.DocumentArray<string>;
+	jugadoresTitulares: string[];
+	jugadoresSuplentes: string[]; 
 }
 
 export const alineacion = new Schema<IAlineacion>(

@@ -10,4 +10,7 @@ api.get("/ligas/", LigasController.getLigasUsuario);
 
 api.post("/ligas", LigasController.createLiga)
 
+api.post("/plantillas/crear", LigasController.createPlantillaUsuario)
+
+
 export default api;

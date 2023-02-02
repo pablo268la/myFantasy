@@ -17,7 +17,8 @@ import {
 import { settings } from "ionicons/icons";
 import { useState } from "react";
 import { crearLiga } from "../../endpoints/ligasEndpoints";
-import { restApiResponse } from "../../shared/sharedTypes";
+import { crearPlantillaUsuario } from "../../endpoints/plantillaEndpoints";
+import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 
@@ -30,6 +31,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 	const [ligaPrivada, setLigaPrivada] = useState<boolean>(false);
 
 	const [ligaCreada, setLigaCreada] = useState<boolean>(false);
+	const [idLiga, setIdLiga] = useState<string>();
 
 	const vaciarFormulario = () => {
 		setNombreLiga("");
@@ -38,7 +40,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 		setLigaPrivada(false);
 	};
 
-	const validarYcrearLiga = () => {
+	const validarYcrearLiga = async () => {
 		if (nombreLiga === undefined || nombreLiga === "") {
 			alert("El nombre de la liga no puede estar vacío");
 			return;
@@ -48,13 +50,16 @@ export function VistaCrearLiga(props: any): JSX.Element {
 			return;
 		}
 
-		crearLiga(nombreLiga, maxPlayers, usarEntrenador).then(
-			(response: restApiResponse) => {
-				if (response.status === 201) {
+		await crearLiga(nombreLiga, maxPlayers, usarEntrenador).then(
+			async (response: Liga) => {
+				if (response !== null && response !== undefined) {
 					alert("Liga creada");
-					setLigaCreada(true);
 					vaciarFormulario();
-				} else alert(response.message);
+					setIdLiga(response._id);
+					console.log(response);
+					await crearPlantillaUsuario(response._id as string);
+					setLigaCreada(true);
+				} else alert("Algo ha pasado");
 			}
 		);
 	};
@@ -162,7 +167,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 						</IonGrid>
 					) : (
 						<>
-							<IonRouterLink href="/ligas">
+							<IonRouterLink href={("/plantilla/starts/" + idLiga) as string}>
 								<IonButton> Ver plantilla</IonButton>
 							</IonRouterLink>
 						</>

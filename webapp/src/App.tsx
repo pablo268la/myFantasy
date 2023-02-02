@@ -24,6 +24,7 @@ import Clasificacion from "./components/vistaClasificacion/Clasificacion";
 import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
 import Login from "./components/vistaLogin/Login";
+import { PlantillaStart } from "./components/vistaPlantilla/PlantillaStart";
 import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
 import { getToken, getUsuarioLogueado } from "./helpers/helpers";
 import "./theme/variables.css";
@@ -53,6 +54,9 @@ function App(): JSX.Element {
 					<Route exact path="/ligas/join/:id"></Route>
 					<Route exact path="/plantilla">
 						<VistaPlantilla />
+					</Route>
+					<Route exact path="/plantilla/starts/:id">
+						<PlantillaStart />
 					</Route>
 					<Route exact path="/clasificacion">
 						<Clasificacion />

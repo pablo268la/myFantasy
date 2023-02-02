@@ -13,8 +13,6 @@ import {
 	IonPage,
 	IonRouterLink,
 	IonRow,
-	IonSlide,
-	IonSlides,
 	IonTitle,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -41,11 +39,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 		});
 	}, []);
 
-	const slideOpts = {
-		initialSlide: 1,
-		speed: 400,
-	};
-	
 	return (
 		<>
 			<MenuLateral />
@@ -138,24 +131,11 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 								</IonRow>
 							</IonCol>
 						) : (
-							<>
-								<IonSlides  style={{ border: "2px solid #123445" }} pager={true} options={slideOpts}>
-									<IonSlide>
-										<h1>Slide 1</h1>
-									</IonSlide>
-									<IonSlide>
-										<h1>Slide 2</h1>
-									</IonSlide>
-									<IonSlide>
-										<h1>Slide 3</h1>
-									</IonSlide>
-								</IonSlides>
-							</>
+							<></>
 						)}
 					</IonRow>
 				</IonContent>
 			</IonPage>
 		</>
 	);
-	
 }

@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { alineacionJugador, IAlineacionJugador } from "./alineacionJugador";
 
 export const plantillaUsuario = new Schema<IPlantillaUsuario>(
@@ -49,7 +49,7 @@ export interface IPlantillaUsuario {
 	idUsuario: string;
 	idLiga: string;
 	alineacionJugador: IAlineacionJugador;
-	alineacionesJornada: Types.DocumentArray<IAlineacionJugador>;
+	alineacionesJornada:  IAlineacionJugador[]; 
 	valor: number;
 	puntos: number;
 }

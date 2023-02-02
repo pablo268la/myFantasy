@@ -9,7 +9,8 @@ api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
 
 api.get("/jugadores/:idJugador", JugadoresController.getJugador);
 
-api.get("/plantilla", JugadoresController.getPlantilla);
+api.get("/plantilla/:idLiga/:idUsuario", JugadoresController.getPlantilla);
+
 api.get("/alineacionJugador", JugadoresController.getAlineacionJugador);
 
 export default api;

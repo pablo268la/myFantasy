@@ -1,6 +1,6 @@
 import * as UUID from "uuid";
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
-import { Liga, restApiResponse } from "../shared/sharedTypes";
+import { Liga } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
 
@@ -54,7 +54,7 @@ export async function crearLiga(
 	nombre: string,
 	maxJugadores: number,
 	usaEntrenador: boolean
-): Promise<restApiResponse> {
+): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
@@ -82,9 +82,5 @@ export async function crearLiga(
 	});
 
 
-	return {
-		status: response.status,
-		message: await (await response.text()).split("\"")[3], 
-		data: null,
-	};
+	return response.json();
 }
