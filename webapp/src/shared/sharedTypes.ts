@@ -1,27 +1,28 @@
-export type restApiResponse = {
-	status: number;
-	message: string;
-	data: any;
-};
-
 export type Jugador = {
 	_id: string;
 	nombre: string;
 	slug: string;
 	posicion: string;
-	idEquipo: string;
+	equipo: Equipo;
 	valor: number;
 	puntos: number;
 	estado: string;
 	foto: string;
 	jugadorAntiguo: object;
-	puntuaciones: object[];
 	fantasyMarcaId: string;
+};
+
+export type Equipo = {
+	_id: string;
+	nombre: string;
+	slug: string;
+	shortName: string;
+	escudo: string;
 };
 
 export type PlantillaUsuario = {
 	_id: string;
-	idUsuario: string;
+	usuario: Usuario;
 	idLiga: string;
 	alineacionJugador: AlineacionJugador;
 	alineacionesJornada: AlineacionJugador[];
@@ -31,24 +32,13 @@ export type PlantillaUsuario = {
 
 export type AlineacionJugador = {
 	_id: string;
-	idUsuario: string;
-	porteros: JugadorEnPlantilla[];
-	defensas: JugadorEnPlantilla[];
-	medios: JugadorEnPlantilla[];
-	delanteros: JugadorEnPlantilla[];
+	porteros: PropiedadJugador[];
+	defensas: PropiedadJugador[];
+	medios: PropiedadJugador[];
+	delanteros: PropiedadJugador[];
 	formacion: string;
 	guardadoEn: string;
 	idLiga: string;
-};
-
-export type JugadorEnPlantilla = {
-	idJugador: string;
-	enPlantilla: boolean;
-};
-
-export type JugadorTitular = {
-	jugador: Jugador;
-	titular: boolean;
 };
 
 export type Usuario = {
@@ -62,7 +52,7 @@ export type Usuario = {
 export type Liga = {
 	_id: string | undefined;
 	nombre: string;
-	idUsuarios: string[];
+	usuarios: Usuario[];
 	propiedadJugadores: PropiedadJugador[];
 	enlaceInvitacion: string;
 	maxJugadores: number;
@@ -70,7 +60,7 @@ export type Liga = {
 };
 
 export type PropiedadJugador = {
-	idJugador: string;
-	idUsuario: string;
-	idLiga: string;
+	jugador: Jugador;
+	usuario: Usuario;
+	titular: boolean;
 };

@@ -29,25 +29,25 @@ export function PlantillaStart(): JSX.Element {
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.delanteros[i].idJugador
+				plantilla.alineacionJugador.delanteros[i].jugador._id
 			);
 			jugadores.push(jugador);
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.medios.length; i++) {
 			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.medios[i].idJugador
+				plantilla.alineacionJugador.medios[i].jugador._id
 			);
 			jugadores.push(jugador);
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.defensas.length; i++) {
 			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.defensas[i].idJugador
+				plantilla.alineacionJugador.defensas[i].jugador._id
 			);
 			jugadores.push(jugador);
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.porteros.length; i++) {
 			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.porteros[i].idJugador
+				plantilla.alineacionJugador.porteros[i].jugador._id
 			);
 			jugadores.push(jugador);
 		}

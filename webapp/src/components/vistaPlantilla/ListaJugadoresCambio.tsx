@@ -1,19 +1,19 @@
 import { IonButton, IonCol, IonContent, IonRow } from "@ionic/react";
-import { JugadorTitular } from "../../shared/sharedTypes";
 
+import { PropiedadJugador } from "../../shared/sharedTypes";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { Formacion } from "./VistaPlantilla";
 
 type ListaJugadoresCambioProps = {
 	idJugador: string;
 	posicion: string;
-	porteros: JugadorTitular[];
-	defensas: JugadorTitular[];
-	mediocentros: JugadorTitular[];
-	delanteros: JugadorTitular[];
+	porteros: PropiedadJugador[];
+	defensas: PropiedadJugador[];
+	mediocentros: PropiedadJugador[];
+	delanteros: PropiedadJugador[];
 	formacion: Formacion;
 	cambiarTitulares: (
-		lista: JugadorTitular[],
+		lista: PropiedadJugador[],
 		idIn: string,
 		idOut: string
 	) => void;
@@ -22,7 +22,7 @@ type ListaJugadoresCambioProps = {
 export function ListaJugadoresCambio(
 	props: ListaJugadoresCambioProps
 ): JSX.Element {
-	function getJugadoresACambiar(posicion: string): JugadorTitular[] {
+	function getJugadoresACambiar(posicion: string): PropiedadJugador[] {
 		switch (posicion) {
 			case "Portero":
 				return props.porteros.filter(
@@ -44,7 +44,7 @@ export function ListaJugadoresCambio(
 				return [];
 		}
 	}
-	function getLista(posicion: string): JugadorTitular[] {
+	function getLista(posicion: string): PropiedadJugador[] {
 		switch (posicion) {
 			case "Portero":
 				return props.porteros;

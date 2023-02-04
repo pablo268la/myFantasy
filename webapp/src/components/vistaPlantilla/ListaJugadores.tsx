@@ -1,17 +1,17 @@
 import { IonCol, IonList, IonRow } from "@ionic/react";
-import { JugadorTitular } from "../../shared/sharedTypes";
+import { PropiedadJugador } from "../../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
 import { Formacion } from "./VistaPlantilla";
 
 type ListaJugadoresProps = {
-	porteros: JugadorTitular[];
-	defensas: JugadorTitular[];
-	mediocentros: JugadorTitular[];
-	delanteros: JugadorTitular[];
+	porteros: PropiedadJugador[];
+	defensas: PropiedadJugador[];
+	mediocentros: PropiedadJugador[];
+	delanteros: PropiedadJugador[];
 	formacion: Formacion;
 	cambiarTitulares: (
-		lista: JugadorTitular[],
+		lista: PropiedadJugador[],
 		idIn: string,
 		idOut: string
 	) => void;
@@ -38,7 +38,7 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 }
 
 function crearCartaDetallesJugador(
-	j: JugadorTitular,
+	j: PropiedadJugador,
 	props: ListaJugadoresProps
 ): JSX.Element {
 	return (

@@ -6,7 +6,7 @@ const api: Router = express.Router();
 
 api.get("/ligas/:id", LigasController.getLiga);
 
-api.get("/ligas/", LigasController.getLigasUsuario);
+api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
 
 api.post("/ligas", LigasController.createLiga)
 

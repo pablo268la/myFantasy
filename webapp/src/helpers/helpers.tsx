@@ -59,6 +59,11 @@ export async function setUsuarioAndRequestToken(
 	}
 }
 
+export async function updateUsuarioInfo() {
+	let usuario = await getUsuario(getUsuarioLogueado()?.email as string);
+	localStorage.setItem("usuario", JSON.stringify(usuario));
+}
+
 export function getToken(): string {
 	return localStorage.getItem("token") as string;
 }

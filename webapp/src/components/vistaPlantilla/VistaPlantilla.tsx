@@ -12,14 +12,13 @@ import {
 	useIonRouter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getJugadorById } from "../../endpoints/jugadorEndpoints";
 import { getPlantilla } from "../../endpoints/plantillaEndpoints";
 
 import { getUsuarioLogueado } from "../../helpers/helpers";
 import {
 	Jugador,
-	JugadorTitular,
 	PlantillaUsuario,
+	PropiedadJugador,
 } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -49,11 +48,11 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
 	const [cambioAlineacion, setCambioAlineacion] = useState<boolean>(false);
 
-	const [jugadores, setJugadores] = useState<JugadorTitular[]>([]);
-	const [porteros, setPorteros] = useState<JugadorTitular[]>([]);
-	const [defensas, setDefensas] = useState<JugadorTitular[]>([]);
-	const [mediocentros, setMediocentros] = useState<JugadorTitular[]>([]);
-	const [delanteros, setDelanteros] = useState<JugadorTitular[]>([]);
+	const [jugadores, setJugadores] = useState<PropiedadJugador[]>([]);
+	const [porteros, setPorteros] = useState<PropiedadJugador[]>([]);
+	const [defensas, setDefensas] = useState<PropiedadJugador[]>([]);
+	const [mediocentros, setMediocentros] = useState<PropiedadJugador[]>([]);
+	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>([]);
 
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -64,7 +63,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const getJugadoresAPI = async () => {
 		await getPlantilla(
-			getUsuarioLogueado()?.ligas.at(0) as string,
+			"e6a8022c-9d1d-441d-a673-ccf5dc8e3788",
 			getUsuarioLogueado()?.id as string
 		).then(async (res) => {
 			setPlantilla(res);
@@ -75,41 +74,26 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
 			});
 
-			let ju: JugadorTitular[] = [];
-			let po: JugadorTitular[] = [];
-			let de: JugadorTitular[] = [];
-			let me: JugadorTitular[] = [];
-			let dl: JugadorTitular[] = [];
+			let ju: PropiedadJugador[] = [];
+			let po: PropiedadJugador[] = res.alineacionJugador.porteros;
+			let de: PropiedadJugador[] = res.alineacionJugador.defensas;
+			let me: PropiedadJugador[] = res.alineacionJugador.medios;
+			let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
 
-			res.alineacionJugador.defensas.forEach(async (tupple) => {
-				let j = await getJugadorById(tupple.idJugador);
-				de.push({ jugador: j, titular: tupple.enPlantilla });
-				ju.push({ jugador: j, titular: tupple.enPlantilla });
-				de.sort(ordenarListaJugadoresPorTitular());
-				setDefensas(de);
-			});
-			res.alineacionJugador.medios.forEach(async (tupple) => {
-				let j = await getJugadorById(tupple.idJugador);
-				me.push({ jugador: j, titular: tupple.enPlantilla });
-				ju.push({ jugador: j, titular: tupple.enPlantilla });
-				me.sort(ordenarListaJugadoresPorTitular());
-				setMediocentros(me);
-			});
-			res.alineacionJugador.delanteros.forEach(async (tupple) => {
-				let j = await getJugadorById(tupple.idJugador);
-				dl.push({ jugador: j, titular: tupple.enPlantilla });
-				ju.push({ jugador: j, titular: tupple.enPlantilla });
-				dl.sort(ordenarListaJugadoresPorTitular());
-				setDelanteros(dl);
-			});
-			res.alineacionJugador.porteros.forEach(async (tupple) => {
-				let j = await getJugadorById(tupple.idJugador);
-				po.push({ jugador: j, titular: tupple.enPlantilla });
+			po.sort(ordenarListaJugadoresPorTitular());
+			setPorteros(po);
+			de.sort(ordenarListaJugadoresPorTitular());
+			setDefensas(de);
+			me.sort(ordenarListaJugadoresPorTitular());
+			setMediocentros(me);
+			dl.sort(ordenarListaJugadoresPorTitular());
+			setDelanteros(dl);
 
-				ju.push({ jugador: j, titular: tupple.enPlantilla });
-				po.sort(ordenarListaJugadoresPorTitular());
-				setPorteros(po);
-			});
+			ju.push(...po);
+			ju.push(...de);
+			ju.push(...me);
+			ju.push(...dl);
+
 			setJugadores(ju);
 			setLoading(true);
 			await new Promise((f) => setTimeout(f, 2000));
@@ -164,7 +148,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	const cambiarTitulares = (
-		lista: JugadorTitular[],
+		lista: PropiedadJugador[],
 		idIn: string,
 		idOut: string
 	) => {
@@ -262,6 +246,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 											}}
 										>
 											<Alineacion
+												usuario={plantilla?.usuario}
 												formacion={formacion}
 												setJugadorPulsado={cambiarJugador}
 												porteros={porteros}
@@ -330,8 +315,8 @@ export function eliminarDuplicados(
 }
 
 export function ordenarListaJugadoresPorTitular(): (
-	a: JugadorTitular,
-	b: JugadorTitular
+	a: PropiedadJugador,
+	b: PropiedadJugador
 ) => number {
 	return (a, b) => {
 		if (a.titular && b.titular) return 0;

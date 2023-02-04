@@ -8,25 +8,29 @@ import {
 	IonItem,
 	IonLabel,
 	IonRow,
-	IonText
+	IonText,
 } from "@ionic/react";
 
-import { getIconoEstado, ponerPuntosAValor, urlBackground } from "../../helpers/helpers";
-import { JugadorTitular } from "../../shared/sharedTypes";
+import {
+	getIconoEstado,
+	ponerPuntosAValor,
+	urlBackground,
+} from "../../helpers/helpers";
+import { PropiedadJugador } from "../../shared/sharedTypes";
 import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
 import { Formacion } from "./VistaPlantilla";
 
 type CartaJugadorProps = {
-	jugador?: JugadorTitular;
+	jugador?: PropiedadJugador;
 	esParaCambio: boolean;
 	posicion?: string;
-	porteros: JugadorTitular[];
-	defensas: JugadorTitular[];
-	mediocentros: JugadorTitular[];
-	delanteros: JugadorTitular[];
+	porteros: PropiedadJugador[];
+	defensas: PropiedadJugador[];
+	mediocentros: PropiedadJugador[];
+	delanteros: PropiedadJugador[];
 	formacion: Formacion;
 	cambiarTitulares: (
-		lista: JugadorTitular[],
+		lista: PropiedadJugador[],
 		idIn: string,
 		idOut: string
 	) => void;
@@ -65,7 +69,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 											<IonImg
 												src={
 													"https://api.sofascore.app/api/v1/team/" +
-													jugador.jugador.idEquipo +
+													jugador.jugador.equipo._id +
 													"/image"
 												}
 											/>
@@ -146,7 +150,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 		</>
 	);
 
-	function getListaPosicion(pos: string): JugadorTitular[] {
+	function getListaPosicion(pos: string): PropiedadJugador[] {
 		switch (pos) {
 			case "Portero":
 				return props.porteros;
@@ -167,13 +171,13 @@ function renderCambios(
 	texto: string,
 	esParaCambio: boolean,
 	posicion: string,
-	porteros: JugadorTitular[],
-	defensas: JugadorTitular[],
-	mediocentros: JugadorTitular[],
-	delanteros: JugadorTitular[],
+	porteros: PropiedadJugador[],
+	defensas: PropiedadJugador[],
+	mediocentros: PropiedadJugador[],
+	delanteros: PropiedadJugador[],
 	formacion: Formacion,
 	cambiarTitulares: (
-		lista: JugadorTitular[],
+		lista: PropiedadJugador[],
 		idIn: string,
 		idOut: string
 	) => void,

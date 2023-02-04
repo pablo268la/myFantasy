@@ -1,5 +1,9 @@
 import * as UUID from "uuid";
-import { getToken, getUsuarioLogueado } from "../helpers/helpers";
+import {
+	getToken,
+	getUsuarioLogueado,
+	updateUsuarioInfo,
+} from "../helpers/helpers";
 import { Liga } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
@@ -26,8 +30,10 @@ export async function getLiga(idLiga: string): Promise<Liga | null> {
 export async function getLigasUsuario(): Promise<Liga[]> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
+	const idUsuario = getUsuarioLogueado()?.id as string;
+	console.log(idUsuario)
 
-	let response = await fetch(apiEndPoint + "/ligas", {
+	let response = await fetch(apiEndPoint + "/ligas/usuario/" + idUsuario, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -62,7 +68,7 @@ export async function crearLiga(
 	const liga: Liga = {
 		_id: idLiga,
 		nombre: nombre,
-		idUsuarios: [getUsuarioLogueado()?.id as string],
+		usuarios: [getUsuarioLogueado() as any],
 		propiedadJugadores: [],
 		maxJugadores: maxJugadores,
 		enlaceInvitacion: "join-to:" + idLiga,
@@ -81,6 +87,6 @@ export async function crearLiga(
 		body: JSON.stringify({ liga: liga }),
 	});
 
-
+	await updateUsuarioInfo();
 	return response.json();
 }

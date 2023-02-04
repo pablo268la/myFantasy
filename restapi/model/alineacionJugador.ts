@@ -35,6 +35,16 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 			trim: true,
 			enum: ["5-4-1", "5-3-2", "4-5-1", "4-4-2", "4-3-3", "3-5-2", "3-4-3"],
 		},
+		guardadoEn: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		idLiga: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 	},
 	{
 		versionKey: false,
@@ -49,6 +59,8 @@ export interface IAlineacionJugador {
 	medios: IPropiedadJugador[];
 	delanteros: IPropiedadJugador[];
 	formacion: string;
+	guardadoEn: string;
+	idLiga: string;
 }
 
 alineacionJugador.index({ _id: 1 }, { unique: true });

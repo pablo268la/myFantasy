@@ -8,10 +8,10 @@ import {
 } from "@ionic/react";
 
 import { getIconoEstado, urlBackground } from "../../helpers/helpers";
-import { JugadorTitular } from "../../shared/sharedTypes";
+import { PropiedadJugador } from "../../shared/sharedTypes";
 
 type CartaJugadorProps = {
-	jugador?: JugadorTitular;
+	jugador?: PropiedadJugador;
 	setJugadorPulsado: (idJugador: string) => void;
 	posicion: string;
 };
@@ -46,7 +46,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 							<IonImg
 								src={
 									"https://api.sofascore.app/api/v1/team/" +
-									props.jugador.jugador.idEquipo +
+									props.jugador.jugador.equipo._id +
 									"/image"
 								}
 							/>
