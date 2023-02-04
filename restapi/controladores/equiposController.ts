@@ -6,5 +6,5 @@ export const getEquipos: RequestHandler = async (req, res) => {
 };
 
 export const getEquipo: RequestHandler = async (req, res) => {
-	res.json(await modeloEquipo.find({ _id: req.params.id }));
+	res.json(await modeloEquipo.findOne({ _id: req.params.idEquipo }));
 };
