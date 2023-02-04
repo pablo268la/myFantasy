@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IJugadorEnPlantilla, jugadorEnPlantilla } from "./jugadorEnPlantilla";
+import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 export const alineacionJugador = new Schema<IAlineacionJugador>(
 	{
@@ -10,22 +10,22 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 			unique: true,
 		},
 		porteros: {
-			type: [jugadorEnPlantilla],
+			type: [propiedadJugador],
 			required: true,
 			trim: true,
 		},
 		defensas: {
-			type: [jugadorEnPlantilla],
+			type: [propiedadJugador],
 			required: true,
 			trim: true,
 		},
 		medios: {
-			type: [jugadorEnPlantilla],
+			type: [propiedadJugador],
 			required: true,
 			trim: true,
 		},
 		delanteros: {
-			type: [jugadorEnPlantilla],
+			type: [propiedadJugador],
 			required: true,
 			trim: true,
 		},
@@ -44,10 +44,10 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 
 export interface IAlineacionJugador {
 	_id: string;
-	porteros: IJugadorEnPlantilla[];
-	defensas: IJugadorEnPlantilla[];
-	medios: IJugadorEnPlantilla[];
-	delanteros: IJugadorEnPlantilla[];
+	porteros: IPropiedadJugador[];
+	defensas: IPropiedadJugador[];
+	medios: IPropiedadJugador[];
+	delanteros: IPropiedadJugador[];
 	formacion: string;
 }
 

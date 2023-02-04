@@ -1,10 +1,13 @@
 import { RequestHandler } from "express";
 import * as UUID from "uuid";
-import { modeloAlineacionJugador } from "../model/alineacionJugador";
+import {
+	IAlineacionJugador,
+	modeloAlineacionJugador,
+} from "../model/alineacionJugador";
 import { IJugador, modeloJugador } from "../model/jugador";
-import { IJugadorEnPlantilla } from "../model/jugadorEnPlantilla";
 import { modeloLiga } from "../model/liga";
 import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
+import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
 
@@ -83,7 +86,6 @@ export const createLiga: RequestHandler = async (req, res) => {
 export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 	const email = req.headers.email as string;
 	const token = req.headers.token as string;
-	console.log("1");
 
 	let usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
@@ -97,30 +99,57 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 			let defensas = await modeloJugador.find({ posicion: "Defensa" });
 			let porteros = await modeloJugador.find({ posicion: "Portero" });
 
-			delanteros = shuffle(delanteros).slice(0, 4);
-			mediocentros = shuffle(mediocentros).slice(0, 5);
-			defensas = shuffle(defensas).slice(0, 5);
-			porteros = shuffle(porteros).slice(0, 2);
-
-			const alineacionJugador = crearAlineacionJugador(
-				delanteros,
-				mediocentros,
-				defensas,
-				porteros
+			let porPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+				shuffle(porteros).slice(0, 2),
+				idLiga,
+				idUsuario
+			);
+			let defPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+				shuffle(defensas).slice(0, 5),
+				idLiga,
+				idUsuario
+			);
+			let medPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+				shuffle(mediocentros).slice(0, 5),
+				idLiga,
+				idUsuario
+			);
+			let delPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+				shuffle(delanteros).slice(0, 4),
+				idLiga,
+				idUsuario
 			);
 
+			const alineacionJugador = new modeloAlineacionJugador({
+				_id: UUID.v4(),
+				porteros: porPlantilla,
+				defensas: defPlantilla,
+				medios: medPlantilla,
+				delanteros: delPlantilla,
+				formacion: "4-3-3",
+			});
 			const plantillaUsuario = new modeloPlantillaUsuario({
 				_id: UUID.v4(),
 				idLiga: idLiga,
 				idUsuario: idUsuario,
 				alineacionJugador: alineacionJugador,
 				alineacionesJornada: [],
-				valor: 0,
+				valor: calcularValorAlineacion(alineacionJugador),
 				puntos: 0,
 			});
 			const plantillaGuardada = await plantillaUsuario.save();
 
 			//TODO Actualizar propiedadJugadores de la liga y Comprobar que no se repiten jugadores
+			const liga = await modeloLiga.findById(idLiga);
+			if (liga) {
+				liga.idUsuarios.push(idUsuario);
+				liga.propiedadJugadores.push(...porPlantilla);
+				liga.propiedadJugadores.push(...defPlantilla);
+				liga.propiedadJugadores.push(...medPlantilla);
+				liga.propiedadJugadores.push(...delPlantilla);
+
+				await liga.save();
+			}
 
 			return res.status(200).json(plantillaGuardada);
 		} else {
@@ -132,51 +161,33 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 	}
 };
 
-function crearAlineacionJugador(
-	delanteros: IJugador[],
-	mediocentros: IJugador[],
-	defensas: IJugador[],
-	porteros: IJugador[]
+function calcularValorAlineacion(alineacion: IAlineacionJugador): number {
+	let valor = 0;
+
+	alineacion.porteros.forEach((p) => (valor += p.valor));
+	alineacion.defensas.forEach((d) => (valor += d.valor));
+	alineacion.medios.forEach((m) => (valor += m.valor));
+	alineacion.delanteros.forEach((d) => (valor += d.valor));
+
+	return valor;
+}
+
+function crearListaPropiedadJugador(
+	jugadores: IJugador[],
+	idLiga: string,
+	idUsuario: string
 ) {
-	let delPlantilla: IJugadorEnPlantilla[] = [];
-	delanteros.forEach((j) =>
-		delPlantilla.push({
+	let posPlantilla: IPropiedadJugador[] = [];
+	jugadores.forEach((j) =>
+		posPlantilla.push({
+			idLiga: idLiga,
+			idUsuario: idUsuario,
 			idJugador: j._id,
-			enPlantilla: false,
+			titular: false,
+			valor: j.valor,
 		})
 	);
-	let medPlantilla: IJugadorEnPlantilla[] = [];
-	mediocentros.forEach((j) =>
-		medPlantilla.push({
-			idJugador: j._id,
-			enPlantilla: false,
-		})
-	);
-	let defPlantilla: IJugadorEnPlantilla[] = [];
-	defensas.forEach((j) =>
-		defPlantilla.push({
-			idJugador: j._id,
-			enPlantilla: false,
-		})
-	);
-	let porPlantilla: IJugadorEnPlantilla[] = [];
-	porteros.forEach((j) =>
-		porPlantilla.push({
-			idJugador: j._id,
-			enPlantilla: false,
-		})
-	);
-
-	const alineacion = new modeloAlineacionJugador({
-		_id: UUID.v4(),
-		porteros: porPlantilla,
-		defensas: defPlantilla,
-		medios: medPlantilla,
-		delanteros: delPlantilla,
-		formacion: "4-3-3",
-	});
-
-	return alineacion;
+	return posPlantilla;
 }
 
 function shuffle(array: any[]): any[] {

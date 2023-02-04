@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { IJugador, jugador } from "./jugador";
 
 export const transferencia = new Schema<ITransferencia>(
 	{
@@ -13,8 +14,8 @@ export const transferencia = new Schema<ITransferencia>(
 			required: true,
 			trim: true,
 		},
-		idJugador: {
-			type: String,
+		jugador: {
+			type: jugador,
 			required: true,
 			trim: true,
 		},
@@ -43,7 +44,7 @@ export const transferencia = new Schema<ITransferencia>(
 export interface ITransferencia {
 	idComprador: string;
 	idVendedor: string;
-	idJugador: string;
+	jugador: IJugador;
 	coste: number;
 	estado: string;
 	fechaLimite: string;

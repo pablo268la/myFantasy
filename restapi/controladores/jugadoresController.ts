@@ -23,10 +23,12 @@ export const getJugador: RequestHandler = async (req, res) => {
 export const getPlantilla: RequestHandler = async (req, res) => {
 	const idLiga = req.params.idLiga;
 	const idUsuario = req.params.idUsuario;
-	
-	const p = await modeloPlantillaUsuario.find({ idLiga: idLiga, idUsuario: idUsuario })
+
+	const p = await modeloPlantillaUsuario.find({
+		idLiga: idLiga,
+		idUsuario: idUsuario,
+	});
 	res.json(p[0]);
-	
 };
 export const getAlineacionJugador: RequestHandler = async (req, res) => {
 	res.json(await modeloAlineacionJugador.find());
