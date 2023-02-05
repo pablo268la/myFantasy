@@ -43,6 +43,21 @@ export function getIconoEstado(jugador: Jugador) {
 	}
 }
 
+export function getColorBadge(posicion: string) {
+	switch (posicion) {
+		case "Portero":
+			return "#AA0000";
+		case "Defensa":
+			return "#00AA00";
+		case "Mediocentro":
+			return "#0000AA";
+		case "Delantero":
+			return "#CCAA00";
+		default:
+			return "#111111";
+	}
+}
+
 export async function setUsuarioAndRequestToken(
 	email: string,
 	contraseña: string

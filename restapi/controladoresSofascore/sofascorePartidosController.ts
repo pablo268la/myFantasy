@@ -130,7 +130,7 @@ async function cogerAlineacion(
 			exists = await modeloJugador.create(createJugadorNoDisponible(jugador));
 		}
 
-		if (exists.idEquipo !== idEquipo) {
+		if (exists.equipo._id !== idEquipo) {
 			let jugadorAntiguo: IJugadorAntiguo = new modeloJugadorAntiguo({
 				idEquipoAntiguo: idEquipo,
 				jornadaTraspaso: jornada,

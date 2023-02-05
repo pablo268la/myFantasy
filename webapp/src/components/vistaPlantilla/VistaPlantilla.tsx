@@ -63,7 +63,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const getJugadoresAPI = async () => {
 		await getPlantilla(
-			"e6a8022c-9d1d-441d-a673-ccf5dc8e3788",
+			window.location.pathname.split("/")[2],
 			getUsuarioLogueado()?.id as string
 		).then(async (res) => {
 			setPlantilla(res);

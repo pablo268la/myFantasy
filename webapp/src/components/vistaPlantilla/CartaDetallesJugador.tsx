@@ -12,6 +12,7 @@ import {
 } from "@ionic/react";
 
 import {
+	getColorBadge,
 	getIconoEstado,
 	ponerPuntosAValor,
 	urlBackground,
@@ -201,19 +202,4 @@ function renderCambios(
 				/>
 			</>
 		);
-}
-
-export function getColorBadge(posicion: string) {
-	switch (posicion) {
-		case "Portero":
-			return "#AA0000";
-		case "Defensa":
-			return "#00AA00";
-		case "Mediocentro":
-			return "#0000AA";
-		case "Delantero":
-			return "#CCAA00";
-		default:
-			return "#111111";
-	}
 }

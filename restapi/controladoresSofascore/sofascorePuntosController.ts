@@ -1,4 +1,4 @@
-import axios from "axios";
+/*import axios from "axios";
 import { RequestHandler } from "express";
 import {
 	createPuntuacionTupple,
@@ -91,7 +91,7 @@ async function cogerPuntuacionesJugador(
 
 	const statistics = jugadores[i].statistics;
 	if (jugador !== null && statistics !== undefined) {
-		const idEquipo = jugador.idEquipo;
+		const idEquipo = jugador.equipo._id;
 		const idEquipoRival =
 			partido.idLocal === idEquipo ? partido.idVisitante : partido.idLocal;
 
@@ -192,8 +192,6 @@ async function cogerPuntuacionesJugador(
 		});
 
 		puntuacion.puntos = getPuntosDeJugador(puntuacion);
-
-		jugador.puntuaciones[partido.jornada - 1] = puntuacion;
 
 		jugador = await modeloJugador.findByIdAndUpdate(
 			{ _id: jugador._id },
@@ -483,3 +481,4 @@ function extraerEventos(
 			}
 		});
 }
+*/

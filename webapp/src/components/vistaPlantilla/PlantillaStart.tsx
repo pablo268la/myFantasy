@@ -1,24 +1,38 @@
 import {
+	IonButton,
 	IonContent,
 	IonGrid,
 	IonImg,
 	IonLabel,
 	IonPage,
+	IonRouterLink,
 	IonRow,
-	IonSlide,
-	IonSlides,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { getJugadorById } from "../../endpoints/jugadorEndpoints";
 import { getPlantilla } from "../../endpoints/plantillaEndpoints";
-import { getUsuarioLogueado, ponerPuntosAValor } from "../../helpers/helpers";
+import {
+	getColorBadge,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+} from "../../helpers/helpers";
 import { Jugador, PlantillaUsuario } from "../../shared/sharedTypes";
 
+import "@ionic/react/css/ionic-swiper.css";
+import SwiperCore, { Mousewheel, Pagination } from "swiper";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+import CartaJugador from "./CartaJugador";
+
+SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
 	const slideOpts = {
 		initialSlide: 0,
 		speed: 400,
 	};
+
+	const [idLiga, setIdLiga] = useState<string>("");
 
 	async function getJugadores() {
 		const jugadores: Jugador[] = [];
@@ -26,6 +40,8 @@ export function PlantillaStart(): JSX.Element {
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
 		);
+
+		setIdLiga(plantilla.idLiga);
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			const jugador = await getJugadorById(
@@ -59,25 +75,34 @@ export function PlantillaStart(): JSX.Element {
 		getJugadores();
 	}, []);
 
-	const [juagadores, setJugadores] = useState<Jugador[]>([]);
+	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
 	return (
 		<IonPage>
-			<IonContent>
-				<IonSlides
-					style={{ border: "2px solid #123445", width: 500 }}
-					pager={true}
-					options={slideOpts}
+			<IonContent style={{ justifyContent: "center" }}>
+				<Swiper
+					onSlideChange={() => console.log("slide change")}
+					style={{ border: "2px solid #123445", width: 500, height: "85%" }}
+					pagination={{
+						clickable: true,
+					}}
 				>
-					{juagadores.map((jugador) => (
+					{jugadores.map((jugador) => (
 						<>
-							<IonSlide>
-								<IonGrid style={{ backgroundColor: "#45938a" }}>
+							<SwiperSlide
+								style={{ background: getColorBadge(jugador.posicion) }}
+							>
+								<IonGrid>
 									<IonRow style={{ justifyContent: "center" }}>
-										<IonLabel> {jugador.posicion}</IonLabel>
+										<IonLabel style={{ color: "#ffffff", fontSize: "30px" }}>
+											{jugador.posicion.toUpperCase()}
+										</IonLabel>
 									</IonRow>
 									<IonRow style={{ justifyContent: "center", margin: 30 }}>
-										<IonImg src={jugador.foto}></IonImg>
+										<IonImg
+											style={{ minHeight: "200px", minWidth: "200px" }}
+											src={jugador.foto}
+										></IonImg>
 									</IonRow>
 									<IonRow
 										style={{
@@ -86,14 +111,50 @@ export function PlantillaStart(): JSX.Element {
 											alignContent: "center",
 										}}
 									>
-										<IonLabel>{jugador.nombre}</IonLabel>
-										<IonLabel>{ponerPuntosAValor(jugador.valor)}</IonLabel>
+										<IonLabel style={{ color: "#ffffff" }}>
+											{jugador.nombre}
+										</IonLabel>
+										<IonLabel style={{ color: "#ffffff" }}>
+											{ponerPuntosAValor(jugador.valor)}
+										</IonLabel>
 									</IonRow>
 								</IonGrid>
-							</IonSlide>
+							</SwiperSlide>
 						</>
 					))}
-				</IonSlides>
+					<SwiperSlide style={{ background: "#562765" }}>
+						<IonGrid>
+							<IonRow>
+								{jugadores.map((jugador) => (
+									<>
+										<CartaJugador
+											jugador={{
+												jugador: jugador,
+												titular: false,
+												usuario: getUsuarioLogueado() as any,
+											}}
+											posicion={jugador.posicion}
+											setJugadorPulsado={() => {}}
+										/>
+									</>
+								))}
+							</IonRow>
+							<IonRow style={{ justifyContent: "center" }}>
+								<IonLabel style={{ color: "#ffffff" }}>
+									Valor total:{"  "}
+									{ponerPuntosAValor(
+										jugadores.map((j) => j.valor).reduce((a, b) => a + b, 0)
+									)}
+								</IonLabel>
+							</IonRow>
+						</IonGrid>
+					</SwiperSlide>
+				</Swiper>
+				<IonRow style={{ justifyContent: "center" }}>
+					<IonRouterLink href={"plantilla/" + idLiga}>
+						<IonButton>Continuar</IonButton>
+					</IonRouterLink>
+				</IonRow>
 			</IonContent>
 		</IonPage>
 	);

@@ -52,7 +52,7 @@ function App(): JSX.Element {
 						<VistaCrearLiga />
 					</Route>
 					<Route exact path="/ligas/join/:id"></Route>
-					<Route exact path="/plantilla">
+					<Route exact path="/plantilla/:id">
 						<VistaPlantilla />
 					</Route>
 					<Route exact path="/plantilla/starts/:id">
