@@ -20,6 +20,7 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { Home } from "./components/Home";
+import { Admin } from "./components/vistaAdmin/Admin";
 import Clasificacion from "./components/vistaClasificacion/Clasificacion";
 import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
@@ -60,6 +61,9 @@ function App(): JSX.Element {
 					</Route>
 					<Route exact path="/clasificacion">
 						<Clasificacion />
+					</Route>
+					<Route exact path="/admin">
+						<Admin />
 					</Route>
 				</IonRouterOutlet>
 			</IonReactRouter>

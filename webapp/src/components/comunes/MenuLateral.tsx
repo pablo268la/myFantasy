@@ -9,7 +9,15 @@ import {
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
-import { cart, football, gameController, home, list, people } from "ionicons/icons";
+import {
+	cart,
+	football,
+	gameController,
+	home,
+	list,
+	people,
+	tv,
+} from "ionicons/icons";
 
 export function MenuLateral(props: any): JSX.Element {
 	//const nav = useIonRouter(); onClick={() => nav.push("/home", "forward")}
@@ -24,7 +32,7 @@ export function MenuLateral(props: any): JSX.Element {
 				</IonHeader>
 				<IonContent>
 					<IonList>
-					<IonRouterLink href="/home">
+						<IonRouterLink href="/home">
 							<IonButton color="dark" expand="block" fill="clear">
 								<IonIcon slot="start" icon={home}></IonIcon>
 								Home
@@ -56,6 +64,12 @@ export function MenuLateral(props: any): JSX.Element {
 							<IonIcon slot="start" icon={football}></IonIcon>
 							Resultados
 						</IonButton>
+						<IonRouterLink href="/admin">
+							<IonButton color="dark" expand="block" fill="clear">
+								<IonIcon slot="start" icon={tv}></IonIcon>
+								Admin
+							</IonButton>
+						</IonRouterLink>
 					</IonList>
 				</IonContent>
 			</IonMenu>
