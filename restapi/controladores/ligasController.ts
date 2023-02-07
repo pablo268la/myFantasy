@@ -23,8 +23,8 @@ export const getLiga: RequestHandler = async (req, res) => {
 			if (!ligaEncontrada) return res.status(204).json();
 
 			if (
-				ligaEncontrada.usuarios
-					.map((usuario) => usuario.id)
+				ligaEncontrada.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
 					.indexOf(usuario.id) === -1
 			)
 				return res
@@ -96,6 +96,7 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 	const verified = await verifyUser(email, token);
 	try {
 		if (usuario && verified) {
+			//Verificar que el usuario no tenga ya una plantilla en la liga
 			const idLiga = req.body.idLiga;
 
 			let delanteros = await modeloJugador.find({ posicion: "Delantero" });
@@ -143,12 +144,16 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 
 			const liga = await modeloLiga.findById(idLiga);
 			if (liga) {
-				liga.usuarios.push(usuario);
+				liga.plantillasUsuarios.push(plantillaGuardada);
 				liga.propiedadJugadores.push(...porPlantilla);
 				liga.propiedadJugadores.push(...defPlantilla);
 				liga.propiedadJugadores.push(...medPlantilla);
 				liga.propiedadJugadores.push(...delPlantilla);
 
+				if (usuario.ligas.indexOf(idLiga) === -1) {
+					usuario.ligas.push(idLiga);
+					await usuario.save();
+				}
 				await liga.save();
 			}
 

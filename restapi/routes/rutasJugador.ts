@@ -9,6 +9,8 @@ api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
 
 api.get("/jugadores/:idJugador", JugadoresController.getJugador);
 
+api.put("/jugadores/:idJugador", JugadoresController.updateJugador);
+
 api.get("/plantilla/:idLiga/:idUsuario", JugadoresController.getPlantilla);
 
 api.get("/alineacionJugador", JugadoresController.getAlineacionJugador);

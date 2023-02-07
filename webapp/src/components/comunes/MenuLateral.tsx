@@ -18,6 +18,7 @@ import {
 	people,
 	tv,
 } from "ionicons/icons";
+import { getUsuarioLogueado } from "../../helpers/helpers";
 
 export function MenuLateral(props: any): JSX.Element {
 	//const nav = useIonRouter(); onClick={() => nav.push("/home", "forward")}
@@ -50,7 +51,7 @@ export function MenuLateral(props: any): JSX.Element {
 								Clasificacion
 							</IonButton>
 						</IonRouterLink>
-						<IonRouterLink href="/plantilla">
+						<IonRouterLink href={"/plantilla/" + getUsuarioLogueado()?.ligas[0]}>
 							<IonButton color="dark" expand="block" fill="clear">
 								<IonIcon slot="start" icon={people}></IonIcon>
 								Plantilla

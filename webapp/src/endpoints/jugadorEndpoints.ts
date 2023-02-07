@@ -18,3 +18,14 @@ export async function getJugadorById(id: string): Promise<Jugador> {
 	let response = await fetch(apiEndPoint + "/jugadores/" + id);
 	return response.json();
 }
+
+export async function updateJugador(jugador: Jugador): Promise<Jugador> {
+	let response = await fetch(apiEndPoint + "/jugadores/" + jugador._id, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(jugador),
+	});
+	return response.json();
+}

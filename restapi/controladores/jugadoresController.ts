@@ -15,7 +15,7 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 
 	res.json(
 		await modeloJugador.find({
-			equipo: e
+			equipo: e,
 		})
 	);
 };
@@ -23,6 +23,17 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 export const getJugador: RequestHandler = async (req, res) => {
 	res.json(await modeloJugador.findOne({ _id: req.params.idJugador }));
 };
+
+export const updateJugador: RequestHandler = async (req, res) => {
+	//TODO: Validar que el usuario que hace la petición es administrador
+	const jugador = await modeloJugador.findOneAndUpdate(
+		{ _id: req.params.idJugador },
+		req.body,
+		{ new: true }
+	);
+	res.json(jugador);
+};
+
 export const getPlantilla: RequestHandler = async (req, res) => {
 	const idLiga = req.params.idLiga;
 	const idUsuario = req.params.idUsuario;

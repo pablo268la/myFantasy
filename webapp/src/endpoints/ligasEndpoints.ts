@@ -31,7 +31,7 @@ export async function getLigasUsuario(): Promise<Liga[]> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 	const idUsuario = getUsuarioLogueado()?.id as string;
-	console.log(idUsuario)
+	console.log(idUsuario);
 
 	let response = await fetch(apiEndPoint + "/ligas/usuario/" + idUsuario, {
 		method: "GET",
@@ -68,7 +68,7 @@ export async function crearLiga(
 	const liga: Liga = {
 		_id: idLiga,
 		nombre: nombre,
-		usuarios: [getUsuarioLogueado() as any],
+		plantillasUsuarios: [],
 		propiedadJugadores: [],
 		maxJugadores: maxJugadores,
 		enlaceInvitacion: "join-to:" + idLiga,

@@ -52,7 +52,7 @@ export type Usuario = {
 export type Liga = {
 	_id: string | undefined;
 	nombre: string;
-	usuarios: Usuario[];
+	plantillasUsuarios: PlantillaUsuario[];
 	propiedadJugadores: PropiedadJugador[];
 	enlaceInvitacion: string;
 	maxJugadores: number;

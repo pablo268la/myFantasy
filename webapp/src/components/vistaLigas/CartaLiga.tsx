@@ -4,24 +4,28 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCol,
+	IonGrid,
 	IonIcon,
+	IonLabel,
+	IonRouterLink,
 	IonRow,
-	IonTitle
+	IonTitle,
 } from "@ionic/react";
-import { share, trash, trophySharp } from "ionicons/icons";
+import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
-import { urlBackground2 } from "../../helpers/helpers";
+import { getUsuarioLogueado, urlBackground2 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 
 type CartaLigaProps = {
 	liga: Liga;
 };
 
-export function CartaLiga(props: any): JSX.Element {
+export function CartaLiga(props: CartaLigaProps): JSX.Element {
 	const [showActionSheet, setShowActionSheet] = useState(false);
 
 	const [liga, setLiga] = useState<Liga>(props.liga);
-
+	const usuario = getUsuarioLogueado();
+	//liga.usuarios.filter( f => f.id === usuario?.id).at(0)
 
 	return (
 		<>
@@ -31,30 +35,42 @@ export function CartaLiga(props: any): JSX.Element {
 						background: urlBackground2,
 					}}
 				>
-					<IonRow>
-						<IonCol size="2">
-							<br />
-							<br />
-							<IonIcon size="large" icon={trophySharp} color="light"></IonIcon>
-						</IonCol>
-						<IonCol>
-							<IonRow>
-								<IonTitle color={"light"}>{liga.nombre}</IonTitle>
-								<IonButton onClick={() => setShowActionSheet(true)}>
-									A
+					<IonGrid>
+						<IonRow>
+							<IonCol style={{ justifyContent: "space-around" }}>
+								<IonRouterLink href={"/plantilla/" + liga._id}>
+									<IonRow style={{ justifyContent: "center" }}>
+										<IonLabel style={{ fontSize: "20px" }} color={"light"}>
+											{liga.nombre}
+										</IonLabel>
+									</IonRow>
+									<IonRow>
+										<IonCol>
+											<IonIcon
+												size="large"
+												icon={trophySharp}
+												color="light"
+											></IonIcon>
+										</IonCol>
+									</IonRow>
+									<br />
+									<IonRow>
+										<IonTitle color={"light"}>Puntos</IonTitle>
+										<IonTitle color={"light"}>Dinero</IonTitle>
+										<IonTitle color={"light"}>Posicion</IonTitle>
+									</IonRow>
+								</IonRouterLink>
+							</IonCol>
+							<IonCol size="1">
+								<IonButton
+									fill="clear"
+									onClick={() => setShowActionSheet(true)}
+								>
+									<IonIcon icon={ellipsisVertical} color="light"></IonIcon>
 								</IonButton>
-							</IonRow>
-							<br />
-							<br />
-							<br />
-							<IonRow>
-								<IonTitle color={"light"}>Puntos</IonTitle>
-								<IonTitle color={"light"}>Dinero</IonTitle>
-								<IonTitle color={"light"}>Posicion</IonTitle>
-							</IonRow>
-						</IonCol>
-					</IonRow>
-					<IonRow></IonRow>
+							</IonCol>
+						</IonRow>
+					</IonGrid>
 
 					<IonActionSheet
 						isOpen={showActionSheet}

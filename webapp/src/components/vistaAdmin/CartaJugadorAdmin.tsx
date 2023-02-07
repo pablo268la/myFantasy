@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import { pencilOutline } from "ionicons/icons";
 import { useState } from "react";
+import { updateJugador } from "../../endpoints/jugadorEndpoints";
 import { Jugador } from "../../shared/sharedTypes";
 
 type CartaJugadorAdminProps = {
@@ -28,6 +29,18 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 	const setEditedPlayer = () => {
 		setEdited(true);
 		props.setAnyEdited(true);
+	};
+
+	const resetValores = () => {
+		setIsReadOnlyNombre(true);
+		setIsReadOnlyValor(true);
+		setJugador(props.jugador);
+		setEdited(false);
+	};
+
+	const updateJugadorAndReset = async () => {
+		resetValores();
+		setJugador(await updateJugador(jugador));
 	};
 
 	return (
@@ -51,6 +64,13 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 								readonly={isReadOnlyNombre}
 								type="text"
 								value={jugador.nombre}
+								onIonInput={(e) => {
+									setJugador({
+										...jugador,
+										nombre: e.target.value as string,
+									});
+									setEditedPlayer();
+								}}
 							></IonInput>
 							<IonButton
 								fill="outline"
@@ -71,6 +91,13 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 								readonly={isReadOnlyValor}
 								type="number"
 								value={jugador.valor}
+								onIonInput={(e) => {
+									setJugador({
+										...jugador,
+										valor: parseInt(e.target.value as string),
+									});
+									setEditedPlayer();
+								}}
 							></IonInput>
 							<IonButton
 								fill="outline"
@@ -87,13 +114,20 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 				<IonCol style={{ borderInlineStart: "1px solid" }}>
 					<IonRow style={{ justifyContent: "start" }}>
 						<IonSelect
-							placeholder={jugador.estado}
-							onIonChange={() => setEdited(true)}
+							value={jugador.estado}
+							onIonChange={(e) => {
+								setJugador({
+									...jugador,
+									estado: e.detail.value,
+								});
+								setEditedPlayer();
+							}}
 						>
-							<IonSelectOption value="disponible">Disponible</IonSelectOption>
-							<IonSelectOption value="lesionado">Lesionado</IonSelectOption>
-							<IonSelectOption value="sancionado">Sancionado</IonSelectOption>
-							<IonSelectOption value="no disponible">
+							<IonSelectOption value="Disponible">Disponible</IonSelectOption>
+							<IonSelectOption value="Dudoso">Dudoso</IonSelectOption>
+							<IonSelectOption value="Lesionado">Lesionado</IonSelectOption>
+							<IonSelectOption value="Sancionado">Sancionado</IonSelectOption>
+							<IonSelectOption value="No disponible">
 								No disponible
 							</IonSelectOption>
 						</IonSelect>
@@ -102,23 +136,35 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 				<IonCol style={{ borderInlineStart: "1px solid" }}>
 					<IonRow style={{ justifyContent: "start" }}>
 						<IonSelect
-							placeholder={jugador.posicion}
-							onIonChange={() => setEdited(true)}
+							value={jugador.posicion}
+							onIonChange={(e) => {
+								setJugador({
+									...jugador,
+									posicion: e.detail.value,
+								});
+								setEditedPlayer();
+							}}
 						>
-							<IonSelectOption value="portero">Portero</IonSelectOption>
-							<IonSelectOption value="defensa">Defensa</IonSelectOption>
-							<IonSelectOption value="centrocampista">
-								Centrocampista
-							</IonSelectOption>
-							<IonSelectOption value="delantero">Delantero</IonSelectOption>
+							<IonSelectOption value="Portero">Portero</IonSelectOption>
+							<IonSelectOption value="Defensa">Defensa</IonSelectOption>
+							<IonSelectOption value="Mediocentro">Mediocentro</IonSelectOption>
+							<IonSelectOption value="Delantero">Delantero</IonSelectOption>
 						</IonSelect>
 					</IonRow>
 				</IonCol>
 				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonButton disabled={!edited} color="success">
+					<IonButton
+						disabled={!edited}
+						color="success"
+						onClick={() => updateJugadorAndReset()}
+					>
 						Guardar
 					</IonButton>
-					<IonButton disabled={!edited} color="danger">
+					<IonButton
+						disabled={!edited}
+						color="danger"
+						onClick={() => resetValores()}
+					>
 						Reset
 					</IonButton>
 				</IonCol>
