@@ -4,7 +4,7 @@ import {
 	IonCol,
 	IonImg,
 	IonRow,
-	IonText
+	IonText,
 } from "@ionic/react";
 
 import { getIconoEstado, urlBackground } from "../../helpers/helpers";
@@ -52,7 +52,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 							/>
 
 							<div style={{ marginTop: 30 }}>
-								{getIconoEstado(props.jugador.jugador)}
+								{getIconoEstado(props.jugador.jugador.estado)}
 							</div>
 						</div>
 					</IonRow>
@@ -82,7 +82,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 				}}
 			>
 				<IonCardContent>
-					<IonRow style={{ width: 100, height: 50, marginLeft: -5 }}>
+					<IonRow style={{ width: 100, height: 50, marginLeft: -20 }}>
 						<IonCol>
 							<div style={{ marginTop: -18 }}>
 								<IonImg
@@ -93,7 +93,9 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 							</div>
 						</IonCol>
 						<div style={{ width: 20, height: 20 }}>
-							<div style={{ marginTop: 30 }}></div>
+							<div style={{ marginTop: 30 }}>
+								{getIconoEstado("No disponible")}
+							</div>
 						</div>
 					</IonRow>
 				</IonCardContent>
@@ -103,8 +105,10 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 				<IonRow>
 					<IonCol>
 						<IonText
-							style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}
-						></IonText>
+							style={{ color: "white", fontSize: "11px", fontWeight: "bold" }}
+						>
+							.
+						</IonText>
 					</IonCol>
 				</IonRow>
 			</div>

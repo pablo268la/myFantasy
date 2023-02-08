@@ -67,6 +67,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	const getJugadoresAPI = async () => {
+		setLoading(true);
 		await getPlantilla(
 			window.location.pathname.split("/")[2],
 			getUsuarioLogueado()?.id as string
@@ -103,8 +104,8 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			setJugadores(ju);
 			setLoading(true);
 			await new Promise((f) => setTimeout(f, 2000));
-			setLoading(false);
 		});
+		setLoading(false);
 	};
 
 	const cambiarFormacion = (f: Formacion) => {
@@ -311,7 +312,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 											) : (
 												<>
 													<CartaDetallesJugador
-														jugador={jugadores.find(
+														propiedadJugador={jugadores.find(
 															(j) => j.jugador._id === jugadorPulsado
 														)}
 														esParaCambio={true}

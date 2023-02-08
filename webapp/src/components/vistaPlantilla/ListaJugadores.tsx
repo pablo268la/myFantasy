@@ -45,7 +45,7 @@ function crearCartaDetallesJugador(
 		<IonRow key={j.jugador._id}>
 			<IonCol>
 				<CartaDetallesJugador
-					jugador={j}
+					propiedadJugador={j}
 					esParaCambio={false}
 					porteros={props.porteros}
 					defensas={props.defensas}

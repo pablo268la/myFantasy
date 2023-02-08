@@ -67,7 +67,7 @@ export function ListaJugadoresCambio(
 						<IonCol>
 							<CartaDetallesJugador
 								key={j.jugador._id}
-								jugador={j}
+								propiedadJugador={j}
 								esParaCambio={false}
 								porteros={props.porteros}
 								defensas={props.defensas}
