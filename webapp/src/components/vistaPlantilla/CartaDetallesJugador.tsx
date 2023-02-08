@@ -1,4 +1,5 @@
 import {
+	IonActionSheet,
 	IonBadge,
 	IonButton,
 	IonCard,
@@ -11,6 +12,8 @@ import {
 	IonText,
 } from "@ionic/react";
 
+import { cart, cash, close } from "ionicons/icons";
+import { useState } from "react";
 import {
 	getColorBadge,
 	getIconoEstado,
@@ -22,7 +25,7 @@ import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
 import { Formacion } from "./VistaPlantilla";
 
 type CartaJugadorProps = {
-	jugador?: PropiedadJugador;
+	propiedadJugador?: PropiedadJugador;
 	esParaCambio: boolean;
 	posicion?: string;
 	porteros: PropiedadJugador[];
@@ -38,9 +41,13 @@ type CartaJugadorProps = {
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
-	const jugador = props.jugador;
+	const [propiedadJugador, setPropiedadJugador] = useState<
+		PropiedadJugador | undefined
+	>(props.propiedadJugador);
 
-	return jugador ? (
+	const [showActionSheet, setShowActionSheet] = useState(false);
+
+	return propiedadJugador ? (
 		<>
 			<IonCard style={{ width: 500 }}>
 				<IonRow>
@@ -62,7 +69,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 												marginLeft: -8,
 											}}
 										>
-											<IonImg src={jugador.jugador.foto} />
+											<IonImg src={propiedadJugador.jugador.foto} />
 										</div>
 									</IonCol>
 									<IonCol>
@@ -70,7 +77,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 											<IonImg
 												src={
 													"https://api.sofascore.app/api/v1/team/" +
-													jugador.jugador.equipo._id +
+													propiedadJugador.jugador.equipo._id +
 													"/image"
 												}
 											/>
@@ -84,26 +91,60 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 						<IonItem color={"primary"}>
 							<IonBadge
 								style={{
-									backgroundColor: getColorBadge(jugador.jugador.posicion),
+									backgroundColor: getColorBadge(
+										propiedadJugador.jugador.posicion
+									),
 								}}
 							>
-								{jugador.jugador.posicion.substring(0, 3).toUpperCase()}
+								{propiedadJugador.jugador.posicion
+									.substring(0, 3)
+									.toUpperCase()}
 							</IonBadge>
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{jugador.jugador.nombre}
+								{propiedadJugador.jugador.nombre}
 							</IonLabel>
 							<IonLabel slot="end">PTS:</IonLabel>
-							<IonText slot="end">{jugador.jugador.puntos}</IonText>
+							<IonText slot="end">{propiedadJugador.jugador.puntos}</IonText>
 						</IonItem>
 
 						<IonItem lines="none" color={"primary"}>
-							{getIconoEstado(jugador.jugador)}
+							{getIconoEstado(propiedadJugador.jugador.estado)}
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{ponerPuntosAValor(jugador.jugador.valor)}
+								{ponerPuntosAValor(propiedadJugador.jugador.valor)}
 							</IonLabel>
-							<IonButton color="secondary" slot="end">
+							<IonButton
+								onClick={() => setShowActionSheet(true)}
+								color="secondary"
+								slot="end"
+							>
 								ACCIONES
 							</IonButton>
+							<IonActionSheet
+								header={
+									"¿Que deseas hacer con " +
+									propiedadJugador.jugador.nombre +
+									"?"
+								}
+								isOpen={showActionSheet}
+								onDidDismiss={() => setShowActionSheet(false)}
+								buttons={[
+									{
+										text: "Añadir al mercado",
+										icon: cart,
+										handler: () => {},
+									},
+									{
+										text: "Vender inmediatamente",
+										icon: cash,
+										handler: () => {},
+									},
+									{
+										text: "Cancelar",
+										icon: close,
+										handler: () => {},
+									},
+								]}
+							></IonActionSheet>
 						</IonItem>
 					</IonCol>
 				</IonRow>
@@ -112,10 +153,10 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 			{
 				<>
 					{renderCambios(
-						jugador.jugador._id,
+						propiedadJugador.jugador._id,
 						"Quitar de la alineación",
 						props.esParaCambio,
-						jugador.jugador.posicion,
+						propiedadJugador.jugador.posicion,
 						props.porteros,
 						props.defensas,
 						props.mediocentros,
@@ -124,9 +165,9 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 						props.cambiarTitulares,
 						() => {
 							props.cambiarTitulares(
-								getListaPosicion(jugador.jugador.posicion),
+								getListaPosicion(propiedadJugador.jugador.posicion),
 								"",
-								jugador.jugador._id
+								propiedadJugador.jugador._id
 							);
 						}
 					)}
