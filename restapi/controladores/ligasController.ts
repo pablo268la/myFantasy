@@ -6,7 +6,10 @@ import {
 } from "../model/alineacionJugador";
 import { IJugador, modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
-import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
+import {
+	IPlantillaUsuario,
+	modeloPlantillaUsuario,
+} from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
@@ -128,7 +131,7 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 				medios: medPlantilla,
 				delanteros: delPlantilla,
 				formacion: "4-3-3",
-				guardadoEn: Date.now().toString(),
+				guardadoEn: new Date().toISOString(),
 				idLiga: idLiga,
 			});
 			const plantillaUsuario = new modeloPlantillaUsuario({
@@ -167,7 +170,32 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 	}
 };
 
-function calcularValorAlineacion(alineacion: IAlineacionJugador): number {
+export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
+
+	let usuario = await modeloUsuario.findOne({ email: email });
+	const verified = await verifyUser(email, token);
+	
+	try {
+		if (usuario && verified) {
+			const plantillaParaActualizar = req.body as IPlantillaUsuario;
+			const plantillaActualizada =
+				await modeloPlantillaUsuario.findByIdAndUpdate(
+					plantillaParaActualizar._id,
+					plantillaParaActualizar,
+					{ new: true }
+				);
+			return res.status(200).json(plantillaActualizada);
+		}
+	} catch (error) {
+		return res.status(500).json(error);
+	}
+};
+
+export function calcularValorAlineacion(
+	alineacion: IAlineacionJugador
+): number {
 	let valor = 0;
 
 	alineacion.porteros.forEach((p) => (valor += p.jugador.valor));

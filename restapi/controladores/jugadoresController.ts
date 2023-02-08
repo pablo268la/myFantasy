@@ -1,8 +1,13 @@
 import { RequestHandler } from "express";
 import { modeloAlineacionJugador } from "../model/alineacionJugador";
-import { modeloEquipo } from "../model/equipo";
 import { modeloJugador } from "../model/jugador";
-import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
+import {
+	IPlantillaUsuario,
+	modeloPlantillaUsuario,
+} from "../model/plantillaUsuario";
+import { IPropiedadJugador } from "../model/propiedadJugador";
+import { modeloUsuario } from "../model/usuario";
+import { calcularValorAlineacion } from "./ligasController";
 
 export const getJugadores: RequestHandler = async (req, res) => {
 	res.json(await modeloJugador.find());
@@ -11,11 +16,9 @@ export const getJugadores: RequestHandler = async (req, res) => {
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	const idEquipo = req.params.idEquipo;
 
-	const e = await modeloEquipo.findOne({ _id: idEquipo });
-
 	res.json(
 		await modeloJugador.find({
-			equipo: e,
+			"equipo._id": idEquipo,
 		})
 	);
 };
@@ -38,12 +41,34 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 	const idLiga = req.params.idLiga;
 	const idUsuario = req.params.idUsuario;
 
-	const p = await modeloPlantillaUsuario.find({
+	const p = (await modeloPlantillaUsuario.findOne({
 		idLiga: idLiga,
 		idUsuario: idUsuario,
+	})) as IPlantillaUsuario;
+
+	await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.porteros);
+	await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.defensas);
+	await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.medios);
+	await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.delanteros);
+	p.valor = calcularValorAlineacion(p.alineacionJugador);
+	//TODO: Checkear cambio de posiciones
+
+	const p2 = await modeloPlantillaUsuario.findOneAndUpdate({ _id: p._id }, p, {
+		new: true,
 	});
-	res.json(p[0]);
+
+	res.json(p2);
 };
+
 export const getAlineacionJugador: RequestHandler = async (req, res) => {
 	res.json(await modeloAlineacionJugador.find());
 };
+
+export async function actualizarDatosDeJugadoresDesdeBD(
+	propiedades: IPropiedadJugador[]
+) {
+	for (let j of propiedades) {
+		j.jugador = (await modeloJugador.findOne({ _id: j.jugador._id })) as any;
+		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as any;
+	}
+}

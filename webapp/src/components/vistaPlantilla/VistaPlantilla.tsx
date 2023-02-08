@@ -12,10 +12,14 @@ import {
 	useIonRouter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getPlantilla } from "../../endpoints/plantillaEndpoints";
+import {
+	getPlantilla,
+	updatePlantillaUsuario,
+} from "../../endpoints/plantillaEndpoints";
 
 import { getUsuarioLogueado } from "../../helpers/helpers";
 import {
+	AlineacionJugador,
 	Jugador,
 	PlantillaUsuario,
 	PropiedadJugador,
@@ -45,6 +49,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		medio: 3,
 		delantero: 3,
 	});
+	const [valueFormacion, setValueFormacion] = useState<string>();
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
 	const [cambioAlineacion, setCambioAlineacion] = useState<boolean>(false);
 
@@ -73,6 +78,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				medio: Number(res.alineacionJugador.formacion.split("-")[1]),
 				delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
 			});
+			setValueFormacion(res.alineacionJugador.formacion);
 
 			let ju: PropiedadJugador[] = [];
 			let po: PropiedadJugador[] = res.alineacionJugador.porteros;
@@ -180,6 +186,30 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		setCambioAlineacion(true);
 	};
 
+	const guardarPlantilla = async () => {
+		const alineacionJugador: AlineacionJugador = {
+			_id: plantilla?.alineacionJugador._id as string,
+			porteros: porteros,
+			defensas: defensas,
+			medios: mediocentros,
+			delanteros: delanteros,
+			formacion: valueFormacion as string,
+			guardadoEn: new Date().toISOString(),
+			idLiga: plantilla?.alineacionJugador.idLiga as string,
+		};
+		const plantillaUsuario: PlantillaUsuario = {
+			_id: plantilla?._id as string,
+			usuario: plantilla?.usuario as any,
+			idLiga: plantilla?.idLiga as string,
+			alineacionJugador: alineacionJugador,
+			alineacionesJornada: plantilla?.alineacionesJornada as any,
+			puntos: plantilla?.puntos as number,
+			valor: plantilla?.valor as number,
+		};
+
+		setPlantilla(await updatePlantillaUsuario(plantillaUsuario));
+	};
+
 	useEffect(() => {
 		getJugadoresAPI();
 	}, []);
@@ -215,6 +245,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 															medio: Number(e.detail.value.split("-")[1]),
 															delantero: Number(e.detail.value.split("-")[2]),
 														};
+														setValueFormacion(e.detail.value);
 														cambiarFormacion(f);
 													}}
 												>
@@ -228,7 +259,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 												</IonSelect>
 											</IonList>
 											{cambioAlineacion ? (
-												<IonButton>Guardar cambios</IonButton>
+												<IonButton onClick={() => guardarPlantilla()}>
+													Guardar cambios
+												</IonButton>
 											) : (
 												<></>
 											)}

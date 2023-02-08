@@ -9,7 +9,7 @@ import {
 	IonSelect,
 	IonSelectOption,
 } from "@ionic/react";
-import { pencilOutline } from "ionicons/icons";
+import { ellipsisVertical, pencilOutline } from "ionicons/icons";
 import { useState } from "react";
 import { updateJugador } from "../../endpoints/jugadorEndpoints";
 import { Jugador } from "../../shared/sharedTypes";
@@ -153,20 +153,27 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 					</IonRow>
 				</IonCol>
 				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonButton
-						disabled={!edited}
-						color="success"
-						onClick={() => updateJugadorAndReset()}
-					>
-						Guardar
-					</IonButton>
-					<IonButton
-						disabled={!edited}
-						color="danger"
-						onClick={() => resetValores()}
-					>
-						Reset
-					</IonButton>
+					<IonRow>
+						<IonButton 
+							size="small"
+							disabled={!edited}
+							color="success"
+							onClick={() => updateJugadorAndReset()}
+						>
+							Guardar
+						</IonButton>
+						<IonButton
+							size="small"
+							disabled={!edited}
+							color="danger"
+							onClick={() => resetValores()}
+						>
+							Reset
+						</IonButton>
+						<IonButton fill="clear" size="small">
+							<IonIcon slot="icon-only" icon={ellipsisVertical}></IonIcon>
+						</IonButton>
+					</IonRow>
 				</IonCol>
 			</IonRow>
 		</>

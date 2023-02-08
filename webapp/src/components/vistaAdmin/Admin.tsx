@@ -6,6 +6,7 @@ import {
     IonLabel,
     IonList,
     IonPage,
+    IonProgressBar,
     IonRow,
     IonSelect,
     IonSelectOption,
@@ -26,15 +27,18 @@ export function Admin(): JSX.Element {
 	const [equipos, setEquipos] = useState<Equipo[]>([]);
 	const [equipoSeleccionado, setEquipoSeleccionado] = useState<Equipo | null>();
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	const [anyEdited, setAnyEdited] = useState<boolean>(false);
 
 	const getEquiposFromApi = async () => {
+		setLoading(true);
 		setEquipos(
 			await (
 				await getEquipos()
 			).sort((a, b) => a.nombre.localeCompare(b.nombre))
 		);
+		setLoading(false);
 	};
 
 	const comparePosiciones = (pos1: string, pos2: string) => {
@@ -66,7 +70,7 @@ export function Admin(): JSX.Element {
 	};
 
 	const getJugadoresFromApi = async (idEquipo: string) => {
-		const e = equipos.filter((e) => idEquipo === e._id)[0];
+		setLoading(true);
 		if (idEquipo === "") {
 			setJugadores(
 				await getJugadores().then((j) =>
@@ -76,12 +80,13 @@ export function Admin(): JSX.Element {
 			setEquipoSeleccionado(null);
 		} else {
 			setJugadores(
-				await getJugadoresPorEquipo(e?._id as string).then((j) =>
+				await getJugadoresPorEquipo(idEquipo).then((j) =>
 					j.sort((a, b) => comparePosiciones(a.posicion, b.posicion))
 				)
 			);
-			setEquipoSeleccionado(e);
+			setEquipoSeleccionado(equipos.find((e) => e._id === idEquipo));
 		}
+		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -99,7 +104,7 @@ export function Admin(): JSX.Element {
 				<IonContent>
 					<IonRow>
 						<IonSelect
-							placeholder="Todos"
+							placeholder="Selecciona un equipo"
 							onIonChange={(e) => {
 								getJugadoresFromApi(`${e.detail.value}`);
 							}}
@@ -112,6 +117,9 @@ export function Admin(): JSX.Element {
 									{equipo.nombre}
 								</IonSelectOption>
 							))}
+							<IonSelectOption key={"-1"} value={"-1"}>
+								Sin equipo
+							</IonSelectOption>
 						</IonSelect>
 					</IonRow>
 					<IonList>
@@ -157,13 +165,21 @@ export function Admin(): JSX.Element {
 								</IonButton>
 							</IonCol>
 						</IonRow>
-						{jugadores.map((jugador) => (
-							<CartaJugadorAdmin
-								key={jugador._id}
-								jugador={jugador}
-								setAnyEdited={setAnyEdited}
-							/>
-						))}
+
+						{!loading ? (
+							jugadores.map((jugador) => (
+								<CartaJugadorAdmin
+									key={jugador._id}
+									jugador={jugador}
+									setAnyEdited={setAnyEdited}
+								/>
+							))
+						) : (
+							<IonProgressBar
+								style={{ background: "#f4f544", progressBackground: "#562765" }}
+								type="indeterminate"
+							></IonProgressBar>
+						)}
 					</IonList>
 				</IonContent>
 			</IonPage>

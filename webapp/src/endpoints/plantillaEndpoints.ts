@@ -38,3 +38,19 @@ export async function crearPlantillaUsuario(
 	});
 	return response.json();
 }
+
+export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/plantillas/update", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
+		body: JSON.stringify(plantilla),
+	});
+	return response.json();
+}
