@@ -5,11 +5,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MONGO_DB_URI: ${{secrets.MONGO_DB_URI}}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: elgohr/Publish-Docker-Github-Action@3.04  
-        with:
+        with:        
           workdir: restapi
           name: uo271580/fantasyrestapi
           username: ${{ secrets.DOCKER_USERNAME }}
