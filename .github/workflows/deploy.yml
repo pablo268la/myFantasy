@@ -27,7 +27,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           command: |
-            docker stop restapi
-            docker rm restapi
-            docker pull ghcr.io/uo271580/fantasyrestapi:latest
-            docker run -d -p 3000:3000 --net=host --name restapi ghcr.io/uo271580/fantasyrestapi:latest
+            sudo docker stop restapi
+            sudo docker rm restapi
+            sudo docker pull ghcr.io/uo271580/fantasyrestapi:latest
+            sudo docker run -d -p 3000:3000 --net=host --name restapi ghcr.io/uo271580/fantasyrestapi:latest
