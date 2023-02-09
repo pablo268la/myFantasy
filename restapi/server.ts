@@ -6,7 +6,9 @@ import promBundle from "express-prom-bundle";
 import morgan from "morgan";
 import apiEquipos from "./routes/rutasEquipos";
 import apiJugadores from "./routes/rutasJugador";
+import apiLigas from "./routes/rutasLigas";
 import apiSofaScore from "./routes/rutasSofascoreMarca";
+import apiUsuarios from "./routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
 
@@ -33,12 +35,14 @@ app.use(morgan("dev"));
 app.use(apiSofaScore);
 app.use(apiJugadores);
 app.use(apiEquipos);
+app.use(apiUsuarios);
+app.use(apiLigas);
 
 app.use(helmet.hidePoweredBy());
 
 app
 	.listen(5000, (): void => {
-		console.log("Restapi listening on " + 5000);
+		console.log("Restapi listening on " + 5000 + " " + connectionString);
 	})
 	.on("error", (error: Error) => {
 		console.error("Error occured: " + error.message);
@@ -56,7 +60,7 @@ mongoose
 	.catch((err: Error) => {
 		console.error(err);
 	});
-
+/*
 const python = spawn("python", ["python/env/crawler.py", "arg1", "arg2", "arg3"], {
 	shell: true,
 });
@@ -70,3 +74,4 @@ python.stdout.on("data", function (data: any) {
 python.on("close", (code: any) => {
 	console.log(`child process close all stdio with code ${code}`);
 });
+*/

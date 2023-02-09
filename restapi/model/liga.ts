@@ -1,4 +1,5 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
+import { IPlantillaUsuario, plantillaUsuario } from "./plantillaUsuario";
 import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 export const liga = new Schema<ILiga>(
@@ -9,8 +10,13 @@ export const liga = new Schema<ILiga>(
 			trim: true,
 			unique: true,
 		},
-		idUsuarios: {
-			type: [String],
+		nombre: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		plantillasUsuarios: {
+			type: [plantillaUsuario],
 			required: true,
 			trim: true,
 		},
@@ -24,6 +30,10 @@ export const liga = new Schema<ILiga>(
 			required: true,
 			trim: true,
 		},
+		maxJugadores: {
+			type: Number,
+			required: true,
+		},
 		configuracion: {
 			type: String,
 		},
@@ -36,9 +46,11 @@ export const liga = new Schema<ILiga>(
 
 export interface ILiga {
 	_id: string;
-	idUsuarios: Types.DocumentArray<string>;
-	propiedadJugadores: Types.DocumentArray<IPropiedadJugador>;
+	nombre: string;
+	plantillasUsuarios: IPlantillaUsuario[];
+	propiedadJugadores: IPropiedadJugador[];
 	enlaceInvitacion: string;
+	maxJugadores: number;
 	configuracion: string;
 }
 

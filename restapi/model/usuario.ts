@@ -1,19 +1,14 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export const usuario = new Schema<IUsuario>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
 			unique: true,
 		},
 		nombre: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		apellido: {
 			type: String,
 			required: true,
 			trim: true,
@@ -41,14 +36,11 @@ export const usuario = new Schema<IUsuario>(
 );
 
 export interface IUsuario {
-	_id: string;
+	id: string;
 	nombre: string;
-	apellido: string;
 	email: string;
 	contraseña: string;
-	ligas: Types.DocumentArray<string>;
+	ligas: string[];
 }
-
-usuario.index({ _id: 1 }, { unique: true });
 
 export const modeloUsuario = model<IUsuario>("usuario", usuario);

@@ -1,22 +1,18 @@
 import { model, Schema } from "mongoose";
+import { equipo, IEquipo } from "./equipo";
 import { IJugadorAntiguo, jugadorAntiguo } from "./jugadorAntiguo";
-import {
-	IPuntuacionJugador,
-	puntuacionJugador
-} from "./puntuacion/puntuacionJugador";
 
 export interface IJugador {
 	_id: string;
 	nombre: string;
 	slug: string;
 	posicion: string;
-	idEquipo: string;
+	equipo: IEquipo;
 	valor: number;
 	puntos: number;
 	estado: string;
 	foto: string;
 	jugadorAntiguo: IJugadorAntiguo;
-	puntuaciones: IPuntuacionJugador[];
 	fantasyMarcaId: string;
 }
 
@@ -43,8 +39,8 @@ export const jugador = new Schema<IJugador>(
 			trim: true,
 			enum: ["Portero", "Defensa", "Mediocentro", "Delantero", "Sin asignar"],
 		},
-		idEquipo: {
-			type: String,
+		equipo: {
+			type: equipo,
 			required: true,
 			trim: true,
 		},
@@ -69,10 +65,6 @@ export const jugador = new Schema<IJugador>(
 		},
 		jugadorAntiguo: {
 			type: jugadorAntiguo,
-		},
-		puntuaciones: {
-			type: [puntuacionJugador],
-			required: true,
 		},
 		fantasyMarcaId: {
 			type: String,

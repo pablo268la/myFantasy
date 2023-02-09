@@ -1,22 +1,24 @@
 import { model, Schema } from "mongoose";
+import { IJugador, jugador } from "./jugador";
+import { IUsuario, usuario } from "./usuario";
 
 export const propiedadJugador = new Schema<IPropiedadJugador>(
 	{
-		idJugador: {
-			type: String,
+		jugador: {
+			type: jugador,
 			required: true,
 			trim: true,
 			unique: true,
 		},
-		idUsuario: {
-			type: String,
+		usuario: {
+			type: usuario,
 			required: true,
 			trim: true,
 		},
-		idLiga: {
-			type: String,
+		titular: {
+			type: Boolean,
 			required: true,
-			trim: true,
+			default: false,
 		},
 	},
 	{
@@ -26,9 +28,9 @@ export const propiedadJugador = new Schema<IPropiedadJugador>(
 );
 
 export interface IPropiedadJugador {
-	idJugador: string;
-	idUsuario: string;
-	idLiga: string;
+	jugador: IJugador;
+	usuario: IUsuario;
+	titular: boolean;
 }
 
 export const modeloPropiedadJugador = model<IPropiedadJugador>(

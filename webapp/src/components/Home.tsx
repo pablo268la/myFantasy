@@ -1,24 +1,28 @@
-import { IonButton, IonContent } from "@ionic/react";
-import { GoogleLogin } from "@react-oauth/google";
-import { useEffect } from "react";
+import { IonContent, IonHeader, IonPage, useIonRouter } from "@ionic/react";
+import { FantasyToolbar } from "./comunes/FantasyToolbar";
+import { MenuLateral } from "./comunes/MenuLateral";
 
-export function Home(props: any): JSX.Element {
-	useEffect(() => {}, []);
+type HomeProps = {};
+
+export function Home(props: HomeProps): JSX.Element {
+	const nav = useIonRouter();
 
 	return (
 		<>
-			<IonContent>
-				<IonButton href="/plantilla"> Plantilla</IonButton>
-				<GoogleLogin
-					onSuccess={(credentialResponse) => {
-						console.log(credentialResponse);
-					}}
-					onError={() => {
-						console.log("Login Failed");
-					}}
-				/>
-				;
-			</IonContent>
+			<MenuLateral />
+			<IonPage id="main-content">
+				<IonHeader>
+					<FantasyToolbar />
+				</IonHeader>
+				<IonContent>
+					<iframe
+						id="sofa-standings-embed-36-42409"
+						src="https://www.sofascore.com/es/torneo/36/42409/clasificacion/tablas/introducir"
+						scrolling="yes"
+						style={{ width: "100%", height: "830px" }}
+					></iframe>
+				</IonContent>
+			</IonPage>
 		</>
 	);
 }

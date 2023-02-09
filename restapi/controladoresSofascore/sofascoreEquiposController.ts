@@ -82,7 +82,6 @@ async function cogerJugadoresEquipo(idEquipo: string) {
 				await modeloJugador.create(jugador);
 			} else {
 				jugador.puntos = exists.puntos;
-				jugador.puntuaciones = exists.puntuaciones;
 				jugador.jugadorAntiguo = exists.jugadorAntiguo;
 				jugador.estado = exists.estado;
 				jugador.fantasyMarcaId = exists.fantasyMarcaId;

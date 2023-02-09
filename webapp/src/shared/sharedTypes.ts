@@ -3,19 +3,26 @@ export type Jugador = {
 	nombre: string;
 	slug: string;
 	posicion: string;
-	idEquipo: string;
+	equipo: Equipo;
 	valor: number;
 	puntos: number;
 	estado: string;
 	foto: string;
 	jugadorAntiguo: object;
-	puntuaciones: object[];
 	fantasyMarcaId: string;
+};
+
+export type Equipo = {
+	_id: string;
+	nombre: string;
+	slug: string;
+	shortName: string;
+	escudo: string;
 };
 
 export type PlantillaUsuario = {
 	_id: string;
-	idUsuario: string;
+	usuario: Usuario;
 	idLiga: string;
 	alineacionJugador: AlineacionJugador;
 	alineacionesJornada: AlineacionJugador[];
@@ -25,22 +32,35 @@ export type PlantillaUsuario = {
 
 export type AlineacionJugador = {
 	_id: string;
-	idUsuario: string;
-	porteros: JugadorEnPlantilla[];
-	defensas: JugadorEnPlantilla[];
-	medios: JugadorEnPlantilla[];
-	delanteros: JugadorEnPlantilla[];
+	porteros: PropiedadJugador[];
+	defensas: PropiedadJugador[];
+	medios: PropiedadJugador[];
+	delanteros: PropiedadJugador[];
 	formacion: string;
 	guardadoEn: string;
 	idLiga: string;
 };
 
-export type JugadorEnPlantilla = {
-	idJugador: string;
-	enPlantilla: boolean;
+export type Usuario = {
+	id: string;
+	nombre: string;
+	email: string;
+	contraseña: string;
+	ligas: string[];
 };
 
-export type JugadorTitular = {
+export type Liga = {
+	_id: string | undefined;
+	nombre: string;
+	plantillasUsuarios: PlantillaUsuario[];
+	propiedadJugadores: PropiedadJugador[];
+	enlaceInvitacion: string;
+	maxJugadores: number;
+	configuracion: string;
+};
+
+export type PropiedadJugador = {
 	jugador: Jugador;
+	usuario: Usuario;
 	titular: boolean;
 };

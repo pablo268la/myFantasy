@@ -12,7 +12,7 @@ export const getStatusJugador: RequestHandler = async (req, res) => {
 		let jugador = j[i];
 		if (
 			jugador !== null &&
-			jugador.idEquipo !== "0" &&
+			jugador.equipo._id !== "0" &&
 			jugador.fantasyMarcaId !== undefined
 		) {
 			await axios
@@ -35,7 +35,7 @@ export const getFotoJugadorMarca: RequestHandler = async (req, res) => {
 		console.log(jugador.nombre);
 		if (
 			jugador !== null &&
-			jugador.idEquipo !== "0" &&
+			jugador.equipo._id !== "0" &&
 			jugador.fantasyMarcaId !== undefined
 		) {
 			await axios
