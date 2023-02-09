@@ -21,7 +21,7 @@ import "@ionic/react/css/text-transformation.css";
 /* Theme variables */
 import { Home } from "./components/Home";
 import { Admin } from "./components/vistaAdmin/Admin";
-import Clasificacion from "./components/vistaClasificacion/Clasificacion";
+import VistaClasificacion from "./components/vistaClasificacion/VistaClasificacion";
 import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
 import Login from "./components/vistaLogin/Login";
@@ -59,8 +59,8 @@ function App(): JSX.Element {
 					<Route exact path="/plantilla/starts/:id">
 						<PlantillaStart />
 					</Route>
-					<Route exact path="/clasificacion">
-						<Clasificacion />
+					<Route exact path="/clasificacion/:id">
+						<VistaClasificacion />
 					</Route>
 					<Route exact path="/admin">
 						<Admin />

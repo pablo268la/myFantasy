@@ -45,13 +45,17 @@ export function MenuLateral(props: any): JSX.Element {
 								Mis ligas
 							</IonButton>
 						</IonRouterLink>
-						<IonRouterLink href="/clasificacion">
+						<IonRouterLink
+							href={"/clasificacion/" + getUsuarioLogueado()?.ligas[0]}
+						>
 							<IonButton color="dark" expand="block" fill="clear">
 								<IonIcon slot="start" icon={list}></IonIcon>
 								Clasificacion
 							</IonButton>
 						</IonRouterLink>
-						<IonRouterLink href={"/plantilla/" + getUsuarioLogueado()?.ligas[0]}>
+						<IonRouterLink
+							href={"/plantilla/" + getUsuarioLogueado()?.ligas[0]}
+						>
 							<IonButton color="dark" expand="block" fill="clear">
 								<IonIcon slot="start" icon={people}></IonIcon>
 								Plantilla

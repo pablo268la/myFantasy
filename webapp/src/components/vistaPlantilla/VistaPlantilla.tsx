@@ -60,6 +60,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>([]);
 
 	const [loading, setLoading] = useState<boolean>(false);
+	const [idLiga, setIdLiga] = useState<string>(
+		window.location.pathname.split("/")[2]
+	);
 
 	const cambiarJugador = (idJugador: string) => {
 		if (idJugador === jugadorPulsado) setJugadorPulsado("");
@@ -102,7 +105,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			ju.push(...dl);
 
 			setJugadores(ju);
-			setLoading(true);
 			await new Promise((f) => setTimeout(f, 2000));
 		});
 		setLoading(false);
