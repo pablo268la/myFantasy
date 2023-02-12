@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "4.5.0",
+    "@iconify/react": "^4.1.0",
     "@types/uuid": "^9.0.0"
   },
   "description": "An Ionic project"

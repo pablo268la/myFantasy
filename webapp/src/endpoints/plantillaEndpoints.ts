@@ -8,7 +8,7 @@ export async function getPlantilla(
 	idUsuario: string
 ): Promise<PlantillaUsuario> {
 	let response = await fetch(
-		apiEndPoint + "/plantilla/" + idLiga + "/" + idUsuario
+		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario
 	);
 	return response.json();
 }

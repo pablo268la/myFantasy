@@ -5,6 +5,7 @@ import {
 	IonImg,
 	IonLabel,
 	IonPage,
+	IonProgressBar,
 	IonRouterLink,
 	IonRow,
 } from "@ionic/react";
@@ -27,14 +28,12 @@ import CartaJugador from "./CartaJugador";
 
 SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
-	const slideOpts = {
-		initialSlide: 0,
-		speed: 400,
-	};
-
+	const [loading, setLoading] = useState<boolean>(true);
 	const [idLiga, setIdLiga] = useState<string>("");
+	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
 	async function getJugadores() {
+		setLoading(true);
 		const jugadores: Jugador[] = [];
 		const plantilla: PlantillaUsuario = await getPlantilla(
 			window.location.pathname.split("/")[3],
@@ -69,19 +68,18 @@ export function PlantillaStart(): JSX.Element {
 		}
 
 		setJugadores(jugadores);
+		setLoading(false);
 	}
 
 	useEffect(() => {
 		getJugadores();
 	}, []);
 
-	const [jugadores, setJugadores] = useState<Jugador[]>([]);
-
-	return (
+	return !loading ? (
 		<IonPage>
 			<IonContent style={{ justifyContent: "center" }}>
 				<Swiper
-					onSlideChange={() => console.log("slide change")}
+					onSlideChange={() => {}}
 					style={{ border: "2px solid #123445", width: 500, height: "85%" }}
 					pagination={{
 						clickable: true,
@@ -157,5 +155,7 @@ export function PlantillaStart(): JSX.Element {
 				</IonRow>
 			</IonContent>
 		</IonPage>
+	) : (
+		<IonProgressBar type="indeterminate"></IonProgressBar>
 	);
 }

@@ -6,12 +6,14 @@ const api: Router = express.Router();
 
 api.get("/ligas/:id", LigasController.getLiga);
 
+api.get("/ligas/random/new", LigasController.getRandomLiga);
+
 api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
+
+api.get('/ligas/join/:idLiga', LigasController.checkJoinLiga)
 
 api.post("/ligas", LigasController.createLiga);
 
-api.post("/plantillas/crear", LigasController.createPlantillaUsuario);
-
-api.post("/plantillas/update", LigasController.updatePlantillaUsuario);
+api.post("/ligas/:idLiga", LigasController.añadirUsuarioALiga);
 
 export default api;

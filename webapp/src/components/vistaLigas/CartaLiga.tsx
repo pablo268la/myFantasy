@@ -18,6 +18,7 @@ import { Liga } from "../../shared/sharedTypes";
 
 type CartaLigaProps = {
 	liga: Liga;
+	disabled: boolean;
 };
 
 export function CartaLiga(props: CartaLigaProps): JSX.Element {
@@ -38,28 +39,53 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 					<IonGrid>
 						<IonRow>
 							<IonCol style={{ justifyContent: "space-around" }}>
-								<IonRouterLink href={"/plantilla/" + liga._id}>
-									<IonRow style={{ justifyContent: "center" }}>
-										<IonLabel style={{ fontSize: "20px" }} color={"light"}>
-											{liga.nombre}
-										</IonLabel>
-									</IonRow>
-									<IonRow>
-										<IonCol>
-											<IonIcon
-												size="large"
-												icon={trophySharp}
-												color="light"
-											></IonIcon>
-										</IonCol>
-									</IonRow>
-									<br />
-									<IonRow>
-										<IonTitle color={"light"}>Puntos</IonTitle>
-										<IonTitle color={"light"}>Dinero</IonTitle>
-										<IonTitle color={"light"}>Posicion</IonTitle>
-									</IonRow>
-								</IonRouterLink>
+								{!props.disabled ? (
+									<IonRouterLink href={"/plantilla/" + liga._id}>
+										<IonRow style={{ justifyContent: "center" }}>
+											<IonLabel style={{ fontSize: "20px" }} color={"light"}>
+												{liga.nombre}
+											</IonLabel>
+										</IonRow>
+										<IonRow>
+											<IonCol>
+												<IonIcon
+													size="large"
+													icon={trophySharp}
+													color="light"
+												></IonIcon>
+											</IonCol>
+										</IonRow>
+										<br />
+										<IonRow>
+											<IonTitle color={"light"}>Puntos</IonTitle>
+											<IonTitle color={"light"}>Dinero</IonTitle>
+											<IonTitle color={"light"}>Posicion</IonTitle>
+										</IonRow>
+									</IonRouterLink>
+								) : (
+									<>
+										<IonRow style={{ justifyContent: "center" }}>
+											<IonLabel style={{ fontSize: "20px" }} color={"light"}>
+												{liga.nombre}
+											</IonLabel>
+										</IonRow>
+										<IonRow>
+											<IonCol>
+												<IonIcon
+													size="large"
+													icon={trophySharp}
+													color="light"
+												></IonIcon>
+											</IonCol>
+										</IonRow>
+										<br />
+										<IonRow>
+											<IonTitle color={"light"}>Puntos</IonTitle>
+											<IonTitle color={"light"}>Dinero</IonTitle>
+											<IonTitle color={"light"}>Posicion</IonTitle>
+										</IonRow>
+									</>
+								)}
 							</IonCol>
 							<IonCol size="1">
 								<IonButton

@@ -4,11 +4,11 @@ import {
 	getUsuarioLogueado,
 	updateUsuarioInfo,
 } from "../helpers/helpers";
-import { Liga } from "../shared/sharedTypes";
+import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
 
-export async function getLiga(idLiga: string): Promise<Liga | null> {
+export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 	let response = await fetch(apiEndPoint + "/ligas/" + idLiga, {
@@ -20,18 +20,13 @@ export async function getLiga(idLiga: string): Promise<Liga | null> {
 		},
 	});
 
-	if (response.status === 200) {
-		return response.json();
-	} else {
-		return null;
-	}
+	return response.json();
 }
 
 export async function getLigasUsuario(): Promise<Liga[]> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 	const idUsuario = getUsuarioLogueado()?.id as string;
-	console.log(idUsuario);
 
 	let response = await fetch(apiEndPoint + "/ligas/usuario/" + idUsuario, {
 		method: "GET",
@@ -90,3 +85,54 @@ export async function crearLiga(
 	await updateUsuarioInfo();
 	return response.json();
 }
+
+export async function añadirUsuarioALiga(
+	idLiga: string
+): Promise<PlantillaUsuario> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/ligas/" + idLiga, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
+	});
+
+	await updateUsuarioInfo();
+	return response.json();
+}
+
+export async function getRandomLiga(): Promise<Liga> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/ligas/random/new", {
+		method: "GET",
+		headers: {
+			email: email,
+			token: token,
+		},
+	});
+
+	return response.json();
+}
+
+export const checkJoinLiga: (idLiga: string) => Promise<boolean> = async (
+	idLiga: string
+) => {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/ligas/join/" + idLiga, {
+		method: "GET",
+		headers: {
+			email: email,
+			token: token,
+		},
+	});
+
+	return response.status === 200;
+};
