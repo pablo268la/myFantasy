@@ -56,7 +56,6 @@ export function VistaCrearLiga(props: any): JSX.Element {
 					alert("Liga creada");
 					vaciarFormulario();
 					setIdLiga(response._id);
-					console.log(response);
 					await crearPlantillaUsuario(response._id as string);
 					setLigaCreada(true);
 				} else alert("Algo ha pasado");

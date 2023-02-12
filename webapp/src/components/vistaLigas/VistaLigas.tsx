@@ -74,7 +74,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 		setEnlaceInvitacion(e);
 		const canJoin = await checkJoinLiga(e);
 		if (canJoin) {
-			console.log(canJoin)
+			console.log(canJoin);
 			await añadirUsuarioALiga(e);
 			setIdLigaParaUnir(e);
 			setUnidoALiga(true);
@@ -162,15 +162,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 												</IonRow>
 											</IonCardContent>
 										</IonCard>
-										{unidoALiga ? (
-											<IonRouterLink
-												href={"/plantilla/starts/" + idLigaParaUnir}
-											>
-												<IonButton>IR</IonButton>
-											</IonRouterLink>
-										) : (
-											<></>
-										)}
 										<IonCard
 											disabled={uniendoseALiga}
 											onClick={() => {
@@ -204,7 +195,18 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 											</IonCardContent>
 										</IonCard>
 										<IonRow style={{ justifyContent: "center" }}>
+											{unidoALiga ? (
+												<IonRouterLink
+													href={"/plantilla/starts/" + idLigaParaUnir}
+												>
+													<IonButton>Ver plantilla</IonButton>
+												</IonRouterLink>
+											) : (
+												//TODO - Probar a hacer click programaticamente
+												<></>
+											)}
 											<IonButton
+												disabled={uniendoseALiga}
 												shape="round"
 												onClick={() => {
 													setCrearLigas(false);
