@@ -53,7 +53,7 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 				idLiga
 			);
 
-			return res.status(200).json(plantillaGuardada);
+			return res.status(201).json(plantillaGuardada);
 		} else {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}

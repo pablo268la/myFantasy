@@ -36,7 +36,17 @@ export async function crearPlantillaUsuario(
 			idUsuario: getUsuarioLogueado()?.id,
 		}),
 	});
-	return response.json();
+
+	switch (response.status) {
+		case 201:
+			return response.json();
+		case 401:
+			throw new Error("No autorizado");
+		case 500:
+			throw new Error("Error en el servidor");
+		default:
+			throw new Error("Error al crear plantilla");
+	}
 }
 
 export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {

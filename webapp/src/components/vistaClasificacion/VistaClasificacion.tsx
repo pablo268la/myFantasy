@@ -27,7 +27,9 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 	const [liga, setLiga] = useState<Liga>();
 
 	const getLigaFromAPI = async () => {
-		setLiga(await getLiga(idLiga));
+		await getLiga(idLiga)
+			.then((liga) => setLiga(liga))
+			.catch((error) => alert(error.message));
 	};
 
 	useEffect(() => {

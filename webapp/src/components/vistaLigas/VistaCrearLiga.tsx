@@ -50,17 +50,22 @@ export function VistaCrearLiga(props: any): JSX.Element {
 			return;
 		}
 
-		await crearLiga(nombreLiga, maxPlayers, usarEntrenador).then(
-			async (response: Liga) => {
-				if (response !== null && response !== undefined) {
-					alert("Liga creada");
-					vaciarFormulario();
-					setIdLiga(response._id);
-					await crearPlantillaUsuario(response._id as string);
-					setLigaCreada(true);
-				} else alert("Algo ha pasado");
-			}
-		);
+		await crearLiga(nombreLiga, maxPlayers, usarEntrenador)
+			.then(async (response: Liga) => {
+				alert("Liga creada");
+				vaciarFormulario();
+				setIdLiga(response._id);
+				await crearPlantillaUsuario(response._id as string)
+					.then(() => {
+						setLigaCreada(true);
+					})
+					.catch((error) => {
+						alert(error.message);
+					});
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
 	};
 
 	return (

@@ -61,17 +61,23 @@ export function getColorBadge(posicion: string) {
 export async function setUsuarioAndRequestToken(
 	email: string,
 	contraseña: string
-): Promise<boolean> {
-	const newToken = await requestToken(email, contraseña);
-	if (newToken !== null && newToken !== undefined) {
-		let token = newToken;
-		let usuario = await getUsuario(email);
-		localStorage.setItem("token", token);
-		localStorage.setItem("usuario", JSON.stringify(usuario));
-		return true;
-	} else {
-		return false;
-	}
+): Promise<void> {
+	await requestToken(email, contraseña)
+		.then(async (token) => {
+			await getUsuario(email)
+				.then((usuario) =>
+					localStorage.setItem("usuario", JSON.stringify(usuario))
+				)
+				.catch((error) => {
+					console.log(error);
+					throw error;
+				});
+			localStorage.setItem("token", token);
+		})
+		.catch((error) => {
+			console.log(error);
+			throw error;
+		});
 }
 
 export async function updateUsuarioInfo() {

@@ -24,7 +24,7 @@ export const getLiga: RequestHandler = async (req, res) => {
 					.indexOf(usuario.id) === -1
 			)
 				return res
-					.status(401)
+					.status(409)
 					.json({ message: "Usuario no autorizado: No pertence a esta liga" });
 
 			return res.status(200).json(ligaEncontrada);
@@ -45,7 +45,12 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 		const verified = await verifyUser(email, token);
 
 		if (usuario && verified) {
-			return res.status(200).json(usuario.ligas);
+			let ligas = [];
+			for (let i = 0; i < usuario.ligas.length; i++) {
+				const liga = await modeloLiga.findById(usuario.ligas[i]);
+				ligas.push(liga);
+			}
+			return res.status(200).json(ligas);
 		} else {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
@@ -94,33 +99,23 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			let liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(204).json();
-
-			if (liga.plantillasUsuarios.length >= liga.maxJugadores) {
-				return res.status(401).json({
-					message:
-						"No puedes añadir más de " +
-						liga.maxJugadores +
-						" usuarios a esta liga.",
-				});
-			}
-
 			if (
+				!liga ||
+				liga.plantillasUsuarios.length >= liga.maxJugadores ||
 				liga.plantillasUsuarios
 					.map((plantilla) => plantilla.usuario.id)
 					.indexOf(usuario.id) !== -1
 			)
-				return res
-					.status(401)
-					.json({ message: "Usuario no autorizado: Ya pertenece a esta liga" });
+				return res.status(409);
 
 			const plantillaGuardada = await crearPlantillaParaUsuarioYGuardar(
 				usuario,
 				idLiga
 			);
 
-			console.log(plantillaGuardada);
 			return res.status(200).json(plantillaGuardada);
+		} else {
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
 		return res.status(500).json(error);
@@ -146,7 +141,12 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 							.indexOf(usuario.id) === -1
 				);
 			ligas = shuffle(ligas);
-			res.status(200).json(ligas[0]);
+
+			if (ligas.length === 0) return res.status(204).json();
+
+			return res.status(200).json(ligas[0]);
+		} else {
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
 		return res.status(500).json(error);
@@ -164,27 +164,21 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			const liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(204).json();
-
-			if (liga.plantillasUsuarios.length >= liga.maxJugadores) {
-				return res.status(401).json({
-					message:
-						"No puedes añadir más de " +
-						liga.maxJugadores +
-						" usuarios a esta liga.",
-				});
-			}
-
 			if (
+				!liga ||
+				liga.plantillasUsuarios.length >= liga.maxJugadores ||
 				liga.plantillasUsuarios
 					.map((plantilla) => plantilla.usuario.id)
 					.indexOf(usuario.id) !== -1
 			)
-				return res
-					.status(401)
-					.json({ message: "Usuario no autorizado: Ya pertenece a esta liga" });
+				return res.status(409).json({
+					message:
+						"No es posible unirse a la liga. Completa, Maximo superado o Ya pertenece.",
+				});
 
 			return res.status(200).json({ message: "Usuario autorizado" });
+		} else {
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
 		return res.status(500).json(error);

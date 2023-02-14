@@ -33,7 +33,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
 			const usuarioGuardado = await usuario.save();
 			res.status(201).json(usuarioGuardado);
 		} else {
-			res.status(400).json({ message: "Usuario ya existe" });
+			res.status(409).json({ message: "Usuario ya existe" });
 		}
 	} catch (error) {
 		res.status(500).json(error);

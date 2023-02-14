@@ -122,15 +122,14 @@ function Login(props: LoginProps): JSX.Element {
 				ligas: [],
 			});
 		}
-		const b = await setUsuarioAndRequestToken(email, contraseña);
-		if (!b) {
-			crearToast(
-				"Ha habido un error. Por favor intentelo de nuevo más tarde",
-				true
-			);
-		} else {
-			navigate.push("/home", "forward");
-		}
+
+		await setUsuarioAndRequestToken(email, contraseña)
+			.then(() => {
+				navigate.push("/home", "forward");
+			})
+			.catch((error) => {
+				crearToast(error.message, true);
+			});
 	}
 
 	return (

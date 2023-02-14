@@ -50,35 +50,67 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const [enlaceInvitacion, setEnlaceInvitacion] = useState<string>();
 
 	useEffect(() => {
-		getLigasUsuario().then((ligas) => {
-			setLigas(ligas);
-		});
-		getRandomLiga().then((liga) => {
-			setIdLigaParaUnir(liga._id);
-		});
+		getLigasUsuario()
+			.then((ligas) => {
+				setLigas(ligas);
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
 	}, []);
 
-	const unirseALiga = async () => {
-		setLoading(true);
-		setUniendoseALiga(true);
-		await añadirUsuarioALiga(idLigaParaUnir as string);
-		setIdLigaParaUnir(idLigaParaUnir);
-		setUnidoALiga(true);
-		setLoading(false);
+	const unirseALigaAleatoria = async () => {
+		getRandomLiga()
+			.then(async (liga) => {
+				setIdLigaParaUnir(liga._id);
+				setLoading(true);
+				setUniendoseALiga(true);
+
+				await añadirUsuarioALiga(idLigaParaUnir as string)
+					.then(() => {
+						setUnidoALiga(true);
+					})
+					.catch((error) => {
+						alert(error.message);
+					});
+
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.log(error);
+				alert(error.message);
+			});
 	};
 
 	const unirseConEnlace = async (enlace: string) => {
 		setLoading(true);
+
 		setUniendoseALiga(true);
 		let e = enlace.split(":")[1];
 		setEnlaceInvitacion(e);
-		const canJoin = await checkJoinLiga(e);
-		if (canJoin) {
-			console.log(canJoin);
-			await añadirUsuarioALiga(e);
-			setIdLigaParaUnir(e);
-			setUnidoALiga(true);
-		}
+
+		await checkJoinLiga(e)
+			.then(async (canJoin) => {
+				if (canJoin) {
+					await añadirUsuarioALiga(e)
+						.then(() => {
+							setIdLigaParaUnir(e);
+							setUnidoALiga(true);
+						})
+						.catch((error) => {
+							alert(error.message);
+						});
+				} else {
+					alert(
+						"No te puedes unir a tu liga. Has llegado al maximo (5) o está completa"
+					);
+					setUniendoseALiga(false);
+				}
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
+
 		setLoading(false);
 	};
 
@@ -144,7 +176,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 										<IonCard
 											disabled={uniendoseALiga}
 											onClick={() => {
-												unirseALiga();
+												unirseALigaAleatoria();
 											}}
 										>
 											<IonCardContent
