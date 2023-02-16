@@ -165,7 +165,6 @@ export function calcularValorAlineacion(
 function crearListaPropiedadJugador(jugadores: IJugador[], usuario: any) {
 	let posPlantilla: IPropiedadJugador[] = [];
 	jugadores.forEach((j) => {
-		console.log(j);
 		posPlantilla.push({
 			jugador: j,
 			usuario: usuario,
