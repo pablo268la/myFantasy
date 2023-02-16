@@ -1,22 +1,22 @@
 import {
-    IonButton,
-    IonCol,
-    IonContent,
-    IonHeader,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonProgressBar,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonText,
+	IonButton,
+	IonCol,
+	IonContent,
+	IonHeader,
+	IonLabel,
+	IonList,
+	IonPage,
+	IonProgressBar,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
+	IonText,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
 import {
-    getJugadores,
-    getJugadoresPorEquipo,
+	getJugadores,
+	getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -160,7 +160,7 @@ export function Admin(): JSX.Element {
 								</IonRow>
 							</IonCol>
 							<IonCol style={{ borderInlineStart: "1px solid" }}>
-								<IonButton disabled={anyEdited} color="success">
+								<IonButton disabled={!anyEdited} color="success">
 									Guardar todos
 								</IonButton>
 							</IonCol>

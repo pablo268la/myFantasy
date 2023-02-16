@@ -5,11 +5,20 @@ import {
 	IonImg,
 	IonInput,
 	IonItem,
+	IonList,
+	IonPopover,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
+	useIonActionSheet,
 } from "@ionic/react";
-import { ellipsisVertical, pencilOutline } from "ionicons/icons";
+import {
+	build,
+	close,
+	ellipsisVertical,
+	pencilOutline,
+	remove,
+} from "ionicons/icons";
 import { useState } from "react";
 import { updateJugador } from "../../endpoints/jugadorEndpoints";
 import { Jugador } from "../../shared/sharedTypes";
@@ -20,6 +29,8 @@ type CartaJugadorAdminProps = {
 };
 
 export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
+	const [present] = useIonActionSheet();
+
 	const [isReadOnlyNombre, setIsReadOnlyNombre] = useState<boolean>(true);
 	const [isReadOnlyValor, setIsReadOnlyValor] = useState<boolean>(true);
 	const [edited, setEdited] = useState<boolean>(false);
@@ -42,6 +53,33 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 		resetValores();
 		setJugador(await updateJugador(jugador));
 	};
+
+	const [showPopover, setShowPopover] = useState(false);
+
+	function canDismiss() {
+		return new Promise<boolean>((resolve, reject) => {
+			present({
+				header: "¿Estas seguro de querer borrar este jugador?",
+				buttons: [
+					{
+						text: "Si",
+						role: "confirm",
+					},
+					{
+						text: "No",
+						role: "cancel",
+					},
+				],
+				onWillDismiss: (ev) => {
+					if (ev.detail.role === "confirm") {
+						alert("Jugador borrado");
+					} else {
+						reject();
+					}
+				},
+			});
+		});
+	}
 
 	return (
 		<>
@@ -154,7 +192,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 				</IonCol>
 				<IonCol style={{ borderInlineStart: "1px solid" }}>
 					<IonRow>
-						<IonButton 
+						<IonButton
 							size="small"
 							disabled={!edited}
 							color="success"
@@ -170,9 +208,42 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 						>
 							Reset
 						</IonButton>
-						<IonButton fill="clear" size="small">
+						<IonButton
+							onClick={() => setShowPopover(true)}
+							fill="clear"
+							size="small"
+							id="popover-button"
+						>
 							<IonIcon slot="icon-only" icon={ellipsisVertical}></IonIcon>
 						</IonButton>
+
+						<IonPopover
+							isOpen={showPopover}
+							onDidDismiss={() => setShowPopover(false)}
+						>
+							<IonList>
+								<IonItem button={true} detail={false}>
+									<IonIcon slot="start" icon={build} />
+									Editar jugador completo
+								</IonItem>
+								<IonItem
+									button={true}
+									detail={false}
+									onClick={() => canDismiss()}
+								>
+									<IonIcon slot="start" icon={remove} />
+									Eliminar jugador
+								</IonItem>
+								<IonItem
+									onClick={() => setShowPopover(false)}
+									button={true}
+									detail={false}
+								>
+									<IonIcon slot="start" icon={close}></IonIcon>
+									Cancelar
+								</IonItem>
+							</IonList>
+						</IonPopover>
 					</IonRow>
 				</IonCol>
 			</IonRow>

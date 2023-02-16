@@ -1,6 +1,17 @@
-import { IonButtons, IonMenuButton, IonTitle, IonToolbar } from "@ionic/react";
+import {
+	IonButton,
+	IonButtons,
+	IonIcon,
+	IonMenuButton,
+	IonTitle,
+	IonToolbar,
+	useIonAlert,
+} from "@ionic/react";
+import { logOut } from "ionicons/icons";
 
 export function FantasyToolbar(props: any): JSX.Element {
+	const [presentAlert] = useIonAlert();
+
 	return (
 		<>
 			<IonToolbar>
@@ -8,6 +19,18 @@ export function FantasyToolbar(props: any): JSX.Element {
 					<IonMenuButton></IonMenuButton>
 				</IonButtons>
 				<IonTitle>Menu</IonTitle>
+
+				<IonButton
+					slot="end"
+					fill="clear"
+					onClick={() => {
+						localStorage.removeItem("token");
+						localStorage.removeItem("email");
+						window.location.href = "/";
+					}}
+				>
+					<IonIcon icon={logOut} />
+				</IonButton>
 			</IonToolbar>
 		</>
 	);

@@ -211,6 +211,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		};
 
 		setPlantilla(await updatePlantillaUsuario(plantillaUsuario));
+		setCambioAlineacion(false);
 	};
 
 	useEffect(() => {

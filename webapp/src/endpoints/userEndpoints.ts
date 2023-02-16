@@ -1,6 +1,4 @@
-import {
-	Usuario
-} from "../shared/sharedTypes";
+import { Usuario } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
 
@@ -16,7 +14,16 @@ export async function createUsuario(usuario: Usuario): Promise<Usuario> {
 		body: JSON.stringify(usuario),
 	});
 
-	return response.json();
+	switch (response.status) {
+		case 201:
+			return response.json();
+		case 409:
+			throw new Error("El usuario ya existe");
+		case 500:
+			throw new Error("Error en el servidor");
+		default:
+			throw new Error("Error al crear usuario");
+	}
 }
 
 export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
@@ -32,7 +39,7 @@ export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
 export async function requestToken(
 	email: string,
 	contraseña: string
-): Promise<string | null> {
+): Promise<string> {
 	let response = await fetch(apiEndPoint + "/token", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -42,7 +49,7 @@ export async function requestToken(
 	if (response.ok) {
 		return response.json();
 	} else {
-		return null;
+		throw new Error("Error al solicitar token");
 	}
 }
 

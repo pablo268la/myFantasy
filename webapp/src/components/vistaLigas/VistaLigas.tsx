@@ -10,13 +10,21 @@ import {
 	IonItem,
 	IonLabel,
 	IonList,
+	IonLoading,
 	IonPage,
 	IonRouterLink,
 	IonRow,
 	IonTitle,
+	useIonAlert,
+	useIonRouter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getLigasUsuario } from "../../endpoints/ligasEndpoints";
+import {
+	añadirUsuarioALiga,
+	checkJoinLiga,
+	getLigasUsuario,
+	getRandomLiga,
+} from "../../endpoints/ligasEndpoints";
 import { urlBackground2 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -29,15 +37,72 @@ type VistaLigasProps = {
 };
 
 export function VistaLigas(props: VistaLigasProps): JSX.Element {
+	const navigate = useIonRouter();
 	const [crearLigas, setCrearLigas] = useState<boolean>(false);
 
 	const [ligas, setLigas] = useState<Liga[]>();
 
+	const [unidoALiga, setUnidoALiga] = useState<boolean>(false);
+	const [idLigaParaUnir, setIdLigaParaUnir] = useState<string>();
+
+	const [presentAlert] = useIonAlert();
+	const [enlaceInvitacion, setEnlaceInvitacion] = useState<string>();
+	const [showLoading, setShowLoading] = useState(false);
+
 	useEffect(() => {
-		getLigasUsuario().then((ligas) => {
-			setLigas(ligas);
-		});
+		getLigasUsuario()
+			.then((ligas) => {
+				setLigas(ligas);
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
 	}, []);
+
+	const unirseALigaAleatoria = async () => {
+		setShowLoading(true);
+		getRandomLiga()
+			.then(async (liga) => {
+				unirseConEnlace(liga.enlaceInvitacion);
+			})
+			.catch((error) => {
+				console.log(error);
+				alert(error.message);
+			});
+		setShowLoading(false);
+	};
+
+	const unirseConEnlace = async (enlace: string) => {
+		setShowLoading(true);
+		let e = enlace.split(":")[1];
+		setEnlaceInvitacion(e);
+
+		await checkJoinLiga(e)
+			.then(async (canJoin) => {
+				if (canJoin) {
+					await añadirUsuarioALiga(e)
+						.then(() => {
+							setIdLigaParaUnir(e);
+							setShowLoading(true);
+							setUnidoALiga(true);
+							navigate.push("/plantilla/starts/" + e, "forward");
+						})
+						.catch((error) => {
+							alert(error.message);
+						});
+				} else {
+					alert(
+						"No te puedes unir a tu liga. Has llegado al maximo (5) o está completa"
+					);
+					setShowLoading(false);
+				}
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
+
+		setShowLoading(false);
+	};
 
 	return (
 		<>
@@ -47,6 +112,8 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
+					<IonLoading isOpen={showLoading} message={"Please wait..."} />
+
 					<IonRow>
 						<IonCol size="4">
 							<IonAccordionGroup value={"first"}>
@@ -57,7 +124,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 									<div className="ion-padding" slot="content">
 										<IonList>
 											{ligas?.map((liga) => (
-												<CartaLiga liga={liga} />
+												<CartaLiga liga={liga} disabled={false} />
 											))}
 										</IonList>
 									</div>
@@ -92,7 +159,11 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 										</IonCardContent>
 									</IonCard>
 								</IonRouterLink>
-								<IonCard>
+								<IonCard
+									onClick={() => {
+										unirseALigaAleatoria();
+									}}
+								>
 									<IonCardContent
 										style={{
 											background: urlBackground2,
@@ -108,7 +179,22 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 										</IonRow>
 									</IonCardContent>
 								</IonCard>
-								<IonCard>
+								<IonCard
+									onClick={() => {
+										presentAlert({
+											header: "Please enter your info",
+											buttons: ["OK"],
+											inputs: [
+												{
+													placeholder: "Introduce el código de invitación",
+												},
+											],
+											onDidDismiss: (e) => {
+												unirseConEnlace(e.detail.data.values[0]);
+											},
+										});
+									}}
+								>
 									<IonCardContent
 										style={{
 											background: urlBackground2,
@@ -125,7 +211,20 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 									</IonCardContent>
 								</IonCard>
 								<IonRow style={{ justifyContent: "center" }}>
-									<IonButton shape="round" onClick={() => setCrearLigas(false)}>
+									{unidoALiga ? (
+										<IonRouterLink href={"/plantilla/starts/" + idLigaParaUnir}>
+											<IonButton>Ver plantilla</IonButton>
+										</IonRouterLink>
+									) : (
+										//TODO - Probar a hacer click programaticamente
+										<></>
+									)}
+									<IonButton
+										shape="round"
+										onClick={() => {
+											setCrearLigas(false);
+										}}
+									>
 										Cancelar
 									</IonButton>
 								</IonRow>

@@ -1,5 +1,5 @@
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
-import { AlineacionJugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { PlantillaUsuario } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
 
@@ -8,13 +8,8 @@ export async function getPlantilla(
 	idUsuario: string
 ): Promise<PlantillaUsuario> {
 	let response = await fetch(
-		apiEndPoint + "/plantilla/" + idLiga + "/" + idUsuario
+		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario
 	);
-	return response.json();
-}
-
-export async function getAlineacionJugador(): Promise<AlineacionJugador[]> {
-	let response = await fetch(apiEndPoint + "/alineacionjugador");
 	return response.json();
 }
 
@@ -36,7 +31,17 @@ export async function crearPlantillaUsuario(
 			idUsuario: getUsuarioLogueado()?.id,
 		}),
 	});
-	return response.json();
+
+	switch (response.status) {
+		case 201:
+			return response.json();
+		case 401:
+			throw new Error("No autorizado");
+		case 500:
+			throw new Error("Error en el servidor");
+		default:
+			throw new Error("Error al crear plantilla");
+	}
 }
 
 export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {
