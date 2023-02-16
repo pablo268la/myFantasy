@@ -173,7 +173,7 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 			)
 				return res.status(409).json({
 					message:
-						"No es posible unirse a la liga. Completa, Maximo superado o Ya pertenece.",
+						"No es posible unirse a la liga. No existe Completa, Maximo superado o Ya pertenece.",
 				});
 
 			return res.status(200).json({ message: "Usuario autorizado" });

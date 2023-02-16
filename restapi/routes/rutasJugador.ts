@@ -11,6 +11,4 @@ api.get("/jugadores/:idJugador", JugadoresController.getJugador);
 
 api.put("/jugadores/:idJugador", JugadoresController.updateJugador);
 
-api.get("/alineacionJugador", JugadoresController.getAlineacionJugador);
-
 export default api;

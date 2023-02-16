@@ -12,7 +12,6 @@ import {
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
-import { actualizarDatosDeJugadoresDesdeBD } from "./jugadoresController";
 import { verifyUser } from "./usuariosController";
 
 export const getPlantilla: RequestHandler = async (req, res) => {
@@ -194,4 +193,13 @@ export function shuffle(array: any[]): any[] {
 	}
 
 	return array;
+}
+
+async function actualizarDatosDeJugadoresDesdeBD(
+	propiedades: IPropiedadJugador[]
+) {
+	for (let j of propiedades) {
+		j.jugador = (await modeloJugador.findOne({ _id: j.jugador._id })) as any;
+		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as any;
+	}
 }

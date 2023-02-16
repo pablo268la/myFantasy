@@ -1,5 +1,5 @@
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
-import { AlineacionJugador, PlantillaUsuario } from "../shared/sharedTypes";
+import { PlantillaUsuario } from "../shared/sharedTypes";
 
 const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
 
@@ -10,11 +10,6 @@ export async function getPlantilla(
 	let response = await fetch(
 		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario
 	);
-	return response.json();
-}
-
-export async function getAlineacionJugador(): Promise<AlineacionJugador[]> {
-	let response = await fetch(apiEndPoint + "/alineacionjugador");
 	return response.json();
 }
 
