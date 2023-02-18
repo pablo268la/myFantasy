@@ -13,6 +13,11 @@ export const usuario = new Schema<IUsuario>(
 			required: true,
 			trim: true,
 		},
+		usuario: {
+			type: String,
+			required: true,
+			trim: true,
+		},
 		email: {
 			type: String,
 			required: true,
@@ -28,6 +33,11 @@ export const usuario = new Schema<IUsuario>(
 			required: true,
 			trim: true,
 		},
+		admin: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
 	},
 	{
 		versionKey: false,
@@ -38,9 +48,11 @@ export const usuario = new Schema<IUsuario>(
 export interface IUsuario {
 	id: string;
 	nombre: string;
+	usuario: string;
 	email: string;
 	contraseña: string;
 	ligas: string[];
+	admin: boolean;
 }
 
 export const modeloUsuario = model<IUsuario>("usuario", usuario);

@@ -6,7 +6,8 @@ import {
 } from "../helpers/helpers";
 import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
 
-const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
+const apiEndPoint = "http://" + process.env.REACT_APP_API_URI + ":5000";
+//const apiEndPoint = "http://localhost:5000";
 
 export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;

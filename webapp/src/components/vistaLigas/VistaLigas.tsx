@@ -216,7 +216,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 											<IonButton>Ver plantilla</IonButton>
 										</IonRouterLink>
 									) : (
-										//TODO - Probar a hacer click programaticamente
 										<></>
 									)}
 									<IonButton

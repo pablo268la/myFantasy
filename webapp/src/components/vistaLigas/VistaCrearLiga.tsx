@@ -12,6 +12,7 @@ import {
 	IonLoading,
 	IonPage,
 	IonRow,
+	useIonAlert,
 	useIonRouter,
 } from "@ionic/react";
 import { settings } from "ionicons/icons";
@@ -23,6 +24,7 @@ import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 
 export function VistaCrearLiga(props: any): JSX.Element {
+	const [alert] = useIonAlert();
 	const navigate = useIonRouter();
 	const [showLoading, setShowLoading] = useState(false);
 

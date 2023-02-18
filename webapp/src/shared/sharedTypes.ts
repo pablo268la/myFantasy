@@ -44,9 +44,11 @@ export type AlineacionJugador = {
 export type Usuario = {
 	id: string;
 	nombre: string;
+	usuario: string;
 	email: string;
 	contraseña: string;
 	ligas: string[];
+	admin: boolean;
 };
 
 export type Liga = {

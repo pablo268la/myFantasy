@@ -6,6 +6,7 @@ import {
 	IonList,
 	IonPage,
 	IonRow,
+	useIonAlert,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
@@ -18,6 +19,7 @@ import { CartaClasificaion } from "./CartaClasificacion";
 type ClassificacionProps = {};
 
 function VistaClasificacion(props: ClassificacionProps): JSX.Element {
+	const [alert] = useIonAlert();
 	const [idLiga, setIdLiga] = useState<string>(
 		window.location.pathname.split("/")[2]
 	);
