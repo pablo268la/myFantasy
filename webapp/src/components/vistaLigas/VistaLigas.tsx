@@ -38,6 +38,8 @@ type VistaLigasProps = {
 
 export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const navigate = useIonRouter();
+	const [alert] = useIonAlert();
+
 	const [crearLigas, setCrearLigas] = useState<boolean>(false);
 
 	const [ligas, setLigas] = useState<Liga[]>();

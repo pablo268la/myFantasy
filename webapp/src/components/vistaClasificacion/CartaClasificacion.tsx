@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 import {
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonLabel,
-    IonRow,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonLabel,
+	IonRow,
 } from "@ionic/react";
 import { urlBackground2 } from "../../helpers/helpers";
 import { PlantillaUsuario } from "../../shared/sharedTypes";
@@ -54,7 +54,7 @@ export function CartaClasificaion(props: any): JSX.Element {
 							}}
 						>
 							<IonLabel style={{ fontSize: "25px", color: "white" }}>
-								{plantilla.usuario.nombre}
+								{plantilla.usuario.usuario}
 							</IonLabel>
 
 							<IonLabel style={{ fontSize: "20px", color: "white" }}>

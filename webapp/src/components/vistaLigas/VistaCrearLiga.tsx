@@ -12,6 +12,8 @@ import {
 	IonLoading,
 	IonPage,
 	IonRow,
+	IonSelect,
+	IonSelectOption,
 	useIonAlert,
 	useIonRouter,
 } from "@ionic/react";
@@ -47,7 +49,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 			setShowLoading(false);
 			return;
 		}
-		if (maxPlayers < 2 || maxPlayers > 8) {
+		if (maxPlayers < 3 || maxPlayers > 8) {
 			alert("El número de jugadores debe estar entre 2 y 8");
 			setShowLoading(false);
 			return;
@@ -104,9 +106,10 @@ export function VistaCrearLiga(props: any): JSX.Element {
 							</IonRow>
 							<IonRow style={{ justifyContent: "center" }}>
 								<IonCol>
-									<IonItem>
+									<IonItem counter={true}>
 										<IonLabel position="floating">Nombre de la liga</IonLabel>
 										<IonInput
+											maxlength={20}
 											type="text"
 											onIonChange={(e) => {
 												setNombreLiga(e.detail.value!.trim());
@@ -115,17 +118,19 @@ export function VistaCrearLiga(props: any): JSX.Element {
 									</IonItem>
 									<IonItem style={{ width: "50%" }}>
 										<IonLabel position="floating"> Max. jugadores</IonLabel>
-										<IonInput
-											type="number"
-											min={2}
-											max={8}
+										<IonSelect
+											interface="popover"
 											onIonChange={(e) => {
-												const p = parseInt(e.detail.value!);
-												if (p < 2) setMaxPlayers(2);
-												else if (p > 8) setMaxPlayers(8);
-												else setMaxPlayers(p);
+												setMaxPlayers(e.detail.value);
 											}}
-										></IonInput>
+										>
+											<IonSelectOption value="3">3</IonSelectOption>
+											<IonSelectOption value="4">4</IonSelectOption>
+											<IonSelectOption value="5">5</IonSelectOption>
+											<IonSelectOption value="6">6</IonSelectOption>
+											<IonSelectOption value="7">7</IonSelectOption>
+											<IonSelectOption value="8">8</IonSelectOption>
+										</IonSelect>
 									</IonItem>
 								</IonCol>
 							</IonRow>

@@ -22,7 +22,14 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 			onClick={() => {
 				if (props.jugador) props.setJugadorPulsado(props.jugador.jugador._id);
 			}}
-			style={{ width: 100 }}
+			style={{
+				maxWidth: 100,
+				minWidth: 40,
+				width: "25%",
+				maxHeight: 100,
+				minHeight: 40,
+				height: "25%",
+			}}
 		>
 			<div
 				style={{
@@ -74,7 +81,14 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	) : (
 		<IonCard
 			onClick={() => props.setJugadorPulsado(props.posicion)}
-			style={{ width: 100 }}
+			style={{
+				maxWidth: 100,
+				minWidth: 40,
+				width: "25%",
+				maxHeight: 100,
+				minHeight: 40,
+				height: "25%",
+			}}
 		>
 			<div
 				style={{
