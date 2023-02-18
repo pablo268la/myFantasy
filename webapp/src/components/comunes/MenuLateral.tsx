@@ -54,7 +54,12 @@ export function MenuLateral(props: any): JSX.Element {
 							</IonButton>
 						</IonRouterLink>
 						<IonRouterLink
-							href={"/plantilla/" + getUsuarioLogueado()?.ligas[0]}
+							href={
+								"/plantilla/" +
+								getUsuarioLogueado()?.ligas[0] +
+								"/" +
+								getUsuarioLogueado()?.id
+							}
 						>
 							<IonButton color="dark" expand="block" fill="clear">
 								<IonIcon slot="start" icon={people}></IonIcon>

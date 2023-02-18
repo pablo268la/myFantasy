@@ -15,25 +15,25 @@ type ListaJugadoresProps = {
 		idIn: string,
 		idOut: string
 	) => void;
+	isSameUser: boolean;
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 	return (
-		
-			<IonList>
-				{props.porteros
-					.filter((j) => j.jugador._id !== "empty")
-					.map((j) => crearCartaDetallesJugador(j, props))}
-				{props.defensas
-					.filter((j) => j.jugador._id !== "empty")
-					.map((j) => crearCartaDetallesJugador(j, props))}
-				{props.mediocentros
-					.filter((j) => j.jugador._id !== "empty")
-					.map((j) => crearCartaDetallesJugador(j, props))}
-				{props.delanteros
-					.filter((j) => j.jugador._id !== "empty")
-					.map((j) => crearCartaDetallesJugador(j, props))}
-			</IonList>
+		<IonList>
+			{props.porteros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.defensas
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.mediocentros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+			{props.delanteros
+				.filter((j) => j.jugador._id !== "empty")
+				.map((j) => crearCartaDetallesJugador(j, props))}
+		</IonList>
 	);
 }
 
@@ -53,6 +53,7 @@ function crearCartaDetallesJugador(
 					delanteros={props.delanteros}
 					formacion={props.formacion}
 					cambiarTitulares={props.cambiarTitulares}
+					isSameUser={props.isSameUser}
 				/>
 			</IonCol>
 		</IonRow>

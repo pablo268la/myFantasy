@@ -38,6 +38,7 @@ type CartaJugadorProps = {
 		idIn: string,
 		idOut: string
 	) => void;
+	isSameUser: boolean;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
@@ -116,34 +117,51 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 								onClick={() => setShowActionSheet(true)}
 								color="secondary"
 								slot="end"
+								id="botonAcciones"
 							>
 								ACCIONES
 							</IonButton>
+
 							<IonActionSheet
 								header={
-									"¿Que deseas hacer con " +
+									"¿Que quieres hacer con " +
 									propiedadJugador.jugador.nombre +
 									"?"
 								}
 								isOpen={showActionSheet}
 								onDidDismiss={() => setShowActionSheet(false)}
-								buttons={[
-									{
-										text: "Añadir al mercado",
-										icon: cart,
-										handler: () => {},
-									},
-									{
-										text: "Vender inmediatamente",
-										icon: cash,
-										handler: () => {},
-									},
-									{
-										text: "Cancelar",
-										icon: close,
-										handler: () => {},
-									},
-								]}
+								buttons={
+									props.isSameUser
+										? [
+												{
+													text: "Añadir al mercado",
+													icon: cart,
+													handler: () => {},
+												},
+												{
+													text: "Vender inmediatamente",
+													icon: cash,
+													handler: () => {},
+												},
+												{
+													text: "Cancelar",
+													icon: close,
+													handler: () => {},
+												},
+										  ]
+										: [
+												{
+													text: "Hacer oferta",
+													icon: cart,
+													handler: () => {},
+												},
+												{
+													text: "Cancelar",
+													icon: close,
+													handler: () => {},
+												},
+										  ]
+								}
 							></IonActionSheet>
 						</IonItem>
 					</IonCol>
@@ -169,7 +187,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 								"",
 								propiedadJugador.jugador._id
 							);
-						}
+						},
+						props.isSameUser
 					)}
 				</>
 			}
@@ -187,7 +206,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				props.delanteros,
 				props.formacion,
 				props.cambiarTitulares,
-				() => {}
+				() => {},
+				props.isSameUser
 			)}
 		</>
 	);
@@ -223,24 +243,33 @@ function renderCambios(
 		idIn: string,
 		idOut: string
 	) => void,
-	onclick: () => void
+	onclick: () => void,
+	isSameUser: boolean
 ) {
 	if (esParaCambio)
 		return (
 			<>
-				<IonButton onClick={onclick} shape="round" expand="block">
-					{texto}
-				</IonButton>
-				<ListaJugadoresCambio
-					idJugador={idJugador}
-					posicion={posicion}
-					porteros={porteros}
-					defensas={defensas}
-					mediocentros={mediocentros}
-					delanteros={delanteros}
-					formacion={formacion}
-					cambiarTitulares={cambiarTitulares}
-				/>
+				{isSameUser ? (
+					<>
+						<IonButton onClick={onclick} shape="round" expand="block">
+							{texto}
+						</IonButton>
+
+						<ListaJugadoresCambio
+							idJugador={idJugador}
+							posicion={posicion}
+							porteros={porteros}
+							defensas={defensas}
+							mediocentros={mediocentros}
+							delanteros={delanteros}
+							formacion={formacion}
+							cambiarTitulares={cambiarTitulares}
+							isSameUser={isSameUser}
+						/>
+					</>
+				) : (
+					<></>
+				)}
 			</>
 		);
 }

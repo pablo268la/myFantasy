@@ -40,7 +40,9 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 						<IonRow>
 							<IonCol style={{ justifyContent: "space-around" }}>
 								{!props.disabled ? (
-									<IonRouterLink href={"/plantilla/" + liga._id}>
+									<IonRouterLink
+										href={"/plantilla/" + liga._id + "/" + usuario?.id}
+									>
 										<IonRow style={{ justifyContent: "center" }}>
 											<IonLabel style={{ fontSize: "20px" }} color={"light"}>
 												{liga.nombre}

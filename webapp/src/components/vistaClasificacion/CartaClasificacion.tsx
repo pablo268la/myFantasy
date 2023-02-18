@@ -4,6 +4,7 @@ import {
 	IonCardContent,
 	IonCol,
 	IonLabel,
+	IonRouterLink,
 	IonRow,
 } from "@ionic/react";
 import { urlBackground2 } from "../../helpers/helpers";
@@ -14,7 +15,7 @@ type CartaClasificacionProps = {
 	posicion: number;
 };
 
-export function CartaClasificaion(props: any): JSX.Element {
+export function CartaClasificaion(props: CartaClasificacionProps): JSX.Element {
 	const plantilla = props.plantilla;
 	const posicion = props.posicion;
 
@@ -33,37 +34,41 @@ export function CartaClasificaion(props: any): JSX.Element {
 
 	return (
 		<IonCard>
-			<IonCardContent
-				style={{
-					background: urlBackground2,
-				}}
+			<IonRouterLink
+				href={"/plantilla/" + plantilla.idLiga + "/" + plantilla.usuario.id}
 			>
-				<IonRow style={{ alignItems: "center" }}>
-					<IonCol size="3">
-						<Icon
-							icon={"mdi:number-" + (posicion + 1) + "-circle"}
-							color={getColorPorPosicion()}
-							width="60"
-							height="60"
-						/>
-					</IonCol>
-					<IonCol style={{ alignItems: "center" }}>
-						<IonRow
-							style={{
-								justifyContent: "space-between",
-							}}
-						>
-							<IonLabel style={{ fontSize: "25px", color: "white" }}>
-								{plantilla.usuario.usuario}
-							</IonLabel>
+				<IonCardContent
+					style={{
+						background: urlBackground2,
+					}}
+				>
+					<IonRow style={{ alignItems: "center" }}>
+						<IonCol size="3">
+							<Icon
+								icon={"mdi:number-" + (posicion + 1) + "-circle"}
+								color={getColorPorPosicion()}
+								width="60"
+								height="60"
+							/>
+						</IonCol>
+						<IonCol style={{ alignItems: "center" }}>
+							<IonRow
+								style={{
+									justifyContent: "space-between",
+								}}
+							>
+								<IonLabel style={{ fontSize: "25px", color: "white" }}>
+									{plantilla.usuario.usuario}
+								</IonLabel>
 
-							<IonLabel style={{ fontSize: "20px", color: "white" }}>
-								{plantilla.puntos} pts
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-				</IonRow>
-			</IonCardContent>
+								<IonLabel style={{ fontSize: "20px", color: "white" }}>
+									{plantilla.puntos} pts
+								</IonLabel>
+							</IonRow>
+						</IonCol>
+					</IonRow>
+				</IonCardContent>
+			</IonRouterLink>
 		</IonCard>
 	);
 }

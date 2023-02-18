@@ -36,7 +36,6 @@ export const createUsuario: RequestHandler = async (req, res) => {
 			res.status(409).json({ message: "Usuario ya existe" });
 		}
 	} catch (error) {
-		console.log(error);
 		res.status(500).json(error);
 	}
 };

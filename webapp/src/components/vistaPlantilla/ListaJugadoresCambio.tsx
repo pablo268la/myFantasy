@@ -17,6 +17,7 @@ type ListaJugadoresCambioProps = {
 		idIn: string,
 		idOut: string
 	) => void;
+	isSameUser: boolean;
 };
 
 export function ListaJugadoresCambio(
@@ -75,7 +76,9 @@ export function ListaJugadoresCambio(
 								delanteros={props.delanteros}
 								formacion={props.formacion}
 								cambiarTitulares={props.cambiarTitulares}
+								isSameUser={props.isSameUser}
 							/>
+
 							<IonButton
 								onClick={() =>
 									props.cambiarTitulares(
