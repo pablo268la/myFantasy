@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
+import { modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
+import { modeloPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
 import {
 	crearPlantillaParaUsuarioYGuardar,
@@ -65,6 +67,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 
 	let usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
+
 	try {
 		if (usuario && verified) {
 			if (usuario.ligas.length >= 5) {
@@ -74,6 +77,25 @@ export const createLiga: RequestHandler = async (req, res) => {
 			}
 
 			let liga = new modeloLiga(req.body.liga);
+
+			const jugadores = await modeloJugador.find();
+			jugadores.forEach((jugador) => {
+				const propiedad = new modeloPropiedadJugador({
+					jugador: jugador,
+					usuario: new modeloUsuario({
+						id: "-1",
+						nombre: "liga",
+						usuario: "liga",
+						email: "liga",
+						contraseña: "liga",
+						ligas: [],
+						admin: false,
+					}),
+					titular: false,
+				});
+				liga.propiedadJugadores.push(propiedad);
+			});
+			liga.propiedadJugadores = liga.propiedadJugadores;
 
 			const ligaGuardada = await liga.save();
 

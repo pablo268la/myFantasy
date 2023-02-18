@@ -8,10 +8,31 @@ export async function getPlantilla(
 	idLiga: string,
 	idUsuario: string
 ): Promise<PlantillaUsuario> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
 	let response = await fetch(
-		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario
+		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				email: email,
+				token: token,
+			},
+		}
 	);
-	return response.json();
+
+	switch (response.status) {
+		case 200:
+			return response.json();
+		case 401:
+			throw new Error("Usuario no autorizado");
+		case 500:
+			throw new Error("Error en el servidor");
+		default:
+			throw new Error("Error al coger la plantilla");
+	}
 }
 
 export async function crearPlantillaUsuario(
@@ -37,7 +58,7 @@ export async function crearPlantillaUsuario(
 		case 201:
 			return response.json();
 		case 401:
-			throw new Error("No autorizado");
+			throw new Error("Usuario no autorizado");
 		case 500:
 			throw new Error("Error en el servidor");
 		default:
