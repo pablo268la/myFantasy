@@ -5,7 +5,7 @@ import {
 	modeloAlineacionJugador,
 } from "../model/alineacionJugador";
 import { IJugador, modeloJugador } from "../model/jugador";
-import { modeloLiga } from "../model/liga";
+import { ILiga, modeloLiga } from "../model/liga";
 import {
 	IPlantillaUsuario,
 	modeloPlantillaUsuario,
@@ -168,34 +168,10 @@ export async function crearPlantillaParaUsuarioYGuardar(
 
 		liga.plantillasUsuarios.push(plantillaGuardada);
 
-		for (let i = 0; i < porPlantilla.length; i++) {
-			liga.propiedadJugadores.forEach((pj) => {
-				if (porPlantilla[i].jugador._id === pj.jugador._id) {
-					pj.usuario = porPlantilla[i].usuario;
-				}
-			});
-		}
-		for (let i = 0; i < defPlantilla.length; i++) {
-			liga.propiedadJugadores.forEach((pj) => {
-				if (defPlantilla[i].jugador._id === pj.jugador._id) {
-					pj.usuario = defPlantilla[i].usuario;
-				}
-			});
-		}
-		for (let i = 0; i < medPlantilla.length; i++) {
-			liga.propiedadJugadores.forEach((pj) => {
-				if (medPlantilla[i].jugador._id === pj.jugador._id) {
-					pj.usuario = medPlantilla[i].usuario;
-				}
-			});
-		}
-		for (let i = 0; i < delPlantilla.length; i++) {
-			liga.propiedadJugadores.forEach((pj) => {
-				if (delPlantilla[i].jugador._id === pj.jugador._id) {
-					pj.usuario = delPlantilla[i].usuario;
-				}
-			});
-		}
+		intercambiarPropiedades(porPlantilla, liga);
+		intercambiarPropiedades(defPlantilla, liga);
+		intercambiarPropiedades(medPlantilla, liga);
+		intercambiarPropiedades(delPlantilla, liga);
 
 		if (usuario.ligas.indexOf(idLiga) === -1) {
 			usuario.ligas.push(idLiga);
@@ -203,6 +179,19 @@ export async function crearPlantillaParaUsuarioYGuardar(
 		}
 		await liga.save();
 		return plantillaGuardada;
+	}
+}
+
+export function intercambiarPropiedades(
+	jugadoresACambiarPropiedad: IPropiedadJugador[],
+	liga: ILiga
+) {
+	for (let i = 0; i < jugadoresACambiarPropiedad.length; i++) {
+		liga.propiedadJugadores.forEach((pj) => {
+			if (jugadoresACambiarPropiedad[i].jugador._id === pj.jugador._id) {
+				pj.usuario = jugadoresACambiarPropiedad[i].usuario;
+			}
+		});
 	}
 }
 

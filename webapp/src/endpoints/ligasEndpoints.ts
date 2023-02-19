@@ -77,6 +77,7 @@ export async function crearLiga(
 		propiedadJugadores: [],
 		maxJugadores: maxJugadores,
 		enlaceInvitacion: "join-to:" + idLiga,
+		mercado: [],
 		configuracion: JSON.stringify({
 			usaEntrenador: usaEntrenador,
 		}),

@@ -3,9 +3,10 @@ import { modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
 import { modeloPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
+import { IVenta } from "../model/venta";
 import {
 	crearPlantillaParaUsuarioYGuardar,
-	shuffle,
+	shuffle
 } from "./plantillasController";
 import { verifyUser } from "./usuariosController";
 
@@ -95,7 +96,20 @@ export const createLiga: RequestHandler = async (req, res) => {
 				});
 				liga.propiedadJugadores.push(propiedad);
 			});
-			liga.propiedadJugadores = liga.propiedadJugadores;
+
+			const a = shuffle(liga.propiedadJugadores).slice(0, 10);
+			let mercado: IVenta[] = [];
+			a.forEach((propiedad) => {
+				mercado.push({
+					jugador: propiedad,
+					ofertas: [],
+					fechaLimite: new Date().toISOString(),
+				});
+
+				//Intercambiar propiedades
+			});
+
+			liga.mercado = mercado;
 
 			const ligaGuardada = await liga.save();
 
