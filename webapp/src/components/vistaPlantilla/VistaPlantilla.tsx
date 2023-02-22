@@ -236,7 +236,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 						<IonCol>
 							{!loading ? (
 								<>
-									<div style={{ width: 650 }}>
+									<div style={{ maxWidth: 650, width: "100%" }}>
 										<IonRow style={{ justifyContent: "space-between" }}>
 											<IonList style={{ width: 200 }}>
 												<IonSelect
@@ -317,7 +317,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 														formacion={formacion}
 														cambiarTitulares={cambiarTitulares}
 														isSameUser={sameUsuario}
-
 													/>
 												</IonContent>
 											) : (

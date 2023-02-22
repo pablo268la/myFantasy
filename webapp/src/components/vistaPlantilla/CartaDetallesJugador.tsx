@@ -16,6 +16,7 @@ import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
 import {
 	getColorBadge,
+	getColorEstado,
 	getIconoEstado,
 	ponerPuntosAValor,
 	urlBackground,
@@ -109,7 +110,13 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 						</IonItem>
 
 						<IonItem lines="none" color={"primary"}>
-							{getIconoEstado(propiedadJugador.jugador.estado)}
+							<IonBadge
+								color={getColorEstado(
+									propiedadJugador.jugador.estado as string
+								)}
+							>
+								{getIconoEstado(propiedadJugador.jugador.estado)}
+							</IonBadge>
 							<IonLabel style={{ marginLeft: 10, color: "light" }}>
 								{ponerPuntosAValor(propiedadJugador.jugador.valor)}
 							</IonLabel>

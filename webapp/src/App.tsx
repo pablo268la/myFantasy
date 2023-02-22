@@ -25,6 +25,7 @@ import VistaClasificacion from "./components/vistaClasificacion/VistaClasificaci
 import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
 import Login from "./components/vistaLogin/Login";
+import { VistaMercado } from "./components/vistaMercado/VistaMercado";
 import { PlantillaStart } from "./components/vistaPlantilla/PlantillaStart";
 import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
 import { getToken, getUsuarioLogueado } from "./helpers/helpers";
@@ -52,18 +53,25 @@ function App(): JSX.Element {
 					<Route exact path="/ligas/create">
 						<VistaCrearLiga />
 					</Route>
-					<Route exact path="/ligas/join/:id"></Route>
+					<Route exact path="/ligas/join/:idLiga">
+						{
+							// TODO - Unirse con enlace
+						}
+					</Route>
 					<Route exact path="/plantilla/:idLiga/:idUsuario">
 						<VistaPlantilla />
 					</Route>
-					<Route exact path="/plantilla/starts/:id">
+					<Route exact path="/plantilla/starts/:idLiga">
 						<PlantillaStart />
 					</Route>
-					<Route exact path="/clasificacion/:id">
+					<Route exact path="/clasificacion/:idLiga">
 						<VistaClasificacion />
 					</Route>
 					<Route exact path="/admin">
 						<Admin />
+					</Route>
+					<Route exact path="/mercado/:idLiga">
+						<VistaMercado />
 					</Route>
 				</IonRouterOutlet>
 			</IonReactRouter>

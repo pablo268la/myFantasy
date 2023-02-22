@@ -66,10 +66,12 @@ export function MenuLateral(props: any): JSX.Element {
 								Plantilla
 							</IonButton>
 						</IonRouterLink>
-						<IonButton color="dark" expand="block" fill="clear">
-							<IonIcon slot="start" icon={cart}></IonIcon>
-							Mercado
-						</IonButton>
+						<IonRouterLink href="/mercado/85e278db-f431-4d3e-acca-a431728a1dbf">
+							<IonButton color="dark" expand="block" fill="clear">
+								<IonIcon slot="start" icon={cart}></IonIcon>
+								Mercado
+							</IonButton>
+						</IonRouterLink>
 						<IonButton color="dark" expand="block" fill="clear">
 							<IonIcon slot="start" icon={football}></IonIcon>
 							Resultados

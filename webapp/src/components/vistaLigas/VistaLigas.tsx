@@ -6,6 +6,7 @@ import {
 	IonCardContent,
 	IonCol,
 	IonContent,
+	IonGrid,
 	IonHeader,
 	IonItem,
 	IonLabel,
@@ -115,36 +116,57 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 				</IonHeader>
 				<IonContent>
 					<IonLoading isOpen={showLoading} message={"Please wait..."} />
-
-					<IonRow>
-						<IonCol size="4">
-							<IonAccordionGroup value={"first"}>
-								<IonAccordion value="first">
-									<IonItem slot="header" color="light">
-										<IonLabel>MIS LIGAS</IonLabel>
-									</IonItem>
-									<div className="ion-padding" slot="content">
-										<IonList>
-											{ligas?.map((liga) => (
-												<CartaLiga liga={liga} disabled={false} />
-											))}
-										</IonList>
-									</div>
-								</IonAccordion>
-							</IonAccordionGroup>
-							<IonRow style={{ justifyContent: "center" }}>
-								<IonButton shape="round" onClick={() => setCrearLigas(true)}>
-									Nueva liga
-								</IonButton>
-							</IonRow>
-						</IonCol>
-						{crearLigas ? (
-							<IonCol size="4">
-								<IonTitle>
-									<IonItem>LIGAS DISPONIBLES</IonItem>
-								</IonTitle>
-								<IonRouterLink href="/ligas/create">
-									<IonCard>
+					<IonGrid>
+						<IonRow>
+							<IonCol sizeSm="4" sizeXs="7">
+								<IonAccordionGroup value={"first"}>
+									<IonAccordion value="first">
+										<IonItem slot="header" color="light">
+											<IonLabel>MIS LIGAS</IonLabel>
+										</IonItem>
+										<div className="ion-padding" slot="content">
+											<IonList>
+												{ligas?.map((liga) => (
+													<CartaLiga liga={liga} disabled={false} />
+												))}
+											</IonList>
+										</div>
+									</IonAccordion>
+								</IonAccordionGroup>
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonButton shape="round" onClick={() => setCrearLigas(true)}>
+										Nueva liga
+									</IonButton>
+								</IonRow>
+							</IonCol>
+							{crearLigas ? (
+								<IonCol sizeSm="3" sizeXs="7">
+									<IonTitle>
+										<IonItem>LIGAS DISPONIBLES</IonItem>
+									</IonTitle>
+									<IonRouterLink href="/ligas/create">
+										<IonCard>
+											<IonCardContent
+												style={{
+													background: urlBackground2,
+												}}
+											>
+												<IonRow style={{ justifyContent: "center" }}>
+													<IonLabel
+														style={{ fontSize: "18px", fontWeight: "bold" }}
+														color={"light"}
+													>
+														Crear nueva liga
+													</IonLabel>
+												</IonRow>
+											</IonCardContent>
+										</IonCard>
+									</IonRouterLink>
+									<IonCard
+										onClick={() => {
+											unirseALigaAleatoria();
+										}}
+									>
 										<IonCardContent
 											style={{
 												background: urlBackground2,
@@ -155,85 +177,67 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 													style={{ fontSize: "18px", fontWeight: "bold" }}
 													color={"light"}
 												>
-													Crear nueva liga
+													Unirse a liga aleatoria
 												</IonLabel>
 											</IonRow>
 										</IonCardContent>
 									</IonCard>
-								</IonRouterLink>
-								<IonCard
-									onClick={() => {
-										unirseALigaAleatoria();
-									}}
-								>
-									<IonCardContent
-										style={{
-											background: urlBackground2,
-										}}
-									>
-										<IonRow style={{ justifyContent: "center" }}>
-											<IonLabel
-												style={{ fontSize: "18px", fontWeight: "bold" }}
-												color={"light"}
-											>
-												Unirse a liga aleatoria
-											</IonLabel>
-										</IonRow>
-									</IonCardContent>
-								</IonCard>
-								<IonCard
-									onClick={() => {
-										presentAlert({
-											header: "Please enter your info",
-											buttons: ["OK"],
-											inputs: [
-												{
-													placeholder: "Introduce el código de invitación",
-												},
-											],
-											onDidDismiss: (e) => {
-												unirseConEnlace(e.detail.data.values[0]);
-											},
-										});
-									}}
-								>
-									<IonCardContent
-										style={{
-											background: urlBackground2,
-										}}
-									>
-										<IonRow style={{ justifyContent: "center" }}>
-											<IonLabel
-												style={{ fontSize: "18px", fontWeight: "bold" }}
-												color={"light"}
-											>
-												Unirse a liga con código
-											</IonLabel>
-										</IonRow>
-									</IonCardContent>
-								</IonCard>
-								<IonRow style={{ justifyContent: "center" }}>
-									{unidoALiga ? (
-										<IonRouterLink href={"/plantilla/starts/" + idLigaParaUnir}>
-											<IonButton>Ver plantilla</IonButton>
-										</IonRouterLink>
-									) : (
-										<></>
-									)}
-									<IonButton
-										shape="round"
+									<IonCard
 										onClick={() => {
-											setCrearLigas(false);
+											presentAlert({
+												header: "Please enter your info",
+												buttons: ["OK"],
+												inputs: [
+													{
+														placeholder: "Introduce el código de invitación",
+													},
+												],
+												onDidDismiss: (e) => {
+													unirseConEnlace(e.detail.data.values[0]);
+												},
+											});
 										}}
 									>
-										Cancelar
-									</IonButton>
-								</IonRow>
-							</IonCol>
-						) : (
-							<></>
-						)}
-					</IonRow>
+										<IonCardContent
+											style={{
+												background: urlBackground2,
+											}}
+										>
+											<IonRow style={{ justifyContent: "center" }}>
+												<IonLabel
+													style={{ fontSize: "18px", fontWeight: "bold" }}
+													color={"light"}
+												>
+													Unirse a liga con código
+												</IonLabel>
+											</IonRow>
+										</IonCardContent>
+									</IonCard>
+									<IonRow style={{ justifyContent: "center" }}>
+										{unidoALiga ? (
+											<IonRouterLink
+												href={"/plantilla/starts/" + idLigaParaUnir}
+											>
+												<IonButton>Ver plantilla</IonButton>
+											</IonRouterLink>
+										) : (
+											<></>
+										)}
+										<IonButton
+											shape="round"
+											onClick={() => {
+												setCrearLigas(false);
+											}}
+										>
+											Cancelar
+										</IonButton>
+									</IonRow>
+								</IonCol>
+							) : (
+								<></>
+							)}
+						</IonRow>
+					</IonGrid>
 				</IonContent>
 			</IonPage>
 		</>
