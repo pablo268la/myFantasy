@@ -85,7 +85,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 						justifyContent: "center",
 					}}
 				>
-					<IonGrid style={{ border: "2px solid #123445", width: 500 }}>
+					<IonGrid style={{ border: "2px solid #123445", maxWidth: 500 }}>
 						<>
 							<IonRow style={{ justifyContent: "center" }}>
 								<IonIcon
@@ -109,7 +109,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 									<IonItem counter={true}>
 										<IonLabel position="floating">Nombre de la liga</IonLabel>
 										<IonInput
-											maxlength={20}
+											maxlength={25}
 											type="text"
 											onIonChange={(e) => {
 												setNombreLiga(e.detail.value!.trim());

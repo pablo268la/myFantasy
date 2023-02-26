@@ -149,7 +149,7 @@ function Login(props: LoginProps): JSX.Element {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ justifyContent: "center" }}>
-					<IonGrid style={{ width: 500 }}>
+					<IonGrid style={{ maxWidth: 500 }}>
 						<IonRow style={{ justifyContent: "center" }}>
 							<IonIcon
 								style={{ fontSize: "70px", color: "#562765" }}

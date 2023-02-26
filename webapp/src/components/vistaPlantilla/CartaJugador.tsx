@@ -23,6 +23,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	return (
 		<IonCol size="2">
 			<IonCard
+				style={{ maxHeight: "200px", maxWidth: "100px" }}
 				onClick={() => {
 					if (props.jugador) props.setJugadorPulsado(props.jugador.jugador._id);
 					else props.setJugadorPulsado(props.posicion);
@@ -55,11 +56,9 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 								marginTop: "-80%",
 							}}
 							src={
-								props.jugador?.jugador.equipo._id
-									? "https://api.sofascore.app/api/v1/team/" +
-									  props.jugador.jugador.equipo._id +
-									  "/image"
-									: ""
+								"https://api.sofascore.app/api/v1/team/" +
+								props.jugador.jugador.equipo._id +
+								"/image"
 							}
 						/>
 					) : (

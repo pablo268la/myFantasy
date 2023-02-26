@@ -67,7 +67,13 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 					) : (
 						<IonGrid>
 							<IonRow style={{ justifyContent: "center" }}>
-								<IonLabel style={{ fontSize: "30px", fontWeight: "bold" }}>
+								<IonLabel
+									style={{
+										whiteSpace: "normal",
+										fontSize: "30px",
+										fontWeight: "bold",
+									}}
+								>
 									{liga?.nombre}
 								</IonLabel>
 							</IonRow>

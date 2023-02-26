@@ -1,20 +1,20 @@
 import { OverlayEventDetail } from "@ionic/core";
 import {
-    IonButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonModal,
-    IonSelect,
-    IonSelectOption,
-    IonTitle,
-    IonToolbar,
-    useIonAlert,
-    useIonToast,
+	IonButton,
+	IonButtons,
+	IonContent,
+	IonHeader,
+	IonImg,
+	IonInput,
+	IonItem,
+	IonLabel,
+	IonModal,
+	IonSelect,
+	IonSelectOption,
+	IonTitle,
+	IonToolbar,
+	useIonAlert,
+	useIonToast,
 } from "@ionic/react";
 import { useRef, useState } from "react";
 import { updateJugador } from "../../endpoints/jugadorEndpoints";
@@ -80,7 +80,7 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 							Cancel
 						</IonButton>
 					</IonButtons>
-					<IonTitle>Welcome</IonTitle>
+					<IonTitle>{jugador.nombre}</IonTitle>
 					<IonButtons slot="end">
 						<IonButton strong={true} onClick={() => confirmModal()}>
 							Confirm

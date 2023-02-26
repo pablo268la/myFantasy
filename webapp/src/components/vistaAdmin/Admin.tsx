@@ -10,7 +10,7 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonText,
+	IonText
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";

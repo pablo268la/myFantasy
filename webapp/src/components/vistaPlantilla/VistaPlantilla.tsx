@@ -2,6 +2,7 @@ import {
 	IonButton,
 	IonCol,
 	IonContent,
+	IonGrid,
 	IonHeader,
 	IonList,
 	IonPage,
@@ -232,119 +233,143 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
-					<IonRow>
-						<IonCol>
-							{!loading ? (
-								<>
-									<div style={{ maxWidth: 650, width: "100%" }}>
-										<IonRow style={{ justifyContent: "space-between" }}>
-											<IonList style={{ width: 200 }}>
-												<IonSelect
-													interface="popover"
-													placeholder={
-														formacion.defensa +
-														"-" +
-														formacion.medio +
-														"-" +
-														formacion.delantero
-													}
-													onIonChange={(e) => {
-														let f: Formacion = {
-															portero: 1,
-															defensa: Number(e.detail.value.split("-")[0]),
-															medio: Number(e.detail.value.split("-")[1]),
-															delantero: Number(e.detail.value.split("-")[2]),
-														};
-														setValueFormacion(e.detail.value);
-														cambiarFormacion(f);
+					<IonGrid>
+						<IonRow>
+							<IonCol>
+								{!loading ? (
+									<>
+										<IonRow style={{ height: "100%" }}>
+											<IonCol sizeSm="7" sizeXs="12">
+												<IonRow>
+													<IonCol size="6">
+														<IonList style={{ maxWidth: 200 }}>
+															<IonSelect
+																disabled={!sameUsuario}
+																interface="popover"
+																placeholder={
+																	formacion.defensa +
+																	"-" +
+																	formacion.medio +
+																	"-" +
+																	formacion.delantero
+																}
+																onIonChange={(e) => {
+																	let f: Formacion = {
+																		portero: 1,
+																		defensa: Number(
+																			e.detail.value.split("-")[0]
+																		),
+																		medio: Number(e.detail.value.split("-")[1]),
+																		delantero: Number(
+																			e.detail.value.split("-")[2]
+																		),
+																	};
+																	setValueFormacion(e.detail.value);
+																	cambiarFormacion(f);
+																}}
+															>
+																<IonSelectOption value="5-3-2">
+																	5-3-2
+																</IonSelectOption>
+																<IonSelectOption value="5-4-1">
+																	5-4-1
+																</IonSelectOption>
+																<IonSelectOption value="4-5-1">
+																	4-5-1
+																</IonSelectOption>
+																<IonSelectOption value="4-4-2">
+																	4-4-2
+																</IonSelectOption>
+																<IonSelectOption value="4-3-3">
+																	4-3-3
+																</IonSelectOption>
+																<IonSelectOption value="3-5-2">
+																	3-5-2
+																</IonSelectOption>
+																<IonSelectOption value="3-4-3">
+																	3-4-3
+																</IonSelectOption>
+															</IonSelect>
+														</IonList>
+													</IonCol>
+													<IonCol size="6">
+														{cambioAlineacion ? (
+															<IonButton onClick={() => guardarPlantilla()}>
+																Guardar cambios
+															</IonButton>
+														) : (
+															<></>
+														)}
+													</IonCol>
+												</IonRow>
+												<IonRow
+													style={{
+														backgroundImage:
+															"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
+														backgroundSize: "cover",
+														marginBottom: "2%",
 													}}
 												>
-													<IonSelectOption value="5-3-2">5-3-2</IonSelectOption>
-													<IonSelectOption value="5-4-1">5-4-1</IonSelectOption>
-													<IonSelectOption value="4-5-1">4-5-1</IonSelectOption>
-													<IonSelectOption value="4-4-2">4-4-2</IonSelectOption>
-													<IonSelectOption value="4-3-3">4-3-3</IonSelectOption>
-													<IonSelectOption value="3-5-2">3-5-2</IonSelectOption>
-													<IonSelectOption value="3-4-3">3-4-3</IonSelectOption>
-												</IonSelect>
-											</IonList>
-											{cambioAlineacion ? (
-												<IonButton onClick={() => guardarPlantilla()}>
-													Guardar cambios
-												</IonButton>
-											) : (
-												<></>
-											)}
-										</IonRow>
-									</div>
-									<IonRow style={{ height: "100%" }}>
-										<div
-											style={{
-												width: 650,
-												height: 600,
-												backgroundImage:
-													"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
-												backgroundSize: "cover",
-												marginBottom: "5%",
-											}}
-										>
-											<Alineacion
-												usuario={plantilla?.usuario}
-												formacion={formacion}
-												setJugadorPulsado={cambiarJugador}
-												porteros={porteros}
-												defensas={defensas}
-												mediocentros={mediocentros}
-												delanteros={delanteros}
-											/>
-										</div>
+													<Alineacion
+														usuario={plantilla?.usuario}
+														formacion={formacion}
+														setJugadorPulsado={cambiarJugador}
+														porteros={porteros}
+														defensas={defensas}
+														mediocentros={mediocentros}
+														delanteros={delanteros}
+													/>
+												</IonRow>
+											</IonCol>
 
-										<div
-											style={{
-												width: 540,
-												height: "100%",
-												marginLeft: "1%",
-												marginBottom: "5%",
-											}}
-										>
-											{jugadorPulsado === "" ? (
+											<IonCol
+												sizeSm="5"
+												sizeXs="12"
+												style={{
+													height: "100%",
+													overflowY: "scroll",
+													overflowX: "hidden",
+												}}
+											>
 												<IonContent>
-													<ListaJugadores
-														porteros={porteros}
-														defensas={defensas}
-														mediocentros={mediocentros}
-														delanteros={delanteros}
-														formacion={formacion}
-														cambiarTitulares={cambiarTitulares}
-														isSameUser={sameUsuario}
-													/>
+													{jugadorPulsado === "" ? (
+														<ListaJugadores
+															porteros={porteros}
+															defensas={defensas}
+															mediocentros={mediocentros}
+															delanteros={delanteros}
+															formacion={formacion}
+															cambiarTitulares={cambiarTitulares}
+															isSameUser={sameUsuario}
+														/>
+													) : (
+														<>
+															<CartaDetallesJugador
+																propiedadJugador={jugadores.find(
+																	(j) => j.jugador._id === jugadorPulsado
+																)}
+																esParaCambio={true}
+																posicion={jugadorPulsado}
+																porteros={porteros}
+																defensas={defensas}
+																mediocentros={mediocentros}
+																delanteros={delanteros}
+																formacion={formacion}
+																cambiarTitulares={cambiarTitulares}
+																isSameUser={sameUsuario}
+															/>
+														</>
+													)}
 												</IonContent>
-											) : (
-												<>
-													<CartaDetallesJugador
-														propiedadJugador={jugadores.find(
-															(j) => j.jugador._id === jugadorPulsado
-														)}
-														esParaCambio={true}
-														posicion={jugadorPulsado}
-														porteros={porteros}
-														defensas={defensas}
-														mediocentros={mediocentros}
-														delanteros={delanteros}
-														formacion={formacion}
-														cambiarTitulares={cambiarTitulares}
-														isSameUser={sameUsuario}
-													/>
-												</>
-											)}
-										</div>
-									</IonRow>
-								</>
-							) : (
-								<IonProgressBar type="indeterminate"></IonProgressBar>
-							)}
-						</IonCol>
-					</IonRow>
+											</IonCol>
+										</IonRow>
+									</>
+								) : (
+									<IonProgressBar type="indeterminate"></IonProgressBar>
+								)}
+							</IonCol>
+						</IonRow>
+					</IonGrid>
 				</IonContent>
 			</IonPage>
 		</>

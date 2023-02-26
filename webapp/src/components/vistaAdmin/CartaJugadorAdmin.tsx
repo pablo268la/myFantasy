@@ -18,11 +18,14 @@ import {
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
+import styled from "styled-components";
 import { updateJugador } from "../../endpoints/jugadorEndpoints";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 import { ModalJugadorAdmin } from "./ModalJugadorAdmin";
 
-import "./vistaAdminCss.css";
+const MyGrid = styled(IonGrid)`
+	--ion-grid-columns: 7;
+`;
 
 type CartaJugadorAdminProps = {
 	jugador: Jugador;
@@ -87,7 +90,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 		<>
 			<IonCard>
 				<IonCardContent>
-					<IonGrid>
+					<MyGrid>
 						<IonRow>
 							<IonCol size="7" sizeSm="1">
 								<IonRow style={{ justifyContent: "space-around" }}>
@@ -255,7 +258,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 								</IonPopover>
 							</IonCol>
 						</IonRow>
-					</IonGrid>
+					</MyGrid>
 				</IonCardContent>
 			</IonCard>
 		</>

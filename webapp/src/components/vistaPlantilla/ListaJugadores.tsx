@@ -1,4 +1,4 @@
-import { IonCol, IonList, IonRow } from "@ionic/react";
+import { IonList, IonRow } from "@ionic/react";
 import { PropiedadJugador } from "../../shared/sharedTypes";
 
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -43,19 +43,17 @@ function crearCartaDetallesJugador(
 ): JSX.Element {
 	return (
 		<IonRow key={j.jugador._id}>
-			<IonCol>
-				<CartaDetallesJugador
-					propiedadJugador={j}
-					esParaCambio={false}
-					porteros={props.porteros}
-					defensas={props.defensas}
-					mediocentros={props.mediocentros}
-					delanteros={props.delanteros}
-					formacion={props.formacion}
-					cambiarTitulares={props.cambiarTitulares}
-					isSameUser={props.isSameUser}
-				/>
-			</IonCol>
+			<CartaDetallesJugador
+				propiedadJugador={j}
+				esParaCambio={false}
+				porteros={props.porteros}
+				defensas={props.defensas}
+				mediocentros={props.mediocentros}
+				delanteros={props.delanteros}
+				formacion={props.formacion}
+				cambiarTitulares={props.cambiarTitulares}
+				isSameUser={props.isSameUser}
+			/>
 		</IonRow>
 	);
 }
