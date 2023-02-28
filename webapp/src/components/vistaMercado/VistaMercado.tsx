@@ -7,6 +7,7 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
+import { resetMercado } from "../../endpoints/mercadoEndpoints";
 import { Liga, Venta } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -17,6 +18,8 @@ export function VistaMercado(props: any): JSX.Element {
 
 	const [liga, setLiga] = useState<Liga>();
 	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<Venta[]>([]);
+
+	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
 	useEffect(() => {
 		const idLiga = window.location.pathname.split("/")[2];
@@ -29,6 +32,21 @@ export function VistaMercado(props: any): JSX.Element {
 				alert(err);
 			});
 	}, []);
+
+	const resetMercadoFromAPI = () => {
+		if (!reseteandoMercado) {
+			setReseteandoMercado(true);
+			resetMercado(liga as Liga)
+				.then((liga) => {
+					setLiga(liga);
+					setJugadoresEnMercado(liga.mercado);
+					setReseteandoMercado(false);
+				})
+				.catch((err) => {
+					alert(err);
+				});
+		}
+	};
 
 	return (
 		<>
@@ -44,6 +62,8 @@ export function VistaMercado(props: any): JSX.Element {
 								key={jugadorEnVenta.jugador.jugador._id}
 								jugadorEnVenta={jugadorEnVenta}
 								idLiga={liga?._id as string}
+								resetMercado={resetMercadoFromAPI}
+								reseteandoMercado={reseteandoMercado}
 							/>
 						))}
 					</IonList>

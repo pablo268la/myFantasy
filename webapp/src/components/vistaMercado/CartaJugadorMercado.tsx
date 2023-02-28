@@ -1,34 +1,36 @@
 import {
-    IonActionSheet,
-    IonBadge,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonPopover,
-    IonRow,
-    IonText,
+	IonActionSheet,
+	IonBadge,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonContent,
+	IonGrid,
+	IonImg,
+	IonInput,
+	IonItem,
+	IonLabel,
+	IonPopover,
+	IonRow,
+	IonText,
 } from "@ionic/react";
 import { cart, close } from "ionicons/icons";
 import { useState } from "react";
 import { hacerPuja } from "../../endpoints/ligasEndpoints";
 import {
-    getColorBadge,
-    getUsuarioLogueado,
-    ponerPuntosAValor,
-    urlBackground,
+	getColorBadge,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+	urlBackground,
 } from "../../helpers/helpers";
 import { Oferta, Venta } from "../../shared/sharedTypes";
 
 type CartaJugadorMercadoProps = {
 	jugadorEnVenta: Venta;
 	idLiga: string;
+	resetMercado: () => void;
+	reseteandoMercado: boolean;
 };
 
 export function CartaJugadorMercado(
@@ -58,6 +60,7 @@ export function CartaJugadorMercado(
 		if (distance < 0) {
 			clearInterval(x);
 			setTiempoRestante("EXPIRED");
+			if (!props.reseteandoMercado) props.resetMercado();
 			return;
 		} else {
 			// Time calculations for days, hours, minutes and seconds

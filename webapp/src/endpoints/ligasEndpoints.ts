@@ -1,4 +1,5 @@
 import * as UUID from "uuid";
+import { apiEndPoint } from "../helpers/constants";
 import {
 	getToken,
 	getUsuarioLogueado,
@@ -6,8 +7,7 @@ import {
 } from "../helpers/helpers";
 import { Liga, Oferta, PlantillaUsuario, Venta } from "../shared/sharedTypes";
 
-//const apiEndPoint = "http://" + process.env.REACT_APP_API_URI + ":5000";
-const apiEndPoint = "http://localhost:5000";
+
 
 export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;

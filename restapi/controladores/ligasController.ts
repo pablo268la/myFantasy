@@ -103,11 +103,6 @@ export const createLiga: RequestHandler = async (req, res) => {
 			let i = 0;
 			shuffle(liga.propiedadJugadores).map((propiedad) => {
 				if (i < 10) {
-					liga.mercado.push({
-						jugador: propiedad,
-						ofertas: [],
-						fechaLimite: fechaLimite.toISOString(),
-					});
 					propiedad.usuario = new modeloUsuario({
 						id: "-2",
 						nombre: "liga",
@@ -116,6 +111,11 @@ export const createLiga: RequestHandler = async (req, res) => {
 						contraseña: "liga",
 						ligas: [],
 						admin: false,
+					});
+					liga.mercado.push({
+						jugador: propiedad,
+						ofertas: [],
+						fechaLimite: fechaLimite.toISOString(),
 					});
 				}
 				i++;
