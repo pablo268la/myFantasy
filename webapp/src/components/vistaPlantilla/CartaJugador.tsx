@@ -17,11 +17,12 @@ type CartaJugadorProps = {
 	jugador?: PropiedadJugador;
 	setJugadorPulsado: (idJugador: string) => void;
 	posicion: string;
+	xsSize?: number;
 };
 
 function CartaJugador(props: CartaJugadorProps): JSX.Element {
 	return (
-		<IonCol size="2">
+		<IonCol sizeSm="2" sizeXs={props.xsSize ? props.xsSize.toString() : "2"}>
 			<IonCard
 				style={{ maxHeight: "200px", maxWidth: "100px" }}
 				onClick={() => {

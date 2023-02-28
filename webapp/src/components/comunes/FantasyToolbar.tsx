@@ -18,7 +18,7 @@ export function FantasyToolbar(props: any): JSX.Element {
 				<IonButtons slot="start">
 					<IonMenuButton></IonMenuButton>
 				</IonButtons>
-				<IonTitle>Menu</IonTitle>
+				<IonTitle>Headline coach</IonTitle>
 
 				<IonButton
 					slot="end"

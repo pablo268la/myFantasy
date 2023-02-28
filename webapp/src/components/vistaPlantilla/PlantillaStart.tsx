@@ -28,7 +28,7 @@ import "swiper/swiper.min.css";
 import CartaJugador from "./CartaJugador";
 
 const MyGrid = styled(IonGrid)`
-	--ion-grid-columns: 8;
+	--ion-grid-columns: 12;
 `;
 
 SwiperCore.use([Mousewheel, Pagination]);
@@ -85,7 +85,7 @@ export function PlantillaStart(): JSX.Element {
 			<IonContent style={{ justifyContent: "center" }}>
 				<Swiper
 					onSlideChange={() => {}}
-					style={{ border: "2px solid #123445", maxWidth: 500, height: "85%" }}
+					style={{ border: "2px solid #123445", maxWidth: 800, height: "85%" }}
 					pagination={{
 						clickable: true,
 					}}
@@ -128,7 +128,7 @@ export function PlantillaStart(): JSX.Element {
 					))}
 					<SwiperSlide key="resumeSlide" style={{ background: "#562765" }}>
 						<MyGrid>
-							<IonRow>
+							<IonRow style={{ justifyContent: "center" }}>
 								{jugadores.map((jugador) => (
 									<>
 										<CartaJugador
@@ -139,6 +139,7 @@ export function PlantillaStart(): JSX.Element {
 											}}
 											posicion={jugador.posicion}
 											setJugadorPulsado={() => {}}
+											xsSize={3}
 										/>
 									</>
 								))}

@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonRow } from "@ionic/react";
+import { IonButton, IonCol, IonRow } from "@ionic/react";
 
 import { PropiedadJugador } from "../../shared/sharedTypes";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -62,38 +62,36 @@ export function ListaJugadoresCambio(
 
 	return (
 		<>
-			<IonContent>
-				{getJugadoresACambiar(props.posicion).map((j) => (
-					<IonRow key={j.jugador._id}>
-						<IonCol>
-							<CartaDetallesJugador
-								key={j.jugador._id}
-								propiedadJugador={j}
-								esParaCambio={false}
-								porteros={props.porteros}
-								defensas={props.defensas}
-								mediocentros={props.mediocentros}
-								delanteros={props.delanteros}
-								formacion={props.formacion}
-								cambiarTitulares={props.cambiarTitulares}
-								isSameUser={props.isSameUser}
-							/>
+			{getJugadoresACambiar(props.posicion).map((j) => (
+				<IonRow key={j.jugador._id}>
+					<IonCol>
+						<CartaDetallesJugador
+							key={j.jugador._id}
+							propiedadJugador={j}
+							esParaCambio={false}
+							porteros={props.porteros}
+							defensas={props.defensas}
+							mediocentros={props.mediocentros}
+							delanteros={props.delanteros}
+							formacion={props.formacion}
+							cambiarTitulares={props.cambiarTitulares}
+							isSameUser={props.isSameUser}
+						/>
 
-							<IonButton
-								onClick={() =>
-									props.cambiarTitulares(
-										getLista(props.posicion),
-										j.jugador._id,
-										props.idJugador
-									)
-								}
-							>
-								Seleccionar
-							</IonButton>
-						</IonCol>
-					</IonRow>
-				))}
-			</IonContent>
+						<IonButton
+							onClick={() =>
+								props.cambiarTitulares(
+									getLista(props.posicion),
+									j.jugador._id,
+									props.idJugador
+								)
+							}
+						>
+							Seleccionar
+						</IonButton>
+					</IonCol>
+				</IonRow>
+			))}
 		</>
 	);
 }

@@ -232,7 +232,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				<IonHeader>
 					<FantasyToolbar />
 				</IonHeader>
-				<IonContent>
+				<IonContent scrollY>
 					<IonGrid>
 						<IonRow>
 							<IonCol>
@@ -325,11 +325,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 											<IonCol
 												sizeSm="5"
 												sizeXs="12"
-												style={{
-													height: "100%",
-													overflowY: "scroll",
-													overflowX: "hidden",
-												}}
+												style={{ height: "100%", overflowY: "scroll" }}
 											>
 												<IonContent>
 													{jugadorPulsado === "" ? (
