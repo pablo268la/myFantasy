@@ -30,6 +30,7 @@ function Login(props: LoginProps): JSX.Element {
 	const [contraseña, setContraseña] = useState<string>("");
 	const [repPassword, setRepPassword] = useState<string>("");
 	const [nombre, setNombre] = useState<string>("");
+	const [nombreUsuario, setNombreUsuario] = useState<string>("");
 	const [isLogin, setIsLogin] = useState<boolean>(true);
 
 	const [present] = useIonToast();
@@ -57,6 +58,11 @@ function Login(props: LoginProps): JSX.Element {
 		if (!isLogin) {
 			if (nombre.length < 1) {
 				crearToast("El nombre no puede estar vacio", mostrarToast);
+				return false;
+			}
+
+			if (nombreUsuario.length < 1) {
+				crearToast("El nombre de usuario no puede estar vacio", mostrarToast);
 				return false;
 			}
 
@@ -117,9 +123,14 @@ function Login(props: LoginProps): JSX.Element {
 			await createUsuario({
 				id: "",
 				nombre: nombre,
+				usuario: nombreUsuario,
 				email: email,
 				contraseña: contraseña,
 				ligas: [],
+				admin: false,
+			}).catch((error) => {
+				crearToast(error.message, true);
+				return;
 			});
 		}
 
@@ -141,7 +152,7 @@ function Login(props: LoginProps): JSX.Element {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ justifyContent: "center" }}>
-					<IonGrid style={{ width: 500 }}>
+					<IonGrid style={{ maxWidth: 500 }}>
 						<IonRow style={{ justifyContent: "center" }}>
 							<IonIcon
 								style={{ fontSize: "70px", color: "#562765" }}
@@ -158,6 +169,15 @@ function Login(props: LoginProps): JSX.Element {
 												value={nombre}
 												onIonChange={(e) => {
 													setNombre(e.detail.value!.trim());
+												}}
+											></IonInput>
+										</IonItem>
+										<IonItem>
+											<IonLabel position="floating">Nombre de usuario</IonLabel>
+											<IonInput
+												value={nombreUsuario}
+												onIonChange={(e) => {
+													setNombreUsuario(e.detail.value!.trim());
 												}}
 											></IonInput>
 										</IonItem>
@@ -210,32 +230,38 @@ function Login(props: LoginProps): JSX.Element {
 						</IonRow>
 						<IonRow>
 							<IonCol>
-								<IonButton expand="block" onClick={() => entrarApp()}>
-									Entrar
-								</IonButton>
-
 								{isLogin ? (
-									<p style={{ fontSize: "medium" }}>
-										¿No tienes cuenta?{"  "}
-										<a
-											onClick={(e) => {
-												setIsLogin(false);
-											}}
-										>
-											Crea una cuenta
-										</a>
-									</p>
+									<>
+										<IonButton expand="block" onClick={() => entrarApp()}>
+											Entrar
+										</IonButton>
+										<p style={{ fontSize: "medium" }}>
+											¿No tienes cuenta?{"  "}
+											<a
+												onClick={(e) => {
+													setIsLogin(false);
+												}}
+											>
+												Crea una cuenta
+											</a>
+										</p>
+									</>
 								) : (
-									<p style={{ fontSize: "medium" }}>
-										Ya tengo cuenta.{"  "}
-										<a
-											onClick={(e) => {
-												setIsLogin(true);
-											}}
-										>
-											Entrar con cuenta
-										</a>
-									</p>
+									<>
+										<IonButton expand="block" onClick={() => entrarApp()}>
+											Crear cuenta
+										</IonButton>
+										<p style={{ fontSize: "medium" }}>
+											Ya tengo cuenta.{"  "}
+											<a
+												onClick={(e) => {
+													setIsLogin(true);
+												}}
+											>
+												Entrar con cuenta
+											</a>
+										</p>
+									</>
 								)}
 							</IonCol>
 						</IonRow>

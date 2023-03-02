@@ -1,5 +1,8 @@
 import { RequestHandler } from "express";
+import { modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
+import { IOferta } from "../model/oferta";
+import { modeloPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
 import {
 	crearPlantillaParaUsuarioYGuardar,
@@ -64,7 +67,9 @@ export const createLiga: RequestHandler = async (req, res) => {
 	const token = req.headers.token as string;
 
 	let usuario = await modeloUsuario.findOne({ email: email });
+	console.log(usuario);
 	const verified = await verifyUser(email, token);
+
 	try {
 		if (usuario && verified) {
 			if (usuario.ligas.length >= 5) {
@@ -74,6 +79,49 @@ export const createLiga: RequestHandler = async (req, res) => {
 			}
 
 			let liga = new modeloLiga(req.body.liga);
+
+			const jugadores = await modeloJugador.find();
+			jugadores.forEach((jugador) => {
+				const propiedad = new modeloPropiedadJugador({
+					jugador: jugador,
+					usuario: new modeloUsuario({
+						id: "-1",
+						nombre: "liga",
+						usuario: "liga",
+						email: "liga",
+						contraseña: "liga",
+						ligas: [],
+						admin: false,
+					}),
+					titular: false,
+				});
+				liga.propiedadJugadores.push(propiedad);
+			});
+
+			let fechaLimite: Date = new Date();
+			fechaLimite.setDate(fechaLimite.getDate() + 1);
+
+			let i = 0;
+			shuffle(liga.propiedadJugadores).map((propiedad) => {
+				if (i < 10) {
+					propiedad.usuario = new modeloUsuario({
+						id: "-2",
+						nombre: "liga",
+						usuario: "liga",
+						email: "liga",
+						contraseña: "liga",
+						ligas: [],
+						admin: false,
+					});
+					liga.mercado.push({
+						jugador: propiedad,
+						ofertas: [],
+						fechaLimite: fechaLimite.toISOString(),
+					});
+				}
+				i++;
+				return propiedad;
+			});
 
 			const ligaGuardada = await liga.save();
 
@@ -182,5 +230,52 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		return res.status(500).json(error);
+	}
+};
+
+export const pujar: RequestHandler = async (req, res) => {
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
+	const idLiga = req.params.idLiga;
+	const ofertaHecha: IOferta = req.body.oferta;
+	const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.jugador._id;
+
+	const usuario = await modeloUsuario.findOne({ email: email });
+	const verified = await verifyUser(email, token);
+
+	try {
+		if (usuario && verified) {
+			const liga = await modeloLiga.findById(idLiga);
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			let mercado = liga.mercado;
+
+			mercado.map((jugadorEnVenta) => {
+				if (jugadorEnVenta.jugador.jugador._id === idJugadorEnVenta) {
+					if (jugadorEnVenta.ofertas.length !== 0) {
+						jugadorEnVenta.ofertas.map((oferta) => {
+							if (oferta.comprador.id === usuario.id) {
+								return ofertaHecha;
+							} else {
+								return oferta;
+							}
+						});
+					} else {
+						jugadorEnVenta.ofertas.push(ofertaHecha);
+					}
+
+					return jugadorEnVenta;
+				} else {
+					return jugadorEnVenta;
+				}
+			});
+
+			await liga.save();
+			return res.status(200).json({ message: "Puja realizada" });
+		} else {
+			res.status(401).json({ message: "Usuario no autenticado" });
+		}
+	} catch (err) {
+		res.status(500).json(err);
 	}
 };

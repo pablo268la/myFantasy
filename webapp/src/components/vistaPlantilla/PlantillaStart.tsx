@@ -21,10 +21,15 @@ import {
 import { Jugador, PlantillaUsuario } from "../../shared/sharedTypes";
 
 import "@ionic/react/css/ionic-swiper.css";
+import styled from "styled-components";
 import SwiperCore, { Mousewheel, Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import CartaJugador from "./CartaJugador";
+
+const MyGrid = styled(IonGrid)`
+	--ion-grid-columns: 12;
+`;
 
 SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
@@ -80,7 +85,7 @@ export function PlantillaStart(): JSX.Element {
 			<IonContent style={{ justifyContent: "center" }}>
 				<Swiper
 					onSlideChange={() => {}}
-					style={{ border: "2px solid #123445", width: 500, height: "85%" }}
+					style={{ border: "2px solid #123445", maxWidth: 800, height: "85%" }}
 					pagination={{
 						clickable: true,
 					}}
@@ -88,6 +93,7 @@ export function PlantillaStart(): JSX.Element {
 					{jugadores.map((jugador) => (
 						<>
 							<SwiperSlide
+								key={jugador._id}
 								style={{ background: getColorBadge(jugador.posicion) }}
 							>
 								<IonGrid>
@@ -120,9 +126,9 @@ export function PlantillaStart(): JSX.Element {
 							</SwiperSlide>
 						</>
 					))}
-					<SwiperSlide style={{ background: "#562765" }}>
-						<IonGrid>
-							<IonRow>
+					<SwiperSlide key="resumeSlide" style={{ background: "#562765" }}>
+						<MyGrid>
+							<IonRow style={{ justifyContent: "center" }}>
 								{jugadores.map((jugador) => (
 									<>
 										<CartaJugador
@@ -133,6 +139,7 @@ export function PlantillaStart(): JSX.Element {
 											}}
 											posicion={jugador.posicion}
 											setJugadorPulsado={() => {}}
+											xsSize={3}
 										/>
 									</>
 								))}
@@ -145,11 +152,13 @@ export function PlantillaStart(): JSX.Element {
 									)}
 								</IonLabel>
 							</IonRow>
-						</IonGrid>
+						</MyGrid>
 					</SwiperSlide>
 				</Swiper>
 				<IonRow style={{ justifyContent: "center" }}>
-					<IonRouterLink href={"plantilla/" + idLiga}>
+					<IonRouterLink
+						href={"plantilla/" + idLiga + "/" + getUsuarioLogueado()?.id}
+					>
 						<IonButton>Continuar</IonButton>
 					</IonRouterLink>
 				</IonRow>

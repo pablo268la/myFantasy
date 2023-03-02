@@ -10,7 +10,7 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonText,
+	IonText
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
@@ -69,8 +69,11 @@ export function Admin(): JSX.Element {
 		return 0;
 	};
 
-	const getJugadoresFromApi = async (idEquipo: string) => {
+	const getJugadoresFromApi = async (idEquipo: string, fromModal: boolean) => {
 		setLoading(true);
+		if (fromModal) {
+			idEquipo = equipoSeleccionado?._id || "";
+		}
 		if (idEquipo === "") {
 			setJugadores(
 				await getJugadores().then((j) =>
@@ -106,7 +109,7 @@ export function Admin(): JSX.Element {
 						<IonSelect
 							placeholder="Selecciona un equipo"
 							onIonChange={(e) => {
-								getJugadoresFromApi(`${e.detail.value}`);
+								getJugadoresFromApi(`${e.detail.value}`, false);
 							}}
 						>
 							<IonSelectOption key={""} value={""}>
@@ -172,6 +175,8 @@ export function Admin(): JSX.Element {
 									key={jugador._id}
 									jugador={jugador}
 									setAnyEdited={setAnyEdited}
+									equipos={equipos}
+									getJugadoresFromApi={getJugadoresFromApi}
 								/>
 							))
 						) : (

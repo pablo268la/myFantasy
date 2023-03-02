@@ -44,9 +44,11 @@ export type AlineacionJugador = {
 export type Usuario = {
 	id: string;
 	nombre: string;
+	usuario: string;
 	email: string;
 	contraseña: string;
 	ligas: string[];
+	admin: boolean;
 };
 
 export type Liga = {
@@ -56,6 +58,7 @@ export type Liga = {
 	propiedadJugadores: PropiedadJugador[];
 	enlaceInvitacion: string;
 	maxJugadores: number;
+	mercado: Venta[];
 	configuracion: string;
 };
 
@@ -63,4 +66,17 @@ export type PropiedadJugador = {
 	jugador: Jugador;
 	usuario: Usuario;
 	titular: boolean;
+};
+
+export type Oferta = {
+	comprador: Usuario;
+	valorOferta: number;
+	estado: string;
+	privada: boolean;
+};
+
+export type Venta = {
+	jugador: PropiedadJugador;
+	ofertas: Oferta[];
+	fechaLimite: string;
 };

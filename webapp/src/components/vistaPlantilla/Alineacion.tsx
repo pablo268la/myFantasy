@@ -1,4 +1,5 @@
-import { IonRow } from "@ionic/react";
+import { IonGrid, IonRow } from "@ionic/react";
+import styled from "styled-components";
 import {
 	Equipo,
 	Jugador,
@@ -7,6 +8,10 @@ import {
 } from "../../shared/sharedTypes";
 import CartaJugador from "./CartaJugador";
 import { Formacion } from "./VistaPlantilla";
+
+const MyGrid = styled(IonGrid)`
+	--ion-grid-columns: 10;
+`;
 
 type AlineacionProps = {
 	formacion: Formacion;
@@ -52,37 +57,39 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 
 	return (
 		<>
-			<IonRow style={{ justifyContent: "center" }}>
-				{props.porteros
-					.slice(0, 1)
-					.map((jugador) =>
-						crearCartaJugador(jugador, props.setJugadorPulsado, "Portero")
-					)}
-			</IonRow>
-			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.defensas
-					.slice(0, props.formacion.defensa)
-					.map((jugador) => {
-						return jugador;
-					})
-					.map((jugador) =>
-						crearCartaJugador(jugador, props.setJugadorPulsado, "Defensa")
-					)}
-			</IonRow>
-			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.mediocentros
-					.slice(0, props.formacion.medio)
-					.map((jugador) =>
-						crearCartaJugador(jugador, props.setJugadorPulsado, "Mediocentro")
-					)}
-			</IonRow>
-			<IonRow style={{ justifyContent: "space-around" }}>
-				{props.delanteros
-					.slice(0, props.formacion.delantero)
-					.map((jugador) =>
-						crearCartaJugador(jugador, props.setJugadorPulsado, "Delantero")
-					)}
-			</IonRow>
+			<MyGrid>
+				<IonRow style={{ justifyContent: "center" }}>
+					{props.porteros
+						.slice(0, 1)
+						.map((jugador) =>
+							crearCartaJugador(jugador, props.setJugadorPulsado, "Portero")
+						)}
+				</IonRow>
+				<IonRow style={{ justifyContent: "center" }}>
+					{props.defensas
+						.slice(0, props.formacion.defensa)
+						.map((jugador) => {
+							return jugador;
+						})
+						.map((jugador) =>
+							crearCartaJugador(jugador, props.setJugadorPulsado, "Defensa")
+						)}
+				</IonRow>
+				<IonRow style={{ justifyContent: "center" }}>
+					{props.mediocentros
+						.slice(0, props.formacion.medio)
+						.map((jugador) =>
+							crearCartaJugador(jugador, props.setJugadorPulsado, "Mediocentro")
+						)}
+				</IonRow>
+				<IonRow style={{ justifyContent: "center" }}>
+					{props.delanteros
+						.slice(0, props.formacion.delantero)
+						.map((jugador) =>
+							crearCartaJugador(jugador, props.setJugadorPulsado, "Delantero")
+						)}
+				</IonRow>
+			</MyGrid>
 		</>
 	);
 }

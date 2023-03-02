@@ -1,12 +1,13 @@
 import * as UUID from "uuid";
+import { apiEndPoint } from "../helpers/constants";
 import {
 	getToken,
 	getUsuarioLogueado,
 	updateUsuarioInfo,
 } from "../helpers/helpers";
-import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
+import { Liga, Oferta, PlantillaUsuario, Venta } from "../shared/sharedTypes";
 
-const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
+
 
 export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
@@ -76,6 +77,7 @@ export async function crearLiga(
 		propiedadJugadores: [],
 		maxJugadores: maxJugadores,
 		enlaceInvitacion: "join-to:" + idLiga,
+		mercado: [],
 		configuracion: JSON.stringify({
 			usaEntrenador: usaEntrenador,
 		}),
@@ -90,6 +92,7 @@ export async function crearLiga(
 		},
 		body: JSON.stringify({ liga: liga }),
 	});
+	console.log(response);
 
 	await updateUsuarioInfo();
 	switch (response.status) {
@@ -162,9 +165,7 @@ export async function getRandomLiga(): Promise<Liga> {
 	}
 }
 
-export const checkJoinLiga: (idLiga: string) => Promise<boolean> = async (
-	idLiga: string
-) => {
+export async function checkJoinLiga(idLiga: string): Promise<boolean> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
@@ -188,4 +189,36 @@ export const checkJoinLiga: (idLiga: string) => Promise<boolean> = async (
 		default:
 			throw new Error("Error desconocido");
 	}
-};
+}
+
+export async function hacerPuja(
+	jugadorEnVenta: Venta,
+	idLiga: string,
+	oferta: Oferta
+): Promise<Venta> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/pujar/" + idLiga, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
+		body: JSON.stringify({ jugadorEnVenta: jugadorEnVenta, oferta: oferta }),
+	});
+
+	switch (response.status) {
+		case 200:
+			return response.json();
+		case 401:
+			throw new Error("Usuario no autorizado");
+		case 409:
+			throw new Error("No pertenece a la liga");
+		case 500:
+			throw new Error("Error interno");
+		default:
+			throw new Error("Error desconocido");
+	}
+}

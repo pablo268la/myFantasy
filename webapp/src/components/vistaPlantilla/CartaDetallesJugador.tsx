@@ -5,17 +5,19 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCol,
+	IonGrid,
 	IonImg,
 	IonItem,
 	IonLabel,
 	IonRow,
-	IonText,
 } from "@ionic/react";
 
+import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
 import {
 	getColorBadge,
+	getColorEstado,
 	getIconoEstado,
 	ponerPuntosAValor,
 	urlBackground,
@@ -38,6 +40,7 @@ type CartaJugadorProps = {
 		idIn: string,
 		idOut: string
 	) => void;
+	isSameUser: boolean;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
@@ -49,105 +52,161 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 
 	return propiedadJugador ? (
 		<>
-			<IonCard style={{ width: 500 }}>
-				<IonRow>
-					<div
-						style={{
-							backgroundImage: urlBackground,
-							width: 130,
-						}}
-					>
-						<IonCol>
-							<IonCardContent>
-								<IonRow style={{ width: 110, height: 50 }}>
-									<IonCol style={{ width: 70, height: 70 }}>
-										<div
-											style={{
-												width: 90,
-												height: 70,
-												marginTop: -18,
-												marginLeft: -8,
-											}}
-										>
-											<IonImg src={propiedadJugador.jugador.foto} />
-										</div>
-									</IonCol>
-									<IonCol>
-										<div style={{ width: 30, height: 30, marginTop: -20 }}>
-											<IonImg
-												src={
-													"https://api.sofascore.app/api/v1/team/" +
-													propiedadJugador.jugador.equipo._id +
-													"/image"
-												}
-											/>
-										</div>
-									</IonCol>
-								</IonRow>
-							</IonCardContent>
-						</IonCol>
-					</div>
-					<IonCol style={{ backgroundColor: "primary" }}>
-						<IonItem color={"primary"}>
-							<IonBadge
+			<IonCard style={{ width: "100%" }} color="primary">
+				<IonCardContent>
+					<IonGrid>
+						<IonRow>
+							<IonCol
+								size="3"
 								style={{
-									backgroundColor: getColorBadge(
-										propiedadJugador.jugador.posicion
-									),
+									backgroundSize: "cover",
+									backgroundImage: urlBackground,
 								}}
 							>
-								{propiedadJugador.jugador.posicion
-									.substring(0, 3)
-									.toUpperCase()}
-							</IonBadge>
-							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{propiedadJugador.jugador.nombre}
-							</IonLabel>
-							<IonLabel slot="end">PTS:</IonLabel>
-							<IonText slot="end">{propiedadJugador.jugador.puntos}</IonText>
-						</IonItem>
+								<IonImg
+									style={{
+										maxHeight: 100,
+										maxWidth: 100,
+									}}
+									src={propiedadJugador.jugador.foto}
+								/>
+								{propiedadJugador.jugador.equipo._id !== "-1" ? (
+									<IonImg
+										style={{
+											maxWidth: 30,
+											maxHeight: 30,
+											width: 20,
+											height: 30,
+											marginTop: -80,
+										}}
+										src={
+											"https://api.sofascore.app/api/v1/team/" +
+											propiedadJugador.jugador.equipo._id +
+											"/image"
+										}
+									></IonImg>
+								) : (
+									<Icon
+										style={{
+											width: 20,
+											maxHeight: 30,
+											float: "left",
+											marginTop: "-60%",
+										}}
+										color="white"
+										width="20"
+										height="30"
+										icon="mdi:badge-outline"
+									/>
+								)}
+							</IonCol>
 
-						<IonItem lines="none" color={"primary"}>
-							{getIconoEstado(propiedadJugador.jugador.estado)}
-							<IonLabel style={{ marginLeft: 10, color: "light" }}>
-								{ponerPuntosAValor(propiedadJugador.jugador.valor)}
-							</IonLabel>
-							<IonButton
-								onClick={() => setShowActionSheet(true)}
-								color="secondary"
-								slot="end"
-							>
-								ACCIONES
-							</IonButton>
-							<IonActionSheet
-								header={
-									"¿Que deseas hacer con " +
-									propiedadJugador.jugador.nombre +
-									"?"
-								}
-								isOpen={showActionSheet}
-								onDidDismiss={() => setShowActionSheet(false)}
-								buttons={[
-									{
-										text: "Añadir al mercado",
-										icon: cart,
-										handler: () => {},
-									},
-									{
-										text: "Vender inmediatamente",
-										icon: cash,
-										handler: () => {},
-									},
-									{
-										text: "Cancelar",
-										icon: close,
-										handler: () => {},
-									},
-								]}
-							></IonActionSheet>
-						</IonItem>
-					</IonCol>
-				</IonRow>
+							<IonCol size="9">
+								<IonItem color="tertiary">
+									<IonBadge
+										style={{
+											backgroundColor: getColorBadge(
+												propiedadJugador.jugador.posicion
+											),
+										}}
+									>
+										{propiedadJugador.jugador.posicion
+											.substring(0, 3)
+											.toUpperCase()}
+									</IonBadge>
+									<IonLabel
+										style={{
+											marginLeft: 10,
+											fontSize: "1vmax",
+										}}
+									>
+										{propiedadJugador.jugador.nombre}
+									</IonLabel>
+									<IonLabel
+										style={{
+											fontSize: "1vmax",
+										}}
+										slot="end"
+									>
+										{"PTS: "}
+										{propiedadJugador.jugador.puntos}
+									</IonLabel>
+								</IonItem>
+								<IonItem lines="none" color="tertiary">
+									<IonBadge
+										color={getColorEstado(
+											propiedadJugador.jugador.estado as string
+										)}
+									>
+										{getIconoEstado(propiedadJugador.jugador.estado)}
+									</IonBadge>
+
+									<IonLabel
+										style={{
+											fontSize: "1vmax",
+											marginLeft: 10,
+										}}
+									>
+										{ponerPuntosAValor(propiedadJugador.jugador.valor)}
+									</IonLabel>
+
+									<IonButton
+										onClick={() => setShowActionSheet(true)}
+										color="primary"
+										slot="end"
+										id="botonAcciones"
+										style={{
+											fontSize: "1vmax",
+										}}
+									>
+										ACCIONES
+									</IonButton>
+								</IonItem>
+								<IonActionSheet
+									header={
+										"¿Que quieres hacer con " +
+										propiedadJugador.jugador.nombre +
+										"?"
+									}
+									isOpen={showActionSheet}
+									onDidDismiss={() => setShowActionSheet(false)}
+									buttons={
+										props.isSameUser
+											? [
+													{
+														text: "Añadir al mercado",
+														icon: cart,
+														handler: () => {},
+													},
+													{
+														text: "Vender inmediatamente",
+														icon: cash,
+														handler: () => {},
+													},
+													{
+														text: "Cancelar",
+														icon: close,
+														handler: () => {},
+													},
+											  ]
+											: [
+													{
+														text: "Hacer oferta",
+														icon: cart,
+														handler: () => {},
+													},
+													{
+														text: "Cancelar",
+														icon: close,
+														handler: () => {},
+													},
+											  ]
+									}
+								></IonActionSheet>
+							</IonCol>
+						</IonRow>
+					</IonGrid>
+				</IonCardContent>
 			</IonCard>
 
 			{
@@ -169,7 +228,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 								"",
 								propiedadJugador.jugador._id
 							);
-						}
+						},
+						props.isSameUser
 					)}
 				</>
 			}
@@ -187,7 +247,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				props.delanteros,
 				props.formacion,
 				props.cambiarTitulares,
-				() => {}
+				() => {},
+				props.isSameUser
 			)}
 		</>
 	);
@@ -223,24 +284,33 @@ function renderCambios(
 		idIn: string,
 		idOut: string
 	) => void,
-	onclick: () => void
+	onclick: () => void,
+	isSameUser: boolean
 ) {
 	if (esParaCambio)
 		return (
 			<>
-				<IonButton onClick={onclick} shape="round" expand="block">
-					{texto}
-				</IonButton>
-				<ListaJugadoresCambio
-					idJugador={idJugador}
-					posicion={posicion}
-					porteros={porteros}
-					defensas={defensas}
-					mediocentros={mediocentros}
-					delanteros={delanteros}
-					formacion={formacion}
-					cambiarTitulares={cambiarTitulares}
-				/>
+				{isSameUser ? (
+					<>
+						<IonButton onClick={onclick} shape="round" expand="block">
+							{texto}
+						</IonButton>
+
+						<ListaJugadoresCambio
+							idJugador={idJugador}
+							posicion={posicion}
+							porteros={porteros}
+							defensas={defensas}
+							mediocentros={mediocentros}
+							delanteros={delanteros}
+							formacion={formacion}
+							cambiarTitulares={cambiarTitulares}
+							isSameUser={isSameUser}
+						/>
+					</>
+				) : (
+					<></>
+				)}
 			</>
 		);
 }

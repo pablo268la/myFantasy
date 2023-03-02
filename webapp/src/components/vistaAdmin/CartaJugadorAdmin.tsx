@@ -1,6 +1,9 @@
 import {
 	IonButton,
+	IonCard,
+	IonCardContent,
 	IonCol,
+	IonGrid,
 	IonIcon,
 	IonImg,
 	IonInput,
@@ -11,31 +14,35 @@ import {
 	IonSelect,
 	IonSelectOption,
 	useIonActionSheet,
+	useIonAlert,
 } from "@ionic/react";
-import {
-	build,
-	close,
-	ellipsisVertical,
-	pencilOutline,
-	remove,
-} from "ionicons/icons";
+import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
+import styled from "styled-components";
 import { updateJugador } from "../../endpoints/jugadorEndpoints";
-import { Jugador } from "../../shared/sharedTypes";
+import { Equipo, Jugador } from "../../shared/sharedTypes";
+import { ModalJugadorAdmin } from "./ModalJugadorAdmin";
+
+const MyGrid = styled(IonGrid)`
+	--ion-grid-columns: 7;
+`;
 
 type CartaJugadorAdminProps = {
 	jugador: Jugador;
 	setAnyEdited: (b: boolean) => void;
+	equipos: Equipo[];
+	getJugadoresFromApi: (idEquipo: string, fromModal: boolean) => void;
 };
 
 export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
+	const [alert] = useIonAlert();
 	const [present] = useIonActionSheet();
 
-	const [isReadOnlyNombre, setIsReadOnlyNombre] = useState<boolean>(true);
-	const [isReadOnlyValor, setIsReadOnlyValor] = useState<boolean>(true);
 	const [edited, setEdited] = useState<boolean>(false);
 
 	const [jugador, setJugador] = useState<Jugador>(props.jugador);
+
+	const [showModal, setShowModal] = useState(true);
 
 	const setEditedPlayer = () => {
 		setEdited(true);
@@ -43,8 +50,6 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 	};
 
 	const resetValores = () => {
-		setIsReadOnlyNombre(true);
-		setIsReadOnlyValor(true);
 		setJugador(props.jugador);
 		setEdited(false);
 	};
@@ -56,7 +61,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 
 	const [showPopover, setShowPopover] = useState(false);
 
-	function canDismiss() {
+	function seguroEliminarJugador() {
 		return new Promise<boolean>((resolve, reject) => {
 			present({
 				header: "¿Estas seguro de querer borrar este jugador?",
@@ -83,170 +88,179 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 
 	return (
 		<>
-			<IonRow style={{ justifyContent: "space-around" }}>
-				<IonCol>
-					<IonRow style={{ justifyContent: "space-around" }}>
-						<IonImg
-							src={jugador.foto}
-							style={{
-								maxWidth: "30px",
-								maxHeight: "30px",
-							}}
-						></IonImg>
-					</IonRow>
-				</IonCol>
-				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonRow style={{ justifyContent: "start" }}>
-						<IonItem>
-							<IonInput
-								readonly={isReadOnlyNombre}
-								type="text"
-								value={jugador.nombre}
-								onIonInput={(e) => {
-									setJugador({
-										...jugador,
-										nombre: e.target.value as string,
-									});
-									setEditedPlayer();
-								}}
-							></IonInput>
-							<IonButton
-								fill="outline"
-								onClick={() => {
-									setIsReadOnlyNombre(false);
-									setEditedPlayer();
-								}}
-							>
-								<IonIcon slot="icon-only" icon={pencilOutline}></IonIcon>
-							</IonButton>
-						</IonItem>
-					</IonRow>
-				</IonCol>
-				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonRow style={{ justifyContent: "start" }}>
-						<IonItem>
-							<IonInput
-								readonly={isReadOnlyValor}
-								type="number"
-								value={jugador.valor}
-								onIonInput={(e) => {
-									setJugador({
-										...jugador,
-										valor: parseInt(e.target.value as string),
-									});
-									setEditedPlayer();
-								}}
-							></IonInput>
-							<IonButton
-								fill="outline"
-								onClick={() => {
-									setIsReadOnlyValor(false);
-									setEditedPlayer();
-								}}
-							>
-								<IonIcon slot="icon-only" icon={pencilOutline}></IonIcon>
-							</IonButton>
-						</IonItem>
-					</IonRow>
-				</IonCol>
-				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonRow style={{ justifyContent: "start" }}>
-						<IonSelect
-							value={jugador.estado}
-							onIonChange={(e) => {
-								setJugador({
-									...jugador,
-									estado: e.detail.value,
-								});
-								setEditedPlayer();
-							}}
-						>
-							<IonSelectOption value="Disponible">Disponible</IonSelectOption>
-							<IonSelectOption value="Dudoso">Dudoso</IonSelectOption>
-							<IonSelectOption value="Lesionado">Lesionado</IonSelectOption>
-							<IonSelectOption value="Sancionado">Sancionado</IonSelectOption>
-							<IonSelectOption value="No disponible">
-								No disponible
-							</IonSelectOption>
-						</IonSelect>
-					</IonRow>
-				</IonCol>
-				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonRow style={{ justifyContent: "start" }}>
-						<IonSelect
-							value={jugador.posicion}
-							onIonChange={(e) => {
-								setJugador({
-									...jugador,
-									posicion: e.detail.value,
-								});
-								setEditedPlayer();
-							}}
-						>
-							<IonSelectOption value="Portero">Portero</IonSelectOption>
-							<IonSelectOption value="Defensa">Defensa</IonSelectOption>
-							<IonSelectOption value="Mediocentro">Mediocentro</IonSelectOption>
-							<IonSelectOption value="Delantero">Delantero</IonSelectOption>
-						</IonSelect>
-					</IonRow>
-				</IonCol>
-				<IonCol style={{ borderInlineStart: "1px solid" }}>
-					<IonRow>
-						<IonButton
-							size="small"
-							disabled={!edited}
-							color="success"
-							onClick={() => updateJugadorAndReset()}
-						>
-							Guardar
-						</IonButton>
-						<IonButton
-							size="small"
-							disabled={!edited}
-							color="danger"
-							onClick={() => resetValores()}
-						>
-							Reset
-						</IonButton>
-						<IonButton
-							onClick={() => setShowPopover(true)}
-							fill="clear"
-							size="small"
-							id="popover-button"
-						>
-							<IonIcon slot="icon-only" icon={ellipsisVertical}></IonIcon>
-						</IonButton>
+			<IonCard>
+				<IonCardContent>
+					<MyGrid>
+						<IonRow>
+							<IonCol size="7" sizeSm="1">
+								<IonRow style={{ justifyContent: "space-around" }}>
+									<IonImg
+										src={jugador.foto}
+										style={{
+											maxWidth: "50px",
+											maxHeight: "50px",
+										}}
+									></IonImg>
+								</IonRow>
+							</IonCol>
+							<IonCol size="7" sizeSm="1">
+								<IonItem fill="outline">
+									<IonInput
+										type="text"
+										value={jugador.nombre}
+										onIonInput={(e) => {
+											setJugador({
+												...jugador,
+												nombre: e.target.value as string,
+											});
+											setEditedPlayer();
+										}}
+									></IonInput>
+								</IonItem>
+							</IonCol>
+							<IonCol size="7" sizeSm="1">
+								<IonItem>
+									<IonInput
+										type="number"
+										value={jugador.valor}
+										onIonInput={(e) => {
+											setJugador({
+												...jugador,
+												valor: parseInt(e.target.value as string),
+											});
+											setEditedPlayer();
+										}}
+									></IonInput>
+								</IonItem>
+							</IonCol>
+							<IonCol size="7" sizeSm="1">
+								<IonSelect
+									value={jugador.estado}
+									onIonChange={(e) => {
+										setJugador({
+											...jugador,
+											estado: e.detail.value,
+										});
+										setEditedPlayer();
+									}}
+								>
+									<IonSelectOption value="Disponible">
+										Disponible
+									</IonSelectOption>
+									<IonSelectOption value="Dudoso">Dudoso</IonSelectOption>
+									<IonSelectOption value="Lesionado">Lesionado</IonSelectOption>
+									<IonSelectOption value="Sancionado">
+										Sancionado
+									</IonSelectOption>
+									<IonSelectOption value="No disponible">
+										No disponible
+									</IonSelectOption>
+								</IonSelect>
+							</IonCol>
+							<IonCol size="7" sizeSm="1">
+								<IonSelect
+									value={jugador.posicion}
+									onIonChange={(e) => {
+										setJugador({
+											...jugador,
+											posicion: e.detail.value,
+										});
+										setEditedPlayer();
+									}}
+								>
+									<IonSelectOption value="Portero">Portero</IonSelectOption>
+									<IonSelectOption value="Defensa">Defensa</IonSelectOption>
+									<IonSelectOption value="Mediocentro">
+										Mediocentro
+									</IonSelectOption>
+									<IonSelectOption value="Delantero">Delantero</IonSelectOption>
+								</IonSelect>
+							</IonCol>
+							<IonCol size="7" sizeSm="2">
+								<IonRow style={{ justifyContent: "space-around" }}>
+									<IonCol size="3">
+										<IonButton
+											expand="block"
+											size="small"
+											disabled={!edited}
+											color="success"
+											onClick={() => updateJugadorAndReset()}
+										>
+											Guardar
+										</IonButton>
+									</IonCol>
+									<IonCol size="3">
+										<IonButton
+											expand="block"
+											size="small"
+											disabled={!edited}
+											color="danger"
+											onClick={() => resetValores()}
+										>
+											Reset
+										</IonButton>
+									</IonCol>
+									<IonCol size="1">
+										<IonButton
+											onClick={() => setShowPopover(true)}
+											fill="clear"
+											size="small"
+											id="popover-button"
+										>
+											<IonIcon
+												slot="icon-only"
+												icon={ellipsisVertical}
+											></IonIcon>
+										</IonButton>
+									</IonCol>
+								</IonRow>
+								<IonPopover
+									isOpen={showPopover}
+									onDidDismiss={() => setShowPopover(false)}
+								>
+									<IonList>
+										<IonItem
+											id="open-modal"
+											button={true}
+											detail={false}
+											onClick={() => {
+												setShowModal(true);
+											}}
+										>
+											<IonIcon slot="start" icon={build} />
+											Editar jugador completo
+										</IonItem>
+										{showModal ? (
+											<ModalJugadorAdmin
+												jugador={jugador}
+												equipos={props.equipos}
+												getJugadoresFromApi={props.getJugadoresFromApi}
+											/>
+										) : null}
 
-						<IonPopover
-							isOpen={showPopover}
-							onDidDismiss={() => setShowPopover(false)}
-						>
-							<IonList>
-								<IonItem button={true} detail={false}>
-									<IonIcon slot="start" icon={build} />
-									Editar jugador completo
-								</IonItem>
-								<IonItem
-									button={true}
-									detail={false}
-									onClick={() => canDismiss()}
-								>
-									<IonIcon slot="start" icon={remove} />
-									Eliminar jugador
-								</IonItem>
-								<IonItem
-									onClick={() => setShowPopover(false)}
-									button={true}
-									detail={false}
-								>
-									<IonIcon slot="start" icon={close}></IonIcon>
-									Cancelar
-								</IonItem>
-							</IonList>
-						</IonPopover>
-					</IonRow>
-				</IonCol>
-			</IonRow>
+										<IonItem
+											button={true}
+											detail={false}
+											onClick={() => seguroEliminarJugador()}
+										>
+											<IonIcon slot="start" icon={remove} />
+											Eliminar jugador
+										</IonItem>
+										<IonItem
+											onClick={() => setShowPopover(false)}
+											button={true}
+											detail={false}
+										>
+											<IonIcon slot="start" icon={close}></IonIcon>
+											Cancelar
+										</IonItem>
+									</IonList>
+								</IonPopover>
+							</IonCol>
+						</IonRow>
+					</MyGrid>
+				</IonCardContent>
+			</IonCard>
 		</>
 	);
 }

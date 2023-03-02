@@ -1,4 +1,4 @@
-import { IonBadge, IonIcon } from "@ionic/react";
+import { IonIcon } from "@ionic/react";
 import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
 import { getUsuario, requestToken } from "../endpoints/userEndpoints";
 import { Usuario } from "../shared/sharedTypes";
@@ -14,32 +14,33 @@ export function ponerPuntosAValor(valor: number) {
 	return v.substring(0, v.length - 5) + " €";
 }
 
+export function getColorEstado(estado: string) {
+	switch (estado) {
+		case "Disponible":
+			return "success";
+		case "Lesionado":
+			return "danger";
+		case "Dudoso":
+			return "warning";
+		case "No disponible":
+			return "danger";
+		default:
+			return "danger";
+	}
+}
+
 export function getIconoEstado(estado: string) {
 	switch (estado) {
 		case "Disponible":
-			return (
-				<IonBadge color={"success"}>
-					<IonIcon icon={checkmarkCircle} />
-				</IonBadge>
-			);
+			return <IonIcon icon={checkmarkCircle} />;
 		case "Lesionado":
-			return (
-				<IonBadge color={"danger"}>
-					<IonIcon icon={medkit} />
-				</IonBadge>
-			);
+			return <IonIcon icon={medkit} />;
 		case "Dudoso":
-			return (
-				<IonBadge color={"warning"}>
-					<IonIcon icon={warning} />
-				</IonBadge>
-			);
+			return <IonIcon icon={warning} />;
 		case "No disponible":
-			return (
-				<IonBadge color={"danger"}>
-					<IonIcon icon={alertCircle} />
-				</IonBadge>
-			);
+			return <IonIcon icon={alertCircle} />;
+		default:
+			return <IonIcon icon={alertCircle} />;
 	}
 }
 

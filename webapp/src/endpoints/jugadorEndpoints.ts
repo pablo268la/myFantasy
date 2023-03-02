@@ -1,6 +1,7 @@
+import { apiEndPoint } from "../helpers/constants";
 import { Jugador } from "../shared/sharedTypes";
 
-const apiEndPoint = process.env.REACT_APP_API_URI || "http://localhost:5000";
+
 
 export async function getJugadores(): Promise<Jugador[]> {
 	let response = await fetch(apiEndPoint + "/jugadores");

@@ -1,11 +1,10 @@
 import {
-	IonButton,
 	IonContent,
 	IonHeader,
 	IonIcon,
+	IonItem,
 	IonList,
 	IonMenu,
-	IonRouterLink,
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
@@ -28,53 +27,47 @@ export function MenuLateral(props: any): JSX.Element {
 			<IonMenu type="reveal" contentId="main-content">
 				<IonHeader>
 					<IonToolbar>
-						<IonTitle></IonTitle>
+						<IonTitle>Menu</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonContent>
 					<IonList>
-						<IonRouterLink href="/home">
-							<IonButton color="dark" expand="block" fill="clear">
-								<IonIcon slot="start" icon={home}></IonIcon>
-								Home
-							</IonButton>
-						</IonRouterLink>
-						<IonRouterLink href="/ligas">
-							<IonButton color="dark" expand="block" fill="clear">
-								<IonIcon slot="start" icon={gameController}></IonIcon>
-								Mis ligas
-							</IonButton>
-						</IonRouterLink>
-						<IonRouterLink
-							href={"/clasificacion/" + getUsuarioLogueado()?.ligas[0]}
+						<IonItem href="/home">
+							<IonIcon slot="start" icon={home}></IonIcon>
+							Home
+						</IonItem>
+
+						<IonItem href="/ligas">
+							<IonIcon slot="start" icon={gameController}></IonIcon>
+							Mis ligas
+						</IonItem>
+						<IonItem href={"/clasificacion/" + getUsuarioLogueado()?.ligas[0]}>
+							<IonIcon slot="start" icon={list}></IonIcon>
+							Clasificacion
+						</IonItem>
+						<IonItem
+							href={
+								"/plantilla/" +
+								getUsuarioLogueado()?.ligas[0] +
+								"/" +
+								getUsuarioLogueado()?.id
+							}
 						>
-							<IonButton color="dark" expand="block" fill="clear">
-								<IonIcon slot="start" icon={list}></IonIcon>
-								Clasificacion
-							</IonButton>
-						</IonRouterLink>
-						<IonRouterLink
-							href={"/plantilla/" + getUsuarioLogueado()?.ligas[0]}
-						>
-							<IonButton color="dark" expand="block" fill="clear">
-								<IonIcon slot="start" icon={people}></IonIcon>
-								Plantilla
-							</IonButton>
-						</IonRouterLink>
-						<IonButton color="dark" expand="block" fill="clear">
+							<IonIcon slot="start" icon={people}></IonIcon>
+							Plantilla
+						</IonItem>
+						<IonItem href={"/mercado/" + getUsuarioLogueado()?.ligas[0]}>
 							<IonIcon slot="start" icon={cart}></IonIcon>
 							Mercado
-						</IonButton>
-						<IonButton color="dark" expand="block" fill="clear">
+						</IonItem>
+						<IonItem>
 							<IonIcon slot="start" icon={football}></IonIcon>
 							Resultados
-						</IonButton>
-						<IonRouterLink href="/admin">
-							<IonButton color="dark" expand="block" fill="clear">
-								<IonIcon slot="start" icon={tv}></IonIcon>
-								Admin
-							</IonButton>
-						</IonRouterLink>
+						</IonItem>
+						<IonItem href="/admin">
+							<IonIcon slot="start" icon={tv}></IonIcon>
+							Admin
+						</IonItem>
 					</IonList>
 				</IonContent>
 			</IonMenu>

@@ -18,8 +18,7 @@ export function Home(props: HomeProps): JSX.Element {
 					<iframe
 						id="sofa-standings-embed-36-42409"
 						src="https://www.sofascore.com/es/torneo/36/42409/clasificacion/tablas/introducir"
-						scrolling="yes"
-						style={{ width: "100%", height: "830px" }}
+						style={{ width: "100%", height: "100%" }}
 					></iframe>
 				</IonContent>
 			</IonPage>
