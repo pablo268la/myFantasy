@@ -7,13 +7,16 @@ import {
 	IonGrid,
 	IonIcon,
 	IonLabel,
-	IonRouterLink,
 	IonRow,
 	IonTitle,
 } from "@ionic/react";
 import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
-import { getUsuarioLogueado, urlBackground2 } from "../../helpers/helpers";
+import {
+	getUsuarioLogueado,
+	setLigaSeleccionada,
+	urlBackground2,
+} from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 
 type CartaLigaProps = {
@@ -37,54 +40,33 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 				>
 					<IonGrid>
 						<IonRow>
-							<IonCol style={{ justifyContent: "space-around" }}>
-								{!props.disabled ? (
-									<IonRouterLink href={"/clasificacion/" + liga._id}>
-										<IonRow style={{ justifyContent: "center" }}>
-											<IonLabel style={{ fontSize: "20px" }} color={"light"}>
-												{liga.nombre}
-											</IonLabel>
-										</IonRow>
-										<IonRow>
-											<IonCol>
-												<IonIcon
-													size="large"
-													icon={trophySharp}
-													color="light"
-												></IonIcon>
-											</IonCol>
-										</IonRow>
-										<br />
-										<IonRow>
-											<IonTitle color={"light"}>Puntos</IonTitle>
-											<IonTitle color={"light"}>Dinero</IonTitle>
-											<IonTitle color={"light"}>Posicion</IonTitle>
-										</IonRow>
-									</IonRouterLink>
-								) : (
-									<>
-										<IonRow style={{ justifyContent: "center" }}>
-											<IonLabel style={{ fontSize: "20px" }} color={"light"}>
-												{liga.nombre}
-											</IonLabel>
-										</IonRow>
-										<IonRow>
-											<IonCol>
-												<IonIcon
-													size="large"
-													icon={trophySharp}
-													color="light"
-												></IonIcon>
-											</IonCol>
-										</IonRow>
-										<br />
-										<IonRow>
-											<IonTitle color={"light"}>Puntos</IonTitle>
-											<IonTitle color={"light"}>Dinero</IonTitle>
-											<IonTitle color={"light"}>Posicion</IonTitle>
-										</IonRow>
-									</>
-								)}
+							<IonCol
+								onClick={() => {
+									setLigaSeleccionada(liga._id as string);
+									window.location.href = "/clasificacion/" + liga._id;
+								}}
+								style={{ justifyContent: "space-around" }}
+							>
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonLabel style={{ fontSize: "20px" }} color={"light"}>
+										{liga.nombre}
+									</IonLabel>
+								</IonRow>
+								<IonRow>
+									<IonCol>
+										<IonIcon
+											size="large"
+											icon={trophySharp}
+											color="light"
+										></IonIcon>
+									</IonCol>
+								</IonRow>
+								<br />
+								<IonRow>
+									<IonTitle color={"light"}>Puntos</IonTitle>
+									<IonTitle color={"light"}>Dinero</IonTitle>
+									<IonTitle color={"light"}>Posicion</IonTitle>
+								</IonRow>
 							</IonCol>
 							<IonCol size="1">
 								<IonButton
