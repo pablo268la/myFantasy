@@ -30,7 +30,9 @@ export const createUsuario: RequestHandler = async (req, res) => {
 			let usuario = new modeloUsuario(req.body);
 			usuario.contraseña = await bcrypt.hash(usuario.contraseña, 10);
 			usuario.id = UUID.v4();
+			console.log(usuario);
 			const usuarioGuardado = await usuario.save();
+			console.log(usuarioGuardado);
 			res.status(201).json(usuarioGuardado);
 		} else {
 			res.status(409).json({ message: "Usuario ya existe" });

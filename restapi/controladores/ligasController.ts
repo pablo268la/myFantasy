@@ -67,6 +67,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 	const token = req.headers.token as string;
 
 	let usuario = await modeloUsuario.findOne({ email: email });
+	console.log(usuario);
 	const verified = await verifyUser(email, token);
 
 	try {

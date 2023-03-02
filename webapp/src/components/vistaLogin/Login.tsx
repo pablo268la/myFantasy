@@ -128,6 +128,9 @@ function Login(props: LoginProps): JSX.Element {
 				contraseña: contraseña,
 				ligas: [],
 				admin: false,
+			}).catch((error) => {
+				crearToast(error.message, true);
+				return;
 			});
 		}
 
