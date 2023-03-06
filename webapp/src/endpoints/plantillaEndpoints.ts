@@ -1,5 +1,9 @@
 import { apiEndPoint } from "../helpers/constants";
-import { getToken, getUsuarioLogueado } from "../helpers/helpers";
+import {
+	getToken,
+	getUsuarioLogueado,
+	updateUsuarioInfo,
+} from "../helpers/helpers";
 import { PlantillaUsuario } from "../shared/sharedTypes";
 
 export async function getPlantilla(
@@ -54,6 +58,7 @@ export async function crearPlantillaUsuario(
 
 	switch (response.status) {
 		case 201:
+			await updateUsuarioInfo();
 			return response.json();
 		case 401:
 			throw new Error("Usuario no autorizado");
@@ -77,5 +82,16 @@ export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {
 		},
 		body: JSON.stringify(plantilla),
 	});
-	return response.json();
+
+	switch (response.status) {
+		case 200:
+			await updateUsuarioInfo();
+			return response.json();
+		case 401:
+			throw new Error("Usuario no autorizado");
+		case 500:
+			throw new Error("Error en el servidor");
+		default:
+			throw new Error("Error al crear plantilla");
+	}
 }

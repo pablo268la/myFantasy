@@ -1,13 +1,16 @@
 import {
 	IonContent,
 	IonHeader,
+	IonLabel,
 	IonList,
 	IonPage,
+	IonRow,
 	useIonAlert,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
 import { resetMercado } from "../../endpoints/mercadoEndpoints";
+import { getUsuarioLogueado, ponerPuntosAValor } from "../../helpers/helpers";
 import { Liga, Venta } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -56,6 +59,16 @@ export function VistaMercado(props: any): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
+					<IonRow>
+						<IonLabel>
+							Saldo:{" "}
+							{ponerPuntosAValor(
+								liga?.plantillasUsuarios
+									.filter((p) => p.usuario.id === getUsuarioLogueado()?.id)
+									.at(0)?.dinero as number
+							)}
+						</IonLabel>
+					</IonRow>
 					<IonList>
 						{jugadoresEnMercado.map((jugadorEnVenta) => (
 							<CartaJugadorMercado

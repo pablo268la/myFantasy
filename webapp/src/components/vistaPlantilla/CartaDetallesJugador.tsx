@@ -41,6 +41,7 @@ type CartaJugadorProps = {
 		idOut: string
 	) => void;
 	isSameUser: boolean;
+	setJugadorSeleccionadoMethod: (pj: PropiedadJugador) => void;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
@@ -53,7 +54,11 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	return propiedadJugador ? (
 		<>
 			<IonCard style={{ width: "100%" }} color="primary">
-				<IonCardContent>
+				<IonCardContent
+					onClick={() => {
+						props.setJugadorSeleccionadoMethod(propiedadJugador);
+					}}
+				>
 					<IonGrid>
 						<IonRow>
 							<IonCol
@@ -151,7 +156,9 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 									</IonLabel>
 
 									<IonButton
-										onClick={() => setShowActionSheet(true)}
+										onClick={() => {
+											setShowActionSheet(true);
+										}}
 										color="primary"
 										slot="end"
 										id="botonAcciones"
@@ -169,7 +176,10 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 										"?"
 									}
 									isOpen={showActionSheet}
-									onDidDismiss={() => setShowActionSheet(false)}
+									onDidDismiss={() => {
+										setShowActionSheet(false);
+										//setShowPuntuaciones(false);
+									}}
 									buttons={
 										props.isSameUser
 											? [

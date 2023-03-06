@@ -16,6 +16,4 @@ api.post("/ligas", LigasController.createLiga);
 
 api.post("/ligas/:idLiga", LigasController.añadirUsuarioALiga);
 
-api.post("/pujar/:idLiga", LigasController.pujar);
-
 export default api;

@@ -38,6 +38,10 @@ export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 			type: Number,
 			required: true,
 		},
+		dinero: {
+			type: Number,
+			required: true,
+		},
 	},
 	{
 		versionKey: false,
@@ -53,6 +57,7 @@ export interface IPlantillaUsuario {
 	alineacionesJornada: IAlineacionJugador[];
 	valor: number;
 	puntos: number;
+	dinero: number;
 }
 
 plantillaUsuario.index({ _id: 1 }, { unique: true });

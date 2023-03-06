@@ -215,6 +215,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			alineacionesJornada: plantilla?.alineacionesJornada as any,
 			puntos: plantilla?.puntos as number,
 			valor: plantilla?.valor as number,
+			dinero: plantilla?.dinero as number,
 		};
 
 		setPlantilla(await updatePlantillaUsuario(plantillaUsuario));
@@ -353,6 +354,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 																formacion={formacion}
 																cambiarTitulares={cambiarTitulares}
 																isSameUser={sameUsuario}
+																setJugadorSeleccionadoMethod={() => {}}
 															/>
 														</>
 													)}

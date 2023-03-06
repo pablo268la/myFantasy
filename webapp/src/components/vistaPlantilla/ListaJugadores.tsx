@@ -1,7 +1,9 @@
-import { IonList, IonRow } from "@ionic/react";
+import { IonGrid, IonList, IonRow } from "@ionic/react";
 import { PropiedadJugador } from "../../shared/sharedTypes";
 
+import { useState } from "react";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
+import { PuntuacionesJugador } from "./PuntuacionesJugador";
 import { Formacion } from "./VistaPlantilla";
 
 type ListaJugadoresProps = {
@@ -19,27 +21,68 @@ type ListaJugadoresProps = {
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
-	return (
+	const [showPuntuacionJugador, setShowPuntuacionJugador] = useState<boolean>();
+
+	const [jugadorSeleccionado, setJugadorSeleccionado] =
+		useState<PropiedadJugador>();
+
+	const setJugadorSeleccionadoMethod = (pj: PropiedadJugador) => {
+		if (pj === jugadorSeleccionado) {
+			setShowPuntuacionJugador(false);
+			setJugadorSeleccionado(undefined);
+		} else if (pj !== undefined) {
+			setJugadorSeleccionado(pj);
+			setShowPuntuacionJugador(true);
+		} else {
+			setShowPuntuacionJugador(false);
+			setJugadorSeleccionado(undefined);
+		}
+	};
+
+	return !showPuntuacionJugador ? (
 		<IonList>
 			{props.porteros
 				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
+				.map((j) =>
+					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+				)}
 			{props.defensas
 				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
+				.map((j) =>
+					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+				)}
 			{props.mediocentros
 				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
+				.map((j) =>
+					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+				)}
 			{props.delanteros
 				.filter((j) => j.jugador._id !== "empty")
-				.map((j) => crearCartaDetallesJugador(j, props))}
+				.map((j) =>
+					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+				)}
 		</IonList>
+	) : (
+		<>
+			{console.log(jugadorSeleccionado as any)}
+			<IonGrid>
+				{crearCartaDetallesJugador(
+					jugadorSeleccionado as PropiedadJugador,
+					props,
+					setJugadorSeleccionadoMethod
+				)}
+				<PuntuacionesJugador
+					jugador={jugadorSeleccionado as PropiedadJugador}
+				/>
+			</IonGrid>
+		</>
 	);
 }
 
 function crearCartaDetallesJugador(
 	j: PropiedadJugador,
-	props: ListaJugadoresProps
+	props: ListaJugadoresProps,
+	setJugadorSeleccionadoMethod: (pj: PropiedadJugador) => void
 ): JSX.Element {
 	return (
 		<IonRow key={j.jugador._id}>
@@ -53,6 +96,7 @@ function crearCartaDetallesJugador(
 				formacion={props.formacion}
 				cambiarTitulares={props.cambiarTitulares}
 				isSameUser={props.isSameUser}
+				setJugadorSeleccionadoMethod={setJugadorSeleccionadoMethod}
 			/>
 		</IonRow>
 	);

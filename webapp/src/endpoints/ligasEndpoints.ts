@@ -92,11 +92,10 @@ export async function crearLiga(
 		},
 		body: JSON.stringify({ liga: liga }),
 	});
-	console.log(response);
 
-	await updateUsuarioInfo();
 	switch (response.status) {
 		case 201:
+			await updateUsuarioInfo();
 			return response.json();
 		case 401:
 			throw new Error("No autorizado");
@@ -122,9 +121,9 @@ export async function añadirUsuarioALiga(
 		},
 	});
 
-	await updateUsuarioInfo();
 	switch (response.status) {
 		case 200:
+			await updateUsuarioInfo();
 			return response.json();
 		case 204:
 			throw new Error("Liga no encontrada");

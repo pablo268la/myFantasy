@@ -76,6 +76,7 @@ export function ListaJugadoresCambio(
 							formacion={props.formacion}
 							cambiarTitulares={props.cambiarTitulares}
 							isSameUser={props.isSameUser}
+							setJugadorSeleccionadoMethod={() => {}}
 						/>
 
 						<IonButton

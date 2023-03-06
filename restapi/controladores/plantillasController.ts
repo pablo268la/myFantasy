@@ -162,6 +162,7 @@ export async function crearPlantillaParaUsuarioYGuardar(
 			alineacionesJornada: [],
 			valor: calcularValorAlineacion(alineacionJugador),
 			puntos: 0,
+			dinero: 100000000,
 		});
 
 		const plantillaGuardada = await plantillaUsuario.save();

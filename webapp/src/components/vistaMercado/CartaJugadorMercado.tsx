@@ -15,7 +15,7 @@ import {
 	IonRow,
 	IonText,
 } from "@ionic/react";
-import { cart, close } from "ionicons/icons";
+import { cart, close, pencil } from "ionicons/icons";
 import { useState } from "react";
 import { hacerPuja } from "../../endpoints/ligasEndpoints";
 import {
@@ -83,11 +83,7 @@ export function CartaJugadorMercado(
 		}
 	}, 1000);
 
-	const hacerPujaAlBack = () => {
-		const oferatasHechas = jugadorEnVenta.ofertas.filter(
-			(oferta) => oferta.comprador.id === getUsuarioLogueado()?.id
-		);
-
+	const hacerPujaAlBack = async () => {
 		let o: Oferta = {
 			comprador: getUsuarioLogueado() as any,
 			estado: "ACTIVA",
@@ -95,9 +91,16 @@ export function CartaJugadorMercado(
 			valorOferta: puja,
 		};
 
-		hacerPuja(jugadorEnVenta, props.idLiga, o).then((res) => {
-			setJugadorEnVenta(jugadorEnVenta);
+		await hacerPuja(jugadorEnVenta, props.idLiga, o).then((res) => {
+			setJugadorEnVenta(res);
 		});
+	};
+
+	const hasPuja = () => {
+		let p = jugadorEnVenta.ofertas.filter((oferta) => {
+			return getUsuarioLogueado()?.id === oferta.comprador.id;
+		});
+		return p.length > 0;
 	};
 
 	return (
@@ -197,20 +200,44 @@ export function CartaJugadorMercado(
 										}
 										isOpen={showActionSheet}
 										onDidDismiss={() => setShowActionSheet(false)}
-										buttons={[
-											{
-												text: "Pujar",
-												icon: cart,
-												handler: () => {
-													setShowPopover(true);
-												},
-											},
-											{
-												text: "Cancelar",
-												icon: close,
-												handler: () => {},
-											},
-										]}
+										buttons={
+											hasPuja()
+												? [
+														{
+															text: "Editar pujas",
+															icon: pencil,
+															handler: () => {
+																setShowPopover(true);
+															},
+														},
+														{
+															text: "Pujar",
+															icon: cart,
+															handler: () => {
+																setShowPopover(true);
+															},
+														},
+														{
+															text: "Cancelar",
+															icon: close,
+															handler: () => {},
+														},
+												  ]
+												: [
+														{
+															text: "Pujar",
+															icon: cart,
+															handler: () => {
+																setShowPopover(true);
+															},
+														},
+														{
+															text: "Cancelar",
+															icon: close,
+															handler: () => {},
+														},
+												  ]
+										}
 									></IonActionSheet>
 									<IonPopover
 										isOpen={showPopover}
@@ -237,6 +264,7 @@ export function CartaJugadorMercado(
 													slot="end"
 													onClick={() => {
 														hacerPujaAlBack();
+														setShowPopover(false);
 													}}
 												>
 													Pujar

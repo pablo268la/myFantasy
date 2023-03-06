@@ -9,6 +9,7 @@ import apiJugadores from "./routes/rutasJugador";
 import apiLigas from "./routes/rutasLigas";
 import apiMercado from "./routes/rutasMercado";
 import apiPlantillas from "./routes/rutasPlantillas";
+import apiPuntuaciones from "./routes/rutasPuntuaciones";
 import apiSofaScore from "./routes/rutasSofascoreMarca";
 import apiUsuarios from "./routes/rutasUsuarios";
 
@@ -41,6 +42,7 @@ app.use(apiUsuarios);
 app.use(apiLigas);
 app.use(apiPlantillas);
 app.use(apiMercado);
+app.use(apiPuntuaciones);
 
 app.use(helmet.hidePoweredBy());
 
