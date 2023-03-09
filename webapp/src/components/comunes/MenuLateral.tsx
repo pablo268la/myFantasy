@@ -17,9 +17,7 @@ import {
 	people,
 	tv,
 } from "ionicons/icons";
-import {
-	getUsuarioLogueado
-} from "../../helpers/helpers";
+import { getUsuarioLogueado } from "../../helpers/helpers";
 
 export function MenuLateral(props: any): JSX.Element {
 	//const nav = useIonRouter(); onClick={() => nav.push("/home", "forward")}
@@ -47,13 +45,7 @@ export function MenuLateral(props: any): JSX.Element {
 							<IonIcon slot="start" icon={list}></IonIcon>
 							Clasificacion
 						</IonItem>
-						<IonItem
-							href={
-								"/plantilla/" +
-								
-								getUsuarioLogueado()?.id
-							}
-						>
+						<IonItem href={"/plantilla/" + getUsuarioLogueado()?.id}>
 							<IonIcon slot="start" icon={people}></IonIcon>
 							Plantilla
 						</IonItem>
@@ -61,7 +53,7 @@ export function MenuLateral(props: any): JSX.Element {
 							<IonIcon slot="start" icon={cart}></IonIcon>
 							Mercado
 						</IonItem>
-						<IonItem>
+						<IonItem href={"/resultados"}>
 							<IonIcon slot="start" icon={football}></IonIcon>
 							Resultados
 						</IonItem>

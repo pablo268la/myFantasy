@@ -28,6 +28,7 @@ import Login from "./components/vistaLogin/Login";
 import { VistaMercado } from "./components/vistaMercado/VistaMercado";
 import { PlantillaStart } from "./components/vistaPlantilla/PlantillaStart";
 import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
+import { VistaResultados } from "./components/vistaResultados/VistaResultados";
 import { getToken, getUsuarioLogueado } from "./helpers/helpers";
 import "./theme/variables.css";
 
@@ -72,6 +73,9 @@ function App(): JSX.Element {
 					</Route>
 					<Route exact path="/mercado">
 						<VistaMercado />
+					</Route>
+					<Route exact path="/resultados">
+						<VistaResultados />
 					</Route>
 				</IonRouterOutlet>
 			</IonReactRouter>
