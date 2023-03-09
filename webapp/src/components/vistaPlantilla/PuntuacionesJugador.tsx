@@ -5,7 +5,7 @@ import {
 	IonItem,
 	IonLabel,
 	IonList,
-	IonRow
+	IonRow,
 } from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
@@ -84,7 +84,6 @@ export function PuntuacionesJugador(
 												)}
 											</IonItem>
 
-										
 											<IonRow style={{ justifyContent: "center" }}>
 												<IonLabel>J{p.semana}</IonLabel>
 											</IonRow>
@@ -183,6 +182,40 @@ export function PuntuacionesJugador(
 												p.puntuacionDefensiva.erroresParaDisparo,
 												"Errores para disparo"
 											)}
+											{crearItem(
+												p.puntuacionDefensiva.golesEnPropia,
+												"Goles en propia"
+											)}
+											<IonItem>Puntuacion fisica</IonItem>
+											{crearItem(
+												p.puntuacionFisico.faltasCometidas,
+												"Faltas cometidas"
+											)}
+											{crearItem(
+												p.puntuacionFisico.faltasRecibidas,
+												"Faltas recibidas"
+											)}
+											{crearItem(
+												p.puntuacionFisico.duelosGanados,
+												"Duelos ganados"
+											)}
+											{crearItem(
+												p.puntuacionFisico.duelosPerdidos,
+												"Duelos perdidos"
+											)}
+											{crearItem(
+												p.puntuacionFisico.posesionPerdida,
+												"Posesion perdida"
+											)}
+											{crearItem(
+												p.puntuacionFisico.fuerasDeJuego,
+												"Fueras de juego"
+											)}
+
+											<IonItem>Puntuacion portero</IonItem>
+											{crearItem(p.puntuacionPortero.paradas, "Paradas")}
+											{crearItem(p.puntuacionPortero.despejes, "Despejes")}
+											{crearItem(p.puntuacionPortero.salidas, "Salidas")}
 										</IonContent>
 									</SwiperSlide>
 								</>
