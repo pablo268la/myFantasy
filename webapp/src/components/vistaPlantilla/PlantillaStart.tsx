@@ -156,9 +156,7 @@ export function PlantillaStart(): JSX.Element {
 					</SwiperSlide>
 				</Swiper>
 				<IonRow style={{ justifyContent: "center" }}>
-					<IonRouterLink
-						href={"plantilla/" + idLiga + "/" + getUsuarioLogueado()?.id}
-					>
+					<IonRouterLink href={"plantilla/" + getUsuarioLogueado()?.id}>
 						<IonButton>Continuar</IonButton>
 					</IonRouterLink>
 				</IonRow>

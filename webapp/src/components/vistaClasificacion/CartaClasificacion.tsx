@@ -35,9 +35,7 @@ export function CartaClasificaion(props: CartaClasificacionProps): JSX.Element {
 
 	return (
 		<IonCard>
-			<IonRouterLink
-				href={"/plantilla/" + plantilla.idLiga + "/" + plantilla.usuario.id}
-			>
+			<IonRouterLink href={"/plantilla/" + plantilla.usuario.id}>
 				<IonCardContent
 					style={{
 						background: urlBackground2,

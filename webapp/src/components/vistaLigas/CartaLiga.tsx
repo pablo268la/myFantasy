@@ -14,7 +14,7 @@ import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
 import {
 	getUsuarioLogueado,
-	setLigaSeleccionada,
+	setLocalLigaSeleccionada,
 	urlBackground2,
 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
@@ -42,8 +42,8 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 						<IonRow>
 							<IonCol
 								onClick={() => {
-									setLigaSeleccionada(liga._id as string);
-									window.location.href = "/clasificacion/" + liga._id;
+									setLocalLigaSeleccionada(liga._id as string);
+									window.location.href = "/clasificacion";
 								}}
 								style={{ justifyContent: "space-around" }}
 							>

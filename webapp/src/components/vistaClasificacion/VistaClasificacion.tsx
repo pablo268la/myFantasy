@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
-import { getUsuarioLogueado } from "../../helpers/helpers";
+import { getLocalLigaSeleccionada, getUsuarioLogueado } from "../../helpers/helpers";
 import { Liga, PlantillaUsuario, Usuario } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -24,7 +24,7 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
 
 	const [idLiga, setIdLiga] = useState<string>(
-		window.location.pathname.split("/")[2]
+		getLocalLigaSeleccionada() as string
 	);
 	const [usuario, setUsuario] = useState<Usuario>(
 		getUsuarioLogueado() as Usuario

@@ -68,7 +68,7 @@ export async function setUsuarioAndRequestToken(
 			await getUsuario(email)
 				.then((usuario) => {
 					localStorage.setItem("usuario", JSON.stringify(usuario));
-					setLigaSeleccionada(usuario.ligas[0]);
+					setLocalLigaSeleccionada(usuario.ligas[0]);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -96,10 +96,10 @@ export function getUsuarioLogueado(): Usuario | undefined {
 	return u;
 }
 
-export function setLigaSeleccionada(liga: string) {
+export function setLocalLigaSeleccionada(liga: string) {
 	localStorage.setItem("ligaSeleccionada", liga);
 }
 
-export function getLigaSeleccionada(): string {
+export function getLocalLigaSeleccionada(): string {
 	return localStorage.getItem("ligaSeleccionada") as string;
 }

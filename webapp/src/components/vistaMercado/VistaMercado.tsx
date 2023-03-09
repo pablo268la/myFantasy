@@ -10,7 +10,11 @@ import {
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
 import { resetMercado } from "../../endpoints/mercadoEndpoints";
-import { getUsuarioLogueado, ponerPuntosAValor } from "../../helpers/helpers";
+import {
+	getLocalLigaSeleccionada,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+} from "../../helpers/helpers";
 import { Liga, Venta } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -25,7 +29,7 @@ export function VistaMercado(props: any): JSX.Element {
 	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
 	useEffect(() => {
-		const idLiga = window.location.pathname.split("/")[2];
+		const idLiga = getLocalLigaSeleccionada() as string;
 		getLiga(idLiga)
 			.then((liga) => {
 				setLiga(liga);

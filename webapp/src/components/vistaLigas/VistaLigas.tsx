@@ -27,7 +27,10 @@ import {
 	getLigasUsuario,
 	getRandomLiga,
 } from "../../endpoints/ligasEndpoints";
-import { urlBackground2 } from "../../helpers/helpers";
+import {
+	setLocalLigaSeleccionada,
+	urlBackground2,
+} from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -92,6 +95,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 							setIdLigaParaUnir(e);
 							setShowLoading(true);
 							setUnidoALiga(true);
+							setLocalLigaSeleccionada(e);
 							navigate.push("/plantilla/starts/" + e, "forward");
 						})
 						.catch((error) => {

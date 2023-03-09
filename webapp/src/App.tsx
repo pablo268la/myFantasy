@@ -58,19 +58,19 @@ function App(): JSX.Element {
 							// TODO - Unirse con enlace
 						}
 					</Route>
-					<Route exact path="/plantilla/:idLiga/:idUsuario">
+					<Route exact path="/plantilla/:idUsuario">
 						<VistaPlantilla />
 					</Route>
 					<Route exact path="/plantilla/starts/:idLiga">
 						<PlantillaStart />
 					</Route>
-					<Route exact path="/clasificacion/:idLiga">
+					<Route exact path="/clasificacion">
 						<VistaClasificacion />
 					</Route>
 					<Route exact path="/admin">
 						<Admin />
 					</Route>
-					<Route exact path="/mercado/:idLiga">
+					<Route exact path="/mercado">
 						<VistaMercado />
 					</Route>
 				</IonRouterOutlet>

@@ -18,7 +18,10 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
-import { getUsuarioLogueado } from "../../helpers/helpers";
+import {
+	getLocalLigaSeleccionada,
+	getUsuarioLogueado,
+} from "../../helpers/helpers";
 import {
 	AlineacionJugador,
 	Jugador,
@@ -62,10 +65,10 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [idLiga, setIdLiga] = useState<string>(
-		window.location.pathname.split("/")[2]
+		getLocalLigaSeleccionada() as string
 	);
 	const [idPlantillaUsuario, setIdPlantillaUsuario] = useState<string>(
-		window.location.pathname.split("/")[3]
+		window.location.pathname.split("/")[2]
 	);
 
 	const [sameUsuario, setSameUsuario] = useState<boolean>(
@@ -79,41 +82,39 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
-		await getPlantilla(idLiga, window.location.pathname.split("/")[3]).then(
-			async (res) => {
-				setPlantilla(res);
-				setFormacion({
-					portero: 1,
-					defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
-					medio: Number(res.alineacionJugador.formacion.split("-")[1]),
-					delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
-				});
-				setValueFormacion(res.alineacionJugador.formacion);
+		await getPlantilla(idLiga, idPlantillaUsuario).then(async (res) => {
+			setPlantilla(res);
+			setFormacion({
+				portero: 1,
+				defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
+				medio: Number(res.alineacionJugador.formacion.split("-")[1]),
+				delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
+			});
+			setValueFormacion(res.alineacionJugador.formacion);
 
-				let ju: PropiedadJugador[] = [];
-				let po: PropiedadJugador[] = res.alineacionJugador.porteros;
-				let de: PropiedadJugador[] = res.alineacionJugador.defensas;
-				let me: PropiedadJugador[] = res.alineacionJugador.medios;
-				let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
+			let ju: PropiedadJugador[] = [];
+			let po: PropiedadJugador[] = res.alineacionJugador.porteros;
+			let de: PropiedadJugador[] = res.alineacionJugador.defensas;
+			let me: PropiedadJugador[] = res.alineacionJugador.medios;
+			let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
 
-				po.sort(ordenarListaJugadoresPorTitular());
-				setPorteros(po);
-				de.sort(ordenarListaJugadoresPorTitular());
-				setDefensas(de);
-				me.sort(ordenarListaJugadoresPorTitular());
-				setMediocentros(me);
-				dl.sort(ordenarListaJugadoresPorTitular());
-				setDelanteros(dl);
+			po.sort(ordenarListaJugadoresPorTitular());
+			setPorteros(po);
+			de.sort(ordenarListaJugadoresPorTitular());
+			setDefensas(de);
+			me.sort(ordenarListaJugadoresPorTitular());
+			setMediocentros(me);
+			dl.sort(ordenarListaJugadoresPorTitular());
+			setDelanteros(dl);
 
-				ju.push(...po);
-				ju.push(...de);
-				ju.push(...me);
-				ju.push(...dl);
+			ju.push(...po);
+			ju.push(...de);
+			ju.push(...me);
+			ju.push(...dl);
 
-				setJugadores(ju);
-				await new Promise((f) => setTimeout(f, 2000));
-			}
-		);
+			setJugadores(ju);
+			await new Promise((f) => setTimeout(f, 2000));
+		});
 		setLoading(false);
 	};
 
