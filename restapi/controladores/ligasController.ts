@@ -1,8 +1,12 @@
 import { RequestHandler } from "express";
 import { modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
-import { modeloPropiedadJugador } from "../model/propiedadJugador";
+import {
+	IPropiedadJugador,
+	modeloPropiedadJugador,
+} from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
+import { modeloVenta } from "../model/venta";
 import {
 	crearPlantillaParaUsuarioYGuardar,
 	shuffle,
@@ -93,6 +97,11 @@ export const createLiga: RequestHandler = async (req, res) => {
 						admin: false,
 					}),
 					titular: false,
+					venta: new modeloVenta({
+						enVenta: false,
+						ofertas: [],
+						fechaLimite: new Date().toISOString(),
+					}),
 				});
 				liga.propiedadJugadores.push(propiedad);
 			});
@@ -101,22 +110,15 @@ export const createLiga: RequestHandler = async (req, res) => {
 			fechaLimite.setDate(fechaLimite.getDate() + 1);
 
 			let i = 0;
-			shuffle(liga.propiedadJugadores).map((propiedad) => {
+			shuffle(liga.propiedadJugadores).map((propiedad: IPropiedadJugador) => {
 				if (i < 10) {
-					propiedad.usuario = new modeloUsuario({
-						id: "-2",
-						nombre: "liga",
-						usuario: "liga",
-						email: "liga",
-						contraseña: "liga",
-						ligas: [],
-						admin: false,
-					});
-					liga.mercado.push({
-						propiedadJugador: propiedad,
+					propiedad.venta = new modeloVenta({
+						enVenta: true,
 						ofertas: [],
 						fechaLimite: fechaLimite.toISOString(),
 					});
+
+					liga.mercado.push(propiedad);
 				}
 				i++;
 				return propiedad;

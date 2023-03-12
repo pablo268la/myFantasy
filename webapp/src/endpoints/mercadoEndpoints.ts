@@ -1,6 +1,6 @@
 import { apiEndPoint } from "../helpers/constants";
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
-import { Liga, Oferta, PropiedadJugador, Venta } from "../shared/sharedTypes";
+import { Liga, Oferta, PropiedadJugador } from "../shared/sharedTypes";
 
 export async function resetMercado(liga: Liga): Promise<Liga> {
 	let response = await fetch(apiEndPoint + "/mercado/resetMercado/" + liga._id);
@@ -20,10 +20,10 @@ export async function resetMercado(liga: Liga): Promise<Liga> {
 }
 
 export async function hacerPuja(
-	jugadorEnVenta: Venta,
+	jugadorEnVenta: PropiedadJugador,
 	idLiga: string,
 	oferta: Oferta
-): Promise<Venta> {
+): Promise<PropiedadJugador> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
@@ -54,7 +54,7 @@ export async function hacerPuja(
 export async function añadirJugadorAMercado(
 	propiedadJugador: PropiedadJugador,
 	idLiga: string
-): Promise<Venta> {
+): Promise<PropiedadJugador> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 

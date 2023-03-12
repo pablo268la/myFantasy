@@ -30,6 +30,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.defensas.length < props.formacion.defensa) {
@@ -37,6 +42,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.mediocentros.length < props.formacion.medio) {
@@ -44,6 +54,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.delanteros.length < props.formacion.delantero) {
@@ -51,6 +66,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 	}

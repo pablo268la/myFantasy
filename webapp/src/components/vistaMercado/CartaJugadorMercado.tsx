@@ -24,10 +24,10 @@ import {
 	ponerPuntosAValor,
 	urlBackground,
 } from "../../helpers/helpers";
-import { Oferta, Venta } from "../../shared/sharedTypes";
+import { Oferta, PropiedadJugador } from "../../shared/sharedTypes";
 
 type CartaJugadorMercadoProps = {
-	jugadorEnVenta: Venta;
+	propiedadJugadorEnVenta: PropiedadJugador;
 	idLiga: string;
 	resetMercado: () => void;
 	reseteandoMercado: boolean;
@@ -38,19 +38,20 @@ export function CartaJugadorMercado(
 ): JSX.Element {
 	const [tiempoRestante, setTiempoRestante] = useState<string>("");
 
-	const [jugadorEnVenta, setJugadorEnVenta] = useState<Venta>(
-		props.jugadorEnVenta
-	);
+	const [propiedadJugadorEnVenta, setPropiedadJugadorEnVenta] =
+		useState<PropiedadJugador>(props.propiedadJugadorEnVenta);
 
 	const [puja, setPuja] = useState<number>(
-		props.jugadorEnVenta.propiedadJugador.jugador.valor
+		props.propiedadJugadorEnVenta.jugador.valor
 	);
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
 	const [showPopover, setShowPopover] = useState(false);
 
 	var x = setInterval(function () {
-		var countDownDate = new Date(jugadorEnVenta.fechaLimite).getTime();
+		var countDownDate = new Date(
+			propiedadJugadorEnVenta.venta.fechaLimite
+		).getTime();
 		// Get today's date and time
 		var now = new Date().getTime();
 
@@ -91,13 +92,13 @@ export function CartaJugadorMercado(
 			valorOferta: puja,
 		};
 
-		await hacerPuja(jugadorEnVenta, props.idLiga, o).then((res) => {
-			setJugadorEnVenta(res);
+		await hacerPuja(propiedadJugadorEnVenta, props.idLiga, o).then((res) => {
+			setPropiedadJugadorEnVenta(res);
 		});
 	};
 
 	const hasPuja = () => {
-		let p = jugadorEnVenta.ofertas.filter((oferta) => {
+		let p = propiedadJugadorEnVenta.venta.ofertas.filter((oferta) => {
 			return getUsuarioLogueado()?.id === oferta.comprador.id;
 		});
 		return p.length > 0;
@@ -128,7 +129,7 @@ export function CartaJugadorMercado(
 														marginLeft: -8,
 													}}
 												>
-													<IonImg src={jugadorEnVenta.propiedadJugador.jugador.foto} />
+													<IonImg src={propiedadJugadorEnVenta.jugador.foto} />
 												</div>
 											</IonCol>
 											<IonCol>
@@ -136,7 +137,7 @@ export function CartaJugadorMercado(
 													<IonImg
 														src={
 															"https://api.sofascore.app/api/v1/team/" +
-															jugadorEnVenta.propiedadJugador.jugador.equipo._id +
+															propiedadJugadorEnVenta.jugador.equipo._id +
 															"/image"
 														}
 													/>
@@ -151,36 +152,38 @@ export function CartaJugadorMercado(
 									<IonBadge
 										style={{
 											backgroundColor: getColorBadge(
-												jugadorEnVenta.propiedadJugador.jugador.posicion
+												propiedadJugadorEnVenta.jugador.posicion
 											),
 										}}
 									>
-										{jugadorEnVenta.propiedadJugador.jugador.posicion
+										{propiedadJugadorEnVenta.jugador.posicion
 											.substring(0, 3)
 											.toUpperCase()}
 									</IonBadge>
 									<IonLabel style={{ marginLeft: 10, color: "light" }}>
-										{jugadorEnVenta.propiedadJugador.jugador.nombre}
+										{propiedadJugadorEnVenta.jugador.nombre}
 									</IonLabel>
 									<IonLabel slot="end">PTS:</IonLabel>
 									<IonText slot="end">
-										{jugadorEnVenta.propiedadJugador.jugador.puntos}
+										{propiedadJugadorEnVenta.jugador.puntos}
 									</IonText>
 								</IonItem>
 								<IonRow>
 									<IonLabel>
-										{ponerPuntosAValor(jugadorEnVenta.propiedadJugador.jugador.valor)}
+										{ponerPuntosAValor(propiedadJugadorEnVenta.jugador.valor)}
 									</IonLabel>
 								</IonRow>
 								<IonRow>
 									<IonLabel>
-										Vendedor: {jugadorEnVenta.propiedadJugador.usuario.usuario}
+										Vendedor: {propiedadJugadorEnVenta.usuario.usuario}
 									</IonLabel>
 								</IonRow>
 								<IonRow style={{ justifyContent: "space-between" }}>
 									<IonLabel>Tiempo restante: {tiempoRestante}</IonLabel>
-									{jugadorEnVenta.ofertas.length > 0 ? (
-										<IonLabel>Pujas: {jugadorEnVenta.ofertas.length}</IonLabel>
+									{propiedadJugadorEnVenta.venta.ofertas.length > 0 ? (
+										<IonLabel>
+											Pujas: {propiedadJugadorEnVenta.venta.ofertas.length}
+										</IonLabel>
 									) : (
 										<></>
 									)}
@@ -195,7 +198,7 @@ export function CartaJugadorMercado(
 									<IonActionSheet
 										header={
 											"¿Que quieres hacer con " +
-											jugadorEnVenta.propiedadJugador.jugador.nombre +
+											propiedadJugadorEnVenta.jugador.nombre +
 											"?"
 										}
 										isOpen={showActionSheet}

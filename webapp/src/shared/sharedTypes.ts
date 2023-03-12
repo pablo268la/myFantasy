@@ -59,7 +59,7 @@ export type Liga = {
 	propiedadJugadores: PropiedadJugador[];
 	enlaceInvitacion: string;
 	maxJugadores: number;
-	mercado: Venta[];
+	mercado: PropiedadJugador[];
 	configuracion: string;
 };
 
@@ -67,6 +67,7 @@ export type PropiedadJugador = {
 	jugador: Jugador;
 	usuario: Usuario;
 	titular: boolean;
+	venta: Venta;
 };
 
 export type Oferta = {
@@ -77,7 +78,7 @@ export type Oferta = {
 };
 
 export type Venta = {
-	propiedadJugador: PropiedadJugador;
+	enVenta: boolean;
 	ofertas: Oferta[];
 	fechaLimite: string;
 };

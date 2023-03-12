@@ -1,15 +1,12 @@
 import { model, Schema } from "mongoose";
 import { IOferta, oferta } from "./oferta";
-import {
-	IPropiedadJugador,
-	propiedadJugador
-} from "./propiedadJugador";
 
 export const venta = new Schema<IVenta>(
 	{
-		propiedadJugador: {
-			type: propiedadJugador,
+		enVenta: {
+			type: Boolean,
 			required: true,
+			default: false,
 		},
 		ofertas: {
 			type: [oferta],
@@ -28,7 +25,7 @@ export const venta = new Schema<IVenta>(
 );
 
 export interface IVenta {
-	propiedadJugador: IPropiedadJugador;
+	enVenta: boolean;
 	ofertas: IOferta[];
 	fechaLimite: string;
 }

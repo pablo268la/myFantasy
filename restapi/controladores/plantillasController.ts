@@ -12,6 +12,7 @@ import {
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
+import { modeloVenta } from "../model/venta";
 import { verifyUser } from "./usuariosController";
 
 export const getPlantilla: RequestHandler = async (req, res) => {
@@ -216,6 +217,11 @@ function crearListaPropiedadJugador(jugadores: IJugador[], usuario: any) {
 			jugador: j,
 			usuario: usuario,
 			titular: false,
+			venta: new modeloVenta({
+				enVenta: false,
+				ofertas: [],
+				fechaLimite: new Date().toISOString(),
+			}),
 		});
 	});
 	return posPlantilla;

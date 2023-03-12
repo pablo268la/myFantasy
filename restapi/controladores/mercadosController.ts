@@ -3,7 +3,7 @@ import { modeloLiga } from "../model/liga";
 import { IOferta } from "../model/oferta";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
-import { IVenta } from "../model/venta";
+import { modeloVenta } from "../model/venta";
 import { shuffle } from "./plantillasController";
 import { verifyUser } from "./usuariosController";
 
@@ -13,19 +13,23 @@ export const resetmercado: RequestHandler = async (req, res) => {
 
 		if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
-		let out = liga.mercado.filter((venta) => {
-			if (Date.parse(venta.fechaLimite) <= new Date().getTime()) {
-				return venta;
+		let mercadoOut = liga.mercado.filter((propiedadJugador) => {
+			if (
+				Date.parse(propiedadJugador.venta.fechaLimite) <= new Date().getTime()
+			) {
+				return propiedadJugador;
 			}
 		});
 
-		if (out.length === 0) {
+		if (mercadoOut.length === 0) {
 			return res.status(200).json(liga);
 		}
 
-		let ins = liga.mercado.filter((venta) => {
-			if (Date.parse(venta.fechaLimite) > new Date().getTime()) {
-				return venta;
+		let mercadoIns = liga.mercado.filter((propiedadJugador) => {
+			if (
+				Date.parse(propiedadJugador.venta.fechaLimite) > new Date().getTime()
+			) {
+				return propiedadJugador;
 			}
 		});
 
@@ -36,9 +40,9 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			if (
 				//Quitar check, valen todas las ventas
 				propiedad.usuario.id === "-2" &&
-				out.filter(
-					(venta) =>
-						venta.propiedadJugador.jugador._id === propiedad.jugador._id
+				mercadoOut.filter(
+					(propiedadJugador) =>
+						propiedadJugador.jugador._id === propiedad.jugador._id
 				).length > 0
 			) {
 				//TODO - Valorar ofertas
@@ -56,7 +60,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		});
 
 		nuevasPropiedades = shuffle(nuevasPropiedades).map((propiedad) => {
-			if (propiedad.usuario.id === "-1" && ins.length < 10) {
+			if (propiedad.usuario.id === "-1" && mercadoIns.length < 10) {
 				propiedad.usuario = new modeloUsuario({
 					id: "-2",
 					nombre: "liga",
@@ -66,19 +70,21 @@ export const resetmercado: RequestHandler = async (req, res) => {
 					ligas: [],
 					admin: false,
 				});
-				ins.push({
-					propiedadJugador: propiedad,
+				propiedad.venta = new modeloVenta({
+					enVenta: true,
 					ofertas: [],
 					fechaLimite: new Date(
 						new Date().getTime() + 24 * 60 * 60 * 1000
 					).toISOString(),
 				});
+
+				mercadoIns.push(propiedad);
 			}
 			return propiedad;
 		});
 
 		liga.propiedadJugadores = nuevasPropiedades;
-		liga.mercado = ins;
+		liga.mercado = mercadoIns;
 
 		await liga.save();
 		res.status(200).json(liga);
@@ -107,10 +113,10 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 
 			let j;
 
-			mercado.map((jugadorEnVenta) => {
-				if (jugadorEnVenta.propiedadJugador.jugador._id === idJugadorEnVenta) {
-					if (jugadorEnVenta.ofertas.length !== 0) {
-						jugadorEnVenta.ofertas.map((oferta) => {
+			mercado.map((propiedadJugadorMercado) => {
+				if (propiedadJugadorMercado.jugador._id === idJugadorEnVenta) {
+					if (propiedadJugadorMercado.venta.ofertas.length !== 0) {
+						propiedadJugadorMercado.venta.ofertas.map((oferta) => {
 							if (oferta.comprador.id === usuario.id) {
 								return ofertaHecha;
 							} else {
@@ -118,13 +124,13 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 							}
 						});
 					} else {
-						jugadorEnVenta.ofertas.push(ofertaHecha);
+						propiedadJugadorMercado.venta.ofertas.push(ofertaHecha);
 					}
 
-					j = jugadorEnVenta;
-					return jugadorEnVenta;
+					j = propiedadJugadorMercado;
+					return propiedadJugadorMercado;
 				} else {
-					return jugadorEnVenta;
+					return propiedadJugadorMercado;
 				}
 			});
 
@@ -154,19 +160,19 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 
 			let mercado = liga.mercado;
 
-			let jugadorEnVenta: IVenta = {
-				propiedadJugador: propiedadJugador,
+			propiedadJugador.venta = new modeloVenta({
+				enVenta: true,
 				ofertas: [],
 				fechaLimite: new Date(
 					new Date().getTime() + 24 * 60 * 60 * 1000
 				).toISOString(),
-			};
+			});
 
-			mercado.push(jugadorEnVenta);
+			mercado.push(propiedadJugador);
 			liga.mercado = mercado;
 
 			await liga.save();
-			return res.status(200).json(jugadorEnVenta);
+			return res.status(200).json(propiedadJugador);
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}

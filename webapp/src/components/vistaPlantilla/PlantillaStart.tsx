@@ -136,6 +136,11 @@ export function PlantillaStart(): JSX.Element {
 												jugador: jugador,
 												titular: false,
 												usuario: getUsuarioLogueado() as any,
+												venta: {
+													enVenta: false,
+													ofertas: [],
+													fechaLimite: "",
+												},
 											}}
 											posicion={jugador.posicion}
 											setJugadorPulsado={() => {}}

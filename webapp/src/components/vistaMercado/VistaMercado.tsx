@@ -15,7 +15,7 @@ import {
 	getUsuarioLogueado,
 	ponerPuntosAValor,
 } from "../../helpers/helpers";
-import { Liga, Venta } from "../../shared/sharedTypes";
+import { Liga, PropiedadJugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { CartaJugadorMercado } from "./CartaJugadorMercado";
@@ -24,7 +24,9 @@ export function VistaMercado(props: any): JSX.Element {
 	const [alert] = useIonAlert();
 
 	const [liga, setLiga] = useState<Liga>();
-	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<Venta[]>([]);
+	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<
+		PropiedadJugador[]
+	>([]);
 
 	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
@@ -76,8 +78,8 @@ export function VistaMercado(props: any): JSX.Element {
 					<IonList>
 						{jugadoresEnMercado.map((jugadorEnVenta) => (
 							<CartaJugadorMercado
-								key={jugadorEnVenta.propiedadJugador.jugador._id}
-								jugadorEnVenta={jugadorEnVenta}
+								key={jugadorEnVenta.jugador._id}
+								propiedadJugadorEnVenta={jugadorEnVenta}
 								idLiga={liga?._id as string}
 								resetMercado={resetMercadoFromAPI}
 								reseteandoMercado={reseteandoMercado}

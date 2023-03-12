@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 import { IJugador, jugador } from "./jugador";
 import { IUsuario, usuario } from "./usuario";
+import { IVenta, venta } from "./venta";
 
 export const propiedadJugador = new Schema<IPropiedadJugador>(
 	{
@@ -20,6 +21,10 @@ export const propiedadJugador = new Schema<IPropiedadJugador>(
 			required: true,
 			default: false,
 		},
+		venta: {
+			type: venta,
+			required: false,
+		},
 	},
 	{
 		versionKey: false,
@@ -31,6 +36,7 @@ export interface IPropiedadJugador {
 	jugador: IJugador;
 	usuario: IUsuario;
 	titular: boolean;
+	venta: IVenta;
 }
 
 export const modeloPropiedadJugador = model<IPropiedadJugador>(
