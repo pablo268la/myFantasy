@@ -1,10 +1,10 @@
 import {
 	IonContent,
 	IonHeader,
+	IonItem,
 	IonLabel,
 	IonList,
 	IonPage,
-	IonRow,
 	useIonAlert,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -63,7 +63,7 @@ export function VistaMercado(props: any): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
-					<IonRow>
+					<IonItem color="primary">
 						<IonLabel>
 							Saldo:{" "}
 							{ponerPuntosAValor(
@@ -72,11 +72,11 @@ export function VistaMercado(props: any): JSX.Element {
 									.at(0)?.dinero as number
 							)}
 						</IonLabel>
-					</IonRow>
+					</IonItem>
 					<IonList>
 						{jugadoresEnMercado.map((jugadorEnVenta) => (
 							<CartaJugadorMercado
-								key={jugadorEnVenta.jugador.jugador._id}
+								key={jugadorEnVenta.propiedadJugador.jugador._id}
 								jugadorEnVenta={jugadorEnVenta}
 								idLiga={liga?._id as string}
 								resetMercado={resetMercadoFromAPI}

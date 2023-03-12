@@ -77,7 +77,7 @@ export type Oferta = {
 };
 
 export type Venta = {
-	jugador: PropiedadJugador;
+	propiedadJugador: PropiedadJugador;
 	ofertas: Oferta[];
 	fechaLimite: string;
 };

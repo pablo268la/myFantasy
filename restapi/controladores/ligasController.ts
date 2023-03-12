@@ -113,7 +113,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 						admin: false,
 					});
 					liga.mercado.push({
-						jugador: propiedad,
+						propiedadJugador: propiedad,
 						ofertas: [],
 						fechaLimite: fechaLimite.toISOString(),
 					});

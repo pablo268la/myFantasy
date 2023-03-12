@@ -96,8 +96,8 @@ export function getUsuarioLogueado(): Usuario | undefined {
 	return u;
 }
 
-export function setLocalLigaSeleccionada(liga: string) {
-	localStorage.setItem("ligaSeleccionada", liga);
+export function setLocalLigaSeleccionada(idLiga: string) {
+	localStorage.setItem("ligaSeleccionada", idLiga);
 }
 
 export function getLocalLigaSeleccionada(): string {

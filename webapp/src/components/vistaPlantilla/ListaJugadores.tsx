@@ -64,7 +64,6 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 		</IonList>
 	) : (
 		<>
-			{console.log(jugadorSeleccionado as any)}
 			<IonGrid>
 				{crearCartaDetallesJugador(
 					jugadorSeleccionado as PropiedadJugador,

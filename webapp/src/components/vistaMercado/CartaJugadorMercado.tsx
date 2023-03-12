@@ -17,7 +17,7 @@ import {
 } from "@ionic/react";
 import { cart, close, pencil } from "ionicons/icons";
 import { useState } from "react";
-import { hacerPuja } from "../../endpoints/ligasEndpoints";
+import { hacerPuja } from "../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
 	getUsuarioLogueado,
@@ -43,7 +43,7 @@ export function CartaJugadorMercado(
 	);
 
 	const [puja, setPuja] = useState<number>(
-		props.jugadorEnVenta.jugador.jugador.valor
+		props.jugadorEnVenta.propiedadJugador.jugador.valor
 	);
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
@@ -128,7 +128,7 @@ export function CartaJugadorMercado(
 														marginLeft: -8,
 													}}
 												>
-													<IonImg src={jugadorEnVenta.jugador.jugador.foto} />
+													<IonImg src={jugadorEnVenta.propiedadJugador.jugador.foto} />
 												</div>
 											</IonCol>
 											<IonCol>
@@ -136,7 +136,7 @@ export function CartaJugadorMercado(
 													<IonImg
 														src={
 															"https://api.sofascore.app/api/v1/team/" +
-															jugadorEnVenta.jugador.jugador.equipo._id +
+															jugadorEnVenta.propiedadJugador.jugador.equipo._id +
 															"/image"
 														}
 													/>
@@ -151,30 +151,30 @@ export function CartaJugadorMercado(
 									<IonBadge
 										style={{
 											backgroundColor: getColorBadge(
-												jugadorEnVenta.jugador.jugador.posicion
+												jugadorEnVenta.propiedadJugador.jugador.posicion
 											),
 										}}
 									>
-										{jugadorEnVenta.jugador.jugador.posicion
+										{jugadorEnVenta.propiedadJugador.jugador.posicion
 											.substring(0, 3)
 											.toUpperCase()}
 									</IonBadge>
 									<IonLabel style={{ marginLeft: 10, color: "light" }}>
-										{jugadorEnVenta.jugador.jugador.nombre}
+										{jugadorEnVenta.propiedadJugador.jugador.nombre}
 									</IonLabel>
 									<IonLabel slot="end">PTS:</IonLabel>
 									<IonText slot="end">
-										{jugadorEnVenta.jugador.jugador.puntos}
+										{jugadorEnVenta.propiedadJugador.jugador.puntos}
 									</IonText>
 								</IonItem>
 								<IonRow>
 									<IonLabel>
-										{ponerPuntosAValor(jugadorEnVenta.jugador.jugador.valor)}
+										{ponerPuntosAValor(jugadorEnVenta.propiedadJugador.jugador.valor)}
 									</IonLabel>
 								</IonRow>
 								<IonRow>
 									<IonLabel>
-										Vendedor: {jugadorEnVenta.jugador.usuario.usuario}
+										Vendedor: {jugadorEnVenta.propiedadJugador.usuario.usuario}
 									</IonLabel>
 								</IonRow>
 								<IonRow style={{ justifyContent: "space-between" }}>
@@ -195,7 +195,7 @@ export function CartaJugadorMercado(
 									<IonActionSheet
 										header={
 											"¿Que quieres hacer con " +
-											jugadorEnVenta.jugador.jugador.nombre +
+											jugadorEnVenta.propiedadJugador.jugador.nombre +
 											"?"
 										}
 										isOpen={showActionSheet}

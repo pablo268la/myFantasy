@@ -5,9 +5,7 @@ import {
 	getUsuarioLogueado,
 	updateUsuarioInfo,
 } from "../helpers/helpers";
-import { Liga, Oferta, PlantillaUsuario, Venta } from "../shared/sharedTypes";
-
-
+import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
 
 export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
@@ -183,38 +181,6 @@ export async function checkJoinLiga(idLiga: string): Promise<boolean> {
 			throw new Error("Usuario no autorizado");
 		case 409:
 			return false;
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
-	}
-}
-
-export async function hacerPuja(
-	jugadorEnVenta: Venta,
-	idLiga: string,
-	oferta: Oferta
-): Promise<Venta> {
-	const email = getUsuarioLogueado()?.email as string;
-	const token = getToken();
-
-	let response = await fetch(apiEndPoint + "/pujar/" + idLiga, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			email: email,
-			token: token,
-		},
-		body: JSON.stringify({ jugadorEnVenta: jugadorEnVenta, oferta: oferta }),
-	});
-
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 409:
-			throw new Error("No pertenece a la liga");
 		case 500:
 			throw new Error("Error interno");
 		default:

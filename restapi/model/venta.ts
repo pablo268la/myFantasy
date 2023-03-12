@@ -7,7 +7,7 @@ import {
 
 export const venta = new Schema<IVenta>(
 	{
-		jugador: {
+		propiedadJugador: {
 			type: propiedadJugador,
 			required: true,
 		},
@@ -28,7 +28,7 @@ export const venta = new Schema<IVenta>(
 );
 
 export interface IVenta {
-	jugador: IPropiedadJugador;
+	propiedadJugador: IPropiedadJugador;
 	ofertas: IOferta[];
 	fechaLimite: string;
 }

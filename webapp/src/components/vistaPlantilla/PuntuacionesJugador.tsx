@@ -129,22 +129,26 @@ export function PuntuacionesJugador(
 											{crearItem(
 												p.idJugador,
 												p.puntuacionBasica.valoracion,
-												"Valoracion"
+												"Valoracion",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionBasica.goles,
-												"Goles"
+												"Goles",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionBasica.asistencias,
-												"Asistencias"
+												"Asistencias",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionBasica.minutos,
-												"Minutos"
+												"Minutos",
+												p.semana
 											)}
 
 											<IonItem>Puntuacion ofensiva</IonItem>
@@ -152,28 +156,33 @@ export function PuntuacionesJugador(
 											{crearItem(
 												p.idJugador,
 												p.puntuacionOfensiva.tirosPuerta,
-												"Tiros a puerta"
+												"Tiros a puerta",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionOfensiva.tirosFuera,
-												"Tiros fuera"
+												"Tiros fuera",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionOfensiva.tirosBloqueados,
-												"Tiros bloqueados"
+												"Tiros bloqueados",
+												p.semana
 											)}
 
 											{crearItem(
 												p.idJugador,
 												p.puntuacionOfensiva.regatesCompletados,
-												"Regates completados"
+												"Regates completados",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionOfensiva.ocasionClaraFallada,
-												"Ocasiones falladas"
+												"Ocasiones falladas",
+												p.semana
 											)}
 
 											<IonItem> Puntuacion posesiva</IonItem>
@@ -181,103 +190,122 @@ export function PuntuacionesJugador(
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPosesion.pasesClave,
-												"Pases clave"
+												"Pases clave",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPosesion.centrosCompletados,
-												"Centros completados"
+												"Centros completados",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPosesion.grandesOcasiones,
-												"Grandes ocasiones creadas"
+												"Grandes ocasiones creadas",
+												p.semana
 											)}
 
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPosesion.pasesTotales,
-												"Pases totales"
+												"Pases totales",
+												p.semana
 											)}
 
 											<IonItem>Puntuacion defensiva</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.despejes,
-												"Despejes"
+												"Despejes",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.entradas,
-												"Entradas"
+												"Entradas",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.intercepciones,
-												"Intercepciones"
+												"Intercepciones",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.tirosBloqueados,
-												"Tiros bloqueados"
+												"Tiros bloqueados",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.erroresParaDisparo,
-												"Errores para disparo"
+												"Errores para disparo",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.golesEnPropia,
-												"Goles en propia"
+												"Goles en propia",
+												p.semana
 											)}
 											<IonItem>Puntuacion fisica</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.faltasCometidas,
-												"Faltas cometidas"
+												"Faltas cometidas",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.faltasRecibidas,
-												"Faltas recibidas"
+												"Faltas recibidas",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.duelosGanados,
-												"Duelos ganados"
+												"Duelos ganados",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.duelosPerdidos,
-												"Duelos perdidos"
+												"Duelos perdidos",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.posesionPerdida,
-												"Posesion perdida"
+												"Posesion perdida",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.fuerasDeJuego,
-												"Fueras de juego"
+												"Fueras de juego",
+												p.semana
 											)}
 
 											<IonItem>Puntuacion portero</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPortero.paradas,
-												"Paradas"
+												"Paradas",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPortero.despejes,
-												"Despejes"
+												"Despejes",
+												p.semana
 											)}
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPortero.salidas,
-												"Salidas"
+												"Salidas",
+												p.semana
 											)}
 										</IonContent>
 									</SwiperSlide>
@@ -294,10 +322,11 @@ export function PuntuacionesJugador(
 export function crearItem(
 	idJugador: string,
 	puntuacionTupple: PuntuacionTupple,
-	label: string
+	label: string,
+	semana: number
 ) {
 	return (
-		<IonItem key={idJugador + "-" + label} lines="none">
+		<IonItem key={Math.random()} lines="none">
 			<IonCol size="2">{puntuacionTupple.estadistica}</IonCol>
 			<IonCol size="8">
 				<IonLabel>{label}</IonLabel>

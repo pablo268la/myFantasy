@@ -82,39 +82,44 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
-		await getPlantilla(idLiga, idPlantillaUsuario).then(async (res) => {
-			setPlantilla(res);
-			setFormacion({
-				portero: 1,
-				defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
-				medio: Number(res.alineacionJugador.formacion.split("-")[1]),
-				delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
+		await getPlantilla(idLiga, idPlantillaUsuario)
+			.then(async (res) => {
+				setPlantilla(res);
+				setFormacion({
+					portero: 1,
+					defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
+					medio: Number(res.alineacionJugador.formacion.split("-")[1]),
+					delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
+				});
+				setValueFormacion(res.alineacionJugador.formacion);
+
+				let ju: PropiedadJugador[] = [];
+				let po: PropiedadJugador[] = res.alineacionJugador.porteros;
+				let de: PropiedadJugador[] = res.alineacionJugador.defensas;
+				let me: PropiedadJugador[] = res.alineacionJugador.medios;
+				let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
+
+				po.sort(ordenarListaJugadoresPorTitular());
+				setPorteros(po);
+				de.sort(ordenarListaJugadoresPorTitular());
+				setDefensas(de);
+				me.sort(ordenarListaJugadoresPorTitular());
+				setMediocentros(me);
+				dl.sort(ordenarListaJugadoresPorTitular());
+				setDelanteros(dl);
+
+				ju.push(...po);
+				ju.push(...de);
+				ju.push(...me);
+				ju.push(...dl);
+
+				setJugadores(ju);
+				await new Promise((f) => setTimeout(f, 2000));
+			})
+			.catch((err) => {
+				console.log(err);
+				nav.push("/ligas", "forward");
 			});
-			setValueFormacion(res.alineacionJugador.formacion);
-
-			let ju: PropiedadJugador[] = [];
-			let po: PropiedadJugador[] = res.alineacionJugador.porteros;
-			let de: PropiedadJugador[] = res.alineacionJugador.defensas;
-			let me: PropiedadJugador[] = res.alineacionJugador.medios;
-			let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
-
-			po.sort(ordenarListaJugadoresPorTitular());
-			setPorteros(po);
-			de.sort(ordenarListaJugadoresPorTitular());
-			setDefensas(de);
-			me.sort(ordenarListaJugadoresPorTitular());
-			setMediocentros(me);
-			dl.sort(ordenarListaJugadoresPorTitular());
-			setDelanteros(dl);
-
-			ju.push(...po);
-			ju.push(...de);
-			ju.push(...me);
-			ju.push(...dl);
-
-			setJugadores(ju);
-			await new Promise((f) => setTimeout(f, 2000));
-		});
 		setLoading(false);
 	};
 

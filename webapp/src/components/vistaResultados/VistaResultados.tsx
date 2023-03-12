@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
-import { Redirect, Route } from "react-router";
+import { Route } from "react-router";
 
 import { library, playCircle, radio, search } from "ionicons/icons";
 import { Home } from "../Home";
@@ -18,7 +18,6 @@ export function VistaResultados(): JSX.Element {
 		<IonReactRouter>
 			<IonTabs>
 				<IonRouterOutlet>
-					<Redirect exact path="/" to="/home" />
 					{/*
           Use the render method to reduce the number of renders your component will have due to a route change.
 

@@ -15,10 +15,12 @@ import {
 import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
+import { añadirJugadorAMercado } from "../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
 	getColorEstado,
 	getIconoEstado,
+	getLocalLigaSeleccionada,
 	ponerPuntosAValor,
 	urlBackground,
 } from "../../helpers/helpers";
@@ -55,8 +57,13 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 		<>
 			<IonCard style={{ width: "100%" }} color="primary">
 				<IonCardContent
-					onClick={() => {
-						props.setJugadorSeleccionadoMethod(propiedadJugador);
+					onClick={(e) => {
+						let a = e.target as HTMLIonButtonElement;
+						if (a.type === "button") {
+							setShowActionSheet(true);
+						} else {
+							props.setJugadorSeleccionadoMethod(propiedadJugador);
+						}
 					}}
 				>
 					<IonGrid>
@@ -186,7 +193,12 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 													{
 														text: "Añadir al mercado",
 														icon: cart,
-														handler: () => {},
+														handler: async () => {
+															await añadirJugadorAMercado(
+																propiedadJugador,
+																getLocalLigaSeleccionada()
+															);
+														},
 													},
 													{
 														text: "Vender inmediatamente",
