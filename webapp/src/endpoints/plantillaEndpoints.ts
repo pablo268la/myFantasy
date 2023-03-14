@@ -69,7 +69,10 @@ export async function crearPlantillaUsuario(
 	}
 }
 
-export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {
+export async function updatePlantillaUsuario(
+	plantilla: PlantillaUsuario,
+	idLiga: string
+): Promise<PlantillaUsuario> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
@@ -80,7 +83,7 @@ export async function updatePlantillaUsuario(plantilla: PlantillaUsuario) {
 			email: email,
 			token: token,
 		},
-		body: JSON.stringify(plantilla),
+		body: JSON.stringify({ plantilla: plantilla, idLiga: idLiga }),
 	});
 
 	switch (response.status) {

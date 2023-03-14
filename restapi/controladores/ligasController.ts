@@ -35,7 +35,6 @@ export const getLiga: RequestHandler = async (req, res) => {
 
 			return res.status(200).json(ligaEncontrada);
 		} else {
-			console.log("Usuario no autorizado");
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 	} catch (error) {
@@ -70,7 +69,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 	const token = req.headers.token as string;
 
 	let usuario = await modeloUsuario.findOne({ email: email });
-	console.log(usuario);
+
 	const verified = await verifyUser(email, token);
 
 	try {

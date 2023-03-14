@@ -212,7 +212,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			dinero: plantilla?.dinero as number,
 		};
 
-		setPlantilla(await updatePlantillaUsuario(plantillaUsuario));
+		setPlantilla(await updatePlantillaUsuario(plantillaUsuario, idLiga));
 		setCambioAlineacion(false);
 	};
 

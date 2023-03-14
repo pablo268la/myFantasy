@@ -8,7 +8,7 @@ import { IJugador, modeloJugador } from "../model/jugador";
 import { ILiga, modeloLiga } from "../model/liga";
 import {
 	IPlantillaUsuario,
-	modeloPlantillaUsuario,
+	modeloPlantillaUsuario
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
@@ -26,27 +26,28 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 			const idLiga = req.params.idLiga;
 			const idUsuario = req.params.idUsuario;
 
-			const p = (await modeloPlantillaUsuario.findOne({
-				idLiga: idLiga,
-				"usuario.id": idUsuario,
-			})) as IPlantillaUsuario;
+			const liga = await modeloLiga.findById(idLiga);
+
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			const p = liga.plantillasUsuarios
+				.filter((plantilla) => {
+					return plantilla.usuario.id === idUsuario;
+				})
+				.pop();
+
+			if (!p)
+				return res.status(404).json({ message: "Plantilla no encontrada" });
 
 			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.porteros);
 			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.defensas);
 			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.medios);
 			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.delanteros);
 			p.valor = calcularValorAlineacion(p.alineacionJugador);
-			//TODO: Checkear cambio de posiciones
+			// TODO: Checkear cambio de posiciones
 
-			const p2 = await modeloPlantillaUsuario.findOneAndUpdate(
-				{ _id: p._id },
-				p,
-				{
-					new: true,
-				}
-			);
-
-			res.json(p2);
+			await liga.save();
+			return res.status(200).json(p);
 		} else {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
@@ -89,14 +90,23 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 
 	try {
 		if (usuario && verified) {
-			const plantillaParaActualizar = req.body as IPlantillaUsuario;
-			const plantillaActualizada =
-				await modeloPlantillaUsuario.findByIdAndUpdate(
-					plantillaParaActualizar._id,
-					plantillaParaActualizar,
-					{ new: true }
-				);
-			return res.status(200).json(plantillaActualizada);
+			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
+			const idLiga = req.body.idLiga;
+
+			const liga = await modeloLiga.findById(idLiga);
+
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			liga.plantillasUsuarios = liga.plantillasUsuarios.map(
+				(plantillaUsuario) => {
+					if (plantillaUsuario._id === plantillaParaActualizar._id)
+						return plantillaParaActualizar;
+					else return plantillaUsuario;
+				}
+			);
+
+			await liga.save();
+			return res.status(200).json(plantillaParaActualizar);
 		} else {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
@@ -166,9 +176,7 @@ export async function crearPlantillaParaUsuarioYGuardar(
 			dinero: 100000000,
 		});
 
-		const plantillaGuardada = await plantillaUsuario.save();
-
-		liga.plantillasUsuarios.push(plantillaGuardada);
+		liga.plantillasUsuarios.push(plantillaUsuario);
 
 		intercambiarPropiedades(porPlantilla, liga);
 		intercambiarPropiedades(defPlantilla, liga);
@@ -180,7 +188,7 @@ export async function crearPlantillaParaUsuarioYGuardar(
 			await usuario.save();
 		}
 		await liga.save();
-		return plantillaGuardada;
+		return plantillaUsuario;
 	}
 }
 
