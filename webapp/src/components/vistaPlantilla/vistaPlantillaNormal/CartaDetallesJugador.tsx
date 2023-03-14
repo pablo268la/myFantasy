@@ -46,9 +46,7 @@ type CartaJugadorProps = {
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
-	const [propiedadJugador, setPropiedadJugador] = useState<
-		PropiedadJugador | undefined
-	>(props.propiedadJugador);
+	const propiedadJugador = props.propiedadJugador;
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
 
@@ -184,7 +182,6 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 									isOpen={showActionSheet}
 									onDidDismiss={() => {
 										setShowActionSheet(false);
-										//setShowPuntuaciones(false);
 									}}
 									buttons={
 										props.isSameUser

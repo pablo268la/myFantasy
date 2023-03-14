@@ -15,11 +15,11 @@ export const getPuntuacionesJugadores: RequestHandler = async (req, res) => {
 
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
-		let puntuaciones = await modelPuntuacionJugador.find({
+		const puntuaciones = await modelPuntuacionJugador.find({
 			idJugador: req.params.idJugador,
 		});
 
-		let result: IPuntuacionJugador[] = [];
+		const result: IPuntuacionJugador[] = [];
 		for (let i = 1; i < 39; i++) {
 			result.push(createPuntuacionJugadorVacia(req.params.idJugador, i));
 		}

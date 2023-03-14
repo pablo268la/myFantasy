@@ -13,10 +13,7 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
-import {
-	getLocalLigaSeleccionada,
-	getUsuarioLogueado,
-} from "../../helpers/helpers";
+import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,
 	Jugador,
@@ -41,7 +38,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const nav = useIonRouter();
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const idLiga: string = getLocalLigaSeleccionada() as string;
-	const sameUsuario: boolean = idPlantillaUsuario === getUsuarioLogueado()?.id;
 
 	const [segment, setSegment] = useState<"plantilla" | "alineacion">(
 		"plantilla"

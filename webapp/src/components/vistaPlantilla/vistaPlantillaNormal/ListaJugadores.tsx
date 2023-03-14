@@ -27,10 +27,7 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 		useState<PropiedadJugador>();
 
 	const setJugadorSeleccionadoMethod = (pj: PropiedadJugador) => {
-		if (pj === jugadorSeleccionado) {
-			setShowPuntuacionJugador(false);
-			setJugadorSeleccionado(undefined);
-		} else if (pj !== undefined) {
+		if (pj !== undefined && jugadorSeleccionado === undefined) {
 			setJugadorSeleccionado(pj);
 			setShowPuntuacionJugador(true);
 		} else {

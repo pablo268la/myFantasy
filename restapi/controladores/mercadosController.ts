@@ -12,7 +12,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 
 		if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
-		let newMercado = liga.mercado.filter((propiedadJugador) => {
+		const newMercado = liga.mercado.filter((propiedadJugador) => {
 			if (
 				Date.parse(propiedadJugador.venta.fechaLimite) > new Date().getTime()
 			) {
@@ -20,7 +20,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			}
 		});
 
-		let fromLaLiga = liga.mercado.filter((propiedadJugador) => {
+		const fromLaLiga = liga.mercado.filter((propiedadJugador) => {
 			return propiedadJugador.usuario.id === "-1";
 		});
 
@@ -65,7 +65,7 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 			const liga = await modeloLiga.findById(idLiga);
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
-			let mercado = liga.mercado;
+			const mercado = liga.mercado;
 
 			let j;
 
@@ -114,7 +114,7 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 			const liga = await modeloLiga.findById(idLiga);
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
-			let mercado = liga.mercado;
+			const mercado = liga.mercado;
 
 			propiedadJugador.venta = new modeloVenta({
 				enVenta: true,

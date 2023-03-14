@@ -119,15 +119,15 @@ export function PuntuacionesJugador(
 									<SwiperSlide key={p.semana - 1}>
 										<IonContent>
 											<IonRow style={{ justifyContent: "center" }}>
-												<IonItem key={Math.random()} lines="none">
+												<IonItem key={-1} lines="none">
 													<IonLabel>{props.jugador.jugador.nombre}</IonLabel>
 												</IonItem>
 											</IonRow>
-											<IonItem key={Math.random()}>
+											<IonItem key={-2}>
 												<IonLabel>Puntos {p.puntos}</IonLabel>
 												<IonLabel slot="end">Jornada {p.semana}</IonLabel>
 											</IonItem>
-											<IonItem key={Math.random()}>Puntuacion básica</IonItem>
+											<IonItem key={-3}>Puntuacion básica</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionBasica.valoracion,
@@ -153,7 +153,7 @@ export function PuntuacionesJugador(
 												p.semana
 											)}
 
-											<IonItem key={Math.random()}>Puntuacion ofensiva</IonItem>
+											<IonItem key={-4}>Puntuacion ofensiva</IonItem>
 
 											{crearItem(
 												p.idJugador,
@@ -187,10 +187,7 @@ export function PuntuacionesJugador(
 												p.semana
 											)}
 
-											<IonItem key={Math.random()}>
-												{" "}
-												Puntuacion posesiva
-											</IonItem>
+											<IonItem key={-5}>Puntuacion posesiva</IonItem>
 
 											{crearItem(
 												p.idJugador,
@@ -218,9 +215,7 @@ export function PuntuacionesJugador(
 												p.semana
 											)}
 
-											<IonItem key={Math.random()}>
-												Puntuacion defensiva
-											</IonItem>
+											<IonItem key={-6}>Puntuacion defensiva</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionDefensiva.despejes,
@@ -257,7 +252,7 @@ export function PuntuacionesJugador(
 												"Goles en propia",
 												p.semana
 											)}
-											<IonItem key={Math.random()}>Puntuacion fisica</IonItem>
+											<IonItem key={-7}>Puntuacion fisica</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionFisico.faltasCometidas,
@@ -295,7 +290,7 @@ export function PuntuacionesJugador(
 												p.semana
 											)}
 
-											<IonItem key={Math.random()}>Puntuacion portero</IonItem>
+											<IonItem key={-8}>Puntuacion portero</IonItem>
 											{crearItem(
 												p.idJugador,
 												p.puntuacionPortero.paradas,
@@ -333,7 +328,10 @@ export function crearItem(
 	semana: number
 ) {
 	return (
-		<IonItem key={Math.random()} lines="none">
+		<IonItem
+			key={idJugador + "-" + label + "-" + semana + Math.random()}
+			lines="none"
+		>
 			<IonCol size="2">{puntuacionTupple.estadistica}</IonCol>
 			<IonCol size="8">
 				<IonLabel>{label}</IonLabel>

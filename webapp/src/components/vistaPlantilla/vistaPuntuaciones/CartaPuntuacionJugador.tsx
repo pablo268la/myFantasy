@@ -121,9 +121,7 @@ export function CartaPuntuacionJugador(
 								</IonItem>
 								<IonItem lines="none" color="tertiary">
 									<IonBadge
-										color={getColorEstado(
-											propiedadJugador.jugador.estado as string
-										)}
+										color={getColorEstado(propiedadJugador.jugador.estado)}
 									>
 										{getIconoEstado(propiedadJugador.jugador.estado)}
 									</IonBadge>

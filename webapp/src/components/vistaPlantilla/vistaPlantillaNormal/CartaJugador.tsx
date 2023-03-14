@@ -1,17 +1,12 @@
 import { IonBadge, IonCard, IonCol, IonImg } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
-import styled from "styled-components";
 import {
 	getColorEstado,
 	getIconoEstado,
 	urlBackground,
 } from "../../../helpers/helpers";
 import { PropiedadJugador } from "../../../shared/sharedTypes";
-
-const StyledIonCard = styled(IonCard)`
-	--background: transparent;
-`;
 
 type CartaJugadorProps = {
 	jugador?: PropiedadJugador;

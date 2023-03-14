@@ -31,7 +31,7 @@ export function VistaMercado(props: any): JSX.Element {
 	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
 	useEffect(() => {
-		const idLiga = getLocalLigaSeleccionada() as string;
+		const idLiga = getLocalLigaSeleccionada();
 		getLiga(idLiga)
 			.then((liga) => {
 				setLiga(liga);

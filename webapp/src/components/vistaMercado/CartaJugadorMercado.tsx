@@ -49,7 +49,7 @@ export function CartaJugadorMercado(
 	const [showPopover, setShowPopover] = useState(false);
 
 	var x = setInterval(function () {
-		var countDownDate = new Date(
+		const countDownDate = new Date(
 			propiedadJugadorEnVenta.venta.fechaLimite
 		).getTime();
 		// Get today's date and time

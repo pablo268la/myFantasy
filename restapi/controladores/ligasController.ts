@@ -108,9 +108,9 @@ export const createLiga: RequestHandler = async (req, res) => {
 			let fechaLimite: Date = new Date();
 			fechaLimite.setDate(fechaLimite.getDate() + 1);
 
-			let i = 0;
-			shuffle(liga.propiedadJugadores).map((propiedad: IPropiedadJugador) => {
-				if (i < 10) {
+			shuffle(liga.propiedadJugadores)
+				.slice(0, 10)
+				.forEach((propiedad: IPropiedadJugador) => {
 					propiedad.venta = new modeloVenta({
 						enVenta: true,
 						ofertas: [],
@@ -118,10 +118,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 					});
 
 					liga.mercado.push(propiedad);
-				}
-				i++;
-				return propiedad;
-			});
+				});
 
 			const ligaGuardada = await liga.save();
 

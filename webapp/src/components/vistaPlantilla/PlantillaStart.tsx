@@ -34,7 +34,6 @@ const MyGrid = styled(IonGrid)`
 SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
-	const [idLiga, setIdLiga] = useState<string>("");
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
 	async function getJugadores() {
@@ -44,8 +43,6 @@ export function PlantillaStart(): JSX.Element {
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
 		);
-
-		setIdLiga(plantilla.idLiga);
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			const jugador = await getJugadorById(
