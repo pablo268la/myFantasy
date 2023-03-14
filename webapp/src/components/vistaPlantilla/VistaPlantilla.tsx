@@ -37,7 +37,7 @@ type PlantillaProps = {};
 function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const nav = useIonRouter();
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
-	const idLiga: string = getLocalLigaSeleccionada() as string;
+	const idLiga: string = getLocalLigaSeleccionada();
 
 	const [segment, setSegment] = useState<"plantilla" | "alineacion">(
 		"plantilla"
