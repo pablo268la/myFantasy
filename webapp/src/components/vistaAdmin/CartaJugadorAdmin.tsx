@@ -56,7 +56,9 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 
 	const updateJugadorAndReset = async () => {
 		resetValores();
+		setEdited(false);
 		setJugador(await updateJugador(jugador));
+	
 	};
 
 	const [showPopover, setShowPopover] = useState(false);

@@ -25,7 +25,7 @@ import styled from "styled-components";
 import SwiperCore, { Mousewheel, Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-import CartaJugador from "./CartaJugador";
+import CartaJugador from "./vistaPlantillaNormal/CartaJugador";
 
 const MyGrid = styled(IonGrid)`
 	--ion-grid-columns: 12;
@@ -34,7 +34,6 @@ const MyGrid = styled(IonGrid)`
 SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
-	const [idLiga, setIdLiga] = useState<string>("");
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
 	async function getJugadores() {
@@ -44,8 +43,6 @@ export function PlantillaStart(): JSX.Element {
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
 		);
-
-		setIdLiga(plantilla.idLiga);
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			const jugador = await getJugadorById(
@@ -136,6 +133,11 @@ export function PlantillaStart(): JSX.Element {
 												jugador: jugador,
 												titular: false,
 												usuario: getUsuarioLogueado() as any,
+												venta: {
+													enVenta: false,
+													ofertas: [],
+													fechaLimite: "",
+												},
 											}}
 											posicion={jugador.posicion}
 											setJugadorPulsado={() => {}}
@@ -156,9 +158,7 @@ export function PlantillaStart(): JSX.Element {
 					</SwiperSlide>
 				</Swiper>
 				<IonRow style={{ justifyContent: "center" }}>
-					<IonRouterLink
-						href={"plantilla/" + idLiga + "/" + getUsuarioLogueado()?.id}
-					>
+					<IonRouterLink href={"plantilla/" + getUsuarioLogueado()?.id}>
 						<IonButton>Continuar</IonButton>
 					</IonRouterLink>
 				</IonRow>

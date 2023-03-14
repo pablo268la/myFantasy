@@ -1,9 +1,12 @@
 import { RequestHandler } from "express";
 import { modeloJugador } from "../model/jugador";
 import { modeloLiga } from "../model/liga";
-import { IOferta } from "../model/oferta";
-import { modeloPropiedadJugador } from "../model/propiedadJugador";
+import {
+	IPropiedadJugador,
+	modeloPropiedadJugador,
+} from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
+import { modeloVenta } from "../model/venta";
 import {
 	crearPlantillaParaUsuarioYGuardar,
 	shuffle,
@@ -32,7 +35,6 @@ export const getLiga: RequestHandler = async (req, res) => {
 
 			return res.status(200).json(ligaEncontrada);
 		} else {
-			console.log("Usuario no autorizado");
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 	} catch (error) {
@@ -67,7 +69,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 	const token = req.headers.token as string;
 
 	let usuario = await modeloUsuario.findOne({ email: email });
-	console.log(usuario);
+
 	const verified = await verifyUser(email, token);
 
 	try {
@@ -94,6 +96,11 @@ export const createLiga: RequestHandler = async (req, res) => {
 						admin: false,
 					}),
 					titular: false,
+					venta: new modeloVenta({
+						enVenta: false,
+						ofertas: [],
+						fechaLimite: new Date().toISOString(),
+					}),
 				});
 				liga.propiedadJugadores.push(propiedad);
 			});
@@ -101,27 +108,17 @@ export const createLiga: RequestHandler = async (req, res) => {
 			let fechaLimite: Date = new Date();
 			fechaLimite.setDate(fechaLimite.getDate() + 1);
 
-			let i = 0;
-			shuffle(liga.propiedadJugadores).map((propiedad) => {
-				if (i < 10) {
-					propiedad.usuario = new modeloUsuario({
-						id: "-2",
-						nombre: "liga",
-						usuario: "liga",
-						email: "liga",
-						contraseña: "liga",
-						ligas: [],
-						admin: false,
-					});
-					liga.mercado.push({
-						jugador: propiedad,
+			shuffle(liga.propiedadJugadores)
+				.slice(0, 10)
+				.forEach((propiedad: IPropiedadJugador) => {
+					propiedad.venta = new modeloVenta({
+						enVenta: true,
 						ofertas: [],
 						fechaLimite: fechaLimite.toISOString(),
 					});
-				}
-				i++;
-				return propiedad;
-			});
+
+					liga.mercado.push(propiedad);
+				});
 
 			const ligaGuardada = await liga.save();
 
@@ -230,52 +227,5 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		return res.status(500).json(error);
-	}
-};
-
-export const pujar: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-	const idLiga = req.params.idLiga;
-	const ofertaHecha: IOferta = req.body.oferta;
-	const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.jugador._id;
-
-	const usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
-	try {
-		if (usuario && verified) {
-			const liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
-
-			let mercado = liga.mercado;
-
-			mercado.map((jugadorEnVenta) => {
-				if (jugadorEnVenta.jugador.jugador._id === idJugadorEnVenta) {
-					if (jugadorEnVenta.ofertas.length !== 0) {
-						jugadorEnVenta.ofertas.map((oferta) => {
-							if (oferta.comprador.id === usuario.id) {
-								return ofertaHecha;
-							} else {
-								return oferta;
-							}
-						});
-					} else {
-						jugadorEnVenta.ofertas.push(ofertaHecha);
-					}
-
-					return jugadorEnVenta;
-				} else {
-					return jugadorEnVenta;
-				}
-			});
-
-			await liga.save();
-			return res.status(200).json({ message: "Puja realizada" });
-		} else {
-			res.status(401).json({ message: "Usuario no autenticado" });
-		}
-	} catch (err) {
-		res.status(500).json(err);
 	}
 };

@@ -21,6 +21,7 @@ import { settings } from "ionicons/icons";
 import { useState } from "react";
 import { crearLiga } from "../../endpoints/ligasEndpoints";
 import { crearPlantillaUsuario } from "../../endpoints/plantillaEndpoints";
+import { setLocalLigaSeleccionada } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -60,6 +61,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 				vaciarFormulario();
 				await crearPlantillaUsuario(response._id as string)
 					.then(() => {
+						setLocalLigaSeleccionada(response._id as string);
 						navigate.push("/plantilla/starts/" + response._id, "forward");
 						setShowLoading(false);
 					})

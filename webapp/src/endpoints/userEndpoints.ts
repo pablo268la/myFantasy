@@ -1,4 +1,5 @@
 import { apiEndPoint } from "../helpers/constants";
+import { updateUsuarioInfo } from "../helpers/helpers";
 import { Usuario } from "../shared/sharedTypes";
 
 export async function getUsuario(email: string): Promise<Usuario> {
@@ -15,6 +16,7 @@ export async function createUsuario(usuario: Usuario): Promise<Usuario> {
 
 	switch (response.status) {
 		case 201:
+			await updateUsuarioInfo();
 			return response.json();
 		case 409:
 			throw new Error("El usuario ya existe");

@@ -1,6 +1,8 @@
 import {
 	IonContent,
 	IonHeader,
+	IonItem,
+	IonLabel,
 	IonList,
 	IonPage,
 	useIonAlert,
@@ -8,7 +10,12 @@ import {
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
 import { resetMercado } from "../../endpoints/mercadoEndpoints";
-import { Liga, Venta } from "../../shared/sharedTypes";
+import {
+	getLocalLigaSeleccionada,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+} from "../../helpers/helpers";
+import { Liga, PropiedadJugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { CartaJugadorMercado } from "./CartaJugadorMercado";
@@ -17,12 +24,14 @@ export function VistaMercado(props: any): JSX.Element {
 	const [alert] = useIonAlert();
 
 	const [liga, setLiga] = useState<Liga>();
-	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<Venta[]>([]);
+	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<
+		PropiedadJugador[]
+	>([]);
 
 	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
 	useEffect(() => {
-		const idLiga = window.location.pathname.split("/")[2];
+		const idLiga = getLocalLigaSeleccionada();
 		getLiga(idLiga)
 			.then((liga) => {
 				setLiga(liga);
@@ -56,11 +65,21 @@ export function VistaMercado(props: any): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonContent>
+					<IonItem color="primary">
+						<IonLabel>
+							Saldo:{" "}
+							{ponerPuntosAValor(
+								liga?.plantillasUsuarios
+									.filter((p) => p.usuario.id === getUsuarioLogueado()?.id)
+									.at(0)?.dinero as number
+							)}
+						</IonLabel>
+					</IonItem>
 					<IonList>
 						{jugadoresEnMercado.map((jugadorEnVenta) => (
 							<CartaJugadorMercado
-								key={jugadorEnVenta.jugador.jugador._id}
-								jugadorEnVenta={jugadorEnVenta}
+								key={jugadorEnVenta.jugador._id}
+								propiedadJugadorEnVenta={jugadorEnVenta}
 								idLiga={liga?._id as string}
 								resetMercado={resetMercadoFromAPI}
 								reseteandoMercado={reseteandoMercado}

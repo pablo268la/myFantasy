@@ -28,6 +28,7 @@ import Login from "./components/vistaLogin/Login";
 import { VistaMercado } from "./components/vistaMercado/VistaMercado";
 import { PlantillaStart } from "./components/vistaPlantilla/PlantillaStart";
 import VistaPlantilla from "./components/vistaPlantilla/VistaPlantilla";
+import { VistaResultados } from "./components/vistaResultados/VistaResultados";
 import { getToken, getUsuarioLogueado } from "./helpers/helpers";
 import "./theme/variables.css";
 
@@ -58,20 +59,23 @@ function App(): JSX.Element {
 							// TODO - Unirse con enlace
 						}
 					</Route>
-					<Route exact path="/plantilla/:idLiga/:idUsuario">
+					<Route exact path="/plantilla/:idUsuario">
 						<VistaPlantilla />
 					</Route>
 					<Route exact path="/plantilla/starts/:idLiga">
 						<PlantillaStart />
 					</Route>
-					<Route exact path="/clasificacion/:idLiga">
+					<Route exact path="/clasificacion">
 						<VistaClasificacion />
 					</Route>
 					<Route exact path="/admin">
 						<Admin />
 					</Route>
-					<Route exact path="/mercado/:idLiga">
+					<Route exact path="/mercado">
 						<VistaMercado />
+					</Route>
+					<Route exact path="/resultados">
+						<VistaResultados />
 					</Route>
 				</IonRouterOutlet>
 			</IonReactRouter>

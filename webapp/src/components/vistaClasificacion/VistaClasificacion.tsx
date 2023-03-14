@@ -11,8 +11,10 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
-import { getUsuarioLogueado } from "../../helpers/helpers";
-import { Liga, PlantillaUsuario, Usuario } from "../../shared/sharedTypes";
+import {
+	getLocalLigaSeleccionada
+} from "../../helpers/helpers";
+import { Liga, PlantillaUsuario } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { CartaClasificaion } from "./CartaClasificacion";
@@ -23,16 +25,10 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 	const [alert] = useIonAlert();
 	const [loading, setLoading] = useState<boolean>(true);
 
-	const [idLiga, setIdLiga] = useState<string>(
-		window.location.pathname.split("/")[2]
-	);
-	const [usuario, setUsuario] = useState<Usuario>(
-		getUsuarioLogueado() as Usuario
-	);
 	const [liga, setLiga] = useState<Liga>();
 
 	const getLigaFromAPI = async () => {
-		await getLiga(idLiga)
+		await getLiga(getLocalLigaSeleccionada())
 			.then((liga) => {
 				setLiga(liga);
 				setLoading(false);

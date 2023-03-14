@@ -66,9 +66,10 @@ export async function setUsuarioAndRequestToken(
 	await requestToken(email, contraseña)
 		.then(async (token) => {
 			await getUsuario(email)
-				.then((usuario) =>
-					localStorage.setItem("usuario", JSON.stringify(usuario))
-				)
+				.then((usuario) => {
+					localStorage.setItem("usuario", JSON.stringify(usuario));
+					setLocalLigaSeleccionada(usuario.ligas[0]);
+				})
 				.catch((error) => {
 					console.log(error);
 					throw error;
@@ -93,4 +94,12 @@ export function getToken(): string {
 export function getUsuarioLogueado(): Usuario | undefined {
 	let u = JSON.parse(localStorage.getItem("usuario") as string);
 	return u;
+}
+
+export function setLocalLigaSeleccionada(idLiga: string) {
+	localStorage.setItem("ligaSeleccionada", idLiga);
+}
+
+export function getLocalLigaSeleccionada(): string {
+	return localStorage.getItem("ligaSeleccionada") as string;
 }

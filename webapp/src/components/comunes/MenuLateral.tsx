@@ -41,26 +41,19 @@ export function MenuLateral(props: any): JSX.Element {
 							<IonIcon slot="start" icon={gameController}></IonIcon>
 							Mis ligas
 						</IonItem>
-						<IonItem href={"/clasificacion/" + getUsuarioLogueado()?.ligas[0]}>
+						<IonItem href={"/clasificacion"}>
 							<IonIcon slot="start" icon={list}></IonIcon>
 							Clasificacion
 						</IonItem>
-						<IonItem
-							href={
-								"/plantilla/" +
-								getUsuarioLogueado()?.ligas[0] +
-								"/" +
-								getUsuarioLogueado()?.id
-							}
-						>
+						<IonItem href={"/plantilla/" + getUsuarioLogueado()?.id}>
 							<IonIcon slot="start" icon={people}></IonIcon>
 							Plantilla
 						</IonItem>
-						<IonItem href={"/mercado/" + getUsuarioLogueado()?.ligas[0]}>
+						<IonItem href={"/mercado"}>
 							<IonIcon slot="start" icon={cart}></IonIcon>
 							Mercado
 						</IonItem>
-						<IonItem>
+						<IonItem href={"/resultados"}>
 							<IonIcon slot="start" icon={football}></IonIcon>
 							Resultados
 						</IonItem>

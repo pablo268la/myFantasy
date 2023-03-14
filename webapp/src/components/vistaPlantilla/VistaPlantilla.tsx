@@ -1,15 +1,10 @@
 import {
-	IonButton,
-	IonCol,
 	IonContent,
-	IonGrid,
 	IonHeader,
-	IonList,
 	IonPage,
 	IonProgressBar,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
+	IonSegment,
+	IonSegmentButton,
 	useIonRouter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -18,7 +13,7 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
-import { getUsuarioLogueado } from "../../helpers/helpers";
+import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,
 	Jugador,
@@ -27,9 +22,8 @@ import {
 } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
-import { Alineacion } from "./Alineacion";
-import { CartaDetallesJugador } from "./CartaDetallesJugador";
-import { ListaJugadores } from "./ListaJugadores";
+import { VistaPlantillaNormal } from "./vistaPlantillaNormal/VistaPlantillaNormal";
+import { VistaPuntauciones as VistaPuntuaciones } from "./vistaPuntuaciones/VistaPuntuaciones";
 
 export type Formacion = {
 	portero: number;
@@ -42,6 +36,12 @@ type PlantillaProps = {};
 
 function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const nav = useIonRouter();
+	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
+	const idLiga: string = getLocalLigaSeleccionada();
+
+	const [segment, setSegment] = useState<"plantilla" | "alineacion">(
+		"plantilla"
+	);
 
 	const [plantilla, setPlantilla] = useState<PlantillaUsuario>();
 	const [formacion, setFormacion] = useState<Formacion>({
@@ -61,26 +61,13 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>([]);
 
 	const [loading, setLoading] = useState<boolean>(false);
-	const [idLiga, setIdLiga] = useState<string>(
-		window.location.pathname.split("/")[2]
-	);
-	const [idPlantillaUsuario, setIdPlantillaUsuario] = useState<string>(
-		window.location.pathname.split("/")[3]
-	);
 
-	const [sameUsuario, setSameUsuario] = useState<boolean>(
-		idPlantillaUsuario === getUsuarioLogueado()?.id
-	);
-
-	const cambiarJugador = (idJugador: string) => {
-		if (idJugador === jugadorPulsado) setJugadorPulsado("");
-		else setJugadorPulsado(idJugador);
-	};
+	const [jornada, setJornada] = useState<number>(1);
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
-		await getPlantilla(idLiga, window.location.pathname.split("/")[3]).then(
-			async (res) => {
+		await getPlantilla(idLiga, idPlantillaUsuario)
+			.then(async (res) => {
 				setPlantilla(res);
 				setFormacion({
 					portero: 1,
@@ -112,8 +99,11 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 				setJugadores(ju);
 				await new Promise((f) => setTimeout(f, 2000));
-			}
-		);
+			})
+			.catch((err) => {
+				console.log(err);
+				nav.push("/ligas", "forward");
+			});
 		setLoading(false);
 	};
 
@@ -215,9 +205,10 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			alineacionesJornada: plantilla?.alineacionesJornada as any,
 			puntos: plantilla?.puntos as number,
 			valor: plantilla?.valor as number,
+			dinero: plantilla?.dinero as number,
 		};
 
-		setPlantilla(await updatePlantillaUsuario(plantillaUsuario));
+		setPlantilla(await updatePlantillaUsuario(plantillaUsuario, idLiga));
 		setCambioAlineacion(false);
 	};
 
@@ -232,141 +223,68 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				<IonHeader>
 					<FantasyToolbar />
 				</IonHeader>
-				<IonContent scrollY>
-					<IonGrid>
-						<IonRow>
-							<IonCol>
-								{!loading ? (
-									<>
-										<IonRow style={{ height: "100%" }}>
-											<IonCol sizeSm="7" sizeXs="12">
-												<IonRow>
-													<IonCol size="6">
-														<IonList style={{ maxWidth: 200 }}>
-															<IonSelect
-																disabled={!sameUsuario}
-																interface="popover"
-																placeholder={
-																	formacion.defensa +
-																	"-" +
-																	formacion.medio +
-																	"-" +
-																	formacion.delantero
-																}
-																onIonChange={(e) => {
-																	let f: Formacion = {
-																		portero: 1,
-																		defensa: Number(
-																			e.detail.value.split("-")[0]
-																		),
-																		medio: Number(e.detail.value.split("-")[1]),
-																		delantero: Number(
-																			e.detail.value.split("-")[2]
-																		),
-																	};
-																	setValueFormacion(e.detail.value);
-																	cambiarFormacion(f);
-																}}
-															>
-																<IonSelectOption value="5-3-2">
-																	5-3-2
-																</IonSelectOption>
-																<IonSelectOption value="5-4-1">
-																	5-4-1
-																</IonSelectOption>
-																<IonSelectOption value="4-5-1">
-																	4-5-1
-																</IonSelectOption>
-																<IonSelectOption value="4-4-2">
-																	4-4-2
-																</IonSelectOption>
-																<IonSelectOption value="4-3-3">
-																	4-3-3
-																</IonSelectOption>
-																<IonSelectOption value="3-5-2">
-																	3-5-2
-																</IonSelectOption>
-																<IonSelectOption value="3-4-3">
-																	3-4-3
-																</IonSelectOption>
-															</IonSelect>
-														</IonList>
-													</IonCol>
-													<IonCol size="6">
-														{cambioAlineacion ? (
-															<IonButton onClick={() => guardarPlantilla()}>
-																Guardar cambios
-															</IonButton>
-														) : (
-															<></>
-														)}
-													</IonCol>
-												</IonRow>
-												<IonRow
-													style={{
-														backgroundImage:
-															"url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soccer_Field_Transparant.svg/225px-Soccer_Field_Transparant.svg.png)",
-														backgroundSize: "cover",
-														marginBottom: "2%",
-													}}
-												>
-													<Alineacion
-														usuario={plantilla?.usuario}
-														formacion={formacion}
-														setJugadorPulsado={cambiarJugador}
-														porteros={porteros}
-														defensas={defensas}
-														mediocentros={mediocentros}
-														delanteros={delanteros}
-													/>
-												</IonRow>
-											</IonCol>
-
-											<IonCol
-												sizeSm="5"
-												sizeXs="12"
-												style={{ height: "100%", overflowY: "scroll" }}
-											>
-												<IonContent>
-													{jugadorPulsado === "" ? (
-														<ListaJugadores
-															porteros={porteros}
-															defensas={defensas}
-															mediocentros={mediocentros}
-															delanteros={delanteros}
-															formacion={formacion}
-															cambiarTitulares={cambiarTitulares}
-															isSameUser={sameUsuario}
-														/>
-													) : (
-														<>
-															<CartaDetallesJugador
-																propiedadJugador={jugadores.find(
-																	(j) => j.jugador._id === jugadorPulsado
-																)}
-																esParaCambio={true}
-																posicion={jugadorPulsado}
-																porteros={porteros}
-																defensas={defensas}
-																mediocentros={mediocentros}
-																delanteros={delanteros}
-																formacion={formacion}
-																cambiarTitulares={cambiarTitulares}
-																isSameUser={sameUsuario}
-															/>
-														</>
-													)}
-												</IonContent>
-											</IonCol>
-										</IonRow>
-									</>
-								) : (
-									<IonProgressBar type="indeterminate"></IonProgressBar>
-								)}
-							</IonCol>
-						</IonRow>
-					</IonGrid>
-				</IonContent>
+				{!loading ? (
+					<>
+						<IonSegment value={segment}>
+							<IonSegmentButton
+								value="plantilla"
+								onClick={() => {
+									setSegment("plantilla");
+								}}
+							>
+								Plantilla
+							</IonSegmentButton>
+							<IonSegmentButton
+								value="alineacion"
+								onClick={() => {
+									setSegment("alineacion");
+								}}
+							>
+								Alineacion
+							</IonSegmentButton>
+						</IonSegment>
+						{segment === "plantilla" ? (
+							<>
+								<VistaPlantillaNormal
+									plantilla={plantilla as PlantillaUsuario}
+									jugadores={jugadores}
+									porteros={porteros}
+									defensas={defensas}
+									mediocentros={mediocentros}
+									delanteros={delanteros}
+									jornada={jornada}
+									setJornada={setJornada}
+									formacion={formacion}
+									cambiarFormacion={cambiarFormacion}
+									jugadorPulsado={jugadorPulsado}
+									setJugadorPulsado={setJugadorPulsado}
+									cambiarTitulares={cambiarTitulares}
+									cambioAlineacion={cambioAlineacion}
+									guardarPlantilla={guardarPlantilla}
+									setValueFormacion={setValueFormacion}
+								/>
+							</>
+						) : (
+							<>
+								<VistaPuntuaciones
+									plantilla={plantilla as PlantillaUsuario}
+									formacion={formacion}
+									jugadores={jugadores}
+									porteros={porteros}
+									defensas={defensas}
+									mediocentros={mediocentros}
+									delanteros={delanteros}
+									setJornada={setJornada}
+									jornada={jornada}
+								/>
+							</>
+						)}
+					</>
+				) : (
+					<IonContent>
+						<IonProgressBar type="indeterminate"></IonProgressBar>
+					</IonContent>
+				)}
 			</IonPage>
 		</>
 	);

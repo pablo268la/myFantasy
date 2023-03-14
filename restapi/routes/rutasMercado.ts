@@ -3,6 +3,10 @@ import * as MercadosController from "../controladores/mercadosController";
 
 const api: Router = express.Router();
 
-api.get("/resetmercado/:idLiga", MercadosController.resetmercado);
+api.get("/mercado/resetmercado/:idLiga", MercadosController.resetmercado);
+
+api.post("/mercado/pujar/:idLiga", MercadosController.hacerPuja);
+
+api.post("/mercado/anadir/:idLiga", MercadosController.añadirJugadorMercado);
 
 export default api;

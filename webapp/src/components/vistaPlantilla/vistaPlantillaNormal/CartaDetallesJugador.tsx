@@ -15,17 +15,18 @@ import {
 import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
+import { añadirJugadorAMercado } from "../../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
 	getColorEstado,
 	getIconoEstado,
+	getLocalLigaSeleccionada,
 	ponerPuntosAValor,
 	urlBackground,
-} from "../../helpers/helpers";
-import { PropiedadJugador } from "../../shared/sharedTypes";
+} from "../../../helpers/helpers";
+import { PropiedadJugador } from "../../../shared/sharedTypes";
+import { Formacion } from "../VistaPlantilla";
 import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
-import { Formacion } from "./VistaPlantilla";
-
 type CartaJugadorProps = {
 	propiedadJugador?: PropiedadJugador;
 	esParaCambio: boolean;
@@ -41,19 +42,27 @@ type CartaJugadorProps = {
 		idOut: string
 	) => void;
 	isSameUser: boolean;
+	setJugadorSeleccionadoMethod: (pj: PropiedadJugador) => void;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
-	const [propiedadJugador, setPropiedadJugador] = useState<
-		PropiedadJugador | undefined
-	>(props.propiedadJugador);
+	const propiedadJugador = props.propiedadJugador;
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
 
 	return propiedadJugador ? (
 		<>
 			<IonCard style={{ width: "100%" }} color="primary">
-				<IonCardContent>
+				<IonCardContent
+					onClick={(e) => {
+						let a = e.target as HTMLIonButtonElement;
+						if (a.type === "button") {
+							setShowActionSheet(true);
+						} else {
+							props.setJugadorSeleccionadoMethod(propiedadJugador);
+						}
+					}}
+				>
 					<IonGrid>
 						<IonRow>
 							<IonCol
@@ -151,7 +160,9 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 									</IonLabel>
 
 									<IonButton
-										onClick={() => setShowActionSheet(true)}
+										onClick={() => {
+											setShowActionSheet(true);
+										}}
 										color="primary"
 										slot="end"
 										id="botonAcciones"
@@ -169,14 +180,21 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 										"?"
 									}
 									isOpen={showActionSheet}
-									onDidDismiss={() => setShowActionSheet(false)}
+									onDidDismiss={() => {
+										setShowActionSheet(false);
+									}}
 									buttons={
 										props.isSameUser
 											? [
 													{
 														text: "Añadir al mercado",
 														icon: cart,
-														handler: () => {},
+														handler: async () => {
+															await añadirJugadorAMercado(
+																propiedadJugador,
+																getLocalLigaSeleccionada()
+															);
+														},
 													},
 													{
 														text: "Vender inmediatamente",

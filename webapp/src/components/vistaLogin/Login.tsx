@@ -19,7 +19,9 @@ import {
 import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { createUsuario, getUsuario } from "../../endpoints/userEndpoints";
-import { setUsuarioAndRequestToken } from "../../helpers/helpers";
+import {
+	setUsuarioAndRequestToken
+} from "../../helpers/helpers";
 
 type LoginProps = {};
 
@@ -128,10 +130,14 @@ function Login(props: LoginProps): JSX.Element {
 				contraseña: contraseña,
 				ligas: [],
 				admin: false,
-			}).catch((error) => {
-				crearToast(error.message, true);
-				return;
-			});
+			})
+				.then(() => {
+					crearToast("Usuario creado correctamente", true);
+				})
+				.catch((error) => {
+					crearToast(error.message, true);
+					return;
+				});
 		}
 
 		await setUsuarioAndRequestToken(email, contraseña)

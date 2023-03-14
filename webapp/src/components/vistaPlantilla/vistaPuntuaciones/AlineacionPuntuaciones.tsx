@@ -5,15 +5,15 @@ import {
 	Jugador,
 	PropiedadJugador,
 	Usuario,
-} from "../../shared/sharedTypes";
-import CartaJugador from "./CartaJugador";
-import { Formacion } from "./VistaPlantilla";
+} from "../../../shared/sharedTypes";
+import { Formacion } from "../VistaPlantilla";
+import CartaJugador from "../vistaPlantillaNormal/CartaJugador";
 
 const MyGrid = styled(IonGrid)`
 	--ion-grid-columns: 10;
 `;
 
-type AlineacionProps = {
+type AlineacionPuntuacionesProps = {
 	formacion: Formacion;
 	setJugadorPulsado: (idJugador: string) => void;
 	porteros: PropiedadJugador[];
@@ -23,13 +23,20 @@ type AlineacionProps = {
 	usuario: Usuario | undefined;
 };
 
-export function Alineacion(props: AlineacionProps): JSX.Element {
+export function AlineacionPuntuaciones(
+	props: AlineacionPuntuacionesProps
+): JSX.Element {
 	if (props.usuario !== undefined) {
 		while (props.porteros.length < props.formacion.portero) {
 			props.porteros.push({
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.defensas.length < props.formacion.defensa) {
@@ -37,6 +44,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.mediocentros.length < props.formacion.medio) {
@@ -44,6 +56,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 		while (props.delanteros.length < props.formacion.delantero) {
@@ -51,6 +68,11 @@ export function Alineacion(props: AlineacionProps): JSX.Element {
 				jugador: crearJugadorEmpty(),
 				usuario: props.usuario,
 				titular: false,
+				venta: {
+					enVenta: false,
+					ofertas: [],
+					fechaLimite: "",
+				},
 			});
 		}
 	}
