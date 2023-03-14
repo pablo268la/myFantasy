@@ -25,7 +25,7 @@ import styled from "styled-components";
 import SwiperCore, { Mousewheel, Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-import CartaJugador from "./CartaJugador";
+import CartaJugador from "./vistaPlantillaNormal/CartaJugador";
 
 const MyGrid = styled(IonGrid)`
 	--ion-grid-columns: 12;

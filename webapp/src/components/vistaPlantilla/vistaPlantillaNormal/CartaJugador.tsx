@@ -6,8 +6,8 @@ import {
 	getColorEstado,
 	getIconoEstado,
 	urlBackground,
-} from "../../helpers/helpers";
-import { PropiedadJugador } from "../../shared/sharedTypes";
+} from "../../../helpers/helpers";
+import { PropiedadJugador } from "../../../shared/sharedTypes";
 
 const StyledIonCard = styled(IonCard)`
 	--background: transparent;

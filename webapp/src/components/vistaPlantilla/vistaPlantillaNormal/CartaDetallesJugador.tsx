@@ -15,7 +15,7 @@ import {
 import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
-import { añadirJugadorAMercado } from "../../endpoints/mercadoEndpoints";
+import { añadirJugadorAMercado } from "../../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
 	getColorEstado,
@@ -23,11 +23,10 @@ import {
 	getLocalLigaSeleccionada,
 	ponerPuntosAValor,
 	urlBackground,
-} from "../../helpers/helpers";
-import { PropiedadJugador } from "../../shared/sharedTypes";
+} from "../../../helpers/helpers";
+import { PropiedadJugador } from "../../../shared/sharedTypes";
+import { Formacion } from "../VistaPlantilla";
 import { ListaJugadoresCambio } from "./ListaJugadoresCambio";
-import { Formacion } from "./VistaPlantilla";
-
 type CartaJugadorProps = {
 	propiedadJugador?: PropiedadJugador;
 	esParaCambio: boolean;

@@ -204,7 +204,21 @@ export function CartaJugadorMercado(
 										isOpen={showActionSheet}
 										onDidDismiss={() => setShowActionSheet(false)}
 										buttons={
-											hasPuja()
+											propiedadJugadorEnVenta.usuario.id ===
+											getUsuarioLogueado()?.id
+												? [
+														{
+															text: "Quitar del mercado",
+															icon: cart,
+															handler: () => {},
+														},
+														{
+															text: "Cancelar",
+															icon: close,
+															handler: () => {},
+														},
+												  ]
+												: hasPuja()
 												? [
 														{
 															text: "Editar pujas",

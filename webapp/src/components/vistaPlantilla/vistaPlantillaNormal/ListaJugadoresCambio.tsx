@@ -1,8 +1,8 @@
 import { IonButton, IonCol, IonRow } from "@ionic/react";
 
-import { PropiedadJugador } from "../../shared/sharedTypes";
+import { PropiedadJugador } from "../../../shared/sharedTypes";
+import { Formacion } from "../VistaPlantilla";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
-import { Formacion } from "./VistaPlantilla";
 
 type ListaJugadoresCambioProps = {
 	idJugador: string;

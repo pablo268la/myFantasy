@@ -40,6 +40,7 @@ const GreenIonRow = styled(IonRow)`
 
 type PuntuacionesJugadorProps = {
 	jugador: PropiedadJugador;
+	jornada: number;
 };
 
 export function PuntuacionesJugador(
@@ -55,7 +56,7 @@ export function PuntuacionesJugador(
 
 	const sliderRef = useRef<SwiperRef>(null);
 
-	const [selectedPos, setSelectedPos] = useState<number>(0);
+	const [selectedPos, setSelectedPos] = useState<number>(props.jornada - 1);
 
 	return (
 		<>
@@ -101,6 +102,7 @@ export function PuntuacionesJugador(
 				</IonCol>
 				<IonCol sizeXs="8">
 					<Swiper
+						initialSlide={selectedPos}
 						ref={sliderRef}
 						onSlideChange={(swiper) => {
 							setSelectedPos(swiper.activeIndex);
