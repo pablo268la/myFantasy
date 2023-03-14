@@ -68,17 +68,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const [jornada, setJornada] = useState<number>(1);
 
-	const cambiarJugador = (idJugador: string) => {
-		if (idJugador === jugadorPulsado) setJugadorPulsado("");
-		else setJugadorPulsado(idJugador);
-	};
-
-	const cambiarJugadorSiOSi = (idJugador: string) => {
-		if (idJugador === jugadorPulsado) setJugadorPulsado("");
-		else if (jugadorPulsado === "") setJugadorPulsado(idJugador);
-		else setJugadorPulsado("");
-	};
-
 	const getJugadoresAPI = async () => {
 		setLoading(true);
 		await getPlantilla(idLiga, idPlantillaUsuario)
@@ -272,13 +261,11 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									formacion={formacion}
 									cambiarFormacion={cambiarFormacion}
 									jugadorPulsado={jugadorPulsado}
-									setJugadorPulsado={cambiarJugador}
+									setJugadorPulsado={setJugadorPulsado}
 									cambiarTitulares={cambiarTitulares}
 									cambioAlineacion={cambioAlineacion}
 									guardarPlantilla={guardarPlantilla}
 									setValueFormacion={setValueFormacion}
-									cambiarJugador={cambiarJugador}
-									cambiarJugadorSiOSi={cambiarJugadorSiOSi}
 								/>
 							</>
 						) : (
@@ -291,12 +278,8 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									defensas={defensas}
 									mediocentros={mediocentros}
 									delanteros={delanteros}
-									cambiarJugador={cambiarJugador}
-									cambiarJugadorSiOSi={cambiarJugadorSiOSi}
 									setJornada={setJornada}
 									jornada={jornada}
-									setJugadorPulsado={cambiarJugador}
-									jugadorPulsado={jugadorPulsado}
 								/>
 							</>
 						)}

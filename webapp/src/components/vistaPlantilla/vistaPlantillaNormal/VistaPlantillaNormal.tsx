@@ -39,8 +39,6 @@ type VistaPlantillaNormalProps = {
 	cambioAlineacion: boolean;
 	guardarPlantilla: () => void;
 	setValueFormacion: (f: string) => void;
-	cambiarJugador: (idJugador: string) => void;
-	cambiarJugadorSiOSi: (idJugador: string) => void;
 };
 
 export function VistaPlantillaNormal(
@@ -49,6 +47,10 @@ export function VistaPlantillaNormal(
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const sameUsuario: boolean = idPlantillaUsuario === getUsuarioLogueado()?.id;
 
+	const cambiarJugador = (idJugador: string) => {
+		if (idJugador === props.jugadorPulsado) props.setJugadorPulsado("");
+		else props.setJugadorPulsado(idJugador);
+	};
 	return (
 		<>
 			<IonContent>
@@ -112,7 +114,7 @@ export function VistaPlantillaNormal(
 										<Alineacion
 											usuario={props.plantilla?.usuario}
 											formacion={props.formacion}
-											setJugadorPulsado={props.cambiarJugador}
+											setJugadorPulsado={cambiarJugador}
 											porteros={props.porteros}
 											defensas={props.defensas}
 											mediocentros={props.mediocentros}

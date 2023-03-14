@@ -8,6 +8,7 @@ import {
 	IonSelectOption,
 	IonText,
 } from "@ionic/react";
+import { useState } from "react";
 import {
 	PlantillaUsuario,
 	PropiedadJugador,
@@ -27,13 +28,22 @@ type VistaPuntaucionesProps = {
 	delanteros: PropiedadJugador[];
 	setJornada: (jornada: number) => void;
 	jornada: number;
-	setJugadorPulsado: (idJugador: string) => void;
-	jugadorPulsado: string; 
-	cambiarJugador: (idJugador: string) => void;
-	cambiarJugadorSiOSi: (idJugador: string) => void;
 };
 
 export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
+	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
+
+	const cambiarJugador = (idJugador: string) => {
+		if (idJugador === jugadorPulsado) setJugadorPulsado("");
+		else setJugadorPulsado(idJugador);
+	};
+
+	const cambiarJugadorSiOSi = (idJugador: string) => {
+		if (idJugador === jugadorPulsado) setJugadorPulsado("");
+		else if (jugadorPulsado === "") setJugadorPulsado(idJugador);
+		else setJugadorPulsado("");
+	};
+
 	return (
 		<>
 			<IonContent>
@@ -77,7 +87,7 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 										<Alineacion
 											usuario={props.plantilla.usuario}
 											formacion={props.formacion}
-											setJugadorPulsado={props.cambiarJugadorSiOSi}
+											setJugadorPulsado={cambiarJugadorSiOSi}
 											porteros={props.porteros}
 											defensas={props.defensas}
 											mediocentros={props.mediocentros}
@@ -87,23 +97,23 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 								</IonCol>
 								<IonCol sizeSm="5" sizeXs="12" style={{ height: "100%" }}>
 									<IonContent>
-										{props.jugadorPulsado === "" ? (
+										{jugadorPulsado === "" ? (
 											<ListaJugadoresPuntuaciones
 												porteros={props.porteros}
 												defensas={props.defensas}
 												mediocentros={props.mediocentros}
 												delanteros={props.delanteros}
-												setJugadorPulsado={props.cambiarJugador}
+												setJugadorPulsado={cambiarJugador}
 												jornada={props.jornada}
 											/>
 										) : (
 											<>
 												<CartaPuntuacionJugador
 													propiedadJugador={props.jugadores.find(
-														(j) => j.jugador._id === props.jugadorPulsado
+														(j) => j.jugador._id === jugadorPulsado
 													)}
 													showPuntuaciones={true}
-													setJugadorPulsado={props.cambiarJugador}
+													setJugadorPulsado={cambiarJugador}
 													jornada={props.jornada}
 												/>
 											</>
