@@ -76,7 +76,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 				unirseConEnlace(liga.enlaceInvitacion);
 			})
 			.catch((error) => {
-				console.log(error);
 				alert(error.message);
 			});
 		setShowLoading(false);

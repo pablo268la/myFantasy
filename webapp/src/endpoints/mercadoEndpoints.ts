@@ -58,8 +58,6 @@ export async function añadirJugadorAMercado(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	console.log(propiedadJugador);
-
 	let response = await fetch(apiEndPoint + "/mercado/anadir/" + idLiga, {
 		method: "POST",
 		headers: {
