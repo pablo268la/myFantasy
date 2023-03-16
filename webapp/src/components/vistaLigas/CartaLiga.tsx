@@ -8,12 +8,12 @@ import {
 	IonIcon,
 	IonLabel,
 	IonRow,
-	IonTitle,
 } from "@ionic/react";
 import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
 import {
 	getUsuarioLogueado,
+	ponerPuntosAValor,
 	setLocalLigaSeleccionada,
 	urlBackground2,
 } from "../../helpers/helpers";
@@ -62,10 +62,38 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 									</IonCol>
 								</IonRow>
 								<br />
-								<IonRow>
-									<IonTitle color={"light"}>Puntos</IonTitle>
-									<IonTitle color={"light"}>Dinero</IonTitle>
-									<IonTitle color={"light"}>Posicion</IonTitle>
+								<IonRow style={{ justifyContent: "space-around" }}>
+									<IonLabel color={"light"}>
+										{
+											liga.plantillasUsuarios
+												.filter(
+													(plantilla) => plantilla.usuario.id === usuario?.id
+												)
+												.at(0)?.puntos
+										}{" "}
+										pts
+									</IonLabel>
+									<IonLabel color={"light"}>
+										{ponerPuntosAValor(
+											liga.plantillasUsuarios
+												.filter(
+													(plantilla) => plantilla.usuario.id === usuario?.id
+												)
+												.at(0)?.dinero || 0
+										)}
+									</IonLabel>
+									<IonLabel color={"light"}>
+										{liga.plantillasUsuarios
+											.map((plantilla) => {
+												return {
+													puntos: plantilla.puntos,
+													usuario: plantilla.usuario,
+												};
+											})
+											.sort((a, b) => b.puntos - a.puntos)
+											.findIndex((pe) => pe.usuario.id === usuario?.id) + 1}
+										/{liga.plantillasUsuarios.length}
+									</IonLabel>
 								</IonRow>
 							</IonCol>
 							<IonCol size="1">
