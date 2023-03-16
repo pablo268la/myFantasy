@@ -137,3 +137,91 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
+
+export const rechazarOferta: RequestHandler = async (req, res) => {
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
+	const idLiga = req.params.idLiga;
+
+	const idComprador = req.body.idComprador;
+	const idJugadorEnVenta = req.body.idJugadorEnVenta;
+
+	const usuario = await modeloUsuario.findOne({ email: email });
+	const verified = await verifyUser(email, token);
+
+	try {
+		if (usuario && verified) {
+			const liga = await modeloLiga.findById(idLiga);
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			let r;
+			liga.mercado.map((propiedadJugador) => {
+				if (propiedadJugador.jugador._id === idJugadorEnVenta) {
+					propiedadJugador.venta.ofertas =
+						propiedadJugador.venta.ofertas.filter((oferta) => {
+							return oferta.comprador.id !== idComprador;
+						});
+					r = propiedadJugador;
+					return propiedadJugador;
+				} else {
+					return propiedadJugador;
+				}
+			});
+
+			await liga.save();
+			return res.status(200).json(r);
+		} else {
+			res.status(401).json({ message: "Usuario no autenticado" });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+};
+
+export const aceptarOferta: RequestHandler = async (req, res) => {
+	const email = req.headers.email as string;
+	const token = req.headers.token as string;
+	const idLiga = req.params.idLiga;
+
+	const idComprador = req.body.idComprador;
+	const idJugadorEnVenta = req.body.idJugadorEnVenta;
+
+	const usuario = await modeloUsuario.findOne({ email: email });
+	const verified = await verifyUser(email, token);
+
+	try {
+		if (usuario && verified) {
+			const liga = await modeloLiga.findById(idLiga);
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			//const nuevoUsuario = await modeloUsuario.findOne({ _id: idComprador });
+
+			let r;
+			liga.mercado.forEach((propiedadJugador) => {
+				if (propiedadJugador.jugador._id === idJugadorEnVenta) {
+					propiedadJugador.venta.ofertas =
+						propiedadJugador.venta.ofertas.filter((oferta) => {
+							return oferta.comprador.id !== idComprador;
+						});
+					r = propiedadJugador;
+				}
+			});
+
+			liga.mercado = liga.mercado.filter(
+				(p) => p.jugador._id !== idJugadorEnVenta
+			);
+
+			// TODO - Actualizar enVenta y usuario en la propiedad.
+			//        Quitar de plantilla y meter en la nueva.
+
+			await liga.save();
+			res.json(r);
+		} else {
+			res.status(401).json({ message: "Usuario no autenticado" });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+};

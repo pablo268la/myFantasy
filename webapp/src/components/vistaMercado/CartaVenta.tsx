@@ -1,53 +1,41 @@
 import {
-	IonActionSheet,
+	IonAccordion,
+	IonAccordionGroup,
 	IonBadge,
 	IonButton,
 	IonCard,
 	IonCardContent,
 	IonCol,
-	IonContent,
 	IonGrid,
 	IonImg,
-	IonInput,
 	IonItem,
 	IonLabel,
-	IonPopover,
 	IonRow,
 	IonText,
 } from "@ionic/react";
-import { cart, close, pencil } from "ionicons/icons";
 import { useState } from "react";
-import { hacerPuja } from "../../endpoints/mercadoEndpoints";
+import {
+	aceptarOferta,
+	rechazarOferta,
+} from "../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
-	getUsuarioLogueado,
 	ponerPuntosAValor,
 	urlBackground,
 } from "../../helpers/helpers";
-import { Oferta, PropiedadJugador } from "../../shared/sharedTypes";
+import { PropiedadJugador } from "../../shared/sharedTypes";
 
-type CartaJugadorMercadoProps = {
+type CartaVentaProps = {
 	propiedadJugadorEnVenta: PropiedadJugador;
 	idLiga: string;
-	resetMercado: () => void;
-	reseteandoMercado: boolean;
+	actualizarMercado: () => void;
 };
 
-export function CartaJugadorMercado(
-	props: CartaJugadorMercadoProps
-): JSX.Element {
+export function CartaVenta(props: CartaVentaProps): JSX.Element {
 	const [tiempoRestante, setTiempoRestante] = useState<string>("");
 
 	const [propiedadJugadorEnVenta, setPropiedadJugadorEnVenta] =
 		useState<PropiedadJugador>(props.propiedadJugadorEnVenta);
-
-	const [puja, setPuja] = useState<number>(
-		props.propiedadJugadorEnVenta.jugador.valor
-	);
-
-	const [showActionSheet, setShowActionSheet] = useState(false);
-	const [showPopover, setShowPopover] = useState(false);
-
 	var x = setInterval(function () {
 		const countDownDate = new Date(
 			propiedadJugadorEnVenta.venta.fechaLimite
@@ -61,7 +49,7 @@ export function CartaJugadorMercado(
 		if (distance < 0) {
 			clearInterval(x);
 			setTiempoRestante("EXPIRED");
-			if (!props.reseteandoMercado) props.resetMercado();
+
 			return;
 		} else {
 			// Time calculations for days, hours, minutes and seconds
@@ -83,26 +71,6 @@ export function CartaJugadorMercado(
 			);
 		}
 	}, 1000);
-
-	const hacerPujaAlBack = async () => {
-		let o: Oferta = {
-			comprador: getUsuarioLogueado() as any,
-			estado: "ACTIVA",
-			privada: false,
-			valorOferta: puja,
-		};
-
-		await hacerPuja(propiedadJugadorEnVenta, props.idLiga, o).then((res) => {
-			setPropiedadJugadorEnVenta(res);
-		});
-	};
-
-	const hasPuja = () => {
-		let p = propiedadJugadorEnVenta.venta.ofertas.filter((oferta) => {
-			return getUsuarioLogueado()?.id === oferta.comprador.id;
-		});
-		return p.length > 0;
-	};
 
 	return (
 		<>
@@ -174,11 +142,7 @@ export function CartaJugadorMercado(
 										{ponerPuntosAValor(propiedadJugadorEnVenta.jugador.valor)}
 									</IonLabel>
 								</IonRow>
-								<IonRow>
-									<IonLabel>
-										Vendedor: {propiedadJugadorEnVenta.usuario.usuario}
-									</IonLabel>
-								</IonRow>
+
 								<IonRow style={{ justifyContent: "space-between" }}>
 									<IonLabel>Tiempo restante: {tiempoRestante}</IonLabel>
 									{propiedadJugadorEnVenta.venta.ofertas.length > 0 ? (
@@ -188,106 +152,65 @@ export function CartaJugadorMercado(
 									) : (
 										<></>
 									)}
-
-									<IonButton
-										onClick={() => {
-											setShowActionSheet(true);
-										}}
-									>
-										Opciones
-									</IonButton>
-									<IonActionSheet
-										header={
-											"¿Que quieres hacer con " +
-											propiedadJugadorEnVenta.jugador.nombre +
-											"?"
-										}
-										isOpen={showActionSheet}
-										onDidDismiss={() => setShowActionSheet(false)}
-										buttons={
-											propiedadJugadorEnVenta.usuario.id ===
-											getUsuarioLogueado()?.id
-												? [
-														{
-															text: "Quitar del mercado",
-															icon: cart,
-															handler: () => {},
-														},
-														{
-															text: "Cancelar",
-															icon: close,
-															handler: () => {},
-														},
-												  ]
-												: hasPuja()
-												? [
-														{
-															text: "Editar puja",
-															icon: pencil,
-															handler: () => {
-																setShowPopover(true);
-															},
-														},
-														{
-															text: "Cancelar",
-															icon: close,
-															handler: () => {},
-														},
-												  ]
-												: [
-														{
-															text: "Pujar",
-															icon: cart,
-															handler: () => {
-																setShowPopover(true);
-															},
-														},
-														{
-															text: "Cancelar",
-															icon: close,
-															handler: () => {},
-														},
-												  ]
-										}
-									></IonActionSheet>
-									<IonPopover
-										isOpen={showPopover}
-										onDidDismiss={() => setShowPopover(false)}
-									>
-										<IonContent>
-											<IonItem fill="outline">
-												<IonInput
-													value={puja}
-													type="number"
-													onIonChange={(e) => {
-														setPuja(parseInt(e.detail.value!));
-													}}
-												></IonInput>
-											</IonItem>
-											<IonItem>
-												<IonButton
-													slot="start"
-													onClick={() => setShowPopover(false)}
-												>
-													Cancelar
-												</IonButton>
-												<IonButton
-													slot="end"
-													onClick={() => {
-														hacerPujaAlBack();
-														setShowPopover(false);
-													}}
-												>
-													Pujar
-												</IonButton>
-											</IonItem>
-										</IonContent>
-									</IonPopover>
 								</IonRow>
 							</IonCol>
 						</IonRow>
 					</IonGrid>
 				</IonCardContent>
+				<IonAccordionGroup>
+					<IonAccordion value="first" toggleIconSlot="start">
+						<IonItem slot="header" color="light">
+							<IonLabel>Ver ofertas</IonLabel>
+						</IonItem>
+						<div className="ion-padding" slot="content">
+							{propiedadJugadorEnVenta.venta.ofertas
+								.filter((o) => o.estado === "ACTIVA")
+								.map((oferta) => {
+									return (
+										<IonItem>
+											<IonLabel>{oferta.comprador.nombre}</IonLabel>
+											<IonLabel>
+												{ponerPuntosAValor(oferta.valorOferta)}
+											</IonLabel>
+											<IonButton
+												color={"success"}
+												onClick={() => {
+													aceptarOferta(
+														props.idLiga,
+														oferta.comprador.id,
+														propiedadJugadorEnVenta.jugador._id
+													).then((res) => {
+														setPropiedadJugadorEnVenta(res);
+														props.actualizarMercado();
+													});
+												}}
+											>
+												{" "}
+												Aceptar
+											</IonButton>
+											<IonButton
+												color={"danger"}
+												onClick={() => {
+													console.log("Rechazado");
+													rechazarOferta(
+														props.idLiga,
+														oferta.comprador.id,
+														propiedadJugadorEnVenta.jugador._id
+													).then((res) => {
+														setPropiedadJugadorEnVenta(res);
+														props.actualizarMercado();
+													});
+												}}
+											>
+												{" "}
+												Rechazar
+											</IonButton>
+										</IonItem>
+									);
+								})}
+						</div>
+					</IonAccordion>
+				</IonAccordionGroup>
 			</IonCard>
 		</>
 	);
