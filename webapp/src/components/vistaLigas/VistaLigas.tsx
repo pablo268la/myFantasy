@@ -49,7 +49,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 
 	const [ligas, setLigas] = useState<Liga[]>();
 
-	const [unidoALiga, setUnidoALiga] = useState<boolean>(false);
 	const [idLigaParaUnir, setIdLigaParaUnir] = useState<string>();
 
 	const [presentAlert] = useIonAlert();
@@ -93,7 +92,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 						.then(() => {
 							setIdLigaParaUnir(e);
 							setShowLoading(true);
-							setUnidoALiga(true);
 							setLocalLigaSeleccionada(e);
 							navigate.push("/plantilla/starts/" + e, "forward");
 						})
@@ -231,15 +229,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 												</IonCardContent>
 											</IonCard>
 											<IonRow style={{ justifyContent: "center" }}>
-												{unidoALiga ? (
-													<IonRouterLink
-														href={"/plantilla/starts/" + idLigaParaUnir}
-													>
-														<IonButton>Ver plantilla</IonButton>
-													</IonRouterLink>
-												) : (
-													<></>
-												)}
 												<IonButton
 													shape="round"
 													onClick={() => {
