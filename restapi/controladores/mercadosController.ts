@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { modeloLiga } from "../model/liga";
 import { IOferta } from "../model/oferta";
+import { IPlantillaUsuario } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
@@ -19,6 +20,39 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			) {
 				return propiedadJugador;
 			}
+		});
+
+		const ventasConOfertas = liga.mercado.filter((propiedadJugador) => {
+			if (
+				Date.parse(propiedadJugador.venta.fechaLimite) < new Date().getTime() &&
+				propiedadJugador.venta.ofertas.length > 0
+			) {
+				return propiedadJugador;
+			}
+		});
+
+		let plantillas: IPlantillaUsuario[] = [];
+
+		ventasConOfertas.forEach((propiedadJugador) => {
+			const mejorOferta = propiedadJugador.venta.ofertas.sort(
+				(a: IOferta, b: IOferta) => {
+					return a.valorOferta >= b.valorOferta ? 1 : -1;
+				}
+			)[0];
+
+			plantillas.push(
+				...liga.plantillasUsuarios.map((plantilla) => {
+					if (plantilla.usuario.id === mejorOferta.comprador.id) {
+						propiedadJugador.venta.ofertas = [];
+						propiedadJugador.venta.enVenta = false;
+						propiedadJugador.usuario = plantilla.usuario;
+						propiedadJugador.titular = false;
+						añadirJugadorAPlantilla(propiedadJugador, plantilla);
+						plantilla.dinero -= mejorOferta.valorOferta;
+					}
+					return plantilla;
+				})
+			);
 		});
 
 		const fromLaLiga = liga.mercado.filter((propiedadJugador) => {
@@ -43,8 +77,15 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			});
 
 		liga.mercado = newMercado;
-		await liga.save();
-		res.status(200).json(liga);
+		const newLiga = await modeloLiga.findByIdAndUpdate(
+			req.params.idLiga,
+			liga,
+			{
+				new: true,
+			}
+		);
+
+		res.status(200).json(newLiga);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json(error);
@@ -199,7 +240,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				if (!liga)
 					return res.status(404).json({ message: "Liga no encontrada" });
 
-				let r: IPropiedadJugador | null = null;
+				let propiedadJugadorVenta: IPropiedadJugador | null = null;
 				let valorOfertaAcetada = 0;
 				liga.mercado.forEach((propiedadJugador) => {
 					if (propiedadJugador.jugador._id === idJugadorEnVenta) {
@@ -208,11 +249,11 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 								valorOfertaAcetada = oferta.valorOferta;
 							}
 						});
-						r = propiedadJugador;
-						r.venta.ofertas = [];
-						r.venta.enVenta = false;
-						r.usuario = nuevoUsuario;
-						r.titular = false;
+						propiedadJugadorVenta = propiedadJugador;
+						propiedadJugadorVenta.venta.ofertas = [];
+						propiedadJugadorVenta.venta.enVenta = false;
+						propiedadJugadorVenta.usuario = nuevoUsuario;
+						propiedadJugadorVenta.titular = false;
 					}
 				});
 
@@ -223,58 +264,19 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				// TODO -- Checkear que hacer cuando el comprador o vendedor es la liga
 				liga.plantillasUsuarios.map((plantilla) => {
 					if (plantilla.usuario.id === idComprador) {
-						switch (r?.jugador.posicion) {
-							case "Portero":
-								plantilla.alineacionJugador.porteros.push(
-									r as IPropiedadJugador
-								);
-								break;
-							case "Defensa":
-								plantilla.alineacionJugador.defensas.push(
-									r as IPropiedadJugador
-								);
-								break;
-							case "Mediocentro":
-								plantilla.alineacionJugador.medios.push(r as IPropiedadJugador);
-								break;
-							case "Delantero":
-								plantilla.alineacionJugador.delanteros.push(
-									r as IPropiedadJugador
-								);
-								break;
-						}
+						añadirJugadorAPlantilla(propiedadJugadorVenta, plantilla);
 						plantilla.dinero -= valorOfertaAcetada;
 					} else if (plantilla.usuario.id === usuario.id) {
-						switch (r?.jugador.posicion) {
-							case "Portero":
-								plantilla.alineacionJugador.porteros =
-									plantilla.alineacionJugador.porteros.filter(
-										(j) => j.jugador._id !== idJugadorEnVenta
-									);
-								break;
-							case "Defensa":
-								plantilla.alineacionJugador.defensas =
-									plantilla.alineacionJugador.defensas.filter(
-										(j) => j.jugador._id !== idJugadorEnVenta
-									);
-								break;
-							case "Mediocentro":
-								plantilla.alineacionJugador.medios =
-									plantilla.alineacionJugador.medios.filter(
-										(j) => j.jugador._id !== idJugadorEnVenta
-									);
-								break;
-							case "Delantero":
-								plantilla.alineacionJugador.delanteros =
-									plantilla.alineacionJugador.delanteros.filter(
-										(j) => j.jugador._id !== idJugadorEnVenta
-									);
-								break;
-						}
+						quitarJugadorDePlantilla(
+							propiedadJugadorVenta,
+							plantilla,
+							idJugadorEnVenta
+						);
 						plantilla.dinero += valorOfertaAcetada;
 					}
 					return plantilla;
 				});
+
 				liga.propiedadJugadores.map((propiedadJugador) => {
 					if (propiedadJugador.jugador._id === idJugadorEnVenta) {
 						propiedadJugador.usuario = nuevoUsuario;
@@ -283,7 +285,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				});
 
 				await liga.save();
-				res.json(r);
+				res.json(propiedadJugadorVenta);
 			} else
 				return res
 					.status(404)
@@ -296,3 +298,63 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
+function quitarJugadorDePlantilla(
+	propiedadJugadorVenta: IPropiedadJugador | null,
+	plantilla: IPlantillaUsuario,
+	idJugadorAQuitar: string
+) {
+	switch (propiedadJugadorVenta?.jugador.posicion) {
+		case "Portero":
+			plantilla.alineacionJugador.porteros =
+				plantilla.alineacionJugador.porteros.filter(
+					(j) => j.jugador._id !== idJugadorAQuitar
+				);
+			break;
+		case "Defensa":
+			plantilla.alineacionJugador.defensas =
+				plantilla.alineacionJugador.defensas.filter(
+					(j) => j.jugador._id !== idJugadorAQuitar
+				);
+			break;
+		case "Mediocentro":
+			plantilla.alineacionJugador.medios =
+				plantilla.alineacionJugador.medios.filter(
+					(j) => j.jugador._id !== idJugadorAQuitar
+				);
+			break;
+		case "Delantero":
+			plantilla.alineacionJugador.delanteros =
+				plantilla.alineacionJugador.delanteros.filter(
+					(j) => j.jugador._id !== idJugadorAQuitar
+				);
+			break;
+	}
+}
+
+function añadirJugadorAPlantilla(
+	propiedadJugadorVenta: IPropiedadJugador | null,
+	plantilla: IPlantillaUsuario
+) {
+	switch (propiedadJugadorVenta?.jugador.posicion) {
+		case "Portero":
+			plantilla.alineacionJugador.porteros.push(
+				propiedadJugadorVenta as IPropiedadJugador
+			);
+			break;
+		case "Defensa":
+			plantilla.alineacionJugador.defensas.push(
+				propiedadJugadorVenta as IPropiedadJugador
+			);
+			break;
+		case "Mediocentro":
+			plantilla.alineacionJugador.medios.push(
+				propiedadJugadorVenta as IPropiedadJugador
+			);
+			break;
+		case "Delantero":
+			plantilla.alineacionJugador.delanteros.push(
+				propiedadJugadorVenta as IPropiedadJugador
+			);
+			break;
+	}
+}
