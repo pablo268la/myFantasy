@@ -1,4 +1,4 @@
-import axios from "axios";
+/*import axios from "axios";
 import { RequestHandler } from "express";
 import { checkPosition, checkStatusPartido } from "../helpers/checkHelper";
 import { IAlineacion, modeloAlineacion } from "../model/alineacion";
@@ -172,3 +172,4 @@ function createJugadorNoDisponible(jugador: any) {
 		puntuaciones: [],
 	});
 }
+*/

@@ -11,7 +11,7 @@ import apiMercado from "./routes/rutasMercado";
 import apiPartidos from "./routes/rutasPartidos";
 import apiPlantillas from "./routes/rutasPlantillas";
 import apiPuntuaciones from "./routes/rutasPuntuaciones";
-import apiSofaScore from "./routes/rutasSofascoreMarca";
+//import apiSofaScore from "./routes/rutasSofascoreMarca";
 import apiUsuarios from "./routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
@@ -36,7 +36,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true, limit: "8mb" }));
 app.use(morgan("dev"));
 
-app.use(apiSofaScore);
+//app.use(apiSofaScore);
 app.use(apiJugadores);
 app.use(apiEquipos);
 app.use(apiUsuarios);
@@ -45,7 +45,6 @@ app.use(apiPlantillas);
 app.use(apiMercado);
 app.use(apiPuntuaciones);
 app.use(apiPartidos);
-
 
 app.use(helmet.hidePoweredBy());
 

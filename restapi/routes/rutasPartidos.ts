@@ -7,4 +7,8 @@ api.get("/partidos", PartidosController.getPartidos);
 
 api.get("/partidos/:id", PartidosController.getPartido);
 
+api.get("/partidos/jornada/:jornada", PartidosController.getPartidosJornada);
+
+api.get("/partidos/equipo/:idEquipo", PartidosController.getPartidosEquipo);
+
 export default api;
