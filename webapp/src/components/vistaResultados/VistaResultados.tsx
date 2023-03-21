@@ -51,7 +51,6 @@ export function VistaResultados(): JSX.Element {
 					<IonSelect
 						value={jornada}
 						onIonChange={(e) => {
-							console.log(e.detail.value);
 							getPartidosDeJornada(e.detail.value);
 						}}
 					>

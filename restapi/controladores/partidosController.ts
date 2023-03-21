@@ -1,5 +1,9 @@
 import { RequestHandler } from "express";
 import { modeloPartido } from "../model/partido";
+import {
+	IPuntuacionJugador,
+	modelPuntuacionJugador,
+} from "../model/puntuacion/puntuacionJugador";
 
 export const getPartidos: RequestHandler = async (req, res) => {
 	try {
@@ -27,6 +31,22 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+//idPartido: { $in: partidos.map((p) => p._id) },
+
+export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
+	try {
+		const puntuacionesJornada: IPuntuacionJugador[] =
+			await modelPuntuacionJugador.find({
+				idPartido: req.params.idPartido,
+			});
+
+		return res.status(200).json(puntuacionesJornada);
+	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
