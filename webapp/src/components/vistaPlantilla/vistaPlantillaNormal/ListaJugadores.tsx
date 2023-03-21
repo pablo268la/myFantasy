@@ -1,6 +1,9 @@
 import { IonGrid, IonList, IonRow } from "@ionic/react";
 import { useState } from "react";
-import { PropiedadJugador } from "../../../shared/sharedTypes";
+import {
+	PropiedadJugador,
+	PuntuacionJugador,
+} from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 import { Formacion } from "../VistaPlantilla";
 import { CartaDetallesJugador } from "./CartaDetallesJugador";
@@ -18,6 +21,7 @@ type ListaJugadoresProps = {
 	) => void;
 	isSameUser: boolean;
 	jornada: number;
+	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
@@ -70,6 +74,11 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 				<PuntuacionesJugador
 					jugador={jugadorSeleccionado as PropiedadJugador}
 					jornada={props.jornada}
+					puntuaciones={
+						props.puntuacionesMap.get(
+							jugadorSeleccionado?.jugador._id as string
+						) as PuntuacionJugador[]
+					}
 				/>
 			</IonGrid>
 		</>

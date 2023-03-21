@@ -8,9 +8,8 @@ import {
 	IonProgressBar,
 	IonRow,
 } from "@ionic/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { getPuntuacionJugador } from "../../endpoints/puntuacionesController";
 import {
 	PropiedadJugador,
 	PuntuacionJugador,
@@ -42,18 +41,19 @@ const GreenIonRow = styled(IonRow)`
 type PuntuacionesJugadorProps = {
 	jugador: PropiedadJugador;
 	jornada: number;
+	puntuaciones: PuntuacionJugador[];
 };
 
 export function PuntuacionesJugador(
 	props: PuntuacionesJugadorProps
 ): JSX.Element {
-	const [puntuaciones, setPuntuaciones] = useState<PuntuacionJugador[]>();
+	//	const [puntuaciones, setPuntuaciones] = useState<PuntuacionJugador[]>();
 
-	useEffect(() => {
+	/*useEffect(() => {
 		getPuntuacionJugador(props.jugador.jugador).then((p) => {
 			setPuntuaciones(p);
 		});
-	}, []);
+	}, []);*/
 
 	const sliderRef = useRef<SwiperRef>(null);
 
@@ -61,12 +61,12 @@ export function PuntuacionesJugador(
 
 	return (
 		<>
-			{puntuaciones ? (
+			{props.puntuaciones ? (
 				<IonRow>
 					<IonCol sizeXs="3">
 						<IonList style={{ height: "100%" }}>
 							<IonContent>
-								{puntuaciones.map((p) => {
+								{props.puntuaciones.map((p) => {
 									return (
 										<>
 											<IonCard
@@ -102,7 +102,7 @@ export function PuntuacionesJugador(
 							</IonContent>
 						</IonList>
 					</IonCol>
-					<IonCol sizeXs="8">
+					<IonCol sizeXs="9">
 						<Swiper
 							initialSlide={selectedPos}
 							ref={sliderRef}
@@ -115,7 +115,7 @@ export function PuntuacionesJugador(
 								height: 600,
 							}}
 						>
-							{puntuaciones.map((p) => {
+							{props.puntuaciones.map((p) => {
 								return (
 									<>
 										<SwiperSlide key={p.semana - 1}>

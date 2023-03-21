@@ -1,17 +1,18 @@
 import {
-    IonButton,
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonList,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
+	IonButton,
+	IonCol,
+	IonContent,
+	IonGrid,
+	IonList,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
 } from "@ionic/react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
-    PlantillaUsuario,
-    PropiedadJugador,
+	PlantillaUsuario,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
 import { Alineacion } from "./Alineacion";
@@ -25,8 +26,6 @@ type VistaPlantillaNormalProps = {
 	defensas: PropiedadJugador[];
 	mediocentros: PropiedadJugador[];
 	delanteros: PropiedadJugador[];
-	jornada: number;
-	setJornada: (jornada: number) => void;
 	formacion: Formacion;
 	cambiarFormacion: (f: Formacion) => void;
 	jugadorPulsado: string;
@@ -39,6 +38,7 @@ type VistaPlantillaNormalProps = {
 	cambioAlineacion: boolean;
 	guardarPlantilla: () => void;
 	setValueFormacion: (f: string) => void;
+	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function VistaPlantillaNormal(
@@ -51,6 +51,13 @@ export function VistaPlantillaNormal(
 		if (idJugador === props.jugadorPulsado) props.setJugadorPulsado("");
 		else props.setJugadorPulsado(idJugador);
 	};
+
+	const cambiarJugadorSiOSi = (idJugador: string) => {
+		if (props.jugadorPulsado === "" && idJugador !== props.jugadorPulsado)
+			props.setJugadorPulsado(idJugador);
+		else props.setJugadorPulsado("");
+	};
+
 	return (
 		<>
 			<IonContent>
@@ -114,7 +121,7 @@ export function VistaPlantillaNormal(
 										<Alineacion
 											usuario={props.plantilla?.usuario}
 											formacion={props.formacion}
-											setJugadorPulsado={cambiarJugador}
+											setJugadorPulsado={cambiarJugadorSiOSi}
 											porteros={props.porteros}
 											defensas={props.defensas}
 											mediocentros={props.mediocentros}
@@ -134,7 +141,8 @@ export function VistaPlantillaNormal(
 												formacion={props.formacion}
 												cambiarTitulares={props.cambiarTitulares}
 												isSameUser={sameUsuario}
-												jornada={props.jornada}
+												jornada={1} //TODO - Get jornada actual
+												puntuacionesMap={props.puntuacionesMap}
 											/>
 										) : (
 											<>

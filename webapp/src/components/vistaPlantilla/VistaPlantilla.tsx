@@ -13,12 +13,14 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
+import { getPuntuacionJugador } from "../../endpoints/puntuacionesController";
 import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,
 	Jugador,
 	PlantillaUsuario,
 	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -62,7 +64,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const [jornada, setJornada] = useState<number>(1);
+	const [puntuacionesMap, setPuntuacionesMap] = useState<
+		Map<string, PuntuacionJugador[]>
+	>(new Map());
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
@@ -97,13 +101,23 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				ju.push(...me);
 				ju.push(...dl);
 
+				let map = new Map<string, PuntuacionJugador[]>();
+
+				ju.forEach(async (jugador) => {
+					await getPuntuacionJugador(jugador.jugador).then((puntuaciones) => {
+						map.set(jugador.jugador._id, puntuaciones);
+					});
+				});
+
+				setPuntuacionesMap(map);
+
 				setJugadores(ju);
 				await new Promise((f) => setTimeout(f, 2000));
 			})
 			.catch((err) => {
-				console.log(err);
 				nav.push("/ligas", "forward");
 			});
+
 		setLoading(false);
 	};
 
@@ -252,8 +266,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									defensas={defensas}
 									mediocentros={mediocentros}
 									delanteros={delanteros}
-									jornada={jornada}
-									setJornada={setJornada}
 									formacion={formacion}
 									cambiarFormacion={cambiarFormacion}
 									jugadorPulsado={jugadorPulsado}
@@ -262,6 +274,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									cambioAlineacion={cambioAlineacion}
 									guardarPlantilla={guardarPlantilla}
 									setValueFormacion={setValueFormacion}
+									puntuacionesMap={puntuacionesMap}
 								/>
 							</>
 						) : (
@@ -274,8 +287,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									defensas={defensas}
 									mediocentros={mediocentros}
 									delanteros={delanteros}
-									setJornada={setJornada}
-									jornada={jornada}
+									puntuacionesMap={puntuacionesMap}
 								/>
 							</>
 						)}

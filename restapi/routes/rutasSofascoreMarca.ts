@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+/*import express, { Router } from "express";
 import * as FantasyMarcaController from "../controladoresSofascore/fantasyMarcaController";
 import * as EquiposController from "../controladoresSofascore/sofascoreEquiposController";
 import * as PartidosController from "../controladoresSofascore/sofascorePartidosController";
@@ -21,3 +21,4 @@ api.get("/marca", FantasyMarcaController.getStatusJugador);
 api.get("/marcaFoto", FantasyMarcaController.getFotoJugadorMarca);
 
 export default api;
+*/

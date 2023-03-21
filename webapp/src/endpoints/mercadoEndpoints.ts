@@ -58,8 +58,6 @@ export async function añadirJugadorAMercado(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	console.log(propiedadJugador);
-
 	let response = await fetch(apiEndPoint + "/mercado/anadir/" + idLiga, {
 		method: "POST",
 		headers: {
@@ -69,6 +67,83 @@ export async function añadirJugadorAMercado(
 		},
 		body: JSON.stringify({ propiedadJugador: propiedadJugador }),
 	});
+
+	switch (response.status) {
+		case 200:
+			return response.json();
+		case 401:
+			throw new Error("Usuario no autorizado");
+		case 404:
+			throw new Error("Liga no encontrada");
+		case 409:
+			throw new Error("No pertenece a la liga");
+		case 500:
+			throw new Error("Error interno");
+		default:
+			throw new Error("Error desconocido");
+	}
+}
+
+export async function aceptarOferta(
+	idLiga: string,
+	idComprador: string,
+	idJugadorEnVenta: string
+): Promise<PropiedadJugador> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(apiEndPoint + "/mercado/aceptaroferta/" + idLiga, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
+		body: JSON.stringify({
+			idComprador: idComprador,
+			idJugadorEnVenta: idJugadorEnVenta,
+		}),
+	});
+
+	switch (response.status) {
+		case 200:
+			return response.json();
+		case 401:
+			throw new Error("Usuario no autorizado");
+		case 404:
+			throw new Error("Liga no encontrada");
+		case 409:
+			throw new Error("No pertenece a la liga");
+		case 500:
+			throw new Error("Error interno");
+		default:
+			throw new Error("Error desconocido");
+	}
+}
+
+export async function rechazarOferta(
+	idLiga: string,
+	idComprador: string,
+	idJugadorEnVenta: string
+): Promise<PropiedadJugador> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(
+		apiEndPoint + "/mercado/rechazaroferta/" + idLiga,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				email: email,
+				token: token,
+			},
+			body: JSON.stringify({
+				idComprador: idComprador,
+				idJugadorEnVenta: idJugadorEnVenta,
+			}),
+		}
+	);
 
 	switch (response.status) {
 		case 200:

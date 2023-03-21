@@ -1,19 +1,20 @@
 import { model, Schema } from "mongoose";
+import { IJugador, jugador } from "./jugador";
 
 export interface IAlineacion {
-	jugadoresTitulares: string[];
-	jugadoresSuplentes: string[]; 
+	jugadoresTitulares: IJugador[];
+	jugadoresSuplentes: IJugador[];
 }
 
 export const alineacion = new Schema<IAlineacion>(
 	{
 		jugadoresTitulares: {
-			type: [String],
+			type: [jugador],
 			required: true,
 			trim: true,
 		},
 		jugadoresSuplentes: {
-			type: [String],
+			type: [jugador],
 			required: true,
 			trim: true,
 		},

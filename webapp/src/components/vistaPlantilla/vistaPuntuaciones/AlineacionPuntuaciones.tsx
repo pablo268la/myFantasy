@@ -4,10 +4,11 @@ import {
 	Equipo,
 	Jugador,
 	PropiedadJugador,
+	PuntuacionJugador,
 	Usuario,
 } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
-import CartaJugador from "../vistaPlantillaNormal/CartaJugador";
+import CartaJugadorPuntuacion from "./CartaJugadorPuntuacion";
 
 const MyGrid = styled(IonGrid)`
 	--ion-grid-columns: 10;
@@ -21,6 +22,8 @@ type AlineacionPuntuacionesProps = {
 	mediocentros: PropiedadJugador[];
 	delanteros: PropiedadJugador[];
 	usuario: Usuario | undefined;
+	jornada: number;
+	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function AlineacionPuntuaciones(
@@ -84,31 +87,60 @@ export function AlineacionPuntuaciones(
 					{props.porteros
 						.slice(0, 1)
 						.map((jugador) =>
-							crearCartaJugador(jugador, props.setJugadorPulsado, "Portero")
+							crearCartaJugador(
+								jugador,
+								props.setJugadorPulsado,
+								"Portero",
+								props.puntuacionesMap.get(
+									jugador.jugador._id
+								) as PuntuacionJugador[],
+								props.jornada
+							)
 						)}
 				</IonRow>
 				<IonRow style={{ justifyContent: "center" }}>
 					{props.defensas
 						.slice(0, props.formacion.defensa)
-						.map((jugador) => {
-							return jugador;
-						})
 						.map((jugador) =>
-							crearCartaJugador(jugador, props.setJugadorPulsado, "Defensa")
+							crearCartaJugador(
+								jugador,
+								props.setJugadorPulsado,
+								"Defensa",
+								props.puntuacionesMap.get(
+									jugador.jugador._id
+								) as PuntuacionJugador[],
+								props.jornada
+							)
 						)}
 				</IonRow>
 				<IonRow style={{ justifyContent: "center" }}>
 					{props.mediocentros
 						.slice(0, props.formacion.medio)
 						.map((jugador) =>
-							crearCartaJugador(jugador, props.setJugadorPulsado, "Mediocentro")
+							crearCartaJugador(
+								jugador,
+								props.setJugadorPulsado,
+								"Mediocentro",
+								props.puntuacionesMap.get(
+									jugador.jugador._id
+								) as PuntuacionJugador[],
+								props.jornada
+							)
 						)}
 				</IonRow>
 				<IonRow style={{ justifyContent: "center" }}>
 					{props.delanteros
 						.slice(0, props.formacion.delantero)
 						.map((jugador) =>
-							crearCartaJugador(jugador, props.setJugadorPulsado, "Delantero")
+							crearCartaJugador(
+								jugador,
+								props.setJugadorPulsado,
+								"Delantero",
+								props.puntuacionesMap.get(
+									jugador.jugador._id
+								) as PuntuacionJugador[],
+								props.jornada
+							)
 						)}
 				</IonRow>
 			</MyGrid>
@@ -119,20 +151,25 @@ export function AlineacionPuntuaciones(
 function crearCartaJugador(
 	jugador: PropiedadJugador,
 	setJugadorPulsado: (idJugador: string) => void,
-	posicion: string
+	posicion: string,
+	puntuaciones: PuntuacionJugador[],
+	jornada: number
 ): JSX.Element {
 	return jugador.titular ? (
-		<CartaJugador
+		<CartaJugadorPuntuacion
 			key={jugador.jugador._id}
 			jugador={jugador}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
+			puntuaciones={puntuaciones}
+			jornada={jornada}
 		/>
 	) : (
-		<CartaJugador
+		<CartaJugadorPuntuacion
 			key={jugador.jugador._id}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
+			jornada={jornada}
 		/>
 	);
 }

@@ -1,56 +1,81 @@
 import {
-    IonIcon,
-    IonLabel,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs,
+	IonContent,
+	IonHeader,
+	IonList,
+	IonPage,
+	IonProgressBar,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 
-import { Route } from "react-router";
-
-import { library, playCircle, radio, search } from "ionicons/icons";
-import { Home } from "../Home";
+import { useEffect, useState } from "react";
+import { getPartidosByJornada } from "../../endpoints/partidosController";
+import { Partido } from "../../shared/sharedTypes";
+import { FantasyToolbar } from "../comunes/FantasyToolbar";
+import { MenuLateral } from "../comunes/MenuLateral";
+import { Resultados } from "./Resultado";
 
 export function VistaResultados(): JSX.Element {
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const [jornada, setJornada] = useState<number>(1);
+	const [partidos, setPartidos] = useState<Partido[]>([]);
+
+	const jornadas = Array.from(Array(38).keys());
+
+	const getPartidosDeJornada = async (jornada: number) => {
+		setLoading(true);
+		setJornada(jornada);
+		await getPartidosByJornada(jornada).then((partidos) => {
+			setPartidos(partidos);
+		});
+		setLoading(false);
+	};
+
+	useEffect(() => {
+		getPartidosDeJornada(jornada);
+	}, []);
+
 	return (
-		<IonReactRouter>
-			<IonTabs>
-				<IonRouterOutlet>
-					{/*
-          Use the render method to reduce the number of renders your component will have due to a route change.
+		<>
+			<MenuLateral />
+			<IonPage id="main-content">
+				<IonHeader>
+					<FantasyToolbar />
+				</IonHeader>
+				<IonContent>
+					<IonRow className="ion-justify-content-center">
+						<h1>Resultados</h1>
+					</IonRow>
+					<IonSelect
+						value={jornada}
+						onIonChange={(e) => {
+							getPartidosDeJornada(e.detail.value);
+						}}
+					>
+						{jornadas.map((jornada) => (
+							<IonSelectOption key={jornada + 1} value={jornada + 1}>
+								Jornada {jornada + 1}
+							</IonSelectOption>
+						))}
+					</IonSelect>
 
-          Use the component prop when your component depends on the RouterComponentProps passed in automatically.
-          <Route path="/radio" render={() => <RadioPage />} exact={true} />
-          <Route path="/library" render={() => <LibraryPage />} exact={true} />
-        <Route path="/search" render={() => <SearchPage />} exact={true} />
-        */}
-					<Route path="/resultados/home" render={() => <Home />} exact={true} />
-				</IonRouterOutlet>
-
-				<IonTabBar slot="bottom">
-					<IonTabButton tab="home" href="/resultados/home">
-						<IonIcon icon={playCircle} />
-						<IonLabel>Listen now</IonLabel>
-					</IonTabButton>
-
-					<IonTabButton tab="radio" href="/radio">
-						<IonIcon icon={radio} />
-						<IonLabel>Radio</IonLabel>
-					</IonTabButton>
-
-					<IonTabButton tab="library" href="/library">
-						<IonIcon icon={library} />
-						<IonLabel>Library</IonLabel>
-					</IonTabButton>
-
-					<IonTabButton tab="search" href="/search">
-						<IonIcon icon={search} />
-						<IonLabel>Search</IonLabel>
-					</IonTabButton>
-				</IonTabBar>
-			</IonTabs>
-		</IonReactRouter>
+					{!loading ? (
+						<>
+							<IonList>
+								{partidos.map((partido) => (
+									<Resultados partido={partido} />
+								))}
+							</IonList>
+						</>
+					) : (
+						<>
+							<IonProgressBar type="indeterminate" />
+						</>
+					)}
+				</IonContent>
+			</IonPage>
+		</>
 	);
 }

@@ -20,6 +20,25 @@ export type Equipo = {
 	escudo: string;
 };
 
+export type Partido = {
+	_id: string;
+	local: Equipo;
+	visitante: Equipo;
+	alineacionLocal: Alineacion;
+	alineacionVisitante: Alineacion;
+	resultadoLocal: number;
+	resultadoVisitante: number;
+	jornada: number;
+	fecha: string;
+	linkSofaScore: string;
+	estado: string;
+};
+
+export type Alineacion = {
+	jugadoresTitulares: Jugador[];
+	jugadoresSuplentes: Jugador[];
+};
+
 export type PlantillaUsuario = {
 	_id: string;
 	usuario: Usuario;

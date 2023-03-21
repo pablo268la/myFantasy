@@ -1,10 +1,11 @@
 import { model, Schema } from "mongoose";
 import { alineacion, IAlineacion } from "./alineacion";
+import { equipo, IEquipo } from "./equipo";
 
 export interface IPartido {
 	_id: string;
-	idLocal: string;
-	idVisitante: string;
+	local: IEquipo;
+	visitante: IEquipo;
 	alineacionLocal: IAlineacion;
 	alineacionVisitante: IAlineacion;
 	resultadoLocal: number;
@@ -23,15 +24,13 @@ export const partido = new Schema<IPartido>(
 			trim: true,
 			unique: true,
 		},
-		idLocal: {
-			type: String,
+		local: {
+			type: equipo,
 			required: true,
-			trim: true,
 		},
-		idVisitante: {
-			type: String,
+		visitante: {
+			type: equipo,
 			required: true,
-			trim: true,
 		},
 		alineacionLocal: {
 			type: alineacion,

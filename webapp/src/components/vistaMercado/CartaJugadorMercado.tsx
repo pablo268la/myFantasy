@@ -170,6 +170,7 @@ export function CartaJugadorMercado(
 								</IonItem>
 								<IonRow>
 									<IonLabel>
+										Valor:{" "}
 										{ponerPuntosAValor(propiedadJugadorEnVenta.jugador.valor)}
 									</IonLabel>
 								</IonRow>
@@ -221,15 +222,8 @@ export function CartaJugadorMercado(
 												: hasPuja()
 												? [
 														{
-															text: "Editar pujas",
+															text: "Editar puja",
 															icon: pencil,
-															handler: () => {
-																setShowPopover(true);
-															},
-														},
-														{
-															text: "Pujar",
-															icon: cart,
 															handler: () => {
 																setShowPopover(true);
 															},

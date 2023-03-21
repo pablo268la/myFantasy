@@ -18,18 +18,22 @@ import {
 	ponerPuntosAValor,
 	urlBackground,
 } from "../../../helpers/helpers";
-import { PropiedadJugador } from "../../../shared/sharedTypes";
+import {
+	PropiedadJugador,
+	PuntuacionJugador,
+} from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 
-type CartaPuntuacionJugadorProps = {
+type CartaDetallesPuntuacionJugadorProps = {
 	propiedadJugador?: PropiedadJugador;
 	showPuntuaciones: boolean;
 	setJugadorPulsado: (idJugador: string) => void;
 	jornada: number;
+	puntuacionesJugador: PuntuacionJugador[];
 };
 
-export function CartaPuntuacionJugador(
-	props: CartaPuntuacionJugadorProps
+export function CartaDetallesPuntuacionJugador(
+	props: CartaDetallesPuntuacionJugadorProps
 ): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
 
@@ -145,6 +149,7 @@ export function CartaPuntuacionJugador(
 					<PuntuacionesJugador
 						jugador={propiedadJugador}
 						jornada={props.jornada}
+						puntuaciones={props.puntuacionesJugador}
 					/>
 				</IonGrid>
 			) : (
