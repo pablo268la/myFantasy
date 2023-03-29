@@ -36,15 +36,18 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		});
 		let puntuacionGuardada = null;
 		if (exists) {
-			puntuacionGuardada = await modelPuntuacionJugador.findByIdAndUpdate(
-				exists._id,
+			puntuacionGuardada = await modelPuntuacionJugador.findOneAndUpdate(
+				{
+					idJugador: puntuacionJugador.idJugador,
+					idPartido: puntuacionJugador.idPartido,
+				},
 				puntuacionJugador,
 				{ new: true }
 			);
 		} else {
 			puntuacionGuardada = await puntuacionJugador.save();
 		}
-			
+
 		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
 		res.status(500).json(error);
