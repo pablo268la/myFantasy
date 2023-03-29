@@ -93,22 +93,12 @@ export function PuntuacionJugadorAdmin(
 						<IonContent>
 							{crearItem(
 								j._id,
-								"Goles",
-								jornada,
-								props.puntuacion.puntuacionBasica.goles.estadistica,
-								(e) => {
-									props.puntuacion.puntuacionBasica.goles.estadistica =
-										parseInt(e.detail.value!);
-								}
-							)}
-							{crearItem(
-								j._id,
 								"Valoracion",
 								jornada,
 								props.puntuacion.puntuacionBasica.valoracion.estadistica,
 								(e) => {
 									props.puntuacion.puntuacionBasica.valoracion.estadistica =
-										parseInt(e.detail.value!);
+										parseFloat(e.detail.value!);
 								}
 							)}
 							{crearItem(
@@ -118,6 +108,16 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionBasica.minutos.estadistica,
 								(e) => {
 									props.puntuacion.puntuacionBasica.minutos.estadistica =
+										parseInt(e.detail.value!);
+								}
+							)}
+							{crearItem(
+								j._id,
+								"Goles",
+								jornada,
+								props.puntuacion.puntuacionBasica.goles.estadistica,
+								(e) => {
+									props.puntuacion.puntuacionBasica.goles.estadistica =
 										parseInt(e.detail.value!);
 								}
 							)}
