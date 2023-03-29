@@ -60,6 +60,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 			await guardarPuntuacionJugador(puntuacion);
 		});
 		setLoading(false);
+        setPuntuacionesCambiadas(false);
 	};
 
 	useEffect(() => {
@@ -140,6 +141,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												onClick={() => {
 													setMessage("Volviendo a la realidad");
 													getPuntuacionesPartidoBack(partido);
+                                                    setPuntuacionesCambiadas(false);
 												}}
 											>
 												Reset
