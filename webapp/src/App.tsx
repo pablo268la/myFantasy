@@ -20,7 +20,7 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { Home } from "./components/Home";
-import { Admin } from "./components/vistaAdmin/Admin";
+import { VistaAdmin } from "./components/vistaAdmin/VistaAdmin";
 import VistaClasificacion from "./components/vistaClasificacion/VistaClasificacion";
 import { VistaCrearLiga } from "./components/vistaLigas/VistaCrearLiga";
 import { VistaLigas } from "./components/vistaLigas/VistaLigas";
@@ -69,7 +69,7 @@ function App(): JSX.Element {
 						<VistaClasificacion />
 					</Route>
 					<Route exact path="/admin">
-						<Admin />
+						<VistaAdmin />
 					</Route>
 					<Route exact path="/mercado">
 						<VistaMercado />

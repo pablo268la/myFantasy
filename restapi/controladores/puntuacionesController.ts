@@ -5,14 +5,6 @@ import {
 } from "../model/puntuacion/puntuacionJugador";
 import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
 
-export const getPuntuacionesJugadores: RequestHandler = async (req, res) => {
-	try {
-		res.status(200).json(await modelPuntuacionJugador.find());
-	} catch (error) {
-		res.status(500).json(error);
-	}
-};
-
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
 		const puntuaciones = await modelPuntuacionJugador.find({
@@ -29,6 +21,31 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 		});
 
 		res.status(200).json(result);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+export const guardarPuntuacion: RequestHandler = async (req, res) => {
+	// TODO - Verificar usuario es admin
+	try {
+		const puntuacionJugador = new modelPuntuacionJugador(req.body);
+		const exists = await modelPuntuacionJugador.findOne({
+			idJugador: puntuacionJugador.idJugador,
+			idPartido: puntuacionJugador.idPartido,
+		});
+		let puntuacionGuardada = null;
+		if (exists) {
+			puntuacionGuardada = await modelPuntuacionJugador.findByIdAndUpdate(
+				exists._id,
+				puntuacionJugador,
+				{ new: true }
+			);
+		} else {
+			puntuacionGuardada = await puntuacionJugador.save();
+		}
+			
+		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
 		res.status(500).json(error);
 	}

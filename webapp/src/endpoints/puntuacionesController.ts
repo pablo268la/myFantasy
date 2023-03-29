@@ -7,3 +7,16 @@ export async function getPuntuacionJugador(
 	let response = await fetch(apiEndPoint + "/puntuaciones/" + jugador._id);
 	return response.json();
 }
+
+export async function guardarPuntuacionJugador(
+	puntuacion: PuntuacionJugador
+): Promise<PuntuacionJugador> {
+	let response = await fetch(apiEndPoint + "/puntuaciones", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(puntuacion),
+	});
+	return response.json();
+}
