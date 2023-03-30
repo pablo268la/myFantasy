@@ -15,6 +15,7 @@ import {
     getPuntuacionesPartido,
 } from "../../endpoints/partidosController";
 import { guardarPuntuacionJugador } from "../../endpoints/puntuacionesController";
+import { openJSON } from "../../helpers/jsonHelper";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
 
@@ -37,6 +38,15 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		PuntuacionJugador[]
 	>([]);
 
+	const [puntuacionesAntiguas, setPuntuacionesAntiguas] = useState<
+		PuntuacionJugador[]
+	>([]);
+
+	const addPuntuacionAntigua = (puntuacion: PuntuacionJugador) => {
+		if (!puntuacionesAntiguas.find((p) => p.idJugador === puntuacion.idJugador))
+			setPuntuacionesAntiguas([...puntuacionesAntiguas, puntuacion]);
+	};
+
 	const getPuntuacionesPartidoBack = async (partido: string) => {
 		setLoadingPuntuaciones(true);
 		await getPuntuacionesPartido(partido).then((puntuaciones) => {
@@ -56,15 +66,20 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	const guardarPuntuaciones = async () => {
 		setLoading(true);
-		puntuacionesPartido.forEach(async (puntuacion) => {
-			await guardarPuntuacionJugador(puntuacion);
+		puntuacionesAntiguas.forEach(async (puntuacion) => {
+			let p = puntuacionesPartido.find(
+				(p) => p.idJugador === puntuacion.idJugador
+			);
+			if (p) await guardarPuntuacionJugador(p);
 		});
 		setLoading(false);
-        setPuntuacionesCambiadas(false);
+		setPuntuacionesCambiadas(false);
+		setPuntuacionesAntiguas([]);
 	};
 
 	useEffect(() => {
 		getPartidosDeJornada(jornada);
+		openJSON("");
 	}, []);
 
 	return (
@@ -141,7 +156,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												onClick={() => {
 													setMessage("Volviendo a la realidad");
 													getPuntuacionesPartidoBack(partido);
-                                                    setPuntuacionesCambiadas(false);
+													setPuntuacionesCambiadas(false);
 												}}
 											>
 												Reset
@@ -174,6 +189,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 						jornada={jornada}
 						puntuacionesPartido={puntuacionesPartido}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}
+						addPuntuacionAntigua={addPuntuacionAntigua}
 					/>
 				</>
 			) : (

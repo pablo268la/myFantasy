@@ -7,6 +7,7 @@ type VistaAdminListaPuntuacionesProps = {
 	jornada: number;
 	puntuacionesPartido: PuntuacionJugador[];
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
+    addPuntuacionAntigua: (puntuacion: PuntuacionJugador) => void;
 };
 
 export function VistaAdminListaPuntuaciones(
@@ -31,6 +32,7 @@ export function VistaAdminListaPuntuaciones(
 							}
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+                            addPuntuacionAntigua={props.addPuntuacionAntigua}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -47,7 +49,7 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.visitante.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
 						/>
 					))}
 				</IonCol>
@@ -67,7 +69,7 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.local.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -84,7 +86,7 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.local.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
 						/>
 					))}
 				</IonCol>
