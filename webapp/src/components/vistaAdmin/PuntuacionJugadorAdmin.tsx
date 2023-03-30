@@ -1,23 +1,28 @@
 import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonModal,
-    IonRow,
-    IonTitle,
-    IonToolbar,
+	IonButton,
+	IonButtons,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonContent,
+	IonHeader,
+	IonIcon,
+	IonInput,
+	IonItem,
+	IonLabel,
+	IonModal,
+	IonRow,
+	IonTitle,
+	IonToolbar,
 } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useRef, useState } from "react";
-import { Jugador, PuntuacionJugador } from "../../shared/sharedTypes";
+import { filterAndPop, getByTramos, openJSON } from "../../helpers/jsonHelper";
+import {
+	Jugador,
+	PuntuacionJSON,
+	PuntuacionJugador,
+} from "../../shared/sharedTypes";
 
 type PuntuacionJugadorAdminProps = {
 	jugador: Jugador;
@@ -33,6 +38,7 @@ export function PuntuacionJugadorAdmin(
 ): JSX.Element {
 	const jornada = props.jornada;
 	const j = props.jugador;
+	const puntuacionJSON: PuntuacionJSON = openJSON();
 
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const modal = useRef<HTMLIonModalElement>(null);
@@ -94,7 +100,7 @@ export function PuntuacionJugadorAdmin(
 							</IonToolbar>
 						</IonHeader>
 						<IonContent>
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Valoracion",
 								jornada,
@@ -103,9 +109,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionBasica.valoracion.estadistica =
 										parseFloat(e.detail.value!);
+								},
+								(e: number) => {
+									return filterAndPop(puntuacionJSON.valoracion, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Minutos",
 								jornada,
@@ -114,9 +123,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionBasica.minutos.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return filterAndPop(puntuacionJSON.minutos, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Goles",
 								jornada,
@@ -125,9 +137,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionBasica.goles.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.goles, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Asistencias",
 								jornada,
@@ -136,10 +151,13 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionBasica.asistencias.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.asistencias, e);
 								}
 							)}
 
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Tiros a puerta",
 								jornada,
@@ -148,9 +166,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosPuerta.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.tirosPuerta, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Tiros fuera",
 								jornada,
@@ -159,9 +180,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosFuera.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.tirosFuera, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Tiros rechazados",
 								jornada,
@@ -170,9 +194,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosBloqueados.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.tirosBloqueados, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Regates completados",
 								jornada,
@@ -182,9 +209,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.regatesCompletados.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.regatesCompletados, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Ocasiones falladas",
 								jornada,
@@ -194,10 +224,13 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.ocasionClaraFallada.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.ocasionClaraFallada, e);
 								}
 							)}
 
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Pases clave",
 								jornada,
@@ -206,9 +239,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.pasesClave.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.pasesClave, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Centros completados",
 								jornada,
@@ -218,9 +254,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.centrosCompletados.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.centrosCompletados, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Grandes ocasiones creadas",
 								jornada,
@@ -230,10 +269,13 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.grandesOcasiones.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.grandesOcasiones, e);
 								}
 							)}
 
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Despejes",
 								jornada,
@@ -242,9 +284,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.despejes.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.despejes, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Entradas",
 								jornada,
@@ -253,9 +298,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.entradas.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.entradas, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Intercepciones",
 								jornada,
@@ -264,9 +312,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.intercepciones.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.intercepciones, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Tiros bloqueados",
 								jornada,
@@ -276,9 +327,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.tirosBloqueados.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.tirosBloqueados, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Errores para disparo",
 								jornada,
@@ -288,9 +342,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.erroresParaDisparo.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.erroresParaDisparo, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Goles en propia",
 								jornada,
@@ -299,10 +356,13 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.golesEnPropia.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.golesEnPropia, e);
 								}
 							)}
 
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Faltas cometidas",
 								jornada,
@@ -311,9 +371,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.faltasCometidas.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.faltasCometidas, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Faltas recibidas",
 								jornada,
@@ -322,9 +385,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.faltasRecibidas.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.faltasRecibidas, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Duelos ganados",
 								jornada,
@@ -333,9 +399,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.duelosGanados.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.duelosGanados, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Duelos perdidos",
 								jornada,
@@ -344,9 +413,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.duelosPerdidos.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.duelosPerdidos, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Posesion perdida",
 								jornada,
@@ -355,9 +427,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.posesionPerdida.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.posesionPerdida, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Fueras de juego",
 								jornada,
@@ -366,10 +441,13 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionFisico.fuerasDeJuego.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.fuerasDeJuego, e);
 								}
 							)}
 
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Paradas",
 								jornada,
@@ -378,9 +456,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPortero.paradas.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.paradas, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Despejes puños",
 								jornada,
@@ -389,9 +470,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPortero.highClaim.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(puntuacionJSON.highClaim, e);
 								}
 							)}
-							{crearItem(
+							{CrearItem(
 								j._id,
 								"Salidas",
 								jornada,
@@ -400,6 +484,12 @@ export function PuntuacionJugadorAdmin(
 									props.addPuntuacionAntigua(props.puntuacion);
 									props.puntuacion.puntuacionPortero.salidas.estadistica =
 										parseInt(e.detail.value!);
+								},
+								(e: number) => {
+									return getByTramos(
+										puntuacionJSON.salidas,
+										props.puntuacion.puntuacionPortero.salidas.estadistica
+									);
 								}
 							)}
 						</IonContent>
@@ -412,26 +502,33 @@ export function PuntuacionJugadorAdmin(
 	);
 }
 
-export function crearItem(
+export function CrearItem(
 	idJugador: string,
 	label: string,
 	semana: number,
 	estadistica: number,
-	funcion: (e: any) => void
-) {
+	functionChangeValue: (e: any) => void,
+	functionGetPuntos: (e: any) => number
+): JSX.Element {
 	return (
 		<IonItem key={idJugador + "-" + label + "-" + semana} lines="none">
 			<IonCol size="7">
 				<IonLabel>{label}</IonLabel>
 			</IonCol>
 			<IonCol size="2">
-				<IonInput value={estadistica ? estadistica : 0} onIonChange={funcion} />
+				<IonInput
+					value={estadistica ? estadistica : 0}
+					onIonChange={(e) => {
+						estadistica = parseInt(e.detail.value!);
+						functionChangeValue(e);
+					}}
+				/>
 			</IonCol>
-            <IonCol size="1">
-                <IonIcon icon={arrowForward} />
-            </IonCol>
+			<IonCol size="1">
+				<IonIcon icon={arrowForward} />
+			</IonCol>
 			<IonCol size="2">
-				<IonInput value={"Pts"} readonly/>
+				<IonInput value={functionGetPuntos(estadistica)} readonly />
 			</IonCol>
 		</IonItem>
 	);

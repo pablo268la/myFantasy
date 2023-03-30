@@ -1,21 +1,20 @@
 import {
-    IonButton,
-    IonCol,
-    IonGrid,
-    IonItem,
-    IonLabel,
-    IonLoading,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
+	IonButton,
+	IonCol,
+	IonGrid,
+	IonItem,
+	IonLabel,
+	IonLoading,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import {
-    getPartidosByJornada,
-    getPuntuacionesPartido,
+	getPartidosByJornada,
+	getPuntuacionesPartido,
 } from "../../endpoints/partidosController";
 import { guardarPuntuacionJugador } from "../../endpoints/puntuacionesController";
-import { openJSON } from "../../helpers/jsonHelper";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
 
@@ -45,6 +44,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	const addPuntuacionAntigua = (puntuacion: PuntuacionJugador) => {
 		if (!puntuacionesAntiguas.find((p) => p.idJugador === puntuacion.idJugador))
 			setPuntuacionesAntiguas([...puntuacionesAntiguas, puntuacion]);
+		else setPuntuacionesAntiguas([...puntuacionesAntiguas]);
 	};
 
 	const getPuntuacionesPartidoBack = async (partido: string) => {
@@ -79,7 +79,6 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	useEffect(() => {
 		getPartidosDeJornada(jornada);
-		openJSON("");
 	}, []);
 
 	return (
