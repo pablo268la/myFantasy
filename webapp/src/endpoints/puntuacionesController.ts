@@ -1,10 +1,10 @@
 import { apiEndPoint } from "../helpers/constants";
-import { Jugador, PuntuacionJugador } from "../shared/sharedTypes";
+import { PuntuacionJugador } from "../shared/sharedTypes";
 
 export async function getPuntuacionJugador(
-	jugador: Jugador
+	jugadorId: string
 ): Promise<PuntuacionJugador[]> {
-	let response = await fetch(apiEndPoint + "/puntuaciones/" + jugador._id);
+	let response = await fetch(apiEndPoint + "/puntuaciones/" + jugadorId);
 	return response.json();
 }
 

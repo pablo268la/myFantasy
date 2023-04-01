@@ -7,7 +7,8 @@ type VistaAdminListaPuntuacionesProps = {
 	jornada: number;
 	puntuacionesPartido: PuntuacionJugador[];
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
-    addPuntuacionAntigua: (puntuacion: PuntuacionJugador) => void;
+	addChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
+	deleteChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
 };
 
 export function VistaAdminListaPuntuaciones(
@@ -32,7 +33,8 @@ export function VistaAdminListaPuntuaciones(
 							}
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
-                            addPuntuacionAntigua={props.addPuntuacionAntigua}
+							addChangedPuntuacion={props.addChangedPuntuacion}
+							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -49,7 +51,9 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.visitante.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							addChangedPuntuacion={props.addChangedPuntuacion}
+							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
 						/>
 					))}
 				</IonCol>
@@ -69,7 +73,9 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.local.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							addChangedPuntuacion={props.addChangedPuntuacion}
+							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -86,7 +92,9 @@ export function VistaAdminListaPuntuaciones(
 								) as PuntuacionJugador
 							}
 							rival={props.partido.local.nombre}
-							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}addPuntuacionAntigua={props.addPuntuacionAntigua}
+							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
+							addChangedPuntuacion={props.addChangedPuntuacion}
+							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
 						/>
 					))}
 				</IonCol>

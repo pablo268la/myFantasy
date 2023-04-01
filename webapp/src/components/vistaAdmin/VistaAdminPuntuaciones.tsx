@@ -14,7 +14,10 @@ import {
 	getPartidosByJornada,
 	getPuntuacionesPartido,
 } from "../../endpoints/partidosController";
-import { guardarPuntuacionJugador } from "../../endpoints/puntuacionesController";
+import {
+	getPuntuacionJugador,
+	guardarPuntuacionJugador,
+} from "../../endpoints/puntuacionesController";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
 
@@ -37,20 +40,42 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		PuntuacionJugador[]
 	>([]);
 
-	const [puntuacionesAntiguas, setPuntuacionesAntiguas] = useState<
+	const [copyPuntuacionesPartido, setCopyPuntuacionesPartido] = useState<
 		PuntuacionJugador[]
 	>([]);
 
-	const addPuntuacionAntigua = (puntuacion: PuntuacionJugador) => {
-		if (!puntuacionesAntiguas.find((p) => p.idJugador === puntuacion.idJugador))
-			setPuntuacionesAntiguas([...puntuacionesAntiguas, puntuacion]);
-		else setPuntuacionesAntiguas([...puntuacionesAntiguas]);
+	const [changedPuntuaciones, setChangedPuntuaciones] = useState<
+		PuntuacionJugador[]
+	>([]);
+
+	const addChangedPuntuacion = (puntuacion: PuntuacionJugador) => {
+		if (!changedPuntuaciones.find((p) => p.idJugador === puntuacion.idJugador))
+			setChangedPuntuaciones([...changedPuntuaciones, puntuacion]);
+		else setChangedPuntuaciones([...changedPuntuaciones]);
+	};
+
+	const deleteChangedPuntuacion = async (puntuacion: PuntuacionJugador) => {
+		const oldP = await getPuntuacionJugador(puntuacion.idJugador).then((p) => {
+			return p.find((p) => p.idPartido === partido);
+		});
+		setChangedPuntuaciones(
+			changedPuntuaciones.filter((p) => p.idJugador !== puntuacion.idJugador)
+		);
+		setPuntuacionesPartido(
+			puntuacionesPartido.map((p) => {
+				if (p.idJugador === puntuacion.idJugador) {
+					return oldP;
+				}
+				return p;
+			}) as PuntuacionJugador[]
+		);
 	};
 
 	const getPuntuacionesPartidoBack = async (partido: string) => {
 		setLoadingPuntuaciones(true);
 		await getPuntuacionesPartido(partido).then((puntuaciones) => {
 			setPuntuacionesPartido(puntuaciones);
+			setCopyPuntuacionesPartido(puntuaciones);
 		});
 		setLoadingPuntuaciones(false);
 	};
@@ -66,15 +91,12 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	const guardarPuntuaciones = async () => {
 		setLoading(true);
-		puntuacionesAntiguas.forEach(async (puntuacion) => {
-			let p = puntuacionesPartido.find(
-				(p) => p.idJugador === puntuacion.idJugador
-			);
-			if (p) await guardarPuntuacionJugador(p);
+		changedPuntuaciones.forEach(async (puntuacion) => {
+			await guardarPuntuacionJugador(puntuacion);
 		});
 		setLoading(false);
 		setPuntuacionesCambiadas(false);
-		setPuntuacionesAntiguas([]);
+		setChangedPuntuaciones([]);
 	};
 
 	useEffect(() => {
@@ -188,7 +210,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 						jornada={jornada}
 						puntuacionesPartido={puntuacionesPartido}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}
-						addPuntuacionAntigua={addPuntuacionAntigua}
+						addChangedPuntuacion={addChangedPuntuacion}
+						deleteChangedPuntuacion={deleteChangedPuntuacion}
 					/>
 				</>
 			) : (

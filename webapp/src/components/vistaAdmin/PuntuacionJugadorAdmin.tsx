@@ -30,7 +30,8 @@ type PuntuacionJugadorAdminProps = {
 	puntuacion: PuntuacionJugador;
 	rival: string;
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
-	addPuntuacionAntigua: (puntuacion: PuntuacionJugador) => void;
+	addChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
+	deleteChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
 };
 
 export function PuntuacionJugadorAdmin(
@@ -39,6 +40,10 @@ export function PuntuacionJugadorAdmin(
 	const jornada = props.jornada;
 	const j = props.jugador;
 	const puntuacionJSON: PuntuacionJSON = openJSON();
+
+	const [safePuntuacion, setSafePuntuacion] = useState<PuntuacionJugador>(
+		props.puntuacion
+	);
 
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const modal = useRef<HTMLIonModalElement>(null);
@@ -77,7 +82,12 @@ export function PuntuacionJugadorAdmin(
 						<IonHeader>
 							<IonToolbar>
 								<IonButtons slot="start">
-									<IonButton onClick={() => modal.current?.dismiss()}>
+									<IonButton
+										onClick={() => {
+											modal.current?.dismiss();
+											props.deleteChangedPuntuacion(props.puntuacion);
+										}}
+									>
 										Cancel
 									</IonButton>
 								</IonButtons>
@@ -106,7 +116,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionBasica.valoracion.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionBasica.valoracion.estadistica =
 										parseFloat(e.detail.value!);
 								},
@@ -120,7 +130,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionBasica.minutos.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionBasica.minutos.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -134,7 +144,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionBasica.goles.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionBasica.goles.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -148,7 +158,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionBasica.asistencias.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionBasica.asistencias.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -163,7 +173,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionOfensiva.tirosPuerta.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosPuerta.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -177,7 +187,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionOfensiva.tirosFuera.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosFuera.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -191,7 +201,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionOfensiva.tirosBloqueados.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.tirosBloqueados.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -206,7 +216,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionOfensiva.regatesCompletados
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.regatesCompletados.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -221,7 +231,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionOfensiva.ocasionClaraFallada
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionOfensiva.ocasionClaraFallada.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -236,7 +246,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionPosesion.pasesClave.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.pasesClave.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -251,7 +261,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionPosesion.centrosCompletados
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.centrosCompletados.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -266,7 +276,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionPosesion.grandesOcasiones
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPosesion.grandesOcasiones.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -281,7 +291,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionDefensiva.despejes.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.despejes.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -295,7 +305,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionDefensiva.entradas.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.entradas.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -309,7 +319,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionDefensiva.intercepciones.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.intercepciones.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -324,7 +334,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionDefensiva.tirosBloqueados
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.tirosBloqueados.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -339,7 +349,7 @@ export function PuntuacionJugadorAdmin(
 								props.puntuacion.puntuacionDefensiva.erroresParaDisparo
 									.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.erroresParaDisparo.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -353,7 +363,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionDefensiva.golesEnPropia.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionDefensiva.golesEnPropia.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -368,7 +378,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.faltasCometidas.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.faltasCometidas.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -382,7 +392,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.faltasRecibidas.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.faltasRecibidas.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -396,7 +406,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.duelosGanados.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.duelosGanados.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -410,7 +420,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.duelosPerdidos.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.duelosPerdidos.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -424,7 +434,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.posesionPerdida.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.posesionPerdida.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -438,7 +448,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionFisico.fuerasDeJuego.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionFisico.fuerasDeJuego.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -453,7 +463,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionPortero.paradas.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPortero.paradas.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -467,7 +477,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionPortero.highClaim.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPortero.highClaim.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -481,7 +491,7 @@ export function PuntuacionJugadorAdmin(
 								jornada,
 								props.puntuacion.puntuacionPortero.salidas.estadistica,
 								(e) => {
-									props.addPuntuacionAntigua(props.puntuacion);
+									props.addChangedPuntuacion(props.puntuacion);
 									props.puntuacion.puntuacionPortero.salidas.estadistica =
 										parseInt(e.detail.value!);
 								},
@@ -517,18 +527,22 @@ export function CrearItem(
 			</IonCol>
 			<IonCol size="2">
 				<IonInput
+					type="number"
+					min={0}
+					step={"any"}
 					value={estadistica ? estadistica : 0}
-					onIonChange={(e) => {
-						estadistica = parseInt(e.detail.value!);
-						functionChangeValue(e);
-					}}
+					onIonChange={functionChangeValue}
 				/>
 			</IonCol>
 			<IonCol size="1">
 				<IonIcon icon={arrowForward} />
 			</IonCol>
 			<IonCol size="2">
-				<IonInput value={functionGetPuntos(estadistica)} readonly />
+				<IonInput
+					style={{ color: "#aaaaaa" }}
+					value={functionGetPuntos(estadistica)}
+					readonly
+				/>
 			</IonCol>
 		</IonItem>
 	);
