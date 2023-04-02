@@ -1,4 +1,5 @@
 import { IonCol, IonLabel, IonRow } from "@ionic/react";
+import { useEffect } from "react";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { PuntuacionJugadorAdmin } from "./PuntuacionJugadorAdmin";
 
@@ -14,6 +15,8 @@ type VistaAdminListaPuntuacionesProps = {
 export function VistaAdminListaPuntuaciones(
 	props: VistaAdminListaPuntuacionesProps
 ): JSX.Element {
+	useEffect(() => {}, [props.puntuacionesPartido]);
+
 	return (
 		<>
 			<IonRow>

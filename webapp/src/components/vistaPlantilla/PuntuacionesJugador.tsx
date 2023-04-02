@@ -24,17 +24,21 @@ import "swiper/swiper.min.css";
 const RedIonRow = styled(IonRow)`
 	justify-content: center;
 	align-content: center;
-	height: 50px;
+	height: 30px;
 	background: linear-gradient(160deg, #ff5454 60%, #a60707 60%);
 `;
 
 const YellowIonRow = styled(IonRow)`
 	justify-content: center;
+	align-content: center;
+	height: 30px;
 	background: linear-gradient(160deg, #fdcd3b 60%, #ffed4b 60%);
 `;
 
 const GreenIonRow = styled(IonRow)`
 	justify-content: center;
+	align-content: center;
+	height: 30px;
 	background: linear-gradient(160deg, #48fb63 60%, #0bd500 60%);
 `;
 
@@ -76,14 +80,14 @@ export function PuntuacionesJugador(
 													setSelectedPos(p.semana - 1);
 												}}
 												color={
-													p.semana - 1 === selectedPos ? "primary" : "secondary"
+													p.semana - 1 === selectedPos ? "primary" : "tertiary"
 												}
 											>
 												{p.puntos < 4 ? (
 													<RedIonRow>
 														<IonLabel> {p.puntos}</IonLabel>
 													</RedIonRow>
-												) : p.puntos < 8 ? (
+												) : p.puntos < 12 ? (
 													<YellowIonRow>
 														<IonLabel>{p.puntos}</IonLabel>
 													</YellowIonRow>
@@ -218,6 +222,30 @@ export function PuntuacionesJugador(
 												)}
 
 												<IonItem key={-6}>Puntuacion defensiva</IonItem>
+												{crearItem(
+													p.idJugador,
+													p.puntuacionCalculable.golesRecibidos,
+													"Goles recibidos",
+													p.semana
+												)}
+												{crearItem(
+													p.idJugador,
+													p.puntuacionCalculable.tarjetasAmarilla,
+													"Tarjetas amarillas",
+													p.semana
+												)}
+												{crearItem(
+													p.idJugador,
+													p.puntuacionCalculable.dobleAmarilla,
+													"Doble amarilla",
+													p.semana
+												)}
+												{crearItem(
+													p.idJugador,
+													p.puntuacionCalculable.tarjetasRoja,
+													"Tarjetas rojas",
+													p.semana
+												)}
 												{crearItem(
 													p.idJugador,
 													p.puntuacionDefensiva.despejes,

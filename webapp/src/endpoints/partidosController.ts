@@ -29,5 +29,10 @@ export async function getPuntuacionesPartido(
 	let response = await fetch(
 		apiEndPoint + "/partidos/puntuaciones/" + idPartido
 	);
+
+	/*	fetch(
+		"https://api.sofascore.com/api/v1/event/10408563/player/39182/statistics"
+	).then((res) => res.json().then((r) => console.log(r)));*/
+
 	return response.json();
 }

@@ -1,7 +1,10 @@
 import { IonBadge, IonCard, IonCol, IonImg } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
-import { getColorEstado, urlBackground } from "../../../helpers/helpers";
+import {
+	getColorPuntos,
+	urlBackground
+} from "../../../helpers/helpers";
 import {
 	PropiedadJugador,
 	PuntuacionJugador,
@@ -33,7 +36,11 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 				>
 					<IonBadge
 						style={{ float: "right", marginRight: "10%", marginTop: "10%" }}
-						color={getColorEstado(props.jugador?.jugador.estado as string)}
+						color={getColorPuntos(
+							props.puntuaciones
+								?.filter((p) => p.semana === props.jornada)
+								.at(0)?.puntos as number
+						)}
 					>
 						{
 							props.puntuaciones

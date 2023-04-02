@@ -39,11 +39,6 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	const [puntuacionesPartido, setPuntuacionesPartido] = useState<
 		PuntuacionJugador[]
 	>([]);
-
-	const [copyPuntuacionesPartido, setCopyPuntuacionesPartido] = useState<
-		PuntuacionJugador[]
-	>([]);
-
 	const [changedPuntuaciones, setChangedPuntuaciones] = useState<
 		PuntuacionJugador[]
 	>([]);
@@ -55,27 +50,32 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	};
 
 	const deleteChangedPuntuacion = async (puntuacion: PuntuacionJugador) => {
-		const oldP = await getPuntuacionJugador(puntuacion.idJugador).then((p) => {
-			return p.find((p) => p.idPartido === partido);
-		});
-		setChangedPuntuaciones(
-			changedPuntuaciones.filter((p) => p.idJugador !== puntuacion.idJugador)
-		);
-		setPuntuacionesPartido(
-			puntuacionesPartido.map((p) => {
-				if (p.idJugador === puntuacion.idJugador) {
-					return oldP;
-				}
-				return p;
-			}) as PuntuacionJugador[]
-		);
+		let oldP = changedPuntuaciones
+			.filter((p) => p.idJugador === puntuacion.idJugador)
+			.at(0);
+
+		if (oldP === undefined) {
+			oldP = await getPuntuacionJugador(puntuacion.idJugador).then((p) => {
+				return p.find((p) => p.idPartido === partido);
+			});
+			setChangedPuntuaciones(
+				changedPuntuaciones.filter((p) => p.idJugador !== puntuacion.idJugador)
+			);
+			setPuntuacionesPartido(
+				puntuacionesPartido.map((p) => {
+					if (p.idJugador === puntuacion.idJugador) {
+						return oldP;
+					}
+					return p;
+				}) as PuntuacionJugador[]
+			);
+		}
 	};
 
 	const getPuntuacionesPartidoBack = async (partido: string) => {
 		setLoadingPuntuaciones(true);
 		await getPuntuacionesPartido(partido).then((puntuaciones) => {
 			setPuntuacionesPartido(puntuaciones);
-			setCopyPuntuacionesPartido(puntuaciones);
 		});
 		setLoadingPuntuaciones(false);
 	};
@@ -90,13 +90,15 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	};
 
 	const guardarPuntuaciones = async () => {
+		// TODO - Guardar las puntuaciones que devuelva el back como actuales
 		setLoading(true);
-		changedPuntuaciones.forEach(async (puntuacion) => {
+		puntuacionesPartido.forEach(async (puntuacion) => {
 			await guardarPuntuacionJugador(puntuacion);
 		});
 		setLoading(false);
 		setPuntuacionesCambiadas(false);
 		setChangedPuntuaciones([]);
+		getPuntuacionesPartidoBack(partido as string);
 	};
 
 	useEffect(() => {
@@ -141,7 +143,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 										>
 											{partidos.map((p) => (
 												<IonSelectOption key={p._id} value={p._id}>
-													{p.local.nombre} - {p.visitante.nombre}
+													{p.local.nombre} {p.resultadoLocal} -{" "}
+													{p.resultadoVisitante} {p.visitante.nombre}
 												</IonSelectOption>
 											))}
 										</IonSelect>

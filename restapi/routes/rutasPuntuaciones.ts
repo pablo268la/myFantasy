@@ -10,4 +10,9 @@ api.get(
 
 api.post("/puntuaciones", PuntuacionesController.guardarPuntuacion);
 
+api.get(
+	"/puntuaciones/calcular/:idJugador",
+	PuntuacionesController.puntuarPuntuacionesJugador
+);
+
 export default api;
