@@ -1,12 +1,23 @@
 import {
-    PuntuacionJSON,
-    TripleeEstadisticaTramosValue as TripleEstadisticaTramosValue,
-    TuppleEstadisticaValue,
-    TuppleTramosValue,
+	PuntuacionJSON,
+	TripleeEstadisticaTramosValue as TripleEstadisticaTramosValue,
+	TuppleEstadisticaValue,
+	TuppleTramosValue,
 } from "../shared/sharedTypes";
 
-export function openJSON(): PuntuacionJSON {
-	return require("./portero.json");
+export function openJSON(posicion: string): PuntuacionJSON {
+	switch (posicion.toLowerCase()) {
+		case "portero":
+			return require("./portero.json");
+		case "defensa":
+			return require("./defensa.json");
+		case "mediocentro":
+			return require("./mediocentro.json");
+		case "delantero":
+			return require("./delantero.json");
+		default:
+			return require("./mediocentro.json");
+	}
 }
 
 export function filterAndPop(

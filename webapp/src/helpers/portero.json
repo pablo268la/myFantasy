@@ -5,7 +5,7 @@
             "value": 1
         },
         {
-            "estadistica": 20,
+            "estadistica": 45,
             "value": 2
         },
         {
@@ -31,8 +31,28 @@
             "value": 0
         },
         {
+            "estadistica": 6.5,
+            "value": 1
+        },
+        {
             "estadistica": 7.0,
             "value": 2
+        },
+        {
+            "estadistica": 7.2,
+            "value": 3
+        },
+        {
+            "estadistica": 7.5,
+            "value": 4
+        },
+        {
+            "estadistica": 7.7,
+            "value": 5
+        },
+        {
+            "estadistica": 8.0,
+            "value": 6
         }
     ],
     "tirosPuerta": {
@@ -85,7 +105,7 @@
     },
     "pasesClave": {
         "tramos": 1,
-        "value": 1
+        "value": 2
     },
     "centrosTotales": {
         "tramos": 1,
@@ -105,7 +125,7 @@
     },
     "grandesOcasiones": {
         "tramos": 1,
-        "value": 2
+        "value": 4
     },
     "despejes": {
         "tramos": 2,
@@ -173,7 +193,7 @@
     },
     "fuerasDeJuego": {
         "tramos": 1,
-        "value": -2
+        "value": -1
     },
     "paradas": {
         "tramos": 3,

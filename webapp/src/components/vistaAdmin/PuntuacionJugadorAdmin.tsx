@@ -9,6 +9,7 @@ import {
 	IonIcon,
 	IonInput,
 	IonItem,
+	IonItemDivider,
 	IonLabel,
 	IonModal,
 	IonRow,
@@ -39,7 +40,7 @@ export function PuntuacionJugadorAdmin(
 ): JSX.Element {
 	const jornada = props.jornada;
 	const j = props.jugador;
-	const puntuacionJSON: PuntuacionJSON = openJSON();
+	const puntuacionJSON: PuntuacionJSON = openJSON(props.jugador.posicion);
 
 	const [safePuntuacion, setSafePuntuacion] = useState<PuntuacionJugador>(
 		props.puntuacion
@@ -502,6 +503,19 @@ export function PuntuacionJugadorAdmin(
 									);
 								}
 							)}
+							<IonItemDivider />
+							<IonItem key={j._id + "- Total -" + jornada} lines="none">
+								<IonCol size="7">
+									<IonLabel>Total</IonLabel>
+								</IonCol>
+								<IonCol slot="end" size="2">
+									<IonInput
+										style={{ color: "#aaaaaa" }}
+										value={props.puntuacion.puntos}
+										readonly
+									/>
+								</IonCol>
+							</IonItem>
 						</IonContent>
 					</IonModal>
 				</>
