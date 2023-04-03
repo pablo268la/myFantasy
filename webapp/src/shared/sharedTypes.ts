@@ -119,6 +119,8 @@ export type PuntuacionCalculable = {
 	tarjetasAmarilla: PuntuacionTupple;
 	tarjetasRoja: PuntuacionTupple;
 	dobleAmarilla: PuntuacionTupple;
+	playerIn: number;
+	playerOut: number;
 };
 
 export type PuntuacionDefensiva = {

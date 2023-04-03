@@ -37,7 +37,7 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 export const guardarPuntuacion: RequestHandler = async (req, res) => {
 	// TODO - Verificar usuario es admin
 	try {
-		let puntuacionJugador : any = new modelPuntuacionJugador(req.body);
+		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);
 		const jugador = await modeloJugador.findOne({
 			_id: puntuacionJugador.idJugador,
 		});
@@ -145,6 +145,8 @@ const createPuntuacionJugadorVacia: any = (
 			tarjetasAmarilla: tupple,
 			tarjetasRoja: tupple,
 			dobleAmarilla: tupple,
+			playerIn: 0,
+			playerOut: 0,
 		},
 		idEquipo: "",
 		idEquipoRival: "",
@@ -389,7 +391,7 @@ function calcularPuntuacion(
 	puntuacion.puntos += puntuacion.puntuacionPortero.paradas.puntos;
 
 	puntuacion.puntuacionPortero.despejes.puntos = getByTramos(
-		puntuacionJSON.despejes,
+		puntuacionJSON.despejesPortero,
 		puntuacion.puntuacionPortero.despejes.estadistica
 	);
 	puntuacion.puntos += puntuacion.puntuacionPortero.despejes.puntos;
@@ -477,6 +479,8 @@ function calcularPuntuacion(
 			tarjetasAmarilla: tupple,
 			tarjetasRoja: tupple,
 			dobleAmarilla: tupple,
+			playerIn: 0,
+			playerOut: 0,
 		};
 		console.log(puntuacion.idJugador);
 	} else {

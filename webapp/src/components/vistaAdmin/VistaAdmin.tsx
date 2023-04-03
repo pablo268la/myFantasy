@@ -11,10 +11,12 @@ import {
 	getJugadores,
 	getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
+import { comparePosiciones } from "../../helpers/helpers";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { VistaAdminJugadores } from "./VistaAdminJugadores";
+import { VistaAdminPartidos } from "./VistaAdminPartidos";
 import { VistaAdminPuntuaciones } from "./VistaAdminPuntuaciones";
 
 export function VistaAdmin(): JSX.Element {
@@ -27,9 +29,9 @@ export function VistaAdmin(): JSX.Element {
 
 	const [anyEdited, setAnyEdited] = useState<boolean>(false);
 
-	const [segment, setSegment] = useState<"jugadores" | "puntuaciones">(
-		"jugadores"
-	);
+	const [segment, setSegment] = useState<
+		"jugadores" | "puntuaciones" | "partidos"
+	>("jugadores");
 
 	const getEquiposFromApi = async () => {
 		setLoading(true);
@@ -41,33 +43,7 @@ export function VistaAdmin(): JSX.Element {
 		setLoading(false);
 	};
 
-	const comparePosiciones = (pos1: string, pos2: string) => {
-		if (pos1 === "Portero") {
-			return -1;
-		}
-		if (pos2 === "Portero") {
-			return 1;
-		}
-		if (pos1 === "Defensa") {
-			return -1;
-		}
-		if (pos2 === "Defensa") {
-			return 1;
-		}
-		if (pos1 === "Mediocentro") {
-			return -1;
-		}
-		if (pos2 === "Mediocentro") {
-			return 1;
-		}
-		if (pos1 === "Delantero") {
-			return -1;
-		}
-		if (pos2 === "Delantero") {
-			return 1;
-		}
-		return 0;
-	};
+	
 
 	const getJugadoresFromApi = async (idEquipo: string, fromModal: boolean) => {
 		setLoading(true);
@@ -122,6 +98,14 @@ export function VistaAdmin(): JSX.Element {
 						>
 							Puntuaciones
 						</IonSegmentButton>
+						<IonSegmentButton
+							value="partidos"
+							onClick={() => {
+								setSegment("partidos");
+							}}
+						>
+							Partidos
+						</IonSegmentButton>
 					</IonSegment>
 					{segment === "jugadores" ? (
 						<VistaAdminJugadores
@@ -133,9 +117,13 @@ export function VistaAdmin(): JSX.Element {
 							getJugadoresFromApi={getJugadoresFromApi}
 							getEquiposFromApi={getEquiposFromApi}
 						/>
-					) : (
+					) : segment === "puntuaciones" ? (
 						<>
 							<VistaAdminPuntuaciones />
+						</>
+					) : (
+						<>
+							<VistaAdminPartidos />
 						</>
 					)}
 				</IonContent>
