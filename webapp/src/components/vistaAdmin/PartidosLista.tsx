@@ -1,34 +1,35 @@
 import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonContent,
-    IonHeader,
-    IonIcon,
-    IonItem,
-    IonItemDivider,
-    IonLabel,
-    IonModal,
-    IonRow,
-    IonTitle,
-    IonToolbar,
+	IonButton,
+	IonButtons,
+	IonCard,
+	IonCardContent,
+	IonContent,
+	IonHeader,
+	IonIcon,
+	IonItem,
+	IonItemDivider,
+	IonLabel,
+	IonModal,
+	IonRow,
+	IonTitle,
+	IonToolbar,
 } from "@ionic/react";
-import {
-    addCircleOutline,
-    closeCircleOutline
-} from "ionicons/icons";
+import { addCircleOutline, closeCircleOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { comparePosiciones } from "../../helpers/helpers";
-import { Jugador, Partido } from "../../shared/sharedTypes";
+import { Alineacion, Jugador, Partido } from "../../shared/sharedTypes";
 
 type PartidosListaProps = {
 	partido: Partido;
 	jugadores: Jugador[];
 	local: boolean;
+	setCambiado: (cambiado: boolean) => void;
+	setAlinecion: (alineacion: Alineacion) => void;
 };
 
 export function PartidosLista(props: PartidosListaProps): JSX.Element {
+	const [partido, setPartido] = useState<Partido>(props.partido);
+
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const modal = useRef<HTMLIonModalElement>(null);
 
@@ -46,11 +47,19 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 			newTitulares.sort((a, b) => comparePosiciones(a.posicion, b.posicion))
 		);
 		setVacios(Array.from(Array(11 - newTitulares.length)));
+		props.setAlinecion({
+			jugadoresTitulares: newTitulares,
+			jugadoresSuplentes: supl,
+		});
 	};
 
 	const changeSupl = (newSupl: Jugador[]) => {
 		setSupl(newSupl.sort((a, b) => comparePosiciones(a.posicion, b.posicion)));
 		setVaciosSupl(Array.from(Array(1)));
+		props.setAlinecion({
+			jugadoresTitulares: titulares,
+			jugadoresSuplentes: newSupl,
+		});
 	};
 
 	const getJugadoresNiTitularesNiSupl = () => {
@@ -64,6 +73,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 
 	useEffect(() => {
 		setTodos(props.jugadores);
+		//TODO - Get jugadores antiguos by jornada
 		if (props.local) {
 			changeTitulares(props.partido.alineacionLocal.jugadoresTitulares);
 			changeSupl(props.partido.alineacionLocal.jugadoresSuplentes);
@@ -76,7 +86,11 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 	return (
 		<>
 			<IonRow style={{ justifyContent: "center" }}>
-				<IonLabel>{props.partido.local.nombre}</IonLabel>
+				<IonLabel>
+					{props.local
+						? props.partido.local.nombre
+						: props.partido.visitante.nombre}
+				</IonLabel>
 			</IonRow>
 			{titulares.map((jugador) => (
 				<>
@@ -92,6 +106,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 										changeTitulares(
 											titulares.filter((j) => j._id !== jugador._id)
 										);
+										props.setCambiado(true);
 									}}
 								/>
 							</IonItem>
@@ -112,6 +127,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 											onClick={() => {
 												setForTitular(true);
 												setShowModal(true);
+												props.setCambiado(true);
 											}}
 										/>
 									</IonItem>
@@ -123,7 +139,12 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 			})}
 
 			<IonRow style={{ justifyContent: "center" }}>
-				<IonLabel>{"Suplentes " + props.partido.local.nombre}</IonLabel>
+				<IonLabel>
+					Suplentes{" "}
+					{props.local
+						? props.partido.local.nombre
+						: props.partido.visitante.nombre}
+				</IonLabel>
 			</IonRow>
 
 			{supl.map((jugador) => (
@@ -138,6 +159,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 									icon={closeCircleOutline}
 									onClick={() => {
 										changeSupl(supl.filter((j) => j._id !== jugador._id));
+										props.setCambiado(true);
 									}}
 								/>
 							</IonItem>
@@ -158,6 +180,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 											onClick={() => {
 												setForTitular(false);
 												setShowModal(true);
+												props.setCambiado(true);
 											}}
 										/>
 									</IonItem>

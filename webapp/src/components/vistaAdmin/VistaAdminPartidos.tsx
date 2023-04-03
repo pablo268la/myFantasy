@@ -1,18 +1,19 @@
 import {
-    IonCol,
-    IonGrid,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonLoading,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
+	IonButton,
+	IonCol,
+	IonGrid,
+	IonInput,
+	IonItem,
+	IonLabel,
+	IonLoading,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadoresPorEquipo } from "../../endpoints/jugadorEndpoints";
 import { getPartidosByJornada } from "../../endpoints/partidosController";
-import { Jugador, Partido } from "../../shared/sharedTypes";
+import { Alineacion, Jugador, Partido } from "../../shared/sharedTypes";
 import { PartidosLista } from "./PartidosLista";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
@@ -29,8 +30,13 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [jugadoresLocales, setJugadoresLocales] = useState<Jugador[]>([]);
 	const [jugadoresVisitantes, setJugadoresVisitantes] = useState<Jugador[]>([]);
 
+	const [cambiado, setCambiado] = useState<boolean>(false);
+	const [alineacionLocal, setAlineacionLocal] = useState<Alineacion>();
+	const [alineacionVisitante, setAlineacionVisitante] = useState<Alineacion>();
+
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
+		setCambiado(false);
 		setJornada(jornada);
 		await getPartidosByJornada(jornada).then((partidos) => {
 			setPartidos(partidos);
@@ -40,6 +46,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 	const changeSelectedPartido = async (partido: any) => {
 		setLoading(true);
+		setCambiado(false);
 		setPartido(partido);
 		if (partido === undefined) setPartidoSeleccionado(undefined);
 		else {
@@ -54,6 +61,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				);
 			} else setPartidoSeleccionado(undefined);
 		}
+		setLoading(false);
+	};
+
+	const guardarAlineacion = async () => {
+		setLoading(true);
+		setMessage("Guardando la alineacion");
+		console.log(alineacionLocal);
+		console.log(alineacionVisitante);
 		setLoading(false);
 	};
 
@@ -112,7 +127,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 						{partido !== undefined ? (
 							<>
 								<IonRow>
-									<IonCol>
+									<IonCol sizeSm="8" sizeXs="12">
 										<IonItem lines="none">
 											<IonLabel>Link SofaScore</IonLabel>
 											<IonInput
@@ -120,6 +135,30 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											></IonInput>
 										</IonItem>
 									</IonCol>
+									{cambiado ? (
+										<IonCol sizeSm="4" sizeXs="12" className="ion-text-end">
+											<IonButton
+												color="danger"
+												onClick={() => {
+													setMessage("Volviendo a la realidad");
+													changeSelectedPartido(partido);
+													setCambiado(false);
+												}}
+											>
+												Reset
+											</IonButton>
+											<IonButton
+												color="success"
+												onClick={() => {
+													guardarAlineacion();
+												}}
+											>
+												Guardar
+											</IonButton>
+										</IonCol>
+									) : (
+										<></>
+									)}
 								</IonRow>
 							</>
 						) : (
@@ -137,6 +176,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								partido={partidoSeleccionado}
 								jugadores={jugadoresLocales}
 								local={true}
+								setCambiado={setCambiado}
+								setAlinecion={setAlineacionLocal}
 							/>
 						</IonCol>
 						<IonCol>
@@ -144,6 +185,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								partido={partidoSeleccionado}
 								jugadores={jugadoresVisitantes}
 								local={false}
+								setCambiado={setCambiado}
+								setAlinecion={setAlineacionVisitante}
 							/>
 						</IonCol>
 					</IonRow>

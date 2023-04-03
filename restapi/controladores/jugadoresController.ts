@@ -27,6 +27,7 @@ export const getJugador: RequestHandler = async (req, res) => {
 
 export const updateJugador: RequestHandler = async (req, res) => {
 	//TODO: Validar que el usuario que hace la petición es administrador
+	//TODO: Si el jugador cambia de equipo, hay que actualizar el equipo antiguo
 	try {
 		const jugador = await modeloJugador.findOneAndUpdate(
 			{ _id: req.params.idJugador },
