@@ -9,7 +9,6 @@ export const eventoPartido = new Schema<IEventoPartido>(
 			trim: true,
 			enum: [
 				"Gol",
-				"Asistencia",
 				"Gol en propia puerta",
 				"Tarjeta Amarilla",
 				"Tarjeta Roja",

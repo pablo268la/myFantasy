@@ -27,6 +27,7 @@ import {
 	getPartidosByJornada,
 	updatePartido,
 } from "../../endpoints/partidosController";
+import { getEventosDeSofaScore } from "../../helpers/sofaScoreHelper";
 import {
 	Alineacion,
 	EventoPartido,
@@ -37,6 +38,7 @@ import { PartidosLista } from "./PartidosLista";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(false);
+	const [eventosLoading, setEventosLoading] = useState<boolean>(false);
 	const [message, setMessage] = useState<string>("Analizando el Big Data");
 
 	const [jornada, setJornada] = useState<number>(1);
@@ -94,6 +96,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				setEstado(p.estado);
 				setFecha(p.fecha);
 				setLink(p.linkSofaScore);
+				setEventosPartido(p.eventos);
 			} else setPartidoSeleccionado(undefined);
 		}
 		setCambiado(false);
@@ -125,15 +128,49 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(false);
 	};
 
+	const añadirEventos = (eventos: EventoPartido[]) => {
+		const eventosp = eventosPartido.concat(eventos);
+		setEventosPartido(eventosp.sort((a, b) => a.minuto - b.minuto));
+	};
+
+	const callSofaScore = async () => {
+		await getEventosDeSofaScore(partidoSeleccionado as Partido).then(
+			(eventos) => {
+				añadirEventos(eventos);
+			}
+		);
+
+		setCambiado(true);
+		setEventosLoading(false);
+	};
+
+	const borrarEvento = async (evento: EventoPartido) => {
+		setLoading(true);
+		setEventosPartido(
+			eventosPartido.filter(
+				(e) =>
+					!(
+						e.minuto === evento.minuto &&
+						e.tipo === evento.tipo &&
+						e.jugador === evento.jugador &&
+						e.jugador2 === evento.jugador2
+					)
+			)
+		);
+		setCambiado(true);
+		setLoading(false);
+	};
+
 	useEffect(() => {
 		getPartidosDeJornada(jornada);
 	}, []);
 
 	return (
 		<>
+			<IonLoading isOpen={loading} message={message} />
+			<IonLoading isOpen={eventosLoading} message={"Robando los datos"} />
 			<IonGrid>
 				<IonRow>
-					<IonLoading isOpen={loading} message={message} />
 					<IonCol sizeSm="6" sizeXs="12">
 						<IonRow>
 							<IonCol size="6">
@@ -216,6 +253,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			{!loading && partidoSeleccionado !== undefined ? (
 				<>
 					<IonItemDivider>Informacion</IonItemDivider>
+					<IonButton
+						onClick={async () => {
+							setEventosLoading(true);
+							await callSofaScore();
+						}}
+					>
+						COGER DE SOFASCORE
+					</IonButton>
 					<IonRow>
 						<IonCol sizeSm="4" sizeXs="6">
 							<IonItem lines="none">
@@ -290,7 +335,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 						<IonCol sizeSm="11" sizeXs="10">
 							<IonRow>
 								{eventosPartido.map((evento) => (
-									<IonItem key={evento.minuto}>
+									<IonItem>
 										<IonLabel>
 											{evento.minuto}
 											{"' | "}
@@ -312,9 +357,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonButton
 											fill="clear"
 											onClick={() => {
-												setEventosPartido(
-													eventosPartido.filter((e) => e !== evento)
-												);
+												borrarEvento(evento);
 											}}
 										>
 											<IonIcon icon={trash} />
@@ -357,8 +400,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 												)
 													return;
 
-												setEventosPartido([
-													...eventosPartido,
+												añadirEventos([
 													{
 														tipo: tipoEvento + "",
 														minuto: minutoEvento,
@@ -388,9 +430,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										}}
 									>
 										<IonSelectOption value="Gol">Gol</IonSelectOption>
-										<IonSelectOption value="Asistencia">
-											Asistencia
-										</IonSelectOption>
+
 										<IonSelectOption value="Gol en propia puerta">
 											Gol en propia puerta
 										</IonSelectOption>

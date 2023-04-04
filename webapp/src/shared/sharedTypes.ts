@@ -32,6 +32,7 @@ export type Partido = {
 	fecha: string;
 	linkSofaScore: string;
 	estado: string;
+	eventos: EventoPartido[];
 };
 
 export type EventoPartido = {
