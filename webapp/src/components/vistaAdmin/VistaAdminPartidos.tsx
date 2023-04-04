@@ -1,18 +1,25 @@
 import {
 	IonButton,
 	IonCol,
+	IonDatetime,
+	IonDatetimeButton,
 	IonGrid,
 	IonInput,
 	IonItem,
+	IonItemDivider,
 	IonLabel,
 	IonLoading,
+	IonModal,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getJugadoresPorEquipo } from "../../endpoints/jugadorEndpoints";
-import { getPartidosByJornada } from "../../endpoints/partidosController";
+import {
+	getPartidosByJornada,
+	updatePartido,
+} from "../../endpoints/partidosController";
 import { Alineacion, Jugador, Partido } from "../../shared/sharedTypes";
 import { PartidosLista } from "./PartidosLista";
 
@@ -33,6 +40,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [cambiado, setCambiado] = useState<boolean>(false);
 	const [alineacionLocal, setAlineacionLocal] = useState<Alineacion>();
 	const [alineacionVisitante, setAlineacionVisitante] = useState<Alineacion>();
+	const [estado, setEstado] = useState<string>();
+	const [fecha, setFecha] = useState<string>();
+	const [link, setLink] = useState<string>();
 
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
@@ -46,7 +56,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 	const changeSelectedPartido = async (partido: any) => {
 		setLoading(true);
-		setCambiado(false);
 		setPartido(partido);
 		if (partido === undefined) setPartidoSeleccionado(undefined);
 		else {
@@ -59,16 +68,37 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				getJugadoresPorEquipo(p.visitante._id).then((jugadores) =>
 					setJugadoresVisitantes(jugadores)
 				);
+				setEstado(p.estado);
+				setFecha(p.fecha);
+				setLink(p.linkSofaScore);
 			} else setPartidoSeleccionado(undefined);
 		}
+		setCambiado(false);
 		setLoading(false);
 	};
 
 	const guardarAlineacion = async () => {
 		setLoading(true);
-		setMessage("Guardando la alineacion");
-		console.log(alineacionLocal);
-		console.log(alineacionVisitante);
+		if (partidoSeleccionado) {
+			if (alineacionLocal)
+				partidoSeleccionado.alineacionLocal = alineacionLocal;
+			if (alineacionVisitante)
+				partidoSeleccionado.alineacionVisitante = alineacionVisitante;
+			if (estado) partidoSeleccionado.estado = estado;
+			if (fecha) partidoSeleccionado.fecha = fecha;
+			if (link) partidoSeleccionado.linkSofaScore = link;
+
+			updatePartido(partidoSeleccionado).then((p) => {
+				setPartidoSeleccionado(p);
+			});
+			setPartidos(
+				partidos.map((p) => {
+					if (p._id === partidoSeleccionado._id) return partidoSeleccionado;
+					else return p;
+				})
+			);
+		}
+		setCambiado(false);
 		setLoading(false);
 	};
 
@@ -127,16 +157,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 						{partido !== undefined ? (
 							<>
 								<IonRow>
-									<IonCol sizeSm="8" sizeXs="12">
-										<IonItem lines="none">
-											<IonLabel>Link SofaScore</IonLabel>
-											<IonInput
-												value={partidoSeleccionado?.linkSofaScore}
-											></IonInput>
-										</IonItem>
-									</IonCol>
 									{cambiado ? (
-										<IonCol sizeSm="4" sizeXs="12" className="ion-text-end">
+										<IonCol className="ion-text-end">
 											<IonButton
 												color="danger"
 												onClick={() => {
@@ -170,6 +192,67 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 			{!loading && partidoSeleccionado !== undefined ? (
 				<>
+					<IonItemDivider>Informacion</IonItemDivider>
+					<IonRow>
+						<IonCol sizeSm="4" sizeXs="6">
+							<IonItem lines="none">
+								<IonLabel position="stacked">Estado</IonLabel>
+								<IonSelect
+									value={estado}
+									onIonChange={(e) => {
+										setCambiado(true);
+										setEstado(e.detail.value);
+									}}
+								>
+									<IonSelectOption value="Por jugar">Por jugar</IonSelectOption>
+									<IonSelectOption value="En juego">En juego</IonSelectOption>
+									<IonSelectOption value="Finalizado">
+										Finalizado
+									</IonSelectOption>
+									<IonSelectOption value="Cancelado">Cancelado</IonSelectOption>
+								</IonSelect>
+							</IonItem>
+						</IonCol>
+						<IonCol sizeSm="4" sizeXs="6">
+							<IonItem lines="none">
+								<IonLabel position="stacked">Link SofaScore</IonLabel>
+								<IonInput
+									value={link}
+									onIonChange={(e) => {
+										if (e.detail.value !== partidoSeleccionado.linkSofaScore)
+											setCambiado(true);
+										setLink(e.detail.value + "");
+									}}
+								></IonInput>
+							</IonItem>
+						</IonCol>
+						<IonCol sizeSm="4" sizeXs="12">
+							<IonItem lines="none">
+								<IonLabel position="stacked">Fecha</IonLabel>
+								<IonDatetimeButton datetime="datetime"></IonDatetimeButton>
+							</IonItem>
+							<IonModal
+								keepContentsMounted={true}
+								onDidDismiss={() => {
+									setCambiado(true);
+								}}
+							>
+								<IonDatetime
+									onIonChange={(e) => {
+										setFecha(e.detail.value + "");
+									}}
+									showDefaultButtons={true}
+									value={new Date(Date.parse(fecha + "")).toISOString()}
+									minuteValues="00,15,30,45"
+									id="datetime"
+								></IonDatetime>
+							</IonModal>
+						</IonCol>
+					</IonRow>
+
+					<IonItemDivider>Eventos</IonItemDivider>
+
+					<IonItemDivider>Alineaciones</IonItemDivider>
 					<IonRow>
 						<IonCol>
 							<PartidosLista

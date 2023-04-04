@@ -28,8 +28,6 @@ type PartidosListaProps = {
 };
 
 export function PartidosLista(props: PartidosListaProps): JSX.Element {
-	const [partido, setPartido] = useState<Partido>(props.partido);
-
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const modal = useRef<HTMLIonModalElement>(null);
 

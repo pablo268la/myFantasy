@@ -16,4 +16,6 @@ api.get(
 	PartidosController.getPuntuacionesPartido
 );
 
+api.put("/partidos/:idPartido", PartidosController.updatePartido);
+
 export default api;

@@ -17,6 +17,7 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	}
 };
 
+
 export const getJugador: RequestHandler = async (req, res) => {
 	try {
 		res.json(await modeloJugador.findOne({ _id: req.params.idJugador }));

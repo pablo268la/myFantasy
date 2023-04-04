@@ -36,3 +36,14 @@ export async function getPuntuacionesPartido(
 
 	return response.json();
 }
+
+export async function updatePartido(partido: Partido): Promise<Partido> {
+	let response = await fetch(apiEndPoint + "/partidos/" + partido._id, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(partido),
+	});
+	return response.json();
+}
