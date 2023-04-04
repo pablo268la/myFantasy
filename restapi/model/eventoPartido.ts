@@ -25,6 +25,10 @@ export const eventoPartido = new Schema<IEventoPartido>(
 			type: jugador,
 			required: true,
 		},
+		jugador2: {
+			type: jugador,
+			required: false,
+		},
 	},
 	{
 		versionKey: false,
@@ -36,6 +40,7 @@ export interface IEventoPartido {
 	tipo: string;
 	minuto: number;
 	jugador: IJugador;
+	jugador2?: IJugador;
 }
 
 export const modelEventoPartido = model<IEventoPartido>(

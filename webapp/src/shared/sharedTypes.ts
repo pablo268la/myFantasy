@@ -34,6 +34,13 @@ export type Partido = {
 	estado: string;
 };
 
+export type EventoPartido = {
+	tipo: string;
+	minuto: number;
+	jugador: Jugador;
+	jugador2: Jugador | undefined;
+};
+
 export type Alineacion = {
 	jugadoresTitulares: Jugador[];
 	jugadoresSuplentes: Jugador[];

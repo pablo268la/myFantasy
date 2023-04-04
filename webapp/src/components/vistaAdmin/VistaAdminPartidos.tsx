@@ -1,9 +1,13 @@
 import {
 	IonButton,
+	IonButtons,
 	IonCol,
+	IonContent,
 	IonDatetime,
 	IonDatetimeButton,
 	IonGrid,
+	IonHeader,
+	IonIcon,
 	IonInput,
 	IonItem,
 	IonItemDivider,
@@ -13,14 +17,22 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
+	IonTitle,
+	IonToolbar,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { addCircleOutline, arrowForwardCircle, trash } from "ionicons/icons";
+import { useEffect, useRef, useState } from "react";
 import { getJugadoresPorEquipo } from "../../endpoints/jugadorEndpoints";
 import {
 	getPartidosByJornada,
 	updatePartido,
 } from "../../endpoints/partidosController";
-import { Alineacion, Jugador, Partido } from "../../shared/sharedTypes";
+import {
+	Alineacion,
+	EventoPartido,
+	Jugador,
+	Partido,
+} from "../../shared/sharedTypes";
 import { PartidosLista } from "./PartidosLista";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
@@ -43,6 +55,15 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [estado, setEstado] = useState<string>();
 	const [fecha, setFecha] = useState<string>();
 	const [link, setLink] = useState<string>();
+	const [eventosPartido, setEventosPartido] = useState<EventoPartido[]>([]);
+
+	const modalEvento = useRef<HTMLIonModalElement>(null);
+	const [showModalEvento, setShowModalEvento] = useState<boolean>(false);
+
+	const [tipoEvento, setTipoEvento] = useState<string>();
+	const [minutoEvento, setMinutoEvento] = useState<number>(0);
+	const [jugadorEvento, setJugadorEvento] = useState<Jugador>();
+	const [jugadorEvento2, setJugadorEvento2] = useState<Jugador>();
 
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
@@ -68,6 +89,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				getJugadoresPorEquipo(p.visitante._id).then((jugadores) =>
 					setJugadoresVisitantes(jugadores)
 				);
+				setAlineacionLocal(p.alineacionLocal);
+				setAlineacionVisitante(p.alineacionVisitante);
 				setEstado(p.estado);
 				setFecha(p.fecha);
 				setLink(p.linkSofaScore);
@@ -251,6 +274,239 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					</IonRow>
 
 					<IonItemDivider>Eventos</IonItemDivider>
+
+					<IonRow>
+						<IonCol sizeSm="1" sizeXs="2">
+							<IonButton
+								fill="clear"
+								onClick={() => {
+									setShowModalEvento(true);
+								}}
+							>
+								<IonIcon icon={addCircleOutline} size="large" />
+							</IonButton>
+						</IonCol>
+
+						<IonCol sizeSm="11" sizeXs="10">
+							<IonRow>
+								{eventosPartido.map((evento) => (
+									<IonItem key={evento.minuto}>
+										<IonLabel>
+											{evento.minuto}
+											{"' | "}
+											{evento.tipo}
+											{"  "}
+											{evento.jugador !== undefined
+												? evento.jugador.nombre
+												: ""}
+											{evento.jugador2 !== undefined ? (
+												<>
+													{" "}
+													<IonIcon icon={arrowForwardCircle} />{" "}
+													{evento.jugador2.nombre}
+												</>
+											) : (
+												""
+											)}
+										</IonLabel>
+										<IonButton
+											fill="clear"
+											onClick={() => {
+												setEventosPartido(
+													eventosPartido.filter((e) => e !== evento)
+												);
+											}}
+										>
+											<IonIcon icon={trash} />
+										</IonButton>
+									</IonItem>
+								))}
+							</IonRow>
+						</IonCol>
+
+						<IonModal
+							ref={modalEvento}
+							isOpen={showModalEvento}
+							onDidDismiss={() => {
+								setShowModalEvento(false);
+							}}
+						>
+							<IonHeader>
+								<IonToolbar>
+									<IonButtons slot="start">
+										<IonButton
+											onClick={() => {
+												modalEvento.current?.dismiss();
+											}}
+										>
+											Cancel
+										</IonButton>
+									</IonButtons>
+									<IonTitle>
+										<IonRow className="ion-justify-content-center">
+											Evento
+										</IonRow>
+									</IonTitle>
+									<IonButtons slot="end">
+										<IonButton
+											onClick={() => {
+												if (
+													jugadorEvento === undefined ||
+													minutoEvento === undefined ||
+													tipoEvento === undefined
+												)
+													return;
+
+												setEventosPartido([
+													...eventosPartido,
+													{
+														tipo: tipoEvento + "",
+														minuto: minutoEvento,
+														jugador: jugadorEvento as Jugador,
+														jugador2: jugadorEvento2,
+													},
+												]);
+												setJugadorEvento(undefined);
+												setJugadorEvento2(undefined);
+												setMinutoEvento(0);
+												setTipoEvento(undefined);
+												modalEvento.current?.dismiss();
+											}}
+										>
+											Guardar
+										</IonButton>
+									</IonButtons>
+								</IonToolbar>
+							</IonHeader>
+							<IonContent>
+								<IonItem>
+									<IonLabel position="stacked">Tipo de evento</IonLabel>
+									<IonSelect
+										value={tipoEvento}
+										onIonChange={(e) => {
+											setTipoEvento(e.detail.value);
+										}}
+									>
+										<IonSelectOption value="Gol">Gol</IonSelectOption>
+										<IonSelectOption value="Asistencia">
+											Asistencia
+										</IonSelectOption>
+										<IonSelectOption value="Gol en propia puerta">
+											Gol en propia puerta
+										</IonSelectOption>
+										<IonSelectOption value="Tarjeta amarilla">
+											Tarjeta amarilla
+										</IonSelectOption>
+										<IonSelectOption value="Tarjeta roja">
+											Tarjeta roja
+										</IonSelectOption>
+										<IonSelectOption value="Doble amariila">
+											Doble amariila
+										</IonSelectOption>
+										<IonSelectOption value="Cambio">Cambio</IonSelectOption>
+									</IonSelect>
+								</IonItem>
+								<IonItem>
+									<IonLabel position="stacked">Minuto</IonLabel>
+									<IonInput
+										value={minutoEvento}
+										type="number"
+										max={90}
+										min={0}
+										onIonChange={(e) => {
+											setMinutoEvento(Number.parseInt(e.detail.value + ""));
+										}}
+									/>
+								</IonItem>
+								<IonItem>
+									<IonLabel position="stacked">Jugador</IonLabel>
+									<IonSelect
+										value={jugadorEvento?._id}
+										onIonChange={(e) => {
+											setJugadorEvento(
+												jugadoresLocales.find(
+													(jugador) => jugador._id === e.detail.value
+												) as Jugador
+											);
+										}}
+									>
+										{alineacionLocal?.jugadoresTitulares.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										{alineacionLocal?.jugadoresSuplentes.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										{alineacionVisitante?.jugadoresTitulares.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										<IonItemDivider />
+										{alineacionVisitante?.jugadoresSuplentes.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+									</IonSelect>
+								</IonItem>
+								<IonItem>
+									<IonLabel position="stacked">Jugador 2</IonLabel>
+									<IonSelect
+										value={jugadorEvento2?._id}
+										onIonChange={(e) => {
+											setJugadorEvento2(
+												jugadoresLocales.find(
+													(jugador) => jugador._id === e.detail.value
+												) as Jugador
+											);
+										}}
+									>
+										{alineacionLocal?.jugadoresTitulares.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										{alineacionLocal?.jugadoresSuplentes.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										{alineacionVisitante?.jugadoresTitulares.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+										<IonItemDivider />
+										{alineacionVisitante?.jugadoresSuplentes.map((jugador) => {
+											return (
+												<IonSelectOption value={jugador._id}>
+													{jugador.nombre}
+												</IonSelectOption>
+											);
+										})}
+									</IonSelect>
+								</IonItem>
+							</IonContent>
+						</IonModal>
+					</IonRow>
 
 					<IonItemDivider>Alineaciones</IonItemDivider>
 					<IonRow>
