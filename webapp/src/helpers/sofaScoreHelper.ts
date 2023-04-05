@@ -12,7 +12,13 @@ export async function getEventosDeSofaScore(
 	const jugadores = jugadoresLocales.concat(jugadoresVisitantes);
 
 	await fetch(
-		"https://api.sofascore.com/api/v1/event/" + partido._id + "/incidents"
+		"https://api.sofascore.com/api/v1/event/" + partido._id + "/incidents",
+		{
+			mode: "cors",
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		}
 	).then(async (res) => {
 		return await res.json().then((r) => {
 			r.incidents.map(async (e: any) => {
