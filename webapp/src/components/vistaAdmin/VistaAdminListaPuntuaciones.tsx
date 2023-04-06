@@ -1,26 +1,19 @@
 import { IonCol, IonLabel, IonRow } from "@ionic/react";
-import { useEffect, useState } from "react";
-import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
+import { useEffect } from "react";
+import { Partido } from "../../shared/sharedTypes";
 import { PuntuacionJugadorAdmin } from "./PuntuacionJugadorAdmin";
 
 type VistaAdminListaPuntuacionesProps = {
 	partido: Partido;
 	jornada: number;
-	puntuacionesPartido: PuntuacionJugador[];
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
-	addChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
+	guardarPuntuaciones: boolean;
 };
 
 export function VistaAdminListaPuntuaciones(
 	props: VistaAdminListaPuntuacionesProps
 ): JSX.Element {
-	const [puntuacionesPartido, setPuntuacionesPartido] = useState<
-		PuntuacionJugador[]
-	>([]);
-
-	useEffect(() => {
-		setPuntuacionesPartido(props.puntuacionesPartido);
-	}, [props.partido]);
+	useEffect(() => {}, [props.partido]);
 
 	return (
 		<>
@@ -34,16 +27,11 @@ export function VistaAdminListaPuntuaciones(
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
-							puntuacion={
-								props.puntuacionesPartido.find(
-									(p) => p.idJugador === j._id
-								) as PuntuacionJugador
-							}
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
-							addChangedPuntuacion={props.addChangedPuntuacion}
 							partido={props.partido}
 							titular={true}
+							guardarPuntuaciones={props.guardarPuntuaciones}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -54,16 +42,11 @@ export function VistaAdminListaPuntuaciones(
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
-							puntuacion={
-								props.puntuacionesPartido.find(
-									(p) => p.idJugador === j._id
-								) as PuntuacionJugador
-							}
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
-							addChangedPuntuacion={props.addChangedPuntuacion}
 							partido={props.partido}
 							titular={false}
+							guardarPuntuaciones={props.guardarPuntuaciones}
 						/>
 					))}
 				</IonCol>
@@ -77,16 +60,11 @@ export function VistaAdminListaPuntuaciones(
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
-							puntuacion={
-								props.puntuacionesPartido.find(
-									(p) => p.idJugador === j._id
-								) as PuntuacionJugador
-							}
 							rival={props.partido.local.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
-							addChangedPuntuacion={props.addChangedPuntuacion}
 							partido={props.partido}
 							titular={true}
+							guardarPuntuaciones={props.guardarPuntuaciones}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -97,16 +75,11 @@ export function VistaAdminListaPuntuaciones(
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
-							puntuacion={
-								props.puntuacionesPartido.find(
-									(p) => p.idJugador === j._id
-								) as PuntuacionJugador
-							}
 							rival={props.partido.local.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
-							addChangedPuntuacion={props.addChangedPuntuacion}
 							partido={props.partido}
 							titular={false}
+							guardarPuntuaciones={props.guardarPuntuaciones}
 						/>
 					))}
 				</IonCol>

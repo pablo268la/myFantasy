@@ -654,9 +654,21 @@ function calcularGolesSiTitularOSuplente(
 			0,
 			posCambioOut === -1 ? partido.eventos.length : posCambioOut + 1
 		);
-		return eventosConJugador
-			.filter((e) => e.tipo === "Gol")
-			.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
+
+		if (
+			jugador.jugadorAntiguo !== undefined &&
+			jugador.jugadorAntiguo.equipo !== undefined &&
+			jugador.jugadorAntiguo.jornadaTraspaso < partido.jornada
+		) {
+			return eventosConJugador
+				.filter((e) => e.tipo === "Gol")
+				.filter(
+					(e) => e.jugador.equipo._id !== jugador.jugadorAntiguo?.equipo?._id
+				).length;
+		} else
+			return eventosConJugador
+				.filter((e) => e.tipo === "Gol")
+				.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
 	} else {
 		const posCambioIn = partido.eventos.indexOf(
 			partido.eventos.filter((e) => {
@@ -676,9 +688,20 @@ function calcularGolesSiTitularOSuplente(
 				posCambioOut === -1 ? partido.eventos.length : posCambioOut + 1
 			);
 
-			return eventosConJugador
-				.filter((e) => e.tipo === "Gol")
-				.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
+			if (
+				jugador.jugadorAntiguo !== undefined &&
+				jugador.jugadorAntiguo.equipo !== undefined &&
+				jugador.jugadorAntiguo.jornadaTraspaso < partido.jornada
+			) {
+				return eventosConJugador
+					.filter((e) => e.tipo === "Gol")
+					.filter(
+						(e) => e.jugador.equipo._id !== jugador.jugadorAntiguo?.equipo?._id
+					).length;
+			} else
+				return eventosConJugador
+					.filter((e) => e.tipo === "Gol")
+					.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
 		}
 	}
 	return 0;

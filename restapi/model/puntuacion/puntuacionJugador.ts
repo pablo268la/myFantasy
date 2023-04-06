@@ -1,17 +1,26 @@
 import { model, Schema } from "mongoose";
 import { IPuntuacionBasica, puntuacionBasica } from "./puntuacionBasica";
-import { IPuntuacionCalculable, puntuacionCalculable } from "./puntuacionCalculable";
+import {
+	IPuntuacionCalculable,
+	puntuacionCalculable,
+} from "./puntuacionCalculable";
 import {
 	IPuntuacionDefensiva,
-	puntuacionDefensiva
+	puntuacionDefensiva,
 } from "./puntuacionDefensiva";
 import { IPuntuacionFisica, puntuacionFisica } from "./puntuacionFisica";
 import { IPuntuacionOfensiva, puntuacionOfensiva } from "./puntuacionOfensiva";
 import { IPuntuacionPortero, puntuacionPortero } from "./puntuacionPortero";
 import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
+
 export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 	{
+		_id: {
+			type: String,
+			trim: true,
+			required: true,
+		},
 		idJugador: {
 			type: String,
 			required: true,
@@ -77,6 +86,7 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 );
 
 export interface IPuntuacionJugador {
+	_id: string;
 	idJugador: string;
 	idPartido: string;
 	semana: number;
@@ -91,6 +101,8 @@ export interface IPuntuacionJugador {
 	idEquipo: string;
 	idEquipoRival: string;
 }
+
+puntuacionJugador.index({ idJugador: 1, idPartido: 1 }, { unique: true });
 
 export const modelPuntuacionJugador = model<IPuntuacionJugador>(
 	"puntuacionJugador",

@@ -8,6 +8,16 @@ export async function getPuntuacionJugador(
 	return response.json();
 }
 
+export async function getPuntuacionJugadorSemana(
+	jugadorId: string,
+	semana: number
+): Promise<PuntuacionJugador> {
+	let response = await fetch(
+		apiEndPoint + "/puntuaciones/" + jugadorId + "/" + semana
+	);
+	return response.json();
+}
+
 export async function guardarPuntuacionJugador(
 	puntuacion: PuntuacionJugador
 ): Promise<PuntuacionJugador> {

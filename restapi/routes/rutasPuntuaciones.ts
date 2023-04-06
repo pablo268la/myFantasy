@@ -8,11 +8,11 @@ api.get(
 	PuntuacionesController.getPuntuacionesJugador
 );
 
-api.post("/puntuaciones", PuntuacionesController.guardarPuntuacion);
-
 api.get(
-	"/puntuaciones/calcular/:idJugador",
-	PuntuacionesController.puntuarPuntuacionesJugador
+	"/puntuaciones/:idJugador/:semana",
+	PuntuacionesController.getPuntuacionesJugadorJornada
 );
+
+api.post("/puntuaciones", PuntuacionesController.guardarPuntuacion);
 
 export default api;

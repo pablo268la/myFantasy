@@ -2,7 +2,12 @@ import { RequestHandler } from "express";
 import { modeloJugador } from "../model/jugador";
 
 export const getJugadores: RequestHandler = async (req, res) => {
-	res.json(await modeloJugador.find());
+	let jugadores = await modeloJugador.find();
+	jugadores.map(async (jugador) => {
+		jugador.puntos = 0;
+		return await jugador.save();
+	});
+	res.json(jugadores);
 };
 
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
@@ -17,10 +22,22 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	}
 };
 
-
 export const getJugador: RequestHandler = async (req, res) => {
 	try {
 		res.json(await modeloJugador.findOne({ _id: req.params.idJugador }));
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+export const getJugadoresAntiguos: RequestHandler = async (req, res) => {
+	try {
+		res.json(
+			await modeloJugador.find({
+				"jugadorAntiguo.equipo._id": req.params.idEquipo,
+				"jugadorAntiguo.jornadaTraspaso": { $lte: req.params.semana },
+			})
+		);
 	} catch (error) {
 		res.status(500).json(error);
 	}

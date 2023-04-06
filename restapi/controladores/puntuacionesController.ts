@@ -34,6 +34,22 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	}
 };
 
+export const getPuntuacionesJugadorJornada: RequestHandler = async (
+	req,
+	res
+) => {
+	try {
+		const puntuacion = await modelPuntuacionJugador.findOne({
+			idJugador: req.params.idJugador,
+			semana: req.params.semana,
+		});
+
+		res.status(200).json(puntuacion);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
 export const guardarPuntuacion: RequestHandler = async (req, res) => {
 	// TODO - Verificar usuario es admin
 	try {
@@ -49,6 +65,8 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		const PuntuacionJSON = openJSON(jugador?.posicion as string);
 
 		puntuacionJugador = calcularPuntuacion(puntuacionJugador, PuntuacionJSON);
+		puntuacionJugador._id =
+			puntuacionJugador.idJugador + "-" + puntuacionJugador.idPartido;
 
 		let puntuacionGuardada = null;
 		if (exists) {
@@ -64,8 +82,14 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 			puntuacionGuardada = await puntuacionJugador.save();
 		}
 
+		if (jugador) {
+			jugador.puntos += puntuacionJugador.puntos;
+			await jugador.save();
+		}
+
 		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -79,6 +103,7 @@ const createPuntuacionJugadorVacia: any = (
 		puntos: 0,
 	};
 	const puntuacionJugador: IPuntuacionJugador = {
+		_id: "",
 		idJugador: idJugador,
 		idPartido: "",
 		semana: semana,

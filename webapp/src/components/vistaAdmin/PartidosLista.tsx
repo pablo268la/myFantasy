@@ -16,6 +16,7 @@ import {
 } from "@ionic/react";
 import { addCircleOutline, closeCircleOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
+import { getJugadoresAntiguos } from "../../endpoints/jugadorEndpoints";
 import { comparePosiciones } from "../../helpers/helpers";
 import { Alineacion, Jugador, Partido } from "../../shared/sharedTypes";
 
@@ -36,11 +37,11 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 	const [titulares, setTitulares] = useState<Jugador[]>([]);
 	const [supl, setSupl] = useState<Jugador[]>([]);
 	const [vacios, setVacios] = useState<any>(Array.from(Array(0)));
-	const [vaciosSupl, setVaciosSupl] = useState<any>(Array.from(Array(0)));
 
 	const [forTitular, setForTitular] = useState<boolean>(true);
+	const [antiguosCogidos, setAntiguosCogidos] = useState<boolean>(false);
 
-	const changeTitulares = (newTitulares: Jugador[]) => {
+	const changeTitulares = async (newTitulares: Jugador[]) => {
 		setTitulares(
 			newTitulares.sort((a, b) => comparePosiciones(a.posicion, b.posicion))
 		);
@@ -53,7 +54,6 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 
 	const changeSupl = (newSupl: Jugador[]) => {
 		setSupl(newSupl.sort((a, b) => comparePosiciones(a.posicion, b.posicion)));
-		setVaciosSupl(Array.from(Array(1)));
 		props.setAlinecion({
 			jugadoresTitulares: titulares,
 			jugadoresSuplentes: newSupl,
@@ -69,9 +69,23 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 		});
 	};
 
+	const cogerAntiguos = () => {
+		if (!antiguosCogidos) {
+			getJugadoresAntiguos(
+				props.partido.visitante._id,
+				props.partido.jornada
+			).then((j) => {
+				let aux = todos.concat(j);
+				console.log(aux);
+				setTodos([...aux]);
+			});
+			setAntiguosCogidos(true);
+		}
+	};
+
 	useEffect(() => {
+		setAntiguosCogidos(false);
 		setTodos(props.jugadores);
-		//TODO - Get jugadores antiguos by jornada
 		if (props.local) {
 			changeTitulares(props.partido.alineacionLocal.jugadoresTitulares);
 			changeSupl(props.partido.alineacionLocal.jugadoresSuplentes);
@@ -125,6 +139,7 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 											onClick={() => {
 												setForTitular(true);
 												setShowModal(true);
+												cogerAntiguos();
 												props.setCambiado(true);
 											}}
 										/>
@@ -165,29 +180,25 @@ export function PartidosLista(props: PartidosListaProps): JSX.Element {
 					</IonCard>
 				</>
 			))}
-			{vaciosSupl.map((p: any) => {
-				return (
-					<>
-						<IonCard style={{ outline: "dashed" }}>
-							<IonCardContent>
-								<IonRow style={{ justifyContent: "center" }}>
-									<IonItem lines="none">
-										<IonIcon
-											size="large"
-											icon={addCircleOutline}
-											onClick={() => {
-												setForTitular(false);
-												setShowModal(true);
-												props.setCambiado(true);
-											}}
-										/>
-									</IonItem>
-								</IonRow>
-							</IonCardContent>
-						</IonCard>
-					</>
-				);
-			})}
+
+			<IonCard style={{ outline: "dashed" }}>
+				<IonCardContent>
+					<IonRow style={{ justifyContent: "center" }}>
+						<IonItem lines="none">
+							<IonIcon
+								size="large"
+								icon={addCircleOutline}
+								onClick={() => {
+									setForTitular(false);
+									setShowModal(true);
+									cogerAntiguos();
+									props.setCambiado(true);
+								}}
+							/>
+						</IonItem>
+					</IonRow>
+				</IonCardContent>
+			</IonCard>
 
 			<IonModal
 				ref={modal}

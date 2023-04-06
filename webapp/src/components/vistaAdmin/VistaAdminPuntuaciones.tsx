@@ -10,20 +10,16 @@ import {
 	IonSelectOption,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import {
-	getPartidosByJornada,
-	getPuntuacionesPartido,
-} from "../../endpoints/partidosController";
-import { guardarPuntuacionJugador } from "../../endpoints/puntuacionesController";
-import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
+import { getPartidosByJornada } from "../../endpoints/partidosController";
+import { Partido } from "../../shared/sharedTypes";
 import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
 
 export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(false);
-	const [loadingPuntuaciones, setLoadingPuntuaciones] =
-		useState<boolean>(false);
+	useState<boolean>(false);
 	const [puntuacionesCambiadas, setPuntuacionesCambiadas] =
 		useState<boolean>(false);
+	const [guardarPuntuaciones, setGuardarPuntuaciones] = useState<boolean>(false);
 
 	const [message, setMessage] = useState<string>("Analizando el Big Data");
 
@@ -34,27 +30,6 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	const jornadas = Array.from(Array(38).keys());
 
-	const [puntuacionesPartido, setPuntuacionesPartido] = useState<
-		PuntuacionJugador[]
-	>([]);
-	const [changedPuntuaciones, setChangedPuntuaciones] = useState<
-		PuntuacionJugador[]
-	>([]);
-
-	const addChangedPuntuacion = (puntuacion: PuntuacionJugador) => {
-		if (!changedPuntuaciones.find((p) => p.idJugador === puntuacion.idJugador))
-			setChangedPuntuaciones([...changedPuntuaciones, puntuacion]);
-		else setChangedPuntuaciones([...changedPuntuaciones]);
-	};
-
-	const getPuntuacionesPartidoBack = async (partido: string) => {
-		setLoadingPuntuaciones(true);
-		await getPuntuacionesPartido(partido).then((puntuaciones) => {
-			setPuntuacionesPartido(puntuaciones);
-		});
-		setLoadingPuntuaciones(false);
-	};
-
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
 		setJornada(jornada);
@@ -64,27 +39,21 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		setLoading(false);
 	};
 
-	const guardarPuntuaciones = async () => {
-		setLoading(true);
-		changedPuntuaciones.forEach(async (puntuacion) => {
-			await guardarPuntuacionJugador(puntuacion);
-		});
-		setLoading(false);
-		setPuntuacionesCambiadas(false);
-		setChangedPuntuaciones([]);
-		getPuntuacionesPartidoBack(partido as string);
-	};
-
 	useEffect(() => {
 		getPartidosDeJornada(jornada);
 	}, []);
+
+	const resetPuntuaciones = () => {
+		setMessage("Volviendo a la realidad");
+
+		setPuntuacionesCambiadas(false);
+	};
 
 	return (
 		<>
 			<IonGrid>
 				<IonRow>
 					<IonLoading isOpen={loading} message={message} />
-					<IonLoading isOpen={loadingPuntuaciones} message={message} />
 					<IonCol sizeSm="6" sizeXs="12">
 						<IonRow>
 							<IonCol size="6">
@@ -95,6 +64,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 										getPartidosDeJornada(e.detail.value);
 										setPartido(undefined);
 										setPartidoSeleccionado(undefined);
+										setGuardarPuntuaciones(false)
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -118,7 +88,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 														.at(0) as Partido
 												);
 												setMessage("Limpiando los vestuarios");
-												getPuntuacionesPartidoBack(e.detail.value);
+												setGuardarPuntuaciones(false)
 											}}
 										>
 											{partidos.map((p) => (
@@ -158,9 +128,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											<IonButton
 												color="danger"
 												onClick={() => {
-													setMessage("Volviendo a la realidad");
-													getPuntuacionesPartidoBack(partido);
-													setPuntuacionesCambiadas(false);
+													resetPuntuaciones();
 												}}
 											>
 												Reset
@@ -168,7 +136,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											<IonButton
 												color="success"
 												onClick={() => {
-													guardarPuntuaciones();
+													setGuardarPuntuaciones(true);
+													setPuntuacionesCambiadas(false)
 												}}
 											>
 												Guardar
@@ -186,14 +155,13 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 				</IonRow>
 			</IonGrid>
 
-			{!loadingPuntuaciones && !loading && partidoSeleccionado !== undefined ? (
+			{!loading && partidoSeleccionado !== undefined ? (
 				<>
 					<VistaAdminListaPuntuaciones
 						partido={partidoSeleccionado}
 						jornada={jornada}
-						puntuacionesPartido={puntuacionesPartido}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}
-						addChangedPuntuacion={addChangedPuntuacion}
+						guardarPuntuaciones={guardarPuntuaciones}
 					/>
 				</>
 			) : (
