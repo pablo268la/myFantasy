@@ -1,6 +1,8 @@
 import {
 	IonButton,
 	IonButtons,
+	IonCard,
+	IonCardContent,
 	IonCol,
 	IonContent,
 	IonDatetime,
@@ -23,24 +25,30 @@ import {
 import {
 	addCircleOutline,
 	arrowForwardCircle,
+	closeCircleOutline,
 	swapHorizontal,
 	trash,
 } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
-import { getJugadoresPorEquipo } from "../../endpoints/jugadorEndpoints";
+import {
+	getJugadoresAntiguos,
+	getJugadoresPorEquipo,
+} from "../../endpoints/jugadorEndpoints";
 import {
 	getPartidosByJornada,
 	updatePartido,
 } from "../../endpoints/partidosController";
-import { getIconByTipoEvento } from "../../helpers/helpers";
-import { getEventosDeSofaScore } from "../../helpers/sofaScoreHelper";
+import { comparePosiciones, getIconByTipoEvento } from "../../helpers/helpers";
+import {
+	getAlineacionesSofaScore,
+	getEventosDeSofaScore,
+} from "../../helpers/sofaScoreHelper";
 import {
 	Alineacion,
 	EventoPartido,
 	Jugador,
 	Partido,
 } from "../../shared/sharedTypes";
-import { PartidosLista } from "./PartidosLista";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -73,6 +81,32 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [jugadorEvento, setJugadorEvento] = useState<Jugador>();
 	const [jugadorEvento2, setJugadorEvento2] = useState<Jugador>();
 
+	const setAlineacionLocalForAll = (a: Alineacion) => {
+		setVaciosLocal(Array.from(Array(11 - a.jugadoresTitulares.length)));
+		setAlineacionLocal({
+			jugadoresTitulares: a.jugadoresTitulares.sort((a, b) =>
+				comparePosiciones(a.posicion, b.posicion)
+			),
+			jugadoresSuplentes: a.jugadoresSuplentes.sort((a, b) =>
+				comparePosiciones(a.posicion, b.posicion)
+			),
+		});
+		setAlineacionLocal(a);
+	};
+
+	const setAlineacionVisitanteForAll = (a: Alineacion) => {
+		setVaciosVisitante(Array.from(Array(11 - a.jugadoresTitulares.length)));
+		setAlineacionVisitante({
+			jugadoresTitulares: a.jugadoresTitulares.sort((a, b) =>
+				comparePosiciones(a.posicion, b.posicion)
+			),
+			jugadoresSuplentes: a.jugadoresSuplentes.sort((a, b) =>
+				comparePosiciones(a.posicion, b.posicion)
+			),
+		});
+		setAlineacionVisitante(a);
+	};
+
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
 		setCambiado(false);
@@ -83,7 +117,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(false);
 	};
 
-	const changeSelectedPartido = async (partido: any) => {
+	const changeSelectedPartido = async (partido: string | undefined) => {
 		setLoading(true);
 		setPartido(partido);
 		if (partido === undefined) setPartidoSeleccionado(undefined);
@@ -97,8 +131,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				getJugadoresPorEquipo(p.visitante._id).then((jugadores) =>
 					setJugadoresVisitantes(jugadores)
 				);
-				setAlineacionLocal(p.alineacionLocal);
-				setAlineacionVisitante(p.alineacionVisitante);
+				setAlineacionLocalForAll(p.alineacionLocal);
+				setAlineacionVisitanteForAll(p.alineacionVisitante);
+
 				setEstado(p.estado);
 				setFecha(p.fecha);
 				setLink(p.linkSofaScore);
@@ -112,6 +147,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const guardarPartido = async () => {
 		setLoading(true);
 		if (partidoSeleccionado) {
+			console.log(alineacionLocal);
 			if (alineacionLocal)
 				partidoSeleccionado.alineacionLocal = alineacionLocal;
 			if (alineacionVisitante)
@@ -144,7 +180,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		}
 	};
 
-	const callSofaScore = async () => {
+	const callSofaScoreForEventos = async () => {
 		setEventosPartido([]);
 		await getEventosDeSofaScore(partidoSeleccionado as Partido).then(
 			(eventos) => {
@@ -173,9 +209,119 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(false);
 	};
 
+	const callSofaScoreForAlineaciones = async () => {
+		await getAlineacionesSofaScore(partidoSeleccionado as Partido).then(
+			(alineaciones) => {
+				setAlineacionLocalForAll(alineaciones.alineacionLocal);
+				setAlineacionVisitanteForAll(alineaciones.alineacionVisitante);
+			}
+		);
+
+		setCambiado(true);
+		setEventosLoading(false);
+	};
+
 	useEffect(() => {
 		getPartidosDeJornada(jornada);
 	}, []);
+
+	const [showModalLocal, setShowModalLocal] = useState<boolean>(false);
+	const modalLocal = useRef<HTMLIonModalElement>(null);
+
+	const [vaciosLocal, setVaciosLocal] = useState<any>(Array.from(Array(0)));
+
+	const [forTitularLocal, setForTitularLocal] = useState<boolean>(true);
+	const [antiguosCogidosLocal, setAntiguosCogidosLocal] =
+		useState<boolean>(false);
+
+	const changeTitularesLocal = async (newTitulares: Jugador[]) => {
+		setAlineacionLocalForAll({
+			jugadoresTitulares: newTitulares,
+			jugadoresSuplentes: alineacionLocal?.jugadoresSuplentes as Jugador[],
+		});
+	};
+
+	const changeSuplLocal = (newSupl: Jugador[]) => {
+		setAlineacionLocalForAll({
+			jugadoresTitulares: alineacionLocal?.jugadoresTitulares as Jugador[],
+			jugadoresSuplentes: newSupl,
+		});
+	};
+
+	const getJugadoresNiTitularesNiSuplLocal = () => {
+		return jugadoresLocales.filter((t) => {
+			return (
+				!alineacionLocal?.jugadoresTitulares
+					.map((j) => j._id)
+					.includes(t._id) &&
+				!alineacionLocal?.jugadoresSuplentes.map((j) => j._id).includes(t._id)
+			);
+		});
+	};
+
+	const cogerAntiguosLocal = () => {
+		if (!antiguosCogidosLocal) {
+			getJugadoresAntiguos(
+				partidoSeleccionado?.visitante._id as string,
+				partidoSeleccionado?.jornada as number
+			).then((j) => {
+				let aux = jugadoresLocales.concat(j);
+				setJugadoresLocales([...aux]);
+			});
+			setAntiguosCogidosLocal(true);
+		}
+	};
+
+	const [showModalVisitante, setShowModalVisitante] = useState<boolean>(false);
+	const modalVisitante = useRef<HTMLIonModalElement>(null);
+
+	const [vaciosVisitante, setVaciosVisitante] = useState<any>(
+		Array.from(Array(0))
+	);
+
+	const [forTitularVisitante, setForTitularVisitante] = useState<boolean>(true);
+	const [antiguosCogidosVisitante, setAntiguosCogidosVisitante] =
+		useState<boolean>(false);
+
+	const changeTitularesVisitante = async (newTitulares: Jugador[]) => {
+		setAlineacionVisitanteForAll({
+			jugadoresTitulares: newTitulares,
+			jugadoresSuplentes: alineacionVisitante?.jugadoresSuplentes as Jugador[],
+		});
+	};
+
+	const changeSuplVisitante = (newSupl: Jugador[]) => {
+		setAlineacionVisitanteForAll({
+			jugadoresTitulares: alineacionVisitante?.jugadoresTitulares as Jugador[],
+			jugadoresSuplentes: newSupl,
+		});
+	};
+
+	const getJugadoresNiTitularesNiSuplVisitante = () => {
+		return jugadoresVisitantes.filter((t) => {
+			return (
+				!alineacionVisitante?.jugadoresTitulares
+					.map((j) => j._id)
+					.includes(t._id) &&
+				!alineacionVisitante?.jugadoresSuplentes
+					.map((j) => j._id)
+					.includes(t._id)
+			);
+		});
+	};
+
+	const cogerAntiguosVisitante = () => {
+		if (!antiguosCogidosVisitante) {
+			getJugadoresAntiguos(
+				partidoSeleccionado?.visitante._id as string,
+				partidoSeleccionado?.jornada as number
+			).then((j) => {
+				let aux = jugadoresVisitantes.concat(j);
+				setJugadoresVisitantes([...aux]);
+			});
+			setAntiguosCogidosVisitante(true);
+		}
+	};
 
 	return (
 		<>
@@ -192,6 +338,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										setMessage("Analizando el Big Data");
 										getPartidosDeJornada(e.detail.value);
 										changeSelectedPartido(undefined);
+										setPartido(undefined);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -268,7 +415,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					<IonButton
 						onClick={async () => {
 							setEventosLoading(true);
-							await callSofaScore();
+							await callSofaScoreForEventos();
 						}}
 					>
 						COGER DE SOFASCORE
@@ -568,30 +715,378 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					</IonRow>
 
 					<IonItemDivider>Alineaciones</IonItemDivider>
+					<IonButton
+						onClick={async () => {
+							setEventosLoading(true);
+							await callSofaScoreForAlineaciones();
+						}}
+					>
+						COGER DE SOFASCORE
+					</IonButton>
 					<IonRow>
 						<IonCol>
-							<PartidosLista
-								partido={partidoSeleccionado}
-								jugadores={jugadoresLocales}
-								local={true}
-								setCambiado={setCambiado}
-								setAlinecion={setAlineacionLocal}
-							/>
+							<>
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonLabel>{partidoSeleccionado.local.nombre}</IonLabel>
+								</IonRow>
+								{alineacionLocal?.jugadoresTitulares.map((jugador) => (
+									<>
+										<IonCard key={"local-titular-" + jugador._id}>
+											<IonCardContent>
+												<IonItem lines="none">
+													<IonLabel>{jugador.nombre}</IonLabel>
+
+													<IonIcon
+														color={"danger"}
+														size="large"
+														icon={closeCircleOutline}
+														onClick={() => {
+															changeTitularesLocal(
+																alineacionLocal.jugadoresTitulares.filter(
+																	(j) => j._id !== jugador._id
+																)
+															);
+															setCambiado(true);
+														}}
+													/>
+												</IonItem>
+											</IonCardContent>
+										</IonCard>
+									</>
+								))}
+								{vaciosLocal.map((p: any) => {
+									return (
+										<>
+											<IonCard style={{ outline: "dashed" }}>
+												<IonCardContent>
+													<IonRow style={{ justifyContent: "center" }}>
+														<IonItem lines="none">
+															<IonIcon
+																size="large"
+																icon={addCircleOutline}
+																onClick={() => {
+																	setForTitularLocal(true);
+																	setShowModalLocal(true);
+																	cogerAntiguosLocal();
+																	setCambiado(true);
+																}}
+															/>
+														</IonItem>
+													</IonRow>
+												</IonCardContent>
+											</IonCard>
+										</>
+									);
+								})}
+
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonLabel>
+										Suplentes {partidoSeleccionado.local.nombre}
+									</IonLabel>
+								</IonRow>
+
+								{alineacionLocal?.jugadoresSuplentes.map((jugador) => (
+									<>
+										<IonCard key={"local-titular-" + jugador._id}>
+											<IonCardContent>
+												<IonItem lines="none">
+													<IonLabel>{jugador.nombre}</IonLabel>
+
+													<IonIcon
+														color={"danger"}
+														size="large"
+														icon={closeCircleOutline}
+														onClick={() => {
+															changeSuplLocal(
+																alineacionLocal.jugadoresSuplentes.filter(
+																	(j) => j._id !== jugador._id
+																)
+															);
+															setCambiado(true);
+														}}
+													/>
+												</IonItem>
+											</IonCardContent>
+										</IonCard>
+									</>
+								))}
+
+								<IonCard style={{ outline: "dashed" }}>
+									<IonCardContent>
+										<IonRow style={{ justifyContent: "center" }}>
+											<IonItem lines="none">
+												<IonIcon
+													size="large"
+													icon={addCircleOutline}
+													onClick={() => {
+														setForTitularLocal(false);
+														setShowModalLocal(true);
+														cogerAntiguosLocal();
+														setCambiado(true);
+													}}
+												/>
+											</IonItem>
+										</IonRow>
+									</IonCardContent>
+								</IonCard>
+
+								<IonModal
+									ref={modalLocal}
+									isOpen={showModalLocal}
+									onDidDismiss={() => {
+										setShowModalLocal(false);
+									}}
+								>
+									<IonHeader>
+										<IonToolbar>
+											<IonButtons slot="start">
+												<IonButton
+													onClick={() => {
+														modalLocal.current?.dismiss();
+													}}
+												>
+													Cancel
+												</IonButton>
+											</IonButtons>
+											<IonTitle>
+												<IonRow className="ion-justify-content-center">
+													Jugadores {partidoSeleccionado.local.nombre}
+												</IonRow>
+											</IonTitle>
+										</IonToolbar>
+									</IonHeader>
+									<IonContent>
+										<>
+											{OrdenarPorPosiciones(
+												getJugadoresNiTitularesNiSuplLocal(),
+												(jugador: Jugador) => {
+													if (forTitularLocal) {
+														const a =
+															alineacionLocal?.jugadoresTitulares as Jugador[];
+														a.push(jugador);
+														changeTitularesLocal(a);
+													} else {
+														const a =
+															alineacionLocal?.jugadoresSuplentes as Jugador[];
+														a.push(jugador);
+														changeSuplLocal(a);
+													}
+													setShowModalLocal(false);
+												}
+											)}
+										</>
+									</IonContent>
+								</IonModal>
+							</>
 						</IonCol>
+
 						<IonCol>
-							<PartidosLista
-								partido={partidoSeleccionado}
-								jugadores={jugadoresVisitantes}
-								local={false}
-								setCambiado={setCambiado}
-								setAlinecion={setAlineacionVisitante}
-							/>
+							<>
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonLabel>{partidoSeleccionado.visitante.nombre}</IonLabel>
+								</IonRow>
+								{alineacionVisitante?.jugadoresTitulares.map((jugador) => (
+									<>
+										<IonCard key={"Visitante-titular-" + jugador._id}>
+											<IonCardContent>
+												<IonItem lines="none">
+													<IonLabel>{jugador.nombre}</IonLabel>
+
+													<IonIcon
+														color={"danger"}
+														size="large"
+														icon={closeCircleOutline}
+														onClick={() => {
+															changeTitularesVisitante(
+																alineacionVisitante.jugadoresTitulares.filter(
+																	(j) => j._id !== jugador._id
+																)
+															);
+															setCambiado(true);
+														}}
+													/>
+												</IonItem>
+											</IonCardContent>
+										</IonCard>
+									</>
+								))}
+								{vaciosVisitante.map((p: any) => {
+									return (
+										<>
+											<IonCard style={{ outline: "dashed" }}>
+												<IonCardContent>
+													<IonRow style={{ justifyContent: "center" }}>
+														<IonItem lines="none">
+															<IonIcon
+																size="large"
+																icon={addCircleOutline}
+																onClick={() => {
+																	setForTitularVisitante(true);
+																	setShowModalVisitante(true);
+																	cogerAntiguosVisitante();
+																	setCambiado(true);
+																}}
+															/>
+														</IonItem>
+													</IonRow>
+												</IonCardContent>
+											</IonCard>
+										</>
+									);
+								})}
+
+								<IonRow style={{ justifyContent: "center" }}>
+									<IonLabel>
+										Suplentes {partidoSeleccionado.visitante.nombre}
+									</IonLabel>
+								</IonRow>
+
+								{alineacionVisitante?.jugadoresSuplentes.map((jugador) => (
+									<>
+										<IonCard key={"Visitante-titular-" + jugador._id}>
+											<IonCardContent>
+												<IonItem lines="none">
+													<IonLabel>{jugador.nombre}</IonLabel>
+
+													<IonIcon
+														color={"danger"}
+														size="large"
+														icon={closeCircleOutline}
+														onClick={() => {
+															changeSuplVisitante(
+																alineacionVisitante.jugadoresSuplentes.filter(
+																	(j) => j._id !== jugador._id
+																)
+															);
+															setCambiado(true);
+														}}
+													/>
+												</IonItem>
+											</IonCardContent>
+										</IonCard>
+									</>
+								))}
+
+								<IonCard style={{ outline: "dashed" }}>
+									<IonCardContent>
+										<IonRow style={{ justifyContent: "center" }}>
+											<IonItem lines="none">
+												<IonIcon
+													size="large"
+													icon={addCircleOutline}
+													onClick={() => {
+														setForTitularVisitante(false);
+														setShowModalVisitante(true);
+														cogerAntiguosVisitante();
+														setCambiado(true);
+													}}
+												/>
+											</IonItem>
+										</IonRow>
+									</IonCardContent>
+								</IonCard>
+
+								<IonModal
+									ref={modalVisitante}
+									isOpen={showModalVisitante}
+									onDidDismiss={() => {
+										setShowModalVisitante(false);
+									}}
+								>
+									<IonHeader>
+										<IonToolbar>
+											<IonButtons slot="start">
+												<IonButton
+													onClick={() => {
+														modalVisitante.current?.dismiss();
+													}}
+												>
+													Cancel
+												</IonButton>
+											</IonButtons>
+											<IonTitle>
+												<IonRow className="ion-justify-content-center">
+													Jugadores {partidoSeleccionado.visitante.nombre}
+												</IonRow>
+											</IonTitle>
+										</IonToolbar>
+									</IonHeader>
+									<IonContent>
+										<>
+											{OrdenarPorPosiciones(
+												getJugadoresNiTitularesNiSuplVisitante(),
+												(jugador: Jugador) => {
+													if (forTitularVisitante) {
+														const a =
+															alineacionVisitante?.jugadoresTitulares as Jugador[];
+														a.push(jugador);
+														changeTitularesVisitante(a);
+													} else {
+														const a =
+															alineacionVisitante?.jugadoresSuplentes as Jugador[];
+														a.push(jugador);
+														changeSuplVisitante(a);
+													}
+													setShowModalVisitante(false);
+												}
+											)}
+										</>
+									</IonContent>
+								</IonModal>
+							</>
 						</IonCol>
 					</IonRow>
 				</>
 			) : (
 				<></>
 			)}
+		</>
+	);
+}
+
+export function OrdenarPorPosiciones(
+	jugadores: Jugador[],
+	cambiarJugador: (jugador: Jugador) => void
+): JSX.Element {
+	const porteros = jugadores.filter((j) => j.posicion === "Portero");
+	const defensas = jugadores.filter((j) => j.posicion === "Defensa");
+	const mediocentros = jugadores.filter((j) => j.posicion === "Mediocentro");
+	const delanteros = jugadores.filter((j) => j.posicion === "Delantero");
+
+	return (
+		<>
+			<IonItemDivider>Porteros</IonItemDivider>
+			{porteros.map((j) => {
+				return (
+					<IonItem onClick={() => cambiarJugador(j)}>
+						<IonLabel>{j.nombre}</IonLabel>
+					</IonItem>
+				);
+			})}
+			<IonItemDivider>Defensas</IonItemDivider>
+			{defensas.map((j) => {
+				return (
+					<IonItem onClick={() => cambiarJugador(j)}>
+						<IonLabel>{j.nombre}</IonLabel>
+					</IonItem>
+				);
+			})}
+			<IonItemDivider>Mediocentros</IonItemDivider>
+			{mediocentros.map((j) => {
+				return (
+					<IonItem onClick={() => cambiarJugador(j)}>
+						<IonLabel>{j.nombre}</IonLabel>
+					</IonItem>
+				);
+			})}
+			<IonItemDivider>Delanteros</IonItemDivider>
+			{delanteros.map((j) => {
+				return (
+					<IonItem onClick={() => cambiarJugador(j)}>
+						<IonLabel>{j.nombre}</IonLabel>
+					</IonItem>
+				);
+			})}
 		</>
 	);
 }

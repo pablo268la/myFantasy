@@ -12,14 +12,15 @@ import {
 import { useEffect, useState } from "react";
 import { getPartidosByJornada } from "../../endpoints/partidosController";
 import { Partido } from "../../shared/sharedTypes";
-import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
+import { VistaAdminPuntuacionesLista } from "./VistaAdminPuntuacionesLista";
 
 export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(false);
 	useState<boolean>(false);
 	const [puntuacionesCambiadas, setPuntuacionesCambiadas] =
 		useState<boolean>(false);
-	const [guardarPuntuaciones, setGuardarPuntuaciones] = useState<boolean>(false);
+	const [guardarPuntuaciones, setGuardarPuntuaciones] =
+		useState<boolean>(false);
 
 	const [message, setMessage] = useState<string>("Analizando el Big Data");
 
@@ -64,7 +65,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 										getPartidosDeJornada(e.detail.value);
 										setPartido(undefined);
 										setPartidoSeleccionado(undefined);
-										setGuardarPuntuaciones(false)
+										setGuardarPuntuaciones(false);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -88,7 +89,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 														.at(0) as Partido
 												);
 												setMessage("Limpiando los vestuarios");
-												setGuardarPuntuaciones(false)
+												setGuardarPuntuaciones(false);
 											}}
 										>
 											{partidos.map((p) => (
@@ -137,7 +138,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												color="success"
 												onClick={() => {
 													setGuardarPuntuaciones(true);
-													setPuntuacionesCambiadas(false)
+													setPuntuacionesCambiadas(false);
 												}}
 											>
 												Guardar
@@ -157,7 +158,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 			{!loading && partidoSeleccionado !== undefined ? (
 				<>
-					<VistaAdminListaPuntuaciones
+					<VistaAdminPuntuacionesLista
 						partido={partidoSeleccionado}
 						jornada={jornada}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}

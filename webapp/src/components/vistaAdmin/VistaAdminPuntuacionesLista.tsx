@@ -1,7 +1,7 @@
 import { IonCol, IonLabel, IonRow } from "@ionic/react";
 import { useEffect } from "react";
 import { Partido } from "../../shared/sharedTypes";
-import { PuntuacionJugadorAdmin } from "./PuntuacionJugadorAdmin";
+import { VistaAdminPuntuacionJugador } from "./VistaAdminPuntuacionJugador";
 
 type VistaAdminListaPuntuacionesProps = {
 	partido: Partido;
@@ -10,7 +10,7 @@ type VistaAdminListaPuntuacionesProps = {
 	guardarPuntuaciones: boolean;
 };
 
-export function VistaAdminListaPuntuaciones(
+export function VistaAdminPuntuacionesLista(
 	props: VistaAdminListaPuntuacionesProps
 ): JSX.Element {
 	useEffect(() => {}, [props.partido]);
@@ -23,7 +23,7 @@ export function VistaAdminListaPuntuaciones(
 						<IonLabel>{props.partido.local.nombre}</IonLabel>
 					</IonRow>
 					{props.partido.alineacionLocal.jugadoresTitulares.map((j) => (
-						<PuntuacionJugadorAdmin
+						<VistaAdminPuntuacionJugador
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
@@ -38,7 +38,7 @@ export function VistaAdminListaPuntuaciones(
 						<IonLabel>{"Suplentes " + props.partido.local.nombre}</IonLabel>
 					</IonRow>
 					{props.partido.alineacionLocal.jugadoresSuplentes.map((j) => (
-						<PuntuacionJugadorAdmin
+						<VistaAdminPuntuacionJugador
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
@@ -56,7 +56,7 @@ export function VistaAdminListaPuntuaciones(
 					</IonRow>
 
 					{props.partido.alineacionVisitante.jugadoresTitulares.map((j) => (
-						<PuntuacionJugadorAdmin
+						<VistaAdminPuntuacionJugador
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}
@@ -71,7 +71,7 @@ export function VistaAdminListaPuntuaciones(
 						<IonLabel>{"Suplentes " + props.partido.visitante.nombre}</IonLabel>
 					</IonRow>
 					{props.partido.alineacionVisitante.jugadoresSuplentes.map((j) => (
-						<PuntuacionJugadorAdmin
+						<VistaAdminPuntuacionJugador
 							key={j._id}
 							jugador={j}
 							jornada={props.jornada}

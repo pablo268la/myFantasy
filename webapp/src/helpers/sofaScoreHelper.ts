@@ -1,5 +1,9 @@
-import { getJugadoresPorEquipo } from "../endpoints/jugadorEndpoints";
 import {
+	getJugadoresAntiguos,
+	getJugadoresPorEquipo,
+} from "../endpoints/jugadorEndpoints";
+import {
+	Alineacion,
 	EventoPartido,
 	Jugador,
 	Partido,
@@ -771,4 +775,91 @@ function getMinutoOut(
 	}
 
 	return minutoOut;
+}
+
+export async function getAlineacionesSofaScore(partido: Partido) {
+	const jugadoresLocales = await getJugadoresPorEquipo(partido.local._id);
+	const jugadoresVisitantes = await getJugadoresPorEquipo(
+		partido.visitante._id
+	);
+	const jugadoresAntiguos = await getJugadoresAntiguos(
+		partido.local._id,
+		partido.jornada
+	);
+	const jugadoresAntiguos2 = await getJugadoresAntiguos(
+		partido.visitante._id,
+		partido.jornada
+	);
+
+	const jugadores = jugadoresLocales
+		.concat(jugadoresVisitantes)
+		.concat(jugadoresAntiguos)
+		.concat(jugadoresAntiguos2);
+
+	const alineacionLocal: Alineacion = {
+		jugadoresTitulares: [],
+		jugadoresSuplentes: [],
+	};
+
+	const alineacionVisitante: Alineacion = {
+		jugadoresTitulares: [],
+		jugadoresSuplentes: [],
+	};
+
+	await fetch(
+		"https://api.sofascore.com/api/v1/event/" + partido._id + "/lineups",
+		{
+			mode: "cors",
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		}
+	).then(async (res) => {
+		return await res.json().then((r) => {
+			r.home.players
+				.filter((p: any) => p.substitute === false)
+				.forEach((p: any) => {
+					const jugador = jugadores.filter(
+						(j) => j._id.toString() === p.player.id.toString()
+					)[0];
+					if (jugador !== undefined)
+						alineacionLocal.jugadoresTitulares.push(jugador);
+				});
+
+			r.home.players
+				.filter((p: any) => p.substitute === true)
+				.forEach((p: any) => {
+					const jugador = jugadores.filter(
+						(j) => j._id.toString() === p.player.id.toString()
+					)[0];
+					if (jugador !== undefined)
+						alineacionLocal.jugadoresSuplentes.push(jugador);
+				});
+
+			r.away.players
+				.filter((p: any) => p.substitute === false)
+				.forEach((p: any) => {
+					const jugador = jugadores.filter(
+						(j) => j._id.toString() === p.player.id.toString()
+					)[0];
+					if (jugador !== undefined)
+						alineacionVisitante.jugadoresTitulares.push(jugador);
+				});
+
+			r.away.players
+				.filter((p: any) => p.substitute === true)
+				.forEach((p: any) => {
+					const jugador = jugadores.filter(
+						(j) => j._id.toString() === p.player.id.toString()
+					)[0];
+					if (jugador !== undefined)
+						alineacionVisitante.jugadoresSuplentes.push(jugador);
+				});
+		});
+	});
+
+	return {
+		alineacionLocal,
+		alineacionVisitante,
+	};
 }

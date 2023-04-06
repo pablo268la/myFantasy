@@ -6,7 +6,7 @@ export async function getPartidos(): Promise<Partido[]> {
 	return response.json();
 }
 
-export async function getPartido(id: number): Promise<Partido> {
+export async function getPartido(id: string): Promise<Partido> {
 	let response = await fetch(apiEndPoint + "/partidos/" + id);
 	return response.json();
 }

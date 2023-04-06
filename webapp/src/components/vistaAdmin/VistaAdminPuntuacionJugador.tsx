@@ -47,7 +47,7 @@ type PuntuacionJugadorAdminProps = {
 	guardarPuntuaciones: boolean;
 };
 
-export function PuntuacionJugadorAdmin(
+export function VistaAdminPuntuacionJugador(
 	props: PuntuacionJugadorAdminProps
 ): JSX.Element {
 	const jornada = props.jornada;
@@ -65,7 +65,6 @@ export function PuntuacionJugadorAdmin(
 		if (props.guardarPuntuaciones) {
 			setGuardando(true);
 			guardarPuntuacionJugadorEnBD();
-			
 		} else {
 			getPuntuacionDelJugador();
 		}
@@ -74,7 +73,7 @@ export function PuntuacionJugadorAdmin(
 	const guardarPuntuacionJugadorEnBD = async () => {
 		if (puntuacion !== undefined)
 			await guardarPuntuacionJugador(puntuacion).then((p) => {
-				setPuntuacion(p)
+				setPuntuacion(p);
 				setGuardando(false);
 			});
 	};
