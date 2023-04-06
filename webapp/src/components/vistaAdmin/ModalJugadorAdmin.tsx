@@ -1,7 +1,7 @@
-import { OverlayEventDetail } from "@ionic/core";
 import {
 	IonButton,
 	IonButtons,
+	IonCol,
 	IonContent,
 	IonHeader,
 	IonImg,
@@ -9,6 +9,7 @@ import {
 	IonItem,
 	IonLabel,
 	IonModal,
+	IonRow,
 	IonSelect,
 	IonSelectOption,
 	IonTitle,
@@ -36,9 +37,7 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 	const [jugador, setJugador] = useState<Jugador>(props.jugador);
 	const [equipos, setEquipos] = useState<Equipo[]>(props.equipos);
 
-	const [message, setMessage] = useState(
-		"This modal example uses triggers to automatically open a modal when the button is clicked."
-	);
+	const jornadas = Array.from(Array(38).keys());
 
 	async function confirmModal() {
 		updateJugador(jugador)
@@ -61,18 +60,8 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 			});
 	}
 
-	function onWillDismissModal(ev: CustomEvent<OverlayEventDetail>) {
-		if (ev.detail.role === "confirm") {
-			setMessage(`Hello, ${ev.detail.data}!`);
-		}
-	}
-
 	return (
-		<IonModal
-			ref={modal}
-			trigger="open-modal"
-			onWillDismiss={(ev) => onWillDismissModal(ev)}
-		>
+		<IonModal ref={modal} trigger="open-modal">
 			<IonHeader>
 				<IonToolbar>
 					<IonButtons slot="start">
@@ -123,6 +112,60 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 						))}
 					</IonSelect>
 				</IonItem>
+
+				<IonRow>
+					<IonCol size="8">
+						<IonItem>
+							<IonLabel position="stacked">Equipo antiguo</IonLabel>
+							<IonSelect
+								value={jugador.jugadorAntiguo?.equipo?._id }
+								onIonChange={(e) => {
+									setJugador({
+										...jugador,
+										jugadorAntiguo: {
+											equipo: equipos.find(
+												(equipo) => equipo._id === e.detail.value!
+											)!,
+											jornadaTraspaso:
+												jugador.jugadorAntiguo?.jornadaTraspaso || 0,
+										},
+									});
+								}}
+							>
+								{equipos.map((equipo) => (
+									<IonSelectOption key={equipo._id} value={equipo._id}>
+										{equipo.nombre}
+									</IonSelectOption>
+								))}
+							</IonSelect>
+						</IonItem>
+					</IonCol>
+					<IonCol size="4">
+						<IonItem>
+							<IonLabel position="stacked">Jornada traspaso</IonLabel>
+							<IonSelect
+								value={jugador.jugadorAntiguo?.jornadaTraspaso}
+								onIonChange={(e) => {
+									setJugador({
+										...jugador,
+										jugadorAntiguo: {
+											equipo: jugador.jugadorAntiguo?.equipo || undefined, 
+											jornadaTraspaso: parseInt(e.detail.value!) || 0,
+										},
+									});
+									console.log(jugador.jugadorAntiguo);
+								}}
+							>
+								{jornadas.map((jornada) => (
+									<IonSelectOption key={jornada + 1} value={jornada + 1}>
+										{jornada + 1}
+									</IonSelectOption>
+								))}
+							</IonSelect>
+						</IonItem>
+					</IonCol>
+				</IonRow>
+
 				<IonItem>
 					<IonLabel position="stacked">Valor</IonLabel>
 					<IonInput

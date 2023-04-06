@@ -1,5 +1,5 @@
 import { IonCol, IonLabel, IonRow } from "@ionic/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { PuntuacionJugadorAdmin } from "./PuntuacionJugadorAdmin";
 
@@ -9,13 +9,18 @@ type VistaAdminListaPuntuacionesProps = {
 	puntuacionesPartido: PuntuacionJugador[];
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
 	addChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
-	deleteChangedPuntuacion: (puntuacion: PuntuacionJugador) => void;
 };
 
 export function VistaAdminListaPuntuaciones(
 	props: VistaAdminListaPuntuacionesProps
 ): JSX.Element {
-	useEffect(() => {}, [props.puntuacionesPartido]);
+	const [puntuacionesPartido, setPuntuacionesPartido] = useState<
+		PuntuacionJugador[]
+	>([]);
+
+	useEffect(() => {
+		setPuntuacionesPartido(props.puntuacionesPartido);
+	}, [props.partido]);
 
 	return (
 		<>
@@ -37,7 +42,8 @@ export function VistaAdminListaPuntuaciones(
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
 							addChangedPuntuacion={props.addChangedPuntuacion}
-							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
+							partido={props.partido}
+							titular={true}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -56,7 +62,8 @@ export function VistaAdminListaPuntuaciones(
 							rival={props.partido.visitante.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
 							addChangedPuntuacion={props.addChangedPuntuacion}
-							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
+							partido={props.partido}
+							titular={false}
 						/>
 					))}
 				</IonCol>
@@ -78,7 +85,8 @@ export function VistaAdminListaPuntuaciones(
 							rival={props.partido.local.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
 							addChangedPuntuacion={props.addChangedPuntuacion}
-							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
+							partido={props.partido}
+							titular={true}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -97,7 +105,8 @@ export function VistaAdminListaPuntuaciones(
 							rival={props.partido.local.nombre}
 							setPuntuacionesCambiadas={props.setPuntuacionesCambiadas}
 							addChangedPuntuacion={props.addChangedPuntuacion}
-							deleteChangedPuntuacion={props.deleteChangedPuntuacion}
+							partido={props.partido}
+							titular={false}
 						/>
 					))}
 				</IonCol>

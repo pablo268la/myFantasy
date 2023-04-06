@@ -65,6 +65,7 @@ export const jugador = new Schema<IJugador>(
 		},
 		jugadorAntiguo: {
 			type: jugadorAntiguo,
+			required: false,
 		},
 		fantasyMarcaId: {
 			type: String,

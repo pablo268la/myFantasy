@@ -1,5 +1,14 @@
 import { IonIcon } from "@ionic/react";
-import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
+import {
+	alertCircle,
+	checkmarkCircle,
+	copy,
+	footballOutline,
+	medkit,
+	square,
+	swapHorizontal,
+	warning,
+} from "ionicons/icons";
 import { getUsuario, requestToken } from "../endpoints/userEndpoints";
 import { Usuario } from "../shared/sharedTypes";
 
@@ -40,6 +49,29 @@ export function comparePosiciones(pos1: string, pos2: string) {
 		return 1;
 	}
 	return 0;
+}
+
+export function getIconByTipoEvento(tipo: string) {
+	switch (tipo) {
+		case "Gol":
+			return <IonIcon icon={footballOutline} />;
+		case "Gol en propia puerta":
+			return <IonIcon icon={footballOutline} color="danger" />;
+
+		case "Tarjeta amarilla":
+			return <IonIcon icon={square} color="warning" />;
+		case "Tarjeta roja":
+			return <IonIcon icon={square} color="danger" />;
+
+		case "Doble amarilla":
+			return <IonIcon icon={copy} color="warning" />;
+
+		case "Cambio":
+			return <IonIcon icon={swapHorizontal} color="success" />;
+
+		default:
+			return <IonIcon />;
+	}
 }
 
 export function getColorEstado(estado: string) {

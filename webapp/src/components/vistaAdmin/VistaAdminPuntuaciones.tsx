@@ -14,10 +14,7 @@ import {
 	getPartidosByJornada,
 	getPuntuacionesPartido,
 } from "../../endpoints/partidosController";
-import {
-	getPuntuacionJugador,
-	guardarPuntuacionJugador,
-} from "../../endpoints/puntuacionesController";
+import { guardarPuntuacionJugador } from "../../endpoints/puntuacionesController";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 import { VistaAdminListaPuntuaciones } from "./VistaAdminListaPuntuaciones";
 
@@ -33,6 +30,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	const [jornada, setJornada] = useState<number>(1);
 	const [partidos, setPartidos] = useState<Partido[]>([]);
 	const [partido, setPartido] = useState<string>();
+	const [partidoSeleccionado, setPartidoSeleccionado] = useState<Partido>();
 
 	const jornadas = Array.from(Array(38).keys());
 
@@ -47,29 +45,6 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		if (!changedPuntuaciones.find((p) => p.idJugador === puntuacion.idJugador))
 			setChangedPuntuaciones([...changedPuntuaciones, puntuacion]);
 		else setChangedPuntuaciones([...changedPuntuaciones]);
-	};
-
-	const deleteChangedPuntuacion = async (puntuacion: PuntuacionJugador) => {
-		let oldP = changedPuntuaciones
-			.filter((p) => p.idJugador === puntuacion.idJugador)
-			.at(0);
-
-		if (oldP === undefined) {
-			oldP = await getPuntuacionJugador(puntuacion.idJugador).then((p) => {
-				return p.find((p) => p.idPartido === partido);
-			});
-			setChangedPuntuaciones(
-				changedPuntuaciones.filter((p) => p.idJugador !== puntuacion.idJugador)
-			);
-			setPuntuacionesPartido(
-				puntuacionesPartido.map((p) => {
-					if (p.idJugador === puntuacion.idJugador) {
-						return oldP;
-					}
-					return p;
-				}) as PuntuacionJugador[]
-			);
-		}
 	};
 
 	const getPuntuacionesPartidoBack = async (partido: string) => {
@@ -90,9 +65,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 	};
 
 	const guardarPuntuaciones = async () => {
-		// TODO - Guardar las puntuaciones que devuelva el back como actuales
 		setLoading(true);
-		puntuacionesPartido.forEach(async (puntuacion) => {
+		changedPuntuaciones.forEach(async (puntuacion) => {
 			await guardarPuntuacionJugador(puntuacion);
 		});
 		setLoading(false);
@@ -120,6 +94,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 										setMessage("Analizando el Big Data");
 										getPartidosDeJornada(e.detail.value);
 										setPartido(undefined);
+										setPartidoSeleccionado(undefined);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -137,6 +112,11 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											interface="action-sheet"
 											onIonChange={(e) => {
 												setPartido(e.detail.value);
+												setPartidoSeleccionado(
+													partidos
+														.filter((p) => p._id === e.detail.value)
+														.at(0) as Partido
+												);
 												setMessage("Limpiando los vestuarios");
 												getPuntuacionesPartidoBack(e.detail.value);
 											}}
@@ -206,15 +186,14 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 				</IonRow>
 			</IonGrid>
 
-			{!loading && partido !== undefined ? (
+			{!loadingPuntuaciones && !loading && partidoSeleccionado !== undefined ? (
 				<>
 					<VistaAdminListaPuntuaciones
-						partido={partidos.filter((p) => p._id === partido).at(0) as Partido}
+						partido={partidoSeleccionado}
 						jornada={jornada}
 						puntuacionesPartido={puntuacionesPartido}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}
 						addChangedPuntuacion={addChangedPuntuacion}
-						deleteChangedPuntuacion={deleteChangedPuntuacion}
 					/>
 				</>
 			) : (

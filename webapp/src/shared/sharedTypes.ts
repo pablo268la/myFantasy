@@ -8,8 +8,13 @@ export type Jugador = {
 	puntos: number;
 	estado: string;
 	foto: string;
-	jugadorAntiguo: object;
+	jugadorAntiguo: JugadorAntiguo | undefined;
 	fantasyMarcaId: string;
+};
+
+export type JugadorAntiguo = {
+	equipo: Equipo | undefined;
+	jornadaTraspaso: number;
 };
 
 export type Equipo = {

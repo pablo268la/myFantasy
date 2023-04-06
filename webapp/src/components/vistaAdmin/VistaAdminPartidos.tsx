@@ -20,13 +20,19 @@ import {
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
-import { addCircleOutline, arrowForwardCircle, trash } from "ionicons/icons";
+import {
+	addCircleOutline,
+	arrowForwardCircle,
+	swapHorizontal,
+	trash,
+} from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { getJugadoresPorEquipo } from "../../endpoints/jugadorEndpoints";
 import {
 	getPartidosByJornada,
 	updatePartido,
 } from "../../endpoints/partidosController";
+import { getIconByTipoEvento } from "../../helpers/helpers";
 import { getEventosDeSofaScore } from "../../helpers/sofaScoreHelper";
 import {
 	Alineacion,
@@ -103,7 +109,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(false);
 	};
 
-	const guardarAlineacion = async () => {
+	const guardarPartido = async () => {
 		setLoading(true);
 		if (partidoSeleccionado) {
 			if (alineacionLocal)
@@ -113,6 +119,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			if (estado) partidoSeleccionado.estado = estado;
 			if (fecha) partidoSeleccionado.fecha = fecha;
 			if (link) partidoSeleccionado.linkSofaScore = link;
+			if (eventosPartido) partidoSeleccionado.eventos = eventosPartido;
 
 			updatePartido(partidoSeleccionado).then((p) => {
 				setPartidoSeleccionado(p);
@@ -128,15 +135,20 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(false);
 	};
 
-	const añadirEventos = (eventos: EventoPartido[]) => {
-		const eventosp = eventosPartido.concat(eventos);
-		setEventosPartido(eventosp.sort((a, b) => a.minuto - b.minuto));
+	const añadirEventos = (eventos: EventoPartido[], sofaScore: boolean) => {
+		if (sofaScore)
+			setEventosPartido(eventos.sort((a, b) => a.minuto - b.minuto));
+		else {
+			const eventosp = eventosPartido.concat(eventos);
+			setEventosPartido(eventosp.sort((a, b) => a.minuto - b.minuto));
+		}
 	};
 
 	const callSofaScore = async () => {
+		setEventosPartido([]);
 		await getEventosDeSofaScore(partidoSeleccionado as Partido).then(
 			(eventos) => {
-				añadirEventos(eventos);
+				añadirEventos(eventos, true);
 			}
 		);
 
@@ -232,7 +244,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											<IonButton
 												color="success"
 												onClick={() => {
-													guardarAlineacion();
+													guardarPartido();
 												}}
 											>
 												Guardar
@@ -339,7 +351,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonLabel>
 											{evento.minuto}
 											{"' | "}
-											{evento.tipo}
+											{getIconByTipoEvento(evento.tipo)}
 											{"  "}
 											{evento.jugador !== undefined
 												? evento.jugador.nombre
@@ -347,7 +359,11 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											{evento.jugador2 !== undefined ? (
 												<>
 													{" "}
-													<IonIcon icon={arrowForwardCircle} />{" "}
+													{evento.tipo === "Gol" ? (
+														<IonIcon icon={arrowForwardCircle} />
+													) : (
+														<IonIcon icon={swapHorizontal} color="danger" />
+													)}{" "}
 													{evento.jugador2.nombre}
 												</>
 											) : (
@@ -400,14 +416,17 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 												)
 													return;
 
-												añadirEventos([
-													{
-														tipo: tipoEvento + "",
-														minuto: minutoEvento,
-														jugador: jugadorEvento as Jugador,
-														jugador2: jugadorEvento2,
-													},
-												]);
+												añadirEventos(
+													[
+														{
+															tipo: tipoEvento + "",
+															minuto: minutoEvento,
+															jugador: jugadorEvento as Jugador,
+															jugador2: jugadorEvento2,
+														},
+													],
+													false
+												);
 												setJugadorEvento(undefined);
 												setJugadorEvento2(undefined);
 												setMinutoEvento(0);

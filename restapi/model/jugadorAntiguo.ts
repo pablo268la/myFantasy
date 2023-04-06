@@ -1,14 +1,15 @@
 import { model, Schema } from "mongoose";
+import { equipo, IEquipo } from "./equipo";
 
 export interface IJugadorAntiguo {
-	idEquipoAntiguo: string;
+	equipo: IEquipo;
 	jornadaTraspaso: number;
 }
 
 export const jugadorAntiguo = new Schema<IJugadorAntiguo>(
 	{
-		idEquipoAntiguo: {
-			type: String,
+		equipo: {
+			type: equipo,
 			required: true,
 			trim: true,
 		},
