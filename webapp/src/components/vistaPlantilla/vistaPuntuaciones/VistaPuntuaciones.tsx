@@ -45,6 +45,7 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 	};
 
 	const [jornada, setJornada] = useState<number>(1);
+	const jornadas = Array.from(Array(38).keys());
 
 	return (
 		<>
@@ -62,16 +63,16 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 													interface="popover"
 													onIonChange={(e) => {
 														setJornada(e.detail.value);
+														setJugadorPulsado("");
 													}}
 												>
-													<IonSelectOption value={1}>Jornada 1</IonSelectOption>
-													<IonSelectOption value={2}>Jornada 2</IonSelectOption>
-													<IonSelectOption value={3}>Jornada 3</IonSelectOption>
-													<IonSelectOption value={4}>Jornada 4</IonSelectOption>
-													<IonSelectOption value={5}>Jornada 5</IonSelectOption>
-													<IonSelectOption value={6}>
-														<IonText>Jornada 6 ---- 40 puntos</IonText>
-													</IonSelectOption>
+													{jornadas.map((j) => {
+														return (
+															<IonSelectOption key={j + 1} value={j + 1}>
+																<IonText>Jornada {j + 1}</IonText>
+															</IonSelectOption>
+														);
+													})}
 												</IonSelect>
 											</IonList>
 										</IonCol>

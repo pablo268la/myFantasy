@@ -72,7 +72,11 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, true)}</>
 														))}
-													<IonLabel slot="end"> {0}</IonLabel>
+													<IonLabel slot="end">
+														{puntuaciones
+															.filter((p) => p.idJugador === jugador._id)
+															.map((p) => p.puntos)}
+													</IonLabel>
 												</IonItem>
 											)
 										)}
@@ -87,7 +91,11 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, false)}</>
 														))}
-													<IonLabel slot="end"> {0}</IonLabel>
+													<IonLabel slot="end">
+														{puntuaciones
+															.filter((p) => p.idJugador === jugador._id)
+															.map((p) => p.puntos)}
+													</IonLabel>
 												</IonItem>
 											)
 										)}
@@ -103,7 +111,11 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, true)}</>
 														))}
-													<IonLabel slot="end"> {0}</IonLabel>
+													<IonLabel slot="end">
+														{puntuaciones
+															.filter((p) => p.idJugador === jugador._id)
+															.map((p) => p.puntos)}
+													</IonLabel>
 												</IonItem>
 											)
 										)}
@@ -118,7 +130,11 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, false)}</>
 														))}
-													<IonLabel slot="end"> {0}</IonLabel>
+													<IonLabel slot="end">
+														{puntuaciones
+															.filter((p) => p.idJugador === jugador._id)
+															.map((p) => p.puntos)}
+													</IonLabel>
 												</IonItem>
 											)
 										)}
@@ -200,7 +216,12 @@ function repeatIcon(r: ReactComponentElement<any>, n: number) {
 function getLogInOrLogOut(p: PuntuacionJugador, titular: boolean) {
 	if (p.puntuacionBasica.minutos.estadistica > 0 && !titular) {
 		return <IonIcon color={"success"} icon={swapHorizontal} />;
-	} else if (p.puntuacionBasica.minutos.estadistica < 90 && titular) {
+	} else if (
+		p.puntuacionBasica.minutos.estadistica < 90 &&
+		titular &&
+		p.puntuacionCalculable.dobleAmarilla.estadistica === 0 &&
+		p.puntuacionCalculable.tarjetasRoja.estadistica === 0
+	) {
 		return <IonIcon color={"danger"} icon={swapHorizontal} />;
 	} else {
 		return <></>;

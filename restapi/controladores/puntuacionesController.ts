@@ -65,6 +65,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		const PuntuacionJSON = openJSON(jugador?.posicion as string);
 
 		puntuacionJugador = calcularPuntuacion(puntuacionJugador, PuntuacionJSON);
+
 		puntuacionJugador._id =
 			puntuacionJugador.idJugador + "-" + puntuacionJugador.idPartido;
 
@@ -83,7 +84,13 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		}
 
 		if (jugador) {
-			jugador.puntos += puntuacionJugador.puntos;
+			const puntuaciones = await modelPuntuacionJugador.find({
+				idJugador: jugador._id,
+			});
+			jugador.puntos = puntuaciones.reduce(
+				(acc, puntuacion) => acc + puntuacion.puntos,
+				0
+			);
 			await jugador.save();
 		}
 
