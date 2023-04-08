@@ -21,6 +21,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		useState<boolean>(false);
 	const [guardarPuntuaciones, setGuardarPuntuaciones] =
 		useState<boolean>(false);
+	const [somethingChanged, setSomethingChanged] = useState<boolean>(false);
 
 	const [message, setMessage] = useState<string>("Analizando el Big Data");
 
@@ -44,12 +45,6 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 		getPartidosDeJornada(jornada);
 	}, []);
 
-	const resetPuntuaciones = () => {
-		setMessage("Volviendo a la realidad");
-
-		setPuntuacionesCambiadas(false);
-	};
-
 	return (
 		<>
 			<IonGrid>
@@ -66,6 +61,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 										setPartido(undefined);
 										setPartidoSeleccionado(undefined);
 										setGuardarPuntuaciones(false);
+										setPuntuacionesCambiadas(false);
+										setSomethingChanged(!somethingChanged);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -90,6 +87,8 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												);
 												setMessage("Limpiando los vestuarios");
 												setGuardarPuntuaciones(false);
+												setPuntuacionesCambiadas(false);
+												setSomethingChanged(!somethingChanged);
 											}}
 										>
 											{partidos.map((p) => (
@@ -129,7 +128,10 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											<IonButton
 												color="danger"
 												onClick={() => {
-													resetPuntuaciones();
+													setMessage("Volviendo a la realidad");
+													setGuardarPuntuaciones(false);
+													setPuntuacionesCambiadas(false);
+													setSomethingChanged(!somethingChanged);
 												}}
 											>
 												Reset
@@ -139,6 +141,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												onClick={() => {
 													setGuardarPuntuaciones(true);
 													setPuntuacionesCambiadas(false);
+													setSomethingChanged(!somethingChanged);
 												}}
 											>
 												Guardar
@@ -163,6 +166,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 						jornada={jornada}
 						setPuntuacionesCambiadas={setPuntuacionesCambiadas}
 						guardarPuntuaciones={guardarPuntuaciones}
+						somethingChanged={somethingChanged}
 					/>
 				</>
 			) : (

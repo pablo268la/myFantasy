@@ -8,6 +8,7 @@ type VistaAdminListaPuntuacionesProps = {
 	jornada: number;
 	setPuntuacionesCambiadas: (puntuacionesCambiadas: boolean) => void;
 	guardarPuntuaciones: boolean;
+	somethingChanged: boolean;
 };
 
 export function VistaAdminPuntuacionesLista(
@@ -32,6 +33,7 @@ export function VistaAdminPuntuacionesLista(
 							partido={props.partido}
 							titular={true}
 							guardarPuntuaciones={props.guardarPuntuaciones}
+							somethingChanged={props.somethingChanged}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -47,6 +49,7 @@ export function VistaAdminPuntuacionesLista(
 							partido={props.partido}
 							titular={false}
 							guardarPuntuaciones={props.guardarPuntuaciones}
+							somethingChanged={props.somethingChanged}
 						/>
 					))}
 				</IonCol>
@@ -65,6 +68,7 @@ export function VistaAdminPuntuacionesLista(
 							partido={props.partido}
 							titular={true}
 							guardarPuntuaciones={props.guardarPuntuaciones}
+							somethingChanged={props.somethingChanged}
 						/>
 					))}
 					<IonRow style={{ justifyContent: "center" }}>
@@ -80,6 +84,7 @@ export function VistaAdminPuntuacionesLista(
 							partido={props.partido}
 							titular={false}
 							guardarPuntuaciones={props.guardarPuntuaciones}
+							somethingChanged={props.somethingChanged}
 						/>
 					))}
 				</IonCol>

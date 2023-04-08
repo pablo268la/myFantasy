@@ -177,7 +177,7 @@ const getPuntuacionJugadorFromJSON = (
 			r.statistics.rating ? r.statistics.rating : 0,
 			filterAndPop(
 				puntuacionJSON.valoracion,
-				r.statistics.rating ? r.statistics.rating : 0
+				r.statistics.rating ? r.statistics.rating : 6.0
 			)
 		),
 	};
@@ -443,11 +443,11 @@ const getPuntuacionJugadorFromJSON = (
 		),
 		duelosPerdidos: crearPuntuacionTupple(
 			(r.statistics.duelLost ? r.statistics.duelLost : 0) -
-				-(r.statistics.aerialLost ? r.statistics.aerialLost : 0),
+				(r.statistics.aerialLost ? r.statistics.aerialLost : 0),
 			getByTramos(
 				puntuacionJSON.duelosPerdidos,
 				(r.statistics.duelLost ? r.statistics.duelLost : 0) -
-					-(r.statistics.aerialLost ? r.statistics.aerialLost : 0)
+					(r.statistics.aerialLost ? r.statistics.aerialLost : 0)
 			)
 		),
 		duelosAereosGanados: crearPuntuacionTupple(
@@ -574,7 +574,11 @@ const getPuntuacionJugadorFromJSON = (
 	const puntuacionCalculable: PuntuacionCalculable = {
 		golesRecibidos: crearPuntuacionTupple(
 			golesRecibidos,
-			filterAndPopByTramos(puntuacionJSON.golesRecibidos, golesRecibidos)
+			filterAndPopByTramos(
+				puntuacionJSON.golesRecibidos,
+				golesRecibidos,
+				r.statistics.minutesPlayed + 0
+			)
 		),
 		tarjetasAmarilla: crearPuntuacionTupple(
 			eventos1.filter((e) => e.tipo === "Tarjeta amarilla").length,
@@ -662,6 +666,7 @@ function calcularGolesSiTitularOSuplente(
 		if (
 			jugador.jugadorAntiguo !== undefined &&
 			jugador.jugadorAntiguo.equipo !== undefined &&
+			jugador.jugadorAntiguo.jornadaTraspaso !== undefined &&
 			jugador.jugadorAntiguo.jornadaTraspaso < partido.jornada
 		) {
 			return eventosConJugador
@@ -862,4 +867,66 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 		alineacionLocal,
 		alineacionVisitante,
 	};
+}
+
+export function calcularPuntosPuntuacion(p: PuntuacionJugador): number {
+	let puntosTotales = 0;
+	puntosTotales +=
+		p.puntuacionBasica.goles.puntos +
+		p.puntuacionBasica.asistencias.puntos +
+		p.puntuacionBasica.minutos.puntos +
+		p.puntuacionBasica.valoracion.puntos;
+	puntosTotales +=
+		p.puntuacionOfensiva.tirosPuerta.puntos +
+		p.puntuacionOfensiva.tirosFuera.puntos +
+		p.puntuacionOfensiva.tirosBloqueados.puntos +
+		p.puntuacionOfensiva.regatesIntentados.puntos +
+		p.puntuacionOfensiva.regatesCompletados.puntos +
+		p.puntuacionOfensiva.tirosAlPalo.puntos +
+		p.puntuacionOfensiva.ocasionClaraFallada.puntos +
+		p.puntuacionOfensiva.penaltiRecibido.puntos +
+		p.puntuacionOfensiva.penaltiFallado.puntos;
+	puntosTotales +=
+		p.puntuacionPosesion.toquesBalon.puntos +
+		p.puntuacionPosesion.pasesTotales.puntos +
+		p.puntuacionPosesion.pasesCompletados.puntos +
+		p.puntuacionPosesion.pasesClave.puntos +
+		p.puntuacionPosesion.centrosTotales.puntos +
+		p.puntuacionPosesion.centrosCompletados.puntos +
+		p.puntuacionPosesion.pasesLargosTotales.puntos +
+		p.puntuacionPosesion.pasesLargosCompletados.puntos +
+		p.puntuacionPosesion.grandesOcasiones.puntos;
+	puntosTotales +=
+		p.puntuacionDefensiva.despejes.puntos +
+		p.puntuacionDefensiva.tirosBloqueados.puntos +
+		p.puntuacionDefensiva.intercepciones.puntos +
+		p.puntuacionDefensiva.entradas.puntos +
+		p.puntuacionDefensiva.regatesSuperado.puntos +
+		p.puntuacionDefensiva.erroresParaDisparo.puntos +
+		p.puntuacionDefensiva.despejesEnLineaDeGol.puntos +
+		p.puntuacionDefensiva.golesEnPropia.puntos +
+		p.puntuacionDefensiva.penaltiCometido.puntos;
+	puntosTotales +=
+		p.puntuacionFisico.duelosGanados.puntos +
+		p.puntuacionFisico.duelosPerdidos.puntos +
+		p.puntuacionFisico.duelosAereosGanados.puntos +
+		p.puntuacionFisico.duelosAereosPerdidos.puntos +
+		p.puntuacionFisico.posesionPerdida.puntos +
+		p.puntuacionFisico.faltasCometidas.puntos +
+		p.puntuacionFisico.faltasRecibidas.puntos +
+		p.puntuacionFisico.fuerasDeJuego.puntos;
+	puntosTotales +=
+		p.puntuacionPortero.paradas.puntos +
+		p.puntuacionPortero.despejes.puntos +
+		p.puntuacionPortero.salidas.puntos +
+		p.puntuacionPortero.highClaim.puntos +
+		p.puntuacionPortero.paradasArea.puntos +
+		p.puntuacionPortero.penaltiesParados.puntos;
+	puntosTotales +=
+		p.puntuacionCalculable.golesRecibidos.puntos +
+		p.puntuacionCalculable.tarjetasAmarilla.puntos +
+		p.puntuacionCalculable.tarjetasRoja.puntos +
+		p.puntuacionCalculable.dobleAmarilla.puntos;
+
+	return puntosTotales;
 }

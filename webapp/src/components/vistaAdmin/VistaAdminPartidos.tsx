@@ -114,7 +114,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		await getPartidosByJornada(jornada).then((partidos) => {
 			setPartidos(partidos);
 		});
-		setLoading(false);
+		changeSelectedPartido(undefined);
 	};
 
 	const changeSelectedPartido = async (partido: string | undefined) => {
@@ -337,8 +337,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 									onIonChange={(e) => {
 										setMessage("Analizando el Big Data");
 										getPartidosDeJornada(e.detail.value);
-										changeSelectedPartido(undefined);
-										setPartido(undefined);
 									}}
 								>
 									{jornadas.map((jornada) => (

@@ -24,7 +24,6 @@ export function filterAndPop(
 	lista: TuppleEstadisticaValue[],
 	tope: number
 ): number {
-	if (!tope) return 0;
 	return (
 		lista
 			.filter((element: TuppleEstadisticaValue) => {
@@ -36,22 +35,26 @@ export function filterAndPop(
 
 // Solo para goles recibidos
 export function filterAndPopByTramos(
-	lista: TripleEstadisticaTramosValue[],
-	tope: number
+	lista: [TripleEstadisticaTramosValue[]],
+	tope: number,
+	minutesPlayed: number
 ): number {
-	if (!tope) return 0;
+	let pos = 0;
+	if (minutesPlayed >= 60) pos = 2;
+	else if (minutesPlayed >= 30) pos = 1;
+
+	let listaFinal = lista[pos];
 	let r =
-		lista
+		listaFinal
 			.filter((element: TripleEstadisticaTramosValue) => {
 				if (tope >= element.estadistica) return element;
 			})
-			.pop() || lista.slice(0, 1)[0];
+			.pop() || listaFinal.slice(0, 1)[0];
 
 	if (r.estadistica === 0) return r.value;
 	return getByTramos(r, tope);
 }
 
 export function getByTramos(tupple: TuppleTramosValue, tope: number): number {
-	if (!tope) return 0;
 	return Number.parseInt("" + tope / tupple.tramos) * tupple.value;
 }

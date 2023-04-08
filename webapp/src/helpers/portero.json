@@ -2,10 +2,14 @@
     "minutos": [
         {
             "estadistica": 0,
+            "value": 0
+        },
+        {
+            "estadistica": 1,
             "value": 1
         },
         {
-            "estadistica": 45,
+            "estadistica": 30,
             "value": 2
         },
         {
@@ -25,6 +29,10 @@
         {
             "estadistica": 5.0,
             "value": -4
+        },
+        {
+            "estadistica": 5.5,
+            "value": -2
         },
         {
             "estadistica": 6.0,
@@ -192,7 +200,7 @@
         "value": 2
     },
     "fuerasDeJuego": {
-        "tramos": 1,
+        "tramos": 2,
         "value": -1
     },
     "paradas": {
@@ -213,28 +221,64 @@
     },
     "paradasArea": {
         "tramos": 2,
-        "value": 2
+        "value": 0
     },
     "penaltiesParados": {
         "tramos": 1,
         "value": 4
     },
     "golesRecibidos": [
-        {
-            "estadistica": 0,
-            "value": 4,
-            "tramos": 1
-        },
-        {
-            "estadistica": 1,
-            "value": 0,
-            "tramos": 1
-        },
-        {
-            "estadistica": 2,
-            "value": -3,
-            "tramos": 2
-        }
+        [
+            {
+                "estadistica": 0,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ],
+        [
+            {
+                "estadistica": 0,
+                "value": 2,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ],
+        [
+            {
+                "estadistica": 0,
+                "value": 4,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ]
     ],
     "tarjetasAmarilla": {
         "tramos": 1,

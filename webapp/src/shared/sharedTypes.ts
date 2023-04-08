@@ -270,7 +270,7 @@ export type PuntuacionJSON = {
 	highClaim: TuppleTramosValue;
 	paradasArea: TuppleTramosValue;
 	penaltiesParados: TuppleTramosValue;
-	golesRecibidos: [TripleeEstadisticaTramosValue];
+	golesRecibidos: [[TripleeEstadisticaTramosValue]];
 	tarjetasAmarilla: TuppleTramosValue;
 	tarjetasRoja: TuppleTramosValue;
 	dobleAmarilla: TuppleTramosValue;

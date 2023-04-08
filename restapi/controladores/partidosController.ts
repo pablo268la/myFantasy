@@ -76,6 +76,7 @@ export const updatePartido: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partido no encontrado" });
 		return res.status(200).json(partido);
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };

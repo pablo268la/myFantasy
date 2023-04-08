@@ -28,7 +28,10 @@ import {
 	getByTramos,
 	openJSON,
 } from "../../helpers/jsonHelper";
-import { getPuntuacionesDeSofaScore } from "../../helpers/sofaScoreHelper";
+import {
+	calcularPuntosPuntuacion,
+	getPuntuacionesDeSofaScore,
+} from "../../helpers/sofaScoreHelper";
 import {
 	Jugador,
 	Partido,
@@ -45,6 +48,7 @@ type PuntuacionJugadorAdminProps = {
 	partido: Partido;
 	titular: boolean;
 	guardarPuntuaciones: boolean;
+	somethingChanged: boolean;
 };
 
 export function VistaAdminPuntuacionJugador(
@@ -61,6 +65,11 @@ export function VistaAdminPuntuacionJugador(
 
 	const [guardando, setGuardando] = useState<boolean>(false);
 
+	const actualizarPuntuacionYPuntos = (p: PuntuacionJugador) => {
+		p.puntos = calcularPuntosPuntuacion(p);
+		setPuntuacion(p);
+	};
+
 	useEffect(() => {
 		if (props.guardarPuntuaciones) {
 			setGuardando(true);
@@ -68,12 +77,12 @@ export function VistaAdminPuntuacionJugador(
 		} else {
 			getPuntuacionDelJugador();
 		}
-	}, [props.guardarPuntuaciones]);
+	}, [props.somethingChanged]);
 
 	const guardarPuntuacionJugadorEnBD = async () => {
 		if (puntuacion !== undefined)
 			await guardarPuntuacionJugador(puntuacion).then((p) => {
-				setPuntuacion(p);
+				actualizarPuntuacionYPuntos(p);
 				setGuardando(false);
 			});
 	};
@@ -87,10 +96,10 @@ export function VistaAdminPuntuacionJugador(
 						j,
 						props.titular
 					).then((ps) => {
-						setPuntuacion(ps[0]);
+						actualizarPuntuacionYPuntos(ps[0]);
 					});
 				} else {
-					setPuntuacion(p);
+					actualizarPuntuacionYPuntos(p);
 				}
 			}
 		);
@@ -125,6 +134,7 @@ export function VistaAdminPuntuacionJugador(
 						isOpen={showModal}
 						onDidDismiss={() => {
 							setShowModal(false);
+							props.setPuntuacionesCambiadas(true);
 						}}
 					>
 						<IonHeader>
@@ -132,7 +142,13 @@ export function VistaAdminPuntuacionJugador(
 								<IonButtons slot="start">
 									<IonButton
 										onClick={async () => {
-											await getPuntuacionDelJugador();
+											await getPuntuacionesDeSofaScore(
+												props.partido,
+												j,
+												props.titular
+											).then((ps) => {
+												actualizarPuntuacionYPuntos(ps[0]);
+											});
 										}}
 									>
 										SofaScore
@@ -148,7 +164,6 @@ export function VistaAdminPuntuacionJugador(
 										strong={true}
 										onClick={() => {
 											modal.current?.dismiss();
-											props.setPuntuacionesCambiadas(true);
 										}}
 									>
 										Confirm
@@ -157,19 +172,28 @@ export function VistaAdminPuntuacionJugador(
 							</IonToolbar>
 						</IonHeader>
 						<IonContent>
+							<IonItemDivider>Basicas</IonItemDivider>
 							{CrearItem(
 								j._id,
 								"Valoracion",
 								jornada,
 								puntuacion.puntuacionBasica.valoracion,
 								(e) => {
-									puntuacion.puntuacionBasica.valoracion.estadistica =
-										parseFloat(e.detail.value!);
-									puntuacion.puntuacionBasica.valoracion.puntos = filterAndPop(
-										puntuacionJSON.valoracion,
-										e.detail.value
-									);
-								}
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionBasica: {
+											...puntuacion.puntuacionBasica,
+											valoracion: {
+												estadistica: parseFloat(e.detail.value!),
+												puntos: filterAndPop(
+													puntuacionJSON.valoracion,
+													e.detail.value
+												),
+											},
+										},
+									});
+								},
+								10.0
 							)}
 							{CrearItem(
 								j._id,
@@ -177,14 +201,21 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionBasica.minutos,
 								(e) => {
-									puntuacion.puntuacionBasica.minutos.estadistica = parseInt(
-										e.detail.value!
-									);
-									puntuacion.puntuacionBasica.minutos.puntos = filterAndPop(
-										puntuacionJSON.minutos,
-										e.detail.value
-									);
-								}
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionBasica: {
+											...puntuacion.puntuacionBasica,
+											minutos: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: filterAndPop(
+													puntuacionJSON.minutos,
+													e.detail.value
+												),
+											},
+										},
+									});
+								},
+								90
 							)}
 							{CrearItem(
 								j._id,
@@ -192,13 +223,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionBasica.goles,
 								(e) => {
-									puntuacion.puntuacionBasica.goles.estadistica = parseInt(
-										e.detail.value!
-									);
-									puntuacion.puntuacionBasica.goles.puntos = getByTramos(
-										puntuacionJSON.goles,
-										parseInt(e.detail.value!)
-									);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionBasica: {
+											...puntuacion.puntuacionBasica,
+											goles: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.goles,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -207,126 +244,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionBasica.asistencias,
 								(e) => {
-									puntuacion.puntuacionBasica.asistencias.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionBasica.asistencias.puntos = getByTramos(
-										puntuacionJSON.asistencias,
-										parseInt(e.detail.value!)
-									);
-								}
-							)}
-
-							{CrearItem(
-								j._id,
-								"Tiros a puerta",
-								jornada,
-								puntuacion.puntuacionOfensiva.tirosPuerta,
-								(e) => {
-									puntuacion.puntuacionOfensiva.tirosPuerta.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionOfensiva.tirosPuerta.puntos =
-										getByTramos(puntuacionJSON.tirosPuerta, e.detail.value);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Tiros fuera",
-								jornada,
-								puntuacion.puntuacionOfensiva.tirosFuera,
-								(e) => {
-									puntuacion.puntuacionOfensiva.tirosFuera.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionOfensiva.tirosFuera.puntos = getByTramos(
-										puntuacionJSON.tirosFuera,
-										e.detail.value
-									);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Tiros rechazados",
-								jornada,
-								puntuacion.puntuacionOfensiva.tirosBloqueados,
-								(e) => {
-									puntuacion.puntuacionOfensiva.tirosBloqueados.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionOfensiva.tirosBloqueados.puntos =
-										getByTramos(puntuacionJSON.tirosBloqueados, e.detail.value);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Regates completados",
-								jornada,
-								puntuacion.puntuacionOfensiva.regatesCompletados,
-								(e) => {
-									puntuacion.puntuacionOfensiva.regatesCompletados.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionOfensiva.regatesCompletados.puntos =
-										getByTramos(
-											puntuacionJSON.regatesCompletados,
-											e.detail.value
-										);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Ocasiones falladas",
-								jornada,
-								puntuacion.puntuacionOfensiva.ocasionClaraFallada,
-								(e) => {
-									puntuacion.puntuacionOfensiva.ocasionClaraFallada.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionOfensiva.ocasionClaraFallada.puntos =
-										getByTramos(
-											puntuacionJSON.ocasionClaraFallada,
-											e.detail.value
-										);
-								}
-							)}
-
-							{CrearItem(
-								j._id,
-								"Pases clave",
-								jornada,
-								puntuacion.puntuacionPosesion.pasesClave,
-								(e) => {
-									puntuacion.puntuacionPosesion.pasesClave.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionPosesion.pasesClave.puntos = getByTramos(
-										puntuacionJSON.pasesClave,
-										e.detail.value!
-									);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Centros completados",
-								jornada,
-								puntuacion.puntuacionPosesion.centrosCompletados,
-								(e) => {
-									puntuacion.puntuacionPosesion.centrosCompletados.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionPosesion.centrosCompletados.puntos =
-										getByTramos(
-											puntuacionJSON.centrosCompletados,
-											e.detail.value!
-										);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Grandes ocasiones creadas",
-								jornada,
-								puntuacion.puntuacionPosesion.grandesOcasiones,
-								(e) => {
-									puntuacion.puntuacionPosesion.grandesOcasiones.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionPosesion.grandesOcasiones.puntos =
-										getByTramos(
-											puntuacionJSON.grandesOcasiones,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionBasica: {
+											...puntuacion.puntuacionBasica,
+											asistencias: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.asistencias,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -335,28 +265,447 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionCalculable.golesRecibidos,
 								(e) => {
-									puntuacion.puntuacionCalculable.golesRecibidos.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionCalculable.golesRecibidos.puntos =
-										filterAndPopByTramos(
-											puntuacionJSON.golesRecibidos,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionCalculable: {
+											...puntuacion.puntuacionCalculable,
+											golesRecibidos: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: filterAndPopByTramos(
+													puntuacionJSON.golesRecibidos,
+													e.detail.value,
+													puntuacion.puntuacionBasica.minutos.estadistica
+												),
+											},
+										},
+									});
+								},
+								1
+							)}
+							{CrearItem(
+								j._id,
+								"Tarjeta amarilla",
+								jornada,
+								puntuacion.puntuacionCalculable.tarjetasAmarilla,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionCalculable: {
+											...puntuacion.puntuacionCalculable,
+											tarjetasAmarilla: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tarjetasAmarilla,
+													e.detail.value
+												),
+											},
+										},
+									});
+								},
+								1
+							)}
+							{CrearItem(
+								j._id,
+								"Tarjeta roja",
+								jornada,
+								puntuacion.puntuacionCalculable.tarjetasRoja,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionCalculable: {
+											...puntuacion.puntuacionCalculable,
+											tarjetasRoja: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tarjetasRoja,
+													e.detail.value
+												),
+											},
+										},
+									});
+								},
+								1
+							)}
+							{CrearItem(
+								j._id,
+								"Doble amarilla",
+								jornada,
+								puntuacion.puntuacionCalculable.dobleAmarilla,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionCalculable: {
+											...puntuacion.puntuacionCalculable,
+											dobleAmarilla: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.dobleAmarilla,
+													e.detail.value
+												),
+											},
+										},
+									});
+								},
+								1
+							)}
+							<IonItemDivider>Ofensivas</IonItemDivider>
+							{CrearItem(
+								j._id,
+								"Tiros a puerta",
+								jornada,
+								puntuacion.puntuacionOfensiva.tirosPuerta,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											tirosPuerta: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tirosPuerta,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
-
+							{CrearItem(
+								j._id,
+								"Tiros fuera",
+								jornada,
+								puntuacion.puntuacionOfensiva.tirosFuera,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											tirosFuera: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tirosFuera,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Tiros rechazados",
+								jornada,
+								puntuacion.puntuacionOfensiva.tirosBloqueados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											tirosBloqueados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tirosBloqueadosAtaque,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Tiros al palo",
+								jornada,
+								puntuacion.puntuacionOfensiva.tirosAlPalo,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											tirosAlPalo: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tirosAlPalo,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Regates intentados",
+								jornada,
+								puntuacion.puntuacionOfensiva.regatesIntentados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											regatesIntentados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.regatesIntentados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Regates completados",
+								jornada,
+								puntuacion.puntuacionOfensiva.regatesCompletados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											regatesCompletados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.regatesCompletados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Ocasiones falladas",
+								jornada,
+								puntuacion.puntuacionOfensiva.ocasionClaraFallada,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											ocasionClaraFallada: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.ocasionClaraFallada,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Penalti provocado",
+								jornada,
+								puntuacion.puntuacionOfensiva.penaltiRecibido,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											penaltiRecibido: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.penaltiRecibido,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Penalti fallado",
+								jornada,
+								puntuacion.puntuacionOfensiva.penaltiFallado,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionOfensiva: {
+											...puntuacion.puntuacionOfensiva,
+											penaltiFallado: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.penaltiFallado,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							<IonItemDivider>Posesivas</IonItemDivider>
+							{CrearItem(
+								j._id,
+								"Toques de balon",
+								jornada,
+								puntuacion.puntuacionPosesion.toquesBalon,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											toquesBalon: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.toquesBalon,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Pases clave",
+								jornada,
+								puntuacion.puntuacionPosesion.pasesClave,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											pasesClave: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.pasesClave,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Pases completados",
+								jornada,
+								puntuacion.puntuacionPosesion.pasesCompletados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											pasesCompletados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.pasesCompletados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Centros completados",
+								jornada,
+								puntuacion.puntuacionPosesion.centrosCompletados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											centrosCompletados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.centrosCompletados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Pases largos completados",
+								jornada,
+								puntuacion.puntuacionPosesion.pasesLargosCompletados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											pasesLargosCompletados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.pasesLargosCompletados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Grandes ocasiones creadas",
+								jornada,
+								puntuacion.puntuacionPosesion.grandesOcasiones,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPosesion: {
+											...puntuacion.puntuacionPosesion,
+											grandesOcasiones: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.grandesOcasiones,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							<IonItemDivider>Defensivas</IonItemDivider>
 							{CrearItem(
 								j._id,
 								"Despejes",
 								jornada,
 								puntuacion.puntuacionDefensiva.despejes,
 								(e) => {
-									puntuacion.puntuacionDefensiva.despejes.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.despejes.puntos = getByTramos(
-										puntuacionJSON.despejes,
-										e.detail.value!
-									);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											despejes: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.despejes,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Despejes sobre la linea",
+								jornada,
+								puntuacion.puntuacionDefensiva.despejesEnLineaDeGol,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											despejesEnLineaDeGol: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.despejesEnLineaDeGol,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -365,12 +714,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionDefensiva.entradas,
 								(e) => {
-									puntuacion.puntuacionDefensiva.entradas.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.entradas.puntos = getByTramos(
-										puntuacionJSON.entradas,
-										e.detail.value!
-									);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											entradas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.entradas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -379,10 +735,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionDefensiva.intercepciones,
 								(e) => {
-									puntuacion.puntuacionDefensiva.intercepciones.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.intercepciones.puntos =
-										getByTramos(puntuacionJSON.intercepciones, e.detail.value!);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											intercepciones: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.intercepciones,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -391,13 +756,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionDefensiva.tirosBloqueados,
 								(e) => {
-									puntuacion.puntuacionDefensiva.tirosBloqueados.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.tirosBloqueados.puntos =
-										getByTramos(
-											puntuacionJSON.tirosBloqueados,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											tirosBloqueados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.tirosBloqueados,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -406,13 +777,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionDefensiva.erroresParaDisparo,
 								(e) => {
-									puntuacion.puntuacionDefensiva.erroresParaDisparo.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.erroresParaDisparo.puntos =
-										getByTramos(
-											puntuacionJSON.erroresParaDisparo,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											entradas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.erroresParaDisparo,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -421,26 +798,83 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionDefensiva.golesEnPropia,
 								(e) => {
-									puntuacion.puntuacionDefensiva.golesEnPropia.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionDefensiva.golesEnPropia.puntos =
-										getByTramos(puntuacionJSON.golesEnPropia, e.detail.value!);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											golesEnPropia: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.golesEnPropia,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
-
+							{CrearItem(
+								j._id,
+								"Penalti cometido",
+								jornada,
+								puntuacion.puntuacionDefensiva.penaltiCometido,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											penaltiCometido: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.penaltiCometido,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Regateado",
+								jornada,
+								puntuacion.puntuacionDefensiva.regatesSuperado,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionDefensiva: {
+											...puntuacion.puntuacionDefensiva,
+											regatesSuperado: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.regatesSuperado,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							<IonItemDivider>Fisicas</IonItemDivider>
 							{CrearItem(
 								j._id,
 								"Faltas cometidas",
 								jornada,
 								puntuacion.puntuacionFisico.faltasCometidas,
 								(e) => {
-									puntuacion.puntuacionFisico.faltasCometidas.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.faltasCometidas.puntos =
-										getByTramos(
-											puntuacionJSON.faltasCometidas,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											faltasCometidas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.faltasCometidas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -449,13 +883,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionFisico.faltasRecibidas,
 								(e) => {
-									puntuacion.puntuacionFisico.faltasRecibidas.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.faltasRecibidas.puntos =
-										getByTramos(
-											puntuacionJSON.faltasRecibidas,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											faltasRecibidas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.faltasRecibidas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -464,10 +904,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionFisico.duelosGanados,
 								(e) => {
-									puntuacion.puntuacionFisico.duelosGanados.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.duelosGanados.puntos =
-										getByTramos(puntuacionJSON.duelosGanados, e.detail.value!);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											duelosGanados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.duelosGanados,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -476,10 +925,61 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionFisico.duelosPerdidos,
 								(e) => {
-									puntuacion.puntuacionFisico.duelosPerdidos.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.duelosPerdidos.puntos =
-										getByTramos(puntuacionJSON.duelosPerdidos, e.detail.value!);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											duelosPerdidos: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.duelosPerdidos,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Duelos aereos ganados",
+								jornada,
+								puntuacion.puntuacionFisico.duelosAereosGanados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											duelosAereosGanados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.duelosAereosGanados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Duelos aereos perdidos",
+								jornada,
+								puntuacion.puntuacionFisico.duelosAereosPerdidos,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											duelosAereosPerdidos: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.duelosAereosPerdidos,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -488,13 +988,19 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionFisico.posesionPerdida,
 								(e) => {
-									puntuacion.puntuacionFisico.posesionPerdida.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.posesionPerdida.puntos =
-										getByTramos(
-											puntuacionJSON.posesionPerdida,
-											e.detail.value!
-										);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											posesionPerdida: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.posesionPerdida,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -503,41 +1009,41 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionFisico.fuerasDeJuego,
 								(e) => {
-									puntuacion.puntuacionFisico.fuerasDeJuego.estadistica =
-										parseInt(e.detail.value!);
-									puntuacion.puntuacionFisico.fuerasDeJuego.puntos =
-										getByTramos(puntuacionJSON.fuerasDeJuego, e.detail.value!);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionFisico: {
+											...puntuacion.puntuacionFisico,
+											fuerasDeJuego: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.faltasRecibidas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
-
+							<IonItemDivider>Portero</IonItemDivider>
 							{CrearItem(
 								j._id,
 								"Paradas",
 								jornada,
 								puntuacion.puntuacionPortero.paradas,
 								(e) => {
-									puntuacion.puntuacionPortero.paradas.estadistica = parseInt(
-										e.detail.value!
-									);
-									puntuacion.puntuacionPortero.paradas.puntos = getByTramos(
-										puntuacionJSON.paradas,
-										e.detail.value!
-									);
-								}
-							)}
-							{CrearItem(
-								j._id,
-								"Despejes puños",
-								jornada,
-								puntuacion.puntuacionPortero.highClaim,
-								(e) => {
-									puntuacion.puntuacionPortero.highClaim.estadistica = parseInt(
-										e.detail.value!
-									);
-									puntuacion.puntuacionPortero.highClaim.puntos = getByTramos(
-										puntuacionJSON.highClaim,
-										e.detail.value!
-									);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPortero: {
+											...puntuacion.puntuacionPortero,
+											paradas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.paradas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
 							{CrearItem(
@@ -546,16 +1052,84 @@ export function VistaAdminPuntuacionJugador(
 								jornada,
 								puntuacion.puntuacionPortero.salidas,
 								(e) => {
-									puntuacion.puntuacionPortero.salidas.estadistica = parseInt(
-										e.detail.value!
-									);
-									puntuacion.puntuacionPortero.salidas.puntos = getByTramos(
-										puntuacionJSON.salidas,
-										e.detail.value!
-									);
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPortero: {
+											...puntuacion.puntuacionPortero,
+											salidas: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.salidas,
+													e.detail.value
+												),
+											},
+										},
+									});
 								}
 							)}
-
+							{CrearItem(
+								j._id,
+								"Salidas en alto",
+								jornada,
+								puntuacion.puntuacionPortero.highClaim,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPortero: {
+											...puntuacion.puntuacionPortero,
+											highClaim: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.highClaim,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Despejes ",
+								jornada,
+								puntuacion.puntuacionPortero.despejes,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPortero: {
+											...puntuacion.puntuacionPortero,
+											despejes: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.despejesPortero,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
+							{CrearItem(
+								j._id,
+								"Penaltis parados",
+								jornada,
+								puntuacion.puntuacionPortero.penaltiesParados,
+								(e) => {
+									actualizarPuntuacionYPuntos({
+										...puntuacion,
+										puntuacionPortero: {
+											...puntuacion.puntuacionPortero,
+											penaltiesParados: {
+												estadistica: parseInt(e.detail.value!),
+												puntos: getByTramos(
+													puntuacionJSON.penaltiesParados,
+													e.detail.value
+												),
+											},
+										},
+									});
+								}
+							)}
 							<IonItemDivider />
 							<IonItem key={j._id + "- Total -" + jornada} lines="none">
 								<IonCol size="7">
@@ -602,7 +1176,8 @@ export function CrearItem(
 	label: string,
 	semana: number,
 	tupple: PuntuacionTupple,
-	functionChangeValue: (e: any) => void
+	functionChangeValue: (e: any) => void,
+	limit?: number
 ): JSX.Element {
 	return (
 		<IonItem key={idJugador + "-" + label + "-" + semana} lines="none">
@@ -613,6 +1188,7 @@ export function CrearItem(
 				<IonInput
 					type="number"
 					min={0}
+					max={limit}
 					step={label === "Valoracion" ? "0.1" : "any"}
 					value={tupple.estadistica ? tupple.estadistica : 0}
 					onIonChange={functionChangeValue}
