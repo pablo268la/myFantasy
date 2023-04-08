@@ -2,10 +2,14 @@
     "minutos": [
         {
             "estadistica": 0,
+            "value": 0
+        },
+        {
+            "estadistica": 1,
             "value": 1
         },
         {
-            "estadistica": 45,
+            "estadistica": 30,
             "value": 2
         },
         {
@@ -15,16 +19,20 @@
     ],
     "goles": {
         "tramos": 1,
-        "value": 2
+        "value": 5
     },
     "asistencias": {
         "tramos": 1,
-        "value": 2
+        "value": 4
     },
     "valoracion": [
         {
             "estadistica": 5.0,
             "value": -4
+        },
+        {
+            "estadistica": 5.5,
+            "value": -2
         },
         {
             "estadistica": 6.0,
@@ -57,10 +65,10 @@
     ],
     "tirosPuerta": {
         "tramos": 1,
-        "value": 1
+        "value": 2
     },
     "tirosFuera": {
-        "tramos": 2,
+        "tramos": 1,
         "value": 1
     },
     "tirosBloqueadosAtaque": {
@@ -72,7 +80,7 @@
         "value": 0
     },
     "regatesCompletados": {
-        "tramos": 2,
+        "tramos": 1,
         "value": 1
     },
     "tirosAlPalo": {
@@ -81,7 +89,7 @@
     },
     "ocasionClaraFallada": {
         "tramos": 1,
-        "value": -3
+        "value": -1
     },
     "penaltiRecibido": {
         "tramos": 1,
@@ -89,7 +97,7 @@
     },
     "penaltiFallado": {
         "tramos": 1,
-        "value": -4
+        "value": -2
     },
     "toquesBalon": {
         "tramos": 1,
@@ -112,7 +120,7 @@
         "value": 0
     },
     "centrosCompletados": {
-        "tramos": 2,
+        "tramos": 1,
         "value": 1
     },
     "pasesLargosTotales": {
@@ -125,14 +133,14 @@
     },
     "grandesOcasiones": {
         "tramos": 1,
-        "value": 2
+        "value": 4
     },
     "despejes": {
-        "tramos": 3,
+        "tramos": 2,
         "value": 1
     },
     "tirosBloqueados": {
-        "tramos": 1,
+        "tramos": 2,
         "value": 1
     },
     "intercepciones": {
@@ -149,35 +157,35 @@
     },
     "erroresParaDisparo": {
         "tramos": 1,
-        "value": -2
+        "value": -3
     },
     "despejesEnLineaDeGol": {
         "tramos": 1,
-        "value": 3
+        "value": 2
     },
     "golesEnPropia": {
         "tramos": 1,
-        "value": -3
+        "value": -2
     },
     "penaltiCometido": {
         "tramos": 1,
-        "value": -3
+        "value": -2
     },
     "duelosGanados": {
-        "tramos": 3,
-        "value": 1
+        "tramos": 1,
+        "value": 0
     },
     "duelosPerdidos": {
-        "tramos": 3,
-        "value": -1
+        "tramos": 1,
+        "value": 0
     },
     "duelosAereosGanados": {
-        "tramos": 3,
-        "value": 1
+        "tramos": 1,
+        "value": 0
     },
     "duelosAereosPerdidos": {
-        "tramos": 3,
-        "value": -1
+        "tramos": 1,
+        "value": 0
     },
     "posesionPerdida": {
         "tramos": 5,
@@ -188,53 +196,89 @@
         "value": -2
     },
     "faltasRecibidas": {
-        "tramos": 2,
-        "value": 1
+        "tramos": 1,
+        "value": 2
     },
     "fuerasDeJuego": {
-        "tramos": 1,
-        "value": -2
+        "tramos": 2,
+        "value": -1
     },
     "paradas": {
-        "tramos": 1,
+        "tramos": 3,
         "value": 2
     },
     "despejesPortero": {
-        "tramos": 1,
+        "tramos": 2,
         "value": 1
     },
     "salidas": {
-        "tramos": 1,
+        "tramos": 2,
         "value": 1
     },
     "highClaim": {
-        "tramos": 1,
+        "tramos": 2,
         "value": 1
     },
     "paradasArea": {
-        "tramos": 1,
-        "value": 2
+        "tramos": 2,
+        "value": 0
     },
     "penaltiesParados": {
         "tramos": 1,
-        "value": 6
+        "value": 4
     },
     "golesRecibidos": [
-        {
-            "estadistica": 0,
-            "value": 2,
-            "tramos": 1
-        },
-        {
-            "estadistica": 1,
-            "value": 0,
-            "tramos": 1
-        },
-        {
-            "estadistica": 2,
-            "value": -2,
-            "tramos": 2
-        }
+        [
+            {
+                "estadistica": 0,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ],
+        [
+            {
+                "estadistica": 0,
+                "value": 2,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ],
+        [
+            {
+                "estadistica": 0,
+                "value": 4,
+                "tramos": 1
+            },
+            {
+                "estadistica": 1,
+                "value": 0,
+                "tramos": 1
+            },
+            {
+                "estadistica": 2,
+                "value": -3,
+                "tramos": 2
+            }
+        ]
     ],
     "tarjetasAmarilla": {
         "tramos": 1,

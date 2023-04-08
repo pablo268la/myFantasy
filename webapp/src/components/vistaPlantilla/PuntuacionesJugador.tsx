@@ -1,4 +1,6 @@
 import {
+	IonAccordion,
+	IonAccordionGroup,
 	IonCard,
 	IonCol,
 	IonContent,
@@ -24,17 +26,21 @@ import "swiper/swiper.min.css";
 const RedIonRow = styled(IonRow)`
 	justify-content: center;
 	align-content: center;
-	height: 50px;
+	height: 30px;
 	background: linear-gradient(160deg, #ff5454 60%, #a60707 60%);
 `;
 
 const YellowIonRow = styled(IonRow)`
 	justify-content: center;
+	align-content: center;
+	height: 30px;
 	background: linear-gradient(160deg, #fdcd3b 60%, #ffed4b 60%);
 `;
 
 const GreenIonRow = styled(IonRow)`
 	justify-content: center;
+	align-content: center;
+	height: 30px;
 	background: linear-gradient(160deg, #48fb63 60%, #0bd500 60%);
 `;
 
@@ -76,14 +82,14 @@ export function PuntuacionesJugador(
 													setSelectedPos(p.semana - 1);
 												}}
 												color={
-													p.semana - 1 === selectedPos ? "primary" : "secondary"
+													p.semana - 1 === selectedPos ? "primary" : "tertiary"
 												}
 											>
 												{p.puntos < 4 ? (
 													<RedIonRow>
 														<IonLabel> {p.puntos}</IonLabel>
 													</RedIonRow>
-												) : p.puntos < 8 ? (
+												) : p.puntos < 12 ? (
 													<YellowIonRow>
 														<IonLabel>{p.puntos}</IonLabel>
 													</YellowIonRow>
@@ -129,188 +135,348 @@ export function PuntuacionesJugador(
 													<IonLabel>Puntos {p.puntos}</IonLabel>
 													<IonLabel slot="end">Jornada {p.semana}</IonLabel>
 												</IonItem>
-												<IonItem key={-3}>Puntuacion básica</IonItem>
-												{crearItem(
-													p.idJugador,
-													p.puntuacionBasica.valoracion,
-													"Valoracion",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionBasica.goles,
-													"Goles",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionBasica.asistencias,
-													"Asistencias",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionBasica.minutos,
-													"Minutos",
-													p.semana
-												)}
-
-												<IonItem key={-4}>Puntuacion ofensiva</IonItem>
-
-												{crearItem(
-													p.idJugador,
-													p.puntuacionOfensiva.tirosPuerta,
-													"Tiros a puerta",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionOfensiva.tirosFuera,
-													"Tiros fuera",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionOfensiva.tirosBloqueados,
-													"Tiros rechazados",
-													p.semana
-												)}
-
-												{crearItem(
-													p.idJugador,
-													p.puntuacionOfensiva.regatesCompletados,
-													"Regates completados",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionOfensiva.ocasionClaraFallada,
-													"Ocasiones falladas",
-													p.semana
-												)}
-
-												<IonItem key={-5}>Puntuacion posesiva</IonItem>
-
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPosesion.pasesClave,
-													"Pases clave",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPosesion.centrosCompletados,
-													"Centros completados",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPosesion.grandesOcasiones,
-													"Grandes ocasiones creadas",
-													p.semana
-												)}
-
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPosesion.pasesTotales,
-													"Pases totales",
-													p.semana
-												)}
-
-												<IonItem key={-6}>Puntuacion defensiva</IonItem>
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.despejes,
-													"Despejes",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.entradas,
-													"Entradas",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.intercepciones,
-													"Intercepciones",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.tirosBloqueados,
-													"Tiros bloqueados",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.erroresParaDisparo,
-													"Errores para disparo",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionDefensiva.golesEnPropia,
-													"Goles en propia",
-													p.semana
-												)}
-												<IonItem key={-7}>Puntuacion fisica</IonItem>
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.faltasCometidas,
-													"Faltas cometidas",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.faltasRecibidas,
-													"Faltas recibidas",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.duelosGanados,
-													"Duelos ganados",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.duelosPerdidos,
-													"Duelos perdidos",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.posesionPerdida,
-													"Posesion perdida",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionFisico.fuerasDeJuego,
-													"Fueras de juego",
-													p.semana
-												)}
-
-												<IonItem key={-8}>Puntuacion portero</IonItem>
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPortero.paradas,
-													"Paradas",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPortero.despejes,
-													"Despejes puños",
-													p.semana
-												)}
-												{crearItem(
-													p.idJugador,
-													p.puntuacionPortero.salidas,
-													"Salidas",
-													p.semana
-												)}
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion basica</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionBasica.valoracion,
+																"Valoracion",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionBasica.minutos,
+																"Minutos",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionBasica.goles,
+																"Goles",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionBasica.asistencias,
+																"Asistencias",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionCalculable.golesRecibidos,
+																"Goles recibidos",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionCalculable.tarjetasAmarilla,
+																"Tarjetas amarillas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionCalculable.dobleAmarilla,
+																"Doble amarilla",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionCalculable.tarjetasRoja,
+																"Tarjetas rojas",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion ofensiva</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.tirosPuerta,
+																"Tiros a puerta",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.tirosFuera,
+																"Tiros fuera",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.tirosBloqueados,
+																"Tiros rechazados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.tirosAlPalo,
+																"Tiros al palo",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.regatesIntentados,
+																"Regates intentados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.regatesCompletados,
+																"Regates completados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.ocasionClaraFallada,
+																"Ocasiones falladas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.penaltiFallado,
+																"Penalti recibido",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionOfensiva.penaltiFallado,
+																"Penalti fallado",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion posesiva</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.toquesBalon,
+																"Toques de balon",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.pasesTotales,
+																"Pases totales",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.pasesCompletados,
+																"Pases completados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.pasesClave,
+																"Pases clave",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.centrosTotales,
+																"Centros totales",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.centrosCompletados,
+																"Centros completados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.pasesLargosTotales,
+																"Pases largos totales",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.pasesLargosCompletados,
+																"Pases largos completados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPosesion.grandesOcasiones,
+																"Grandes ocasiones creadas",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion defensiva</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.despejes,
+																"Despejes",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.entradas,
+																"Entradas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.intercepciones,
+																"Intercepciones",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.tirosBloqueados,
+																"Tiros bloqueados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.erroresParaDisparo,
+																"Errores para disparo",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.golesEnPropia,
+																"Goles en propia",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.despejesEnLineaDeGol,
+																"Despejes en linea de gol",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.regatesSuperado,
+																"Regateado",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionDefensiva.penaltiCometido,
+																"Penalti cometido",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion fisica</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.faltasCometidas,
+																"Faltas cometidas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.faltasRecibidas,
+																"Faltas recibidas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.duelosGanados,
+																"Duelos ganados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.duelosPerdidos,
+																"Duelos perdidos",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.duelosAereosGanados,
+																"Duelos aereos ganados",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.duelosAereosPerdidos,
+																"Duelos aereos perdidos",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.posesionPerdida,
+																"Posesion perdida",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionFisico.fuerasDeJuego,
+																"Fueras de juego",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
+												<IonAccordionGroup value="first">
+													<IonAccordion value="first" toggleIconSlot="start">
+														<IonItem slot="header" color="light">
+															<IonLabel>Puntuacion portero</IonLabel>
+														</IonItem>
+														<div className="ion-padding" slot="content">
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPortero.paradas,
+																"Paradas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPortero.despejes,
+																"Despejes",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPortero.salidas,
+																"Salidas",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPortero.highClaim,
+																"Salidas por alto",
+																p.semana
+															)}
+															{crearItem(
+																p.idJugador,
+																p.puntuacionPortero.penaltiesParados,
+																"Penaltis parados",
+																p.semana
+															)}
+														</div>
+													</IonAccordion>
+												</IonAccordionGroup>
 											</IonContent>
 										</SwiperSlide>
 									</>

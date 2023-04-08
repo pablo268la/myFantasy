@@ -20,6 +20,14 @@ export const puntuacionCalculable = new Schema<IPuntuacionCalculable>(
 			type: puntuacionTupple,
 			required: true,
 		},
+		playerIn: {
+			type: Number,
+			required: true,
+		},
+		playerOut: {
+			type: Number,
+			required: true,
+		},
 	},
 	{
 		_id: false,
@@ -33,6 +41,8 @@ export interface IPuntuacionCalculable {
 	tarjetasAmarilla: IPuntuacionTupple;
 	tarjetasRoja: IPuntuacionTupple;
 	dobleAmarilla: IPuntuacionTupple;
+	playerIn: number;
+	playerOut: number;
 }
 
 export const modelPuntuacionCalculable = model<IPuntuacionCalculable>(

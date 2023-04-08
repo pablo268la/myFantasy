@@ -35,8 +35,6 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 	}
 };
 
-//idPartido: { $in: partidos.map((p) => p._id) },
-
 export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 	try {
 		const puntuacionesJornada: IPuntuacionJugador[] =
@@ -60,6 +58,25 @@ export const getPartidosEquipo: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+export const updatePartido: RequestHandler = async (req, res) => {
+	// Check admin
+	try {
+		const partido = await modeloPartido.findByIdAndUpdate(
+			req.params.idPartido,
+			req.body,
+			{
+				new: true,
+			}
+		);
+		if (!partido)
+			return res.status(404).json({ message: "Partido no encontrado" });
+		return res.status(200).json(partido);
+	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };

@@ -185,7 +185,7 @@ function crearJugadorEmpty(): Jugador {
 		puntos: 0,
 		estado: "",
 		foto: "",
-		jugadorAntiguo: {},
+		jugadorAntiguo: undefined,
 		fantasyMarcaId: "",
 	};
 }

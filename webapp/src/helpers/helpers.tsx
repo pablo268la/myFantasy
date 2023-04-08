@@ -1,5 +1,14 @@
 import { IonIcon } from "@ionic/react";
-import { alertCircle, checkmarkCircle, medkit, warning } from "ionicons/icons";
+import {
+	alertCircle,
+	checkmarkCircle,
+	copy,
+	footballOutline,
+	medkit,
+	square,
+	swapHorizontal,
+	warning,
+} from "ionicons/icons";
 import { getUsuario, requestToken } from "../endpoints/userEndpoints";
 import { Usuario } from "../shared/sharedTypes";
 
@@ -14,6 +23,57 @@ export function ponerPuntosAValor(valor: number) {
 	return v.substring(0, v.length - 5) + " €";
 }
 
+export function comparePosiciones(pos1: string, pos2: string) {
+	if (pos1 === "Portero") {
+		return -1;
+	}
+	if (pos2 === "Portero") {
+		return 1;
+	}
+	if (pos1 === "Defensa") {
+		return -1;
+	}
+	if (pos2 === "Defensa") {
+		return 1;
+	}
+	if (pos1 === "Mediocentro") {
+		return -1;
+	}
+	if (pos2 === "Mediocentro") {
+		return 1;
+	}
+	if (pos1 === "Delantero") {
+		return -1;
+	}
+	if (pos2 === "Delantero") {
+		return 1;
+	}
+	return 0;
+}
+
+export function getIconByTipoEvento(tipo: string) {
+	switch (tipo) {
+		case "Gol":
+			return <IonIcon icon={footballOutline} />;
+		case "Gol en propia puerta":
+			return <IonIcon icon={footballOutline} color="danger" />;
+
+		case "Tarjeta amarilla":
+			return <IonIcon icon={square} color="warning" />;
+		case "Tarjeta roja":
+			return <IonIcon icon={square} color="danger" />;
+
+		case "Doble amarilla":
+			return <IonIcon icon={copy} color="warning" />;
+
+		case "Cambio":
+			return <IonIcon icon={swapHorizontal} color="success" />;
+
+		default:
+			return <IonIcon />;
+	}
+}
+
 export function getColorEstado(estado: string) {
 	switch (estado) {
 		case "Disponible":
@@ -26,6 +86,16 @@ export function getColorEstado(estado: string) {
 			return "danger";
 		default:
 			return "danger";
+	}
+}
+
+export function getColorPuntos(puntos: number) {
+	if (puntos < 4) {
+		return "danger";
+	} else if (puntos < 12) {
+		return "warning";
+	} else {
+		return "success";
 	}
 }
 

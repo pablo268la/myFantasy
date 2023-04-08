@@ -120,7 +120,11 @@ export function CartaDetallesPuntuacionJugador(
 										slot="end"
 									>
 										{"PTS: "}
-										{propiedadJugador.jugador.puntos}
+										{
+											props.puntuacionesJugador
+												.filter((p) => p.semana === props.jornada)
+												.at(0)?.puntos
+										}
 									</IonLabel>
 								</IonItem>
 								<IonItem lines="none" color="tertiary">

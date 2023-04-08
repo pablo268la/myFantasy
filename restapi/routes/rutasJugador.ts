@@ -9,6 +9,11 @@ api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
 
 api.get("/jugadores/:idJugador", JugadoresController.getJugador);
 
+api.get(
+	"/jugadores/antiguos/:idEquipo/:semana",
+	JugadoresController.getJugadoresAntiguos
+);
+
 api.put("/jugadores/:idJugador", JugadoresController.updateJugador);
 
 export default api;

@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 import { alineacion, IAlineacion } from "./alineacion";
 import { equipo, IEquipo } from "./equipo";
+import { eventoPartido, IEventoPartido } from "./eventoPartido";
 
 export interface IPartido {
 	_id: string;
@@ -14,6 +15,7 @@ export interface IPartido {
 	fecha: string;
 	linkSofaScore: string;
 	estado: string;
+	eventos: IEventoPartido[];
 }
 
 export const partido = new Schema<IPartido>(
@@ -67,6 +69,10 @@ export const partido = new Schema<IPartido>(
 			required: true,
 			trim: true,
 			enum: ["Por jugar", "Finalizado", "En juego", "Cancelado"],
+		},
+		eventos: {
+			type: [eventoPartido],
+			required: true,
 		},
 	},
 	{

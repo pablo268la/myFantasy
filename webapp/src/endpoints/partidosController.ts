@@ -6,7 +6,7 @@ export async function getPartidos(): Promise<Partido[]> {
 	return response.json();
 }
 
-export async function getPartido(id: number): Promise<Partido> {
+export async function getPartido(id: string): Promise<Partido> {
 	let response = await fetch(apiEndPoint + "/partidos/" + id);
 	return response.json();
 }
@@ -29,5 +29,17 @@ export async function getPuntuacionesPartido(
 	let response = await fetch(
 		apiEndPoint + "/partidos/puntuaciones/" + idPartido
 	);
+
+	return response.json();
+}
+
+export async function updatePartido(partido: Partido): Promise<Partido> {
+	let response = await fetch(apiEndPoint + "/partidos/" + partido._id, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(partido),
+	});
 	return response.json();
 }
