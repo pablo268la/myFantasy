@@ -15,7 +15,6 @@ import apiPuntuaciones from "./routes/rutasPuntuaciones";
 import apiUsuarios from "./routes/rutasUsuarios";
 
 import swaggerDocs from "./docs/swagger";
-import mockRutas from "./routes/rutasMock";
 
 const mongoose = require("mongoose");
 
@@ -66,7 +65,6 @@ mongoose
 app
 	.listen(5000, (): void => {
 		console.log("Restapi listening on " + 5000 + " " + connectionString);
-		mockRutas(app);
 		swaggerDocs(app, 5000);
 	})
 	.on("error", (error: Error) => {
