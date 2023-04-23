@@ -12,11 +12,10 @@ const options: swaggerJsdoc.Options = {
 		},
 		components: {},
 	},
-	apis: ["./routes/**.ts", "./model/**.ts"],
+	apis: ["./routes/**.ts", "./model/**.ts", "./model/puntuacion/**.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
-console.log(swaggerSpec);
 
 function swaggerDocs(app: Express, port: number) {
 	app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
