@@ -1,5 +1,33 @@
 import { model, Schema } from "mongoose";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Usuario:
+ *    type: object
+ *    properties:
+ *     id:
+ *      type: string
+ *     nombre:
+ *      type: string
+ *     usuario:
+ *      type: string
+ *     email:
+ *      type: string
+ *     contraseña:
+ *      type: string
+ *      format: password
+ *     ligas:
+ *      type: array
+ *      items:
+ *       type: string
+ *     admin:
+ *      type: boolean
+ *
+ *
+ */
+
 export const usuario = new Schema<IUsuario>(
 	{
 		id: {

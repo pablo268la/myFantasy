@@ -2,6 +2,35 @@ import { model, Schema } from "mongoose";
 import { alineacionJugador, IAlineacionJugador } from "./alineacionJugador";
 import { IUsuario, usuario } from "./usuario";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   PlantillaUsuario:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     usuario:
+ *      $ref: '#/components/schemas/Usuario'
+ *     idLiga:
+ *      type: string
+ *     alineacionJugador:
+ *      $ref: '#/components/schemas/AlineacionJugador'
+ *     alineacionesJornada:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/AlineacionJugador'
+ *     valor:
+ *      type: number
+ *      format: double
+ *     puntos:
+ *      type: number
+ *     dinero:
+ *      type: number
+ *      format: double
+ */
+
 export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 	{
 		_id: {

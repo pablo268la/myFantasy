@@ -3,6 +3,23 @@ import { IJugador, jugador } from "./jugador";
 import { IUsuario, usuario } from "./usuario";
 import { IVenta, venta } from "./venta";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   PropiedadJugador:
+ *    type: object
+ *    properties:
+ *     jugador:
+ *      $ref: '#/components/schemas/Jugador'
+ *     usuario:
+ *      $ref: '#/components/schemas/Usuario'
+ *     titular:
+ *      type: boolean
+ *     venta:
+ *      $ref: '#/components/schemas/Venta'
+ */
+
 export const propiedadJugador = new Schema<IPropiedadJugador>(
 	{
 		jugador: {

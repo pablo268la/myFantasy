@@ -7,21 +7,16 @@ import { model, Schema } from "mongoose";
  *   Equipo:
  *    type: object
  *    properties:
- *     id:
+ *     _id:
  *      type: string
- *      default: Id del equipo
  *     nombre:
  *      type: string
- *      default: Nombre del equipo
  *     slug:
  *      type: string
- *      default: Slug del equipo
  *     shortName:
  *      type: string
- *      default: ShortName del equipo
  *     escudo:
  *      type: string
- *      default: Escudo del equipo
  *
  */
 export const equipo = new Schema<IEquipo>(

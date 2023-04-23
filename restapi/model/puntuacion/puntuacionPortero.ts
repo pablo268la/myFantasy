@@ -1,6 +1,28 @@
 import { model, Schema } from "mongoose";
 import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
+/**
+ * @openapi
+ * 
+ * components:
+ *   schemas:
+ *     PuntuacionPortero:
+ *       type: object
+ *       properties:
+ *         paradas:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         despejes:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         salidas:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         highClaim:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         paradasArea:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         penaltiesParados:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ */
+
 export const puntuacionPortero = new Schema<IPuntuacionPortero>(
 	{
 		paradas: {

@@ -13,6 +13,43 @@ import { IPuntuacionOfensiva, puntuacionOfensiva } from "./puntuacionOfensiva";
 import { IPuntuacionPortero, puntuacionPortero } from "./puntuacionPortero";
 import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   PuntuacionJugador:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     idJugador:
+ *      type: string
+ *     idPartido:
+ *      type: string
+ *     semana:
+ *      type: number
+ *     puntos:
+ *      type: number
+ *     puntuacionBasica:
+ *      $ref: '#/components/schemas/PuntuacionBasica'
+ *     puntuacionOfensiva:
+ *      $ref: '#/components/schemas/PuntuacionOfensiva'
+ *     puntuacionPosesion:
+ *      $ref: '#/components/schemas/PuntuacionPosesion'
+ *     puntuacionDefensiva:
+ *      $ref: '#/components/schemas/PuntuacionDefensiva'
+ *     puntuacionFisico:
+ *      $ref: '#/components/schemas/PuntuacionFisica'
+ *     puntuacionPortero:
+ *      $ref: '#/components/schemas/PuntuacionPortero'
+ *     puntuacionCalculable:
+ *      $ref: '#/components/schemas/PuntuacionCalculable'
+ *     idEquipo:
+ *      type: string
+ *     idEquipoRival:
+ *      type: string
+
+ */
 
 export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 	{

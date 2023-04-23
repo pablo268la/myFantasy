@@ -6,6 +6,20 @@ export interface IJugadorAntiguo {
 	jornadaTraspaso: number;
 }
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   JugadorAntiguo:
+ *    type: object
+ *    properties:
+ *     equipo:
+ *      $ref: '#/components/schemas/Equipo'
+ *     jornadaTraspaso:
+ *      type: number
+ */
+
 export const jugadorAntiguo = new Schema<IJugadorAntiguo>(
 	{
 		equipo: {

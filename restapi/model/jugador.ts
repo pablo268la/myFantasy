@@ -16,6 +16,38 @@ export interface IJugador {
 	fantasyMarcaId: string;
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Jugador:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     nombre:
+ *      type: string
+ *     slug:
+ *      type: string
+ *     posicion:
+ *      type: string
+ *      enum: ["Portero", "Defensa", "Mediocentro", "Delantero", "Sin asignar"]
+ *     equipo:
+ *      $ref: '#/components/schemas/Equipo'
+ *     valor:
+ *      type: number
+ *     puntos:
+ *      type: number
+ *     estado:
+ *      type: string
+ *      enum: ["Disponible", "Dudoso", "Lesionado", "No disponible"]
+ *     foto:
+ *      type: string
+ *     jugadorAntiguo:
+ *      $ref: '#/components/schemas/JugadorAntiguo'
+ *     fantasyMarcaId:
+ *      type: string
+ */
 export const jugador = new Schema<IJugador>(
 	{
 		_id: {

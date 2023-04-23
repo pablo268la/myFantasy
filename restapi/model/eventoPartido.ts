@@ -1,6 +1,24 @@
 import { model, Schema } from "mongoose";
 import { IJugador, jugador } from "./jugador";
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   EventoPartido:
+ *    type: object
+ *    properties:
+ *     tipo:
+ *      type: string
+ *      enum: [Gol, Gol en propia puerta, Tarjeta amarilla, Tarjeta roja, Doble amarilla, Cambio]
+ *     minuto:
+ *      type: number
+ *     jugador:
+ *      $ref: '#/components/schemas/Jugador'
+ *     jugador2:
+ *      $ref: '#/components/schemas/Jugador'
+ */ 
 export const eventoPartido = new Schema<IEventoPartido>(
 	{
 		tipo: {

@@ -1,6 +1,24 @@
 import { model, Schema } from "mongoose";
 import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
+/**
+ * @openapi
+ * 
+ * components:
+ *   schemas:
+ *
+ *     PuntuacionBasica:
+ *       type: object
+ *       properties:
+ *         minutos:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         goles:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         asistencias:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         valoracion:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ */
 export const puntuacionBasica = new Schema<IPuntuacionBasica>(
 	{
 		minutos: {

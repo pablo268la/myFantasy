@@ -1,5 +1,18 @@
 import { model, Schema } from "mongoose";
 
+/**
+ *   * @openapi
+ * 
+ * components:
+ *   schemas:
+ *     IPuntuacionTupple:
+ *       type: object
+ *       properties:
+ *         estadistica:
+ *           type: number
+ *         puntos:
+ *           type: number
+ */
 export const puntuacionTupple = new Schema<IPuntuacionTupple>(
 	{
 		estadistica: {
