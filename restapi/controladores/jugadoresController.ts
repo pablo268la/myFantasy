@@ -12,11 +12,14 @@ export const getJugadores: RequestHandler = async (req, res) => {
 
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	try {
-		res.json(
-			await modeloJugador.find({
-				"equipo._id": req.params.idEquipo,
-			})
-		);
+		const j = await modeloJugador.find({
+			"equipo._id": req.params.idEquipo,
+		});
+		if (j.length > 0) {
+			res.json(j);
+		} else {
+			res.status(404).json({ message: "Equipo no encontrado" });
+		}
 	} catch (error) {
 		res.status(500).json(error);
 	}
@@ -24,7 +27,13 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 
 export const getJugador: RequestHandler = async (req, res) => {
 	try {
-		res.json(await modeloJugador.findOne({ _id: req.params.idJugador }));
+		const j = await modeloJugador.findOne({ _id: req.params.idJugador });
+		//			.populate("equipo._id")
+		if (j) {
+			res.json(j);
+		} else {
+			res.status(404).json({ message: "Jugador no encontrado" });
+		}
 	} catch (error) {
 		res.status(500).json(error);
 	}

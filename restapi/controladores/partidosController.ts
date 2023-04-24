@@ -5,15 +5,8 @@ import {
 	modelPuntuacionJugador,
 } from "../model/puntuacion/puntuacionJugador";
 
-export const getPartidos: RequestHandler = async (req, res) => {
-	try {
-		res.status(200).json(await modeloPartido.find());
-	} catch (error) {
-		res.status(500).json(error);
-	}
-};
-
 export const getPartido: RequestHandler = async (req, res) => {
+	//TODO -- Validar en todas las request que los params son correctos - Lanzar BAD REQUEST (400)
 	try {
 		const partido = await modeloPartido.findById(req.params.id);
 		if (!partido)
@@ -27,7 +20,7 @@ export const getPartido: RequestHandler = async (req, res) => {
 export const getPartidosJornada: RequestHandler = async (req, res) => {
 	try {
 		const partidos = await modeloPartido.find({ jornada: req.params.jornada });
-		if (!partidos)
+		if (partidos.length === 0)
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
@@ -41,8 +34,13 @@ export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 			await modelPuntuacionJugador.find({
 				idPartido: req.params.idPartido,
 			});
-
-		return res.status(200).json(puntuacionesJornada);
+		const partidos = await modeloPartido.find({ _id: req.params.idPartido });
+		if (
+			puntuacionesJornada.length === 0 &&
+			partidos.filter((p) => p.id === req.params.idPartido).length === 0
+		)
+			return res.status(404).json({ message: "Partido no encontrado" });
+		else return res.status(200).json(puntuacionesJornada);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json(error);
@@ -52,9 +50,12 @@ export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 export const getPartidosEquipo: RequestHandler = async (req, res) => {
 	try {
 		const partidos = await modeloPartido.find({
-			$or: [{ local: req.params.idEquipo }, { visitante: req.params.idEquipo }],
+			$or: [
+				{ "local._id": req.params.idEquipo },
+				{ "visitante._id": req.params.idEquipo },
+			],
 		});
-		if (!partidos)
+		if (partidos.length === 0)
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
@@ -66,7 +67,7 @@ export const updatePartido: RequestHandler = async (req, res) => {
 	// Check admin
 	try {
 		const partido = await modeloPartido.findByIdAndUpdate(
-			req.params.idPartido,
+			req.params.id,
 			req.body,
 			{
 				new: true,

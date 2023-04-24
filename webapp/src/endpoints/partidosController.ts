@@ -1,11 +1,6 @@
 import { apiEndPoint } from "../helpers/constants";
 import { Equipo, Partido, PuntuacionJugador } from "../shared/sharedTypes";
 
-export async function getPartidos(): Promise<Partido[]> {
-	let response = await fetch(apiEndPoint + "/partidos");
-	return response.json();
-}
-
 export async function getPartido(id: string): Promise<Partido> {
 	let response = await fetch(apiEndPoint + "/partidos/" + id);
 	return response.json();
@@ -20,6 +15,7 @@ export async function getPartidosByJornada(
 
 export async function getPartidosByEquipo(equipo: Equipo): Promise<Partido[]> {
 	let response = await fetch(apiEndPoint + "/partidos/equipo/" + equipo._id);
+	//TODO - Usar para mostrar siguiente partido
 	return response.json();
 }
 
