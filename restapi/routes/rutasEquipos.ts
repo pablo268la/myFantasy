@@ -19,6 +19,8 @@ const api: Router = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Equipo'
+ *       404:
+ *         description: Equipo no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:

@@ -52,10 +52,6 @@ api.get("/jugadores", JugadoresController.getJugadores);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Jugador'
- *       404:
- *         description: Equipo no encontrado
- *         content:
- *           message: Equipo no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -89,8 +85,6 @@ api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
  *               $ref: '#/components/schemas/Jugador'
  *       404:
  *         description: Jugador no encontrado
- *         content:
- *           message: Jugador no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:

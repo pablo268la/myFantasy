@@ -24,6 +24,8 @@ export async function getLiga(idLiga: string): Promise<Liga> {
 			return response.json();
 		case 401:
 			throw new Error("Usuario no autorizado");
+		case 404:
+			throw new Error("Liga no encontrada");
 		case 409:
 			throw new Error("No pertenece a la liga");
 		case 500:
@@ -151,10 +153,10 @@ export async function getRandomLiga(): Promise<Liga> {
 	switch (response.status) {
 		case 200:
 			return response.json();
-		case 204:
-			throw new Error("No hay liga disponible");
 		case 401:
 			throw new Error("Usuario no autorizado");
+		case 404:
+			throw new Error("No hay liga disponible");
 		case 500:
 			throw new Error("Error interno");
 		default:

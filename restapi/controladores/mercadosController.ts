@@ -243,6 +243,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				let propiedadJugadorVenta: IPropiedadJugador | null = null;
 				let valorOfertaAcetada = 0;
 				liga.mercado.forEach((propiedadJugador) => {
+					// TODO -- Checkear que hacer cuando el jugador no esta en el mercado
 					if (propiedadJugador.jugador._id === idJugadorEnVenta) {
 						propiedadJugador.venta.ofertas.forEach((oferta) => {
 							if (oferta.comprador.id === idComprador) {
@@ -298,6 +299,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
+
 function quitarJugadorDePlantilla(
 	propiedadJugadorVenta: IPropiedadJugador | null,
 	plantilla: IPlantillaUsuario,

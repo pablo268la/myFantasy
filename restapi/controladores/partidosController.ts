@@ -30,17 +30,15 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 
 export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 	try {
+		const partidos = await modeloPartido.find({ _id: req.params.idPartido });
+		if (partidos.filter((p) => p.id === req.params.idPartido).length === 0)
+			return res.status(404).json({ message: "Partido no encontrado" });
+
 		const puntuacionesJornada: IPuntuacionJugador[] =
 			await modelPuntuacionJugador.find({
 				idPartido: req.params.idPartido,
 			});
-		const partidos = await modeloPartido.find({ _id: req.params.idPartido });
-		if (
-			puntuacionesJornada.length === 0 &&
-			partidos.filter((p) => p.id === req.params.idPartido).length === 0
-		)
-			return res.status(404).json({ message: "Partido no encontrado" });
-		else return res.status(200).json(puntuacionesJornada);
+		return res.status(200).json(puntuacionesJornada);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json(error);

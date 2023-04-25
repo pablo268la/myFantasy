@@ -3,7 +3,8 @@ import { updateUsuarioInfo } from "../helpers/helpers";
 import { Usuario } from "../shared/sharedTypes";
 
 export async function getUsuario(email: string): Promise<Usuario> {
-	let response = await fetch(apiEndPoint + "/eusuario/" + email);
+	// Dar una vuelta para la verificacion
+	let response = await fetch(apiEndPoint + "/usuario/" + email);
 	return response.json();
 }
 

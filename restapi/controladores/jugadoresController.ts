@@ -15,11 +15,7 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 		const j = await modeloJugador.find({
 			"equipo._id": req.params.idEquipo,
 		});
-		if (j.length > 0) {
-			res.json(j);
-		} else {
-			res.status(404).json({ message: "Equipo no encontrado" });
-		}
+		res.json(j);
 	} catch (error) {
 		res.status(500).json(error);
 	}

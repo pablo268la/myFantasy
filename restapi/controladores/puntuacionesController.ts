@@ -13,8 +13,13 @@ import {
 } from "../model/puntuacion/puntuacionJugador";
 import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
 
+//TODO - Crear object error
+
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
+		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		if (!jugador) return res.json([]);
+
 		const puntuaciones = await modelPuntuacionJugador.find({
 			idJugador: req.params.idJugador,
 		});
@@ -39,11 +44,22 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 	res
 ) => {
 	try {
-		const puntuacion = await modelPuntuacionJugador.findOne({
+
+		// TOD - Check valores negativosd en todas las requests
+		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		if (!jugador) return res.status(404);
+
+		let puntuacion = await modelPuntuacionJugador.findOne({
 			idJugador: req.params.idJugador,
 			semana: req.params.semana,
 		});
 
+		if (!puntuacion) {
+			puntuacion = createPuntuacionJugadorVacia(
+				req.params.idJugador,
+				req.params.semana
+			);
+		}
 		res.status(200).json(puntuacion);
 	} catch (error) {
 		res.status(500).json(error);

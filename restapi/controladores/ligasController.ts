@@ -22,7 +22,7 @@ export const getLiga: RequestHandler = async (req, res) => {
 
 		if (usuario && verified) {
 			const ligaEncontrada = await modeloLiga.findById(req.params.id);
-			if (!ligaEncontrada) return res.status(204).json();
+			if (!ligaEncontrada) return res.status(404).json({ message: "Liga no encontrada"});
 
 			if (
 				ligaEncontrada.plantillasUsuarios
@@ -31,7 +31,7 @@ export const getLiga: RequestHandler = async (req, res) => {
 			)
 				return res
 					.status(409)
-					.json({ message: "Usuario no autorizado: No pertence a esta liga" });
+					.json({ message: "Usuario no pertence a esta liga" });
 
 			return res.status(200).json(ligaEncontrada);
 		} else {
@@ -76,7 +76,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 		if (usuario && verified) {
 			if (usuario.ligas.length >= 5) {
 				return res
-					.status(401)
+					.status(409)
 					.json({ message: "No puedes participar en más de 5 ligas." });
 			}
 
@@ -155,7 +155,7 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 
 			const plantillaGuardada = await crearPlantillaParaUsuarioYGuardar(
 				usuario,
-				idLiga
+				liga
 			);
 
 			return res.status(200).json(plantillaGuardada);
@@ -187,7 +187,7 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 				);
 			ligas = shuffle(ligas);
 
-			if (ligas.length === 0) return res.status(204).json();
+			if (ligas.length === 0) return res.status(404).json();
 
 			return res.status(200).json(ligas[0]);
 		} else {

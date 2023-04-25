@@ -45,15 +45,9 @@ const api: Router = express.Router();
  *               $ref: '#/components/schemas/PlantillaUsuario'
  *       401:
  *         description: No autorizado
- *         content:
- *           application/json:
- *             message: Usuario no autenticado
  *       404:
  *         description: Plantilla no encontrada | Liga no encontrada
- *         content:
- *           application/json:
- *             message: Plantilla o Liga no encontrada
- *       500:
+ *       00:
  *         description: Error interno del servidor
  *         content:
  *           application/json:
@@ -102,19 +96,10 @@ api.get("/plantillas/:idLiga/:idUsuario", PlantillasController.getPlantilla);
  *               $ref: '#/components/schemas/PlantillaUsuario'
  *       401:
  *         description: No autorizado
- *         content:
- *           application/json:
- *             message: Usuario no autenticado
  *       404:
  *         description: Liga no encontrada
- *         content:
- *           application/json:
- *             message: Plantilla o Liga no encontrada
  *       409:
  *         description: Liga llena | Usuario ya tiene plantilla en la liga
- *         content:
- *           application/json:
- *             message: Liga llena | Usuario ya tiene plantilla en la liga
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -167,14 +152,8 @@ api.post("/plantillas/crear", PlantillasController.createPlantillaUsuario);
  *               $ref: '#/components/schemas/PlantillaUsuario'
  *       401:
  *         description: No autorizado
- *         content:
- *           application/json:
- *             message: Usuario no autenticado
  *       404:
  *         description: Liga no encontrada | Plantilla no encontrada
- *         content:
- *           application/json:
- *             message: Plantilla no encontrada | Liga no encontrada
  *       500:
  *         description: Error interno del servidor
  *         content:

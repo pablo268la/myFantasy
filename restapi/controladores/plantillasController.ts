@@ -109,7 +109,11 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			const liga = await modeloLiga.findById(idLiga);
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
-			if (liga.plantillasUsuarios.filter((plantilla) => plantilla._id === plantillaParaActualizar._id).length === 0)
+			if (
+				liga.plantillasUsuarios.filter(
+					(plantilla) => plantilla._id === plantillaParaActualizar._id
+				).length === 0
+			)
 				return res.status(404).json({ message: "Plantilla no encontrada" });
 
 			liga.plantillasUsuarios = liga.plantillasUsuarios.map(

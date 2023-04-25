@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
 /**
- *   * @openapi
+ * @openapi
  * 
  * components:
  *   schemas:

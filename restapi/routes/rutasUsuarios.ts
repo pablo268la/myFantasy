@@ -3,9 +3,7 @@ import * as UsuariosController from "../controladores/usuariosController";
 
 const api: Router = express.Router();
 
-api.get("/usuario/:id", UsuariosController.getUsuario);
-
-api.get("/eusuario/:email", UsuariosController.getUsuarioByEmail);
+api.get("/usuario/:email", UsuariosController.getUsuario);
 
 api.post("/usuario", UsuariosController.createUsuario);
 

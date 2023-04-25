@@ -27,8 +27,6 @@ const api: Router = express.Router();
  *               $ref: '#/components/schemas/Partido'
  *       404:
  *         description: Partido no encontrado
- *         content:
- *           message: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -64,8 +62,6 @@ api.get("/partidos/:id", PartidosController.getPartido);
  *                 $ref: '#/components/schemas/Partido'
  *       404:
  *         description: Partidos no encontrado
- *         content:
- *           message: Partidos no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -101,8 +97,6 @@ api.get("/partidos/jornada/:jornada", PartidosController.getPartidosJornada);
  *                 $ref: '#/components/schemas/Partido'
  *       404:
  *         description: Partidos no encontrado
- *         content:
- *           message: Partidos no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -138,8 +132,6 @@ api.get("/partidos/equipo/:idEquipo", PartidosController.getPartidosEquipo);
  *                 $ref: '#/components/schemas/PuntuacionJugador'
  *       404:
  *         description: Partido no encontrado
- *         content:
- *           message: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -185,8 +177,6 @@ api.get(
  *                 $ref: '#/components/schemas/Partido'
  *       404:
  *         description: Partido no encontrado
- *         content:
- *           message: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
  *         content:
