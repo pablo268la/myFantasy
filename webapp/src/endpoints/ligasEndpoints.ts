@@ -181,6 +181,8 @@ export async function checkJoinLiga(idLiga: string): Promise<boolean> {
 			return true;
 		case 401:
 			throw new Error("Usuario no autorizado");
+		case 404:
+			throw new Error("Liga no encontrada");
 		case 409:
 			return false;
 		case 500:

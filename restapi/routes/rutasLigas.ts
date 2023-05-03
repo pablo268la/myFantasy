@@ -176,6 +176,8 @@ api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
  *               $ref: '#/components/schemas/Liga'
  *       401:
  *         description: Usuario no autorizado
+ *       404:
+ *         description: Liga no encontrada
  *       409:
  *         description: No se puede unir a la liga (Ya pertenece, está llena o máximo de ligas alcanzado)
  *       500:
@@ -245,7 +247,7 @@ api.post("/ligas", LigasController.createLiga);
  *  post:
  *     tags:
  *     - Ligas
- *     description: Crear una liga
+ *     description: Añadir usuario a liga
  *     parameters:
  *     - name: idLiga
  *       in: path

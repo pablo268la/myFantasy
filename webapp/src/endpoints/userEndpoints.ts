@@ -51,7 +51,7 @@ export async function requestToken(
 	if (response.ok) {
 		return response.json();
 	} else {
-		throw new Error("Error al solicitar token");
+		throw new Error("Contraseña incorrecta");
 	}
 }
 

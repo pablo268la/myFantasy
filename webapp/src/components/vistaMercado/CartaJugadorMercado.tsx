@@ -228,6 +228,7 @@ export function CartaJugadorMercado(
 																setShowPopover(true);
 															},
 														},
+														// TODO - Eliminar puja
 														{
 															text: "Cancelar",
 															icon: close,

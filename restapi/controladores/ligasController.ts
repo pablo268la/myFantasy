@@ -22,7 +22,8 @@ export const getLiga: RequestHandler = async (req, res) => {
 
 		if (usuario && verified) {
 			const ligaEncontrada = await modeloLiga.findById(req.params.id);
-			if (!ligaEncontrada) return res.status(404).json({ message: "Liga no encontrada"});
+			if (!ligaEncontrada)
+				return res.status(404).json({ message: "Liga no encontrada" });
 
 			if (
 				ligaEncontrada.plantillasUsuarios
@@ -209,8 +210,8 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			const liga = await modeloLiga.findById(idLiga);
+			if (!liga) return res.status(404).json({message: "Liga no encontrada"});
 			if (
-				!liga ||
 				liga.plantillasUsuarios.length >= liga.maxJugadores ||
 				liga.plantillasUsuarios
 					.map((plantilla) => plantilla.usuario.id)

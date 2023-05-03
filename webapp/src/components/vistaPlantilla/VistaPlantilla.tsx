@@ -41,7 +41,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const idLiga: string = getLocalLigaSeleccionada();
 
-	const [segment, setSegment] = useState<"plantilla" | "alineacion">(
+	const [segment, setSegment] = useState<"plantilla" | "puntuaciones">(
 		"plantilla"
 	);
 
@@ -249,12 +249,12 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 								Plantilla
 							</IonSegmentButton>
 							<IonSegmentButton
-								value="alineacion"
+								value="puntuaciones"
 								onClick={() => {
-									setSegment("alineacion");
+									setSegment("puntuaciones");
 								}}
 							>
-								Alineacion
+								Puntuaciones
 							</IonSegmentButton>
 						</IonSegment>
 						{segment === "plantilla" ? (

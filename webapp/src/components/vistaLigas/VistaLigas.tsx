@@ -100,7 +100,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 						});
 				} else {
 					alert(
-						"No te puedes unir a tu liga. Has llegado al maximo (5) o está completa"
+						"No es posible unirse a esta liga"	
 					);
 					setShowLoading(false);
 				}
@@ -178,6 +178,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 											</IonRouterLink>
 											<IonCard
 												onClick={() => {
+													// Meter loading que funcione
 													unirseALigaAleatoria();
 												}}
 											>

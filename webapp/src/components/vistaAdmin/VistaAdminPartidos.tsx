@@ -453,7 +453,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 						</IonCol>
 						<IonCol sizeSm="4" sizeXs="12">
 							<IonItem lines="none">
-								<IonLabel position="stacked">Fecha</IonLabel>
+								<IonLabel position="stacked">Fecha y hora</IonLabel>
 								<IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 							</IonItem>
 							<IonModal

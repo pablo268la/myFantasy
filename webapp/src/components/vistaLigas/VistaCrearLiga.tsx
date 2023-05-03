@@ -11,11 +11,12 @@ import {
 	IonLabel,
 	IonLoading,
 	IonPage,
+	IonRouterLink,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	useIonAlert,
 	useIonRouter,
+	useIonToast
 } from "@ionic/react";
 import { settings } from "ionicons/icons";
 import { useState } from "react";
@@ -27,31 +28,37 @@ import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 
 export function VistaCrearLiga(props: any): JSX.Element {
-	const [alert] = useIonAlert();
+	const [present] = useIonToast();
 	const navigate = useIonRouter();
 	const [showLoading, setShowLoading] = useState(false);
 
 	const [nombreLiga, setNombreLiga] = useState<string>();
 	const [maxPlayers, setMaxPlayers] = useState<number>(0);
 	const [usarEntrenador, setUsarEntrenador] = useState<boolean>(false);
-	const [ligaPrivada, setLigaPrivada] = useState<boolean>(false);
 
 	const vaciarFormulario = () => {
 		setNombreLiga("");
 		setMaxPlayers(0);
 		setUsarEntrenador(false);
-		setLigaPrivada(false);
 	};
 
 	const validarYcrearLiga = async () => {
 		setShowLoading(true);
 		if (nombreLiga === undefined || nombreLiga === "") {
-			alert("El nombre de la liga no puede estar vacío");
+			present({
+				color: "danger",
+				message: "El nombre de la liga no puede estar vacío",
+				duration: 1500,
+			});
 			setShowLoading(false);
 			return;
 		}
 		if (maxPlayers < 3 || maxPlayers > 8) {
-			alert("El número de jugadores debe estar entre 2 y 8");
+			present({
+				color: "danger",
+				message: "El número de jugadores debe estar entre 2 y 8",
+				duration: 1500,
+			});
 			setShowLoading(false);
 			return;
 		}
@@ -172,7 +179,9 @@ export function VistaCrearLiga(props: any): JSX.Element {
 										>
 											Crear
 										</IonButton>
+										<IonRouterLink href="/ligas">
 										<IonButton color={"danger"}>Cancelar</IonButton>
+										</IonRouterLink>
 									</IonItem>
 								</IonCol>
 							</IonRow>
