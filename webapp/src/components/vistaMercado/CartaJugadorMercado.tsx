@@ -209,6 +209,7 @@ export function CartaJugadorMercado(
 											getUsuarioLogueado()?.id
 												? [
 														{
+															//TODO - Que funcione
 															text: "Quitar del mercado",
 															icon: cart,
 															handler: () => {},
@@ -229,6 +230,7 @@ export function CartaJugadorMercado(
 															},
 														},
 														// TODO - Eliminar puja
+														// TODO - Añadir mensajes en todos sitios
 														{
 															text: "Cancelar",
 															icon: close,

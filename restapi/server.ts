@@ -1,9 +1,15 @@
 require("dotenv").config();
 import bp from "body-parser";
 import cors from "cors";
-import express, { RequestHandler } from "express";
+import express, { Request, RequestHandler, Response } from "express";
 import promBundle from "express-prom-bundle";
 import morgan from "morgan";
+import responseTime from "response-time";
+import swaggerDocs from "./docs/swagger";
+import {
+	restResponseTimeHistogram,
+	startMertricServer,
+} from "./monitoring/prometheus/metrics";
 import apiEquipos from "./routes/rutasEquipos";
 import apiJugadores from "./routes/rutasJugador";
 import apiLigas from "./routes/rutasLigas";
@@ -11,17 +17,9 @@ import apiMercado from "./routes/rutasMercado";
 import apiPartidos from "./routes/rutasPartidos";
 import apiPlantillas from "./routes/rutasPlantillas";
 import apiPuntuaciones from "./routes/rutasPuntuaciones";
-//import apiSofaScore from "./routes/rutasSofascoreMarca";
 import apiUsuarios from "./routes/rutasUsuarios";
 
-import swaggerDocs from "./docs/swagger";
-
 const mongoose = require("mongoose");
-
-const { spawn } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-
 let helmet = require("helmet");
 
 const app = express();
@@ -37,7 +35,21 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true, limit: "8mb" }));
 app.use(morgan("dev"));
 
-//app.use(apiSofaScore);
+app.use(
+	responseTime((req: Request, res: Response, time: number) => {
+		if (req?.route?.path) {
+			restResponseTimeHistogram.observe(
+				{
+					method: req.method,
+					route: req.route.path,
+					status_code: res.statusCode,
+				},
+				time * 1000
+			);
+		}
+	})
+);
+
 app.use(apiJugadores);
 app.use(apiEquipos);
 app.use(apiUsuarios);
@@ -64,25 +76,10 @@ mongoose
 
 app
 	.listen(5000, (): void => {
-		console.log("Restapi listening on " + 5000 + " " + connectionString);
+		startMertricServer();
 		swaggerDocs(app, 5000);
+		console.log("Restapi listening on " + 5000 + " " + connectionString);
 	})
 	.on("error", (error: Error) => {
 		console.error("Error occured: " + error.message);
 	});
-
-/*
-const python = spawn("python", ["python/env/crawler.py", "arg1", "arg2", "arg3"], {
-	shell: true,
-});
-python.stderr.pipe(process.stdout);
-
-python.stdout.on("data", function (data: any) {
-	console.log("Pipe data from python script ...");
-	console.log(data.toString());
-});
-
-python.on("close", (code: any) => {
-	console.log(`child process close all stdio with code ${code}`);
-});
-*/

@@ -170,7 +170,7 @@ function Login(props: LoginProps): JSX.Element {
 			<IonPage>
 				<IonHeader>
 					<IonToolbar>
-						<IonTitle>Login</IonTitle>
+						<IonTitle>Headline Coach</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ justifyContent: "center" }}>

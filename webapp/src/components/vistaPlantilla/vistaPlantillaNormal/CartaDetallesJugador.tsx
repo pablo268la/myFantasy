@@ -187,6 +187,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 										props.isSameUser
 											? [
 													{
+														// TODO - Comprobar si está en el mercado y ofrecer quitarlo.
+														// Mostrar de alguna forma que está en el mercado.
 														text: "Añadir al mercado",
 														icon: cart,
 														handler: async () => {

@@ -3,7 +3,7 @@ import {
 	IonHeader,
 	IonPage,
 	IonSegment,
-	IonSegmentButton,
+	IonSegmentButton
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
@@ -42,8 +42,6 @@ export function VistaAdmin(): JSX.Element {
 		);
 		setLoading(false);
 	};
-
-	
 
 	const getJugadoresFromApi = async (idEquipo: string, fromModal: boolean) => {
 		setLoading(true);
