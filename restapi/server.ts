@@ -4,12 +4,10 @@ import cors from "cors";
 import express, { Request, RequestHandler, Response } from "express";
 import promBundle from "express-prom-bundle";
 import morgan from "morgan";
+import client from "prom-client";
 import responseTime from "response-time";
 import swaggerDocs from "./docs/swagger";
-import {
-	restResponseTimeHistogram,
-	startMertricServer,
-} from "./monitoring/prometheus/metrics";
+import { restResponseTimeHistogram, restResponseTimeSummary } from "./monitoring/prometheus/metrics";
 import apiEquipos from "./routes/rutasEquipos";
 import apiJugadores from "./routes/rutasJugador";
 import apiLigas from "./routes/rutasLigas";
@@ -26,6 +24,8 @@ const app = express();
 
 const connectionString = process.env.MONGO_DB_URI;
 
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
 const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
@@ -39,6 +39,15 @@ app.use(
 	responseTime((req: Request, res: Response, time: number) => {
 		if (req?.route?.path) {
 			restResponseTimeHistogram.observe(
+				{
+					method: req.method,
+					route: req.route.path,
+					status_code: res.statusCode,
+				},
+				time * 1000
+			);
+
+			restResponseTimeSummary.observe(
 				{
 					method: req.method,
 					route: req.route.path,
@@ -76,7 +85,6 @@ mongoose
 
 app
 	.listen(5000, (): void => {
-		startMertricServer();
 		swaggerDocs(app, 5000);
 		console.log("Restapi listening on " + 5000 + " " + connectionString);
 	})

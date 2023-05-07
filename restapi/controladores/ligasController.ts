@@ -210,7 +210,7 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			const liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(404).json({message: "Liga no encontrada"});
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 			if (
 				liga.plantillasUsuarios.length >= liga.maxJugadores ||
 				liga.plantillasUsuarios
