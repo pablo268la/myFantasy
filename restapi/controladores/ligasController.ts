@@ -39,6 +39,7 @@ export const getLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };
@@ -60,8 +61,9 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 		} else {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
-	} catch (err) {
-		return res.status(500).json({ message: err.message });
+	} catch (error) {
+		console.log(error)
+		return res.status(500).json(error);
 	}
 };
 
@@ -164,6 +166,7 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };
@@ -195,6 +198,7 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };
@@ -227,6 +231,7 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };

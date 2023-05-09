@@ -4,13 +4,15 @@ import * as jwt from "jsonwebtoken";
 import * as UUID from "uuid";
 import { modeloUsuario } from "../model/usuario";
 
-
 export const getUsuario: RequestHandler = async (req, res) => {
 	try {
 		const usuario = await modeloUsuario.findOne({ email: req.params.email });
+		if (!usuario) res.status(404).json({ message: "Usuario no encontrado" });
+
 		res.status(200).json(usuario);
 	} catch (error) {
-		res.status(404).json({ message: error.message });
+		console.log(error);
+		res.status(500).json(error);
 	}
 };
 
@@ -28,6 +30,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
 			res.status(409).json({ message: "Usuario ya existe" });
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -41,6 +44,7 @@ export const updateUsuario: RequestHandler = async (req, res) => {
 		);
 		res.status(200).json(usuario);
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -67,6 +71,7 @@ export const requestToken: RequestHandler = async (req, res) => {
 			res.status(400).json({ message: "Usuario no existe" });
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -88,6 +93,7 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
 			res.status(401).json({ message: "No autorizado" });
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };

@@ -90,6 +90,7 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };
@@ -130,6 +131,7 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json(error);
 	}
 };

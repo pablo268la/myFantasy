@@ -5,6 +5,7 @@ export const getEquipos: RequestHandler = async (req, res) => {
 	try {
 		res.status(200).json(await modeloEquipo.find());
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
@@ -18,6 +19,7 @@ export const getEquipo: RequestHandler = async (req, res) => {
 			res.status(404).json({ message: "Equipo no encontrado" });
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).json(error);
 	}
 };

@@ -2,12 +2,17 @@ import { RequestHandler } from "express";
 import { modeloJugador } from "../model/jugador";
 
 export const getJugadores: RequestHandler = async (req, res) => {
-	let jugadores = await modeloJugador.find();
-	jugadores.map(async (jugador) => {
-		jugador.puntos = 0;
-		return await jugador.save();
-	});
-	res.json(jugadores);
+	try {
+		let jugadores = await modeloJugador.find();
+		jugadores.map(async (jugador) => {
+			jugador.puntos = 0;
+			return await jugador.save();
+		});
+		res.json(jugadores);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
+	}
 };
 
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
@@ -17,6 +22,7 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 		});
 		res.json(j);
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };
@@ -31,6 +37,7 @@ export const getJugador: RequestHandler = async (req, res) => {
 			res.status(404).json({ message: "Jugador no encontrado" });
 		}
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };
@@ -44,6 +51,7 @@ export const getJugadoresAntiguos: RequestHandler = async (req, res) => {
 			})
 		);
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };
@@ -59,6 +67,7 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		);
 		res.json(jugador);
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };

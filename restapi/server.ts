@@ -26,7 +26,12 @@ const connectionString = process.env.MONGO_DB_URI;
 
 const collectDefaultMetrics = client.collectDefaultMetrics;
 collectDefaultMetrics();
-const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
+const metricsMiddleware: RequestHandler = promBundle({
+	includeMethod: true,
+	includePath: true,
+	includeStatusCode: true,
+	includeUp: true,
+});
 app.use(metricsMiddleware);
 
 app.use(cors());
@@ -46,14 +51,14 @@ app.use(
 				},
 				time * 1000
 			);
-
+			
 			restResponseTimeSummary.observe(
 				{
 					method: req.method,
 					route: req.route.path,
 					status_code: res.statusCode,
 				},
-				time * 1000
+				time
 			);
 		}
 	})

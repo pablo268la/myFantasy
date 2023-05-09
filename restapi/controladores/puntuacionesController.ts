@@ -35,6 +35,7 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 
 		res.status(200).json(result);
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };
@@ -62,6 +63,7 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 		}
 		res.status(200).json(puntuacion);
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };
@@ -234,6 +236,7 @@ export const puntuarPuntuacionesJugador: RequestHandler = async (req, res) => {
 		});
 		res.status(200).json();
 	} catch (error) {
+		console.log(error)
 		res.status(500).json(error);
 	}
 };

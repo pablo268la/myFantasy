@@ -137,8 +137,9 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
-	} catch (err) {
-		res.status(500).json(err);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json(error);
 	}
 };
 
@@ -174,9 +175,9 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
-	} catch (err) {
-		console.log(err);
-		res.status(500).json(err);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
 	}
 };
 
@@ -215,9 +216,9 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
-	} catch (err) {
-		console.log(err);
-		res.status(500).json(err);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
 	}
 };
 
@@ -294,9 +295,9 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
-	} catch (err) {
-		console.log(err);
-		res.status(500).json(err);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
 	}
 };
 
