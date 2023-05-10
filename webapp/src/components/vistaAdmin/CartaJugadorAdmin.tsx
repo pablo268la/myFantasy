@@ -14,8 +14,7 @@ import {
 	IonSelect,
 	IonSelectOption,
 	useIonActionSheet,
-	useIonAlert,
-	useIonToast,
+	useIonToast
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
@@ -36,7 +35,6 @@ type CartaJugadorAdminProps = {
 };
 
 export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
-	const [alert] = useIonAlert();
 	const [actionSheet] = useIonActionSheet();
 
 	const [edited, setEdited] = useState<boolean>(false);
