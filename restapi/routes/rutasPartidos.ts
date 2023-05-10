@@ -159,6 +159,18 @@ api.get(
  *       schema:
  *         type: string
  *       default: 10408559
+ *     - name: email
+ *       in: header
+ *       description: email del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: token
+ *       in: header
+ *       description: token del usuario
+ *       required: true
+ *       schema:
+ *         type: string
  *     requestBody:
  *       description: Partido a actualizar
  *       required: true

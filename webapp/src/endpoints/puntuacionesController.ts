@@ -5,6 +5,12 @@ export async function getPuntuacionJugador(
 	jugadorId: string
 ): Promise<PuntuacionJugador[]> {
 	let response = await fetch(apiEndPoint + "/puntuaciones/" + jugadorId);
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
@@ -15,6 +21,12 @@ export async function getPuntuacionJugadorSemana(
 	let response = await fetch(
 		apiEndPoint + "/puntuaciones/" + jugadorId + "/" + semana
 	);
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
@@ -28,5 +40,11 @@ export async function guardarPuntuacionJugador(
 		},
 		body: JSON.stringify(puntuacion),
 	});
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }

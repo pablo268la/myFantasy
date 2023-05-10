@@ -12,6 +12,8 @@ import {
 	modelPuntuacionJugador,
 } from "../model/puntuacion/puntuacionJugador";
 import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
+import { modeloUsuario } from "../model/usuario";
+import { verifyUser } from "./usuariosController";
 
 //TODO - Crear object error
 
@@ -35,8 +37,8 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 
 		res.status(200).json(result);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -45,7 +47,6 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 	res
 ) => {
 	try {
-
 		// TOD - Check valores negativosd en todas las requests
 		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
 		if (!jugador) return res.status(404);
@@ -63,14 +64,27 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 		}
 		res.status(200).json(puntuacion);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
 export const guardarPuntuacion: RequestHandler = async (req, res) => {
-	// TODO - Verificar usuario es admin
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		const verified = await verifyUser(email, token);
+
+		if (!verified) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
+		const usuario = (await modeloUsuario.find({ email: email })).at(0);
+		if (usuario !== undefined && usuario.admin) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
 		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);
 		const jugador = await modeloJugador.findOne({
 			_id: puntuacionJugador.idJugador,
@@ -115,7 +129,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -236,8 +250,8 @@ export const puntuarPuntuacionesJugador: RequestHandler = async (req, res) => {
 		});
 		res.status(200).json();
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 function calcularPuntuacion(

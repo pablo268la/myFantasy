@@ -14,23 +14,18 @@ import {
 	IonSelectOption,
 	IonTitle,
 	IonToolbar,
-	useIonAlert,
-	useIonToast,
 } from "@ionic/react";
 import { useRef, useState } from "react";
-import { updateJugador } from "../../endpoints/jugadorEndpoints";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 
 type ModalJugadorAdminProps = {
 	jugador: Jugador;
 	equipos: Equipo[];
 	getJugadoresFromApi: (idEquipo: string, fromModal: boolean) => void;
+	updateJugador:  (jugador: Jugador) => void;
 };
 
 export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
-	const [alert] = useIonAlert();
-	const [toast] = useIonToast();
-
 	const modal = useRef<HTMLIonModalElement>(null);
 	const input = useRef<HTMLIonInputElement>(null);
 
@@ -40,24 +35,8 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 	const jornadas = Array.from(Array(38).keys());
 
 	async function confirmModal() {
-		updateJugador(jugador)
-			.then((jugador) => {
-				setJugador(jugador);
-				props.getJugadoresFromApi(jugador.equipo._id, true);
-				toast({
-					message: "Jugador actualizado correctamente",
-					duration: 2000,
-					color: "success",
-				});
-				modal.current?.dismiss(input.current?.value, "confirm");
-			})
-			.catch((err) => {
-				alert({
-					header: "Error",
-					message: err.message,
-					buttons: ["OK"],
-				});
-			});
+		await props.updateJugador(jugador);
+		modal.current?.dismiss(input.current?.value, "confirm");
 	}
 
 	return (
@@ -71,9 +50,7 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 					</IonButtons>
 					<IonTitle>{jugador.nombre}</IonTitle>
 					<IonButtons slot="end">
-						<IonButton strong={true} onClick={() => confirmModal()}>
-							Confirm
-						</IonButton>
+						<IonButton onClick={() => confirmModal()}>Confirm</IonButton>
 					</IonButtons>
 				</IonToolbar>
 			</IonHeader>
@@ -118,7 +95,7 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 						<IonItem>
 							<IonLabel position="stacked">Equipo antiguo</IonLabel>
 							<IonSelect
-								value={jugador.jugadorAntiguo?.equipo?._id }
+								value={jugador.jugadorAntiguo?.equipo?._id}
 								onIonChange={(e) => {
 									setJugador({
 										...jugador,
@@ -149,11 +126,10 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 									setJugador({
 										...jugador,
 										jugadorAntiguo: {
-											equipo: jugador.jugadorAntiguo?.equipo || undefined, 
+											equipo: jugador.jugadorAntiguo?.equipo || undefined,
 											jornadaTraspaso: parseInt(e.detail.value!) || 0,
 										},
 									});
-									console.log(jugador.jugadorAntiguo);
 								}}
 							>
 								{jornadas.map((jornada) => (

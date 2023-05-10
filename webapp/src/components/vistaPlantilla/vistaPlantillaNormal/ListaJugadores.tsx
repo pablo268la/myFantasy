@@ -41,28 +41,30 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 	};
 
 	return !showPuntuacionJugador ? (
-		<IonList>
-			{props.porteros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) =>
-					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
-				)}
-			{props.defensas
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) =>
-					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
-				)}
-			{props.mediocentros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) =>
-					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
-				)}
-			{props.delanteros
-				.filter((j) => j.jugador._id !== "empty")
-				.map((j) =>
-					crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
-				)}
-		</IonList>
+		<>
+			<IonList>
+				{props.porteros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) =>
+						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+					)}
+				{props.defensas
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) =>
+						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+					)}
+				{props.mediocentros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) =>
+						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+					)}
+				{props.delanteros
+					.filter((j) => j.jugador._id !== "empty")
+					.map((j) =>
+						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
+					)}
+			</IonList>
+		</>
 	) : (
 		<>
 			<IonGrid>

@@ -19,6 +19,7 @@ import {
 	IonTitle,
 	useIonAlert,
 	useIonRouter,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import {
@@ -43,18 +44,23 @@ type VistaLigasProps = {
 
 export function VistaLigas(props: VistaLigasProps): JSX.Element {
 	const navigate = useIonRouter();
-	const [alert] = useIonAlert();
 
 	const [crearLigas, setCrearLigas] = useState<boolean>(false);
-
 	const [ligas, setLigas] = useState<Liga[]>();
 
-	const [idLigaParaUnir, setIdLigaParaUnir] = useState<string>();
-
-	const [presentAlert] = useIonAlert();
-	const [enlaceInvitacion, setEnlaceInvitacion] = useState<string>();
 	const [showLoading, setShowLoading] = useState(false);
 	const [loading, setLoading] = useState(true);
+
+	const [presentAlert] = useIonAlert();
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	useEffect(() => {
 		getLigasUsuario()
@@ -63,7 +69,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 				setLoading(false);
 			})
 			.catch((error) => {
-				alert(error.message);
+				crearToast(error.message, true, "danger");
 				setLoading(false);
 			});
 	}, []);
@@ -73,40 +79,37 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 		getRandomLiga()
 			.then(async (liga) => {
 				unirseConEnlace(liga.enlaceInvitacion);
+				setShowLoading(false);
 			})
 			.catch((error) => {
-				alert(error.message);
+				crearToast(error.message, true, "danger");
+				setShowLoading(false);
 			});
-		setShowLoading(false);
 	};
 
 	const unirseConEnlace = async (enlace: string) => {
 		setShowLoading(true);
 		let e = enlace.split(":")[1];
-		setEnlaceInvitacion(e);
 
 		await checkJoinLiga(e)
 			.then(async (canJoin) => {
 				if (canJoin) {
 					await añadirUsuarioALiga(e)
 						.then(() => {
-							setIdLigaParaUnir(e);
 							setShowLoading(true);
 							setLocalLigaSeleccionada(e);
 							navigate.push("/plantilla/starts/" + e, "forward");
 						})
 						.catch((error) => {
-							alert(error.message);
+							crearToast(error.message, true, "danger");
 						});
 				} else {
-					alert(
-						"No es posible unirse a esta liga"	
-					);
+					alert("No es posible unirse a esta liga");
 					setShowLoading(false);
 				}
 			})
 			.catch((error) => {
-				alert(error.message);
+				crearToast(error.message, true, "danger");
 			});
 
 		setShowLoading(false);
@@ -178,7 +181,6 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 											</IonRouterLink>
 											<IonCard
 												onClick={() => {
-													// Meter loading que funcione
 													unirseALigaAleatoria();
 												}}
 											>
@@ -200,7 +202,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 											<IonCard
 												onClick={() => {
 													presentAlert({
-														header: "Please enter your info",
+														header: "Enlace",
 														buttons: ["OK"],
 														inputs: [
 															{

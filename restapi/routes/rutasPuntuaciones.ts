@@ -89,6 +89,19 @@ api.get(
  *     tags:
  *     - Puntuaciones
  *     description: Guarda una puntuacion
+ *     parameters:
+ *     - name: email
+ *       in: header
+ *       description: email del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: token
+ *       in: header
+ *       description: token del usuario
+ *       required: true
+ *       schema:
+ *         type: string
  *     requestBody:
  *       description: Puntuacion a guardar
  *       required: true

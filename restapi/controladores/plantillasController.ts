@@ -53,7 +53,7 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -91,7 +91,7 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error)
-		return res.status(500).json(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -132,7 +132,7 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error)
-		return res.status(500).json(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 

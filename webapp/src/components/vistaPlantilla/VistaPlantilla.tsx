@@ -103,8 +103,8 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 				let map = new Map<string, PuntuacionJugador[]>();
 
-				ju.forEach(async (jugador) => {
-					await getPuntuacionJugador(jugador.jugador._id).then((puntuaciones) => {
+				ju.forEach((jugador) => {
+					getPuntuacionJugador(jugador.jugador._id).then((puntuaciones) => {
 						map.set(jugador.jugador._id, puntuaciones);
 					});
 				});

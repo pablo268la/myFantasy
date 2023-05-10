@@ -6,7 +6,7 @@ import {
 	IonList,
 	IonRow,
 	IonSelect,
-	IonSelectOption,
+	IonSelectOption
 } from "@ionic/react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
@@ -46,11 +46,6 @@ export function VistaPlantillaNormal(
 ): JSX.Element {
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const sameUsuario: boolean = idPlantillaUsuario === getUsuarioLogueado()?.id;
-
-	const cambiarJugador = (idJugador: string) => {
-		if (idJugador === props.jugadorPulsado) props.setJugadorPulsado("");
-		else props.setJugadorPulsado(idJugador);
-	};
 
 	const cambiarJugadorSiOSi = (idJugador: string) => {
 		if (props.jugadorPulsado === "" && idJugador !== props.jugadorPulsado)

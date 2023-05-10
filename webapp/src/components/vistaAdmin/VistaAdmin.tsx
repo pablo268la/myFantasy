@@ -3,7 +3,8 @@ import {
 	IonHeader,
 	IonPage,
 	IonSegment,
-	IonSegmentButton
+	IonSegmentButton,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
@@ -27,19 +28,30 @@ export function VistaAdmin(): JSX.Element {
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 
-	const [anyEdited, setAnyEdited] = useState<boolean>(false);
-
 	const [segment, setSegment] = useState<
 		"jugadores" | "puntuaciones" | "partidos"
 	>("jugadores");
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const getEquiposFromApi = async () => {
 		setLoading(true);
-		setEquipos(
-			await (
-				await getEquipos()
-			).sort((a, b) => a.nombre.localeCompare(b.nombre))
-		);
+
+		getEquipos()
+			.then((e) =>
+				setEquipos(e.sort((a, b) => a.nombre.localeCompare(b.nombre)))
+			)
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		setLoading(false);
 	};
 
@@ -49,18 +61,27 @@ export function VistaAdmin(): JSX.Element {
 			idEquipo = equipoSeleccionado?._id || "";
 		}
 		if (idEquipo === "") {
-			setJugadores(
-				await getJugadores().then((j) =>
-					j.sort((a, b) => a.equipo.nombre.localeCompare(b.equipo.nombre))
+			await getJugadores()
+				.then((j) =>
+					setJugadores(
+						j.sort((a, b) => a.equipo.nombre.localeCompare(b.equipo.nombre))
+					)
 				)
-			);
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setEquipoSeleccionado(undefined);
 		} else {
-			setJugadores(
-				await getJugadoresPorEquipo(idEquipo).then((j) =>
-					j.sort((a, b) => comparePosiciones(a.posicion, b.posicion))
+			await getJugadoresPorEquipo(idEquipo)
+				.then((j) =>
+					setJugadores(
+						j.sort((a, b) => comparePosiciones(a.posicion, b.posicion))
+					)
 				)
-			);
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
+
 			setEquipoSeleccionado(equipos.find((e) => e._id === idEquipo));
 		}
 		setLoading(false);

@@ -1,10 +1,15 @@
 import { apiEndPoint } from "../helpers/constants";
-import { updateUsuarioInfo } from "../helpers/helpers";
 import { Usuario } from "../shared/sharedTypes";
 
 export async function getUsuario(email: string): Promise<Usuario> {
 	// Dar una vuelta para la verificacion
 	let response = await fetch(apiEndPoint + "/usuario/" + email);
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
@@ -15,17 +20,12 @@ export async function createUsuario(usuario: Usuario): Promise<Usuario> {
 		body: JSON.stringify(usuario),
 	});
 
-	switch (response.status) {
-		case 201:
-			await updateUsuarioInfo();
-			return response.json();
-		case 409:
-			throw new Error("El usuario ya existe");
-		case 500:
-			throw new Error("Error en el servidor");
-		default:
-			throw new Error("Error al crear usuario");
+	if (response.status !== 201) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
@@ -35,6 +35,11 @@ export async function updateUsuario(usuario: Usuario): Promise<Usuario> {
 		body: JSON.stringify(usuario),
 	});
 
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 

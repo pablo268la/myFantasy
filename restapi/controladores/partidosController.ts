@@ -4,6 +4,8 @@ import {
 	IPuntuacionJugador,
 	modelPuntuacionJugador,
 } from "../model/puntuacion/puntuacionJugador";
+import { modeloUsuario } from "../model/usuario";
+import { verifyUser } from "./usuariosController";
 
 export const getPartido: RequestHandler = async (req, res) => {
 	//TODO -- Validar en todas las request que los params son correctos - Lanzar BAD REQUEST (400)
@@ -13,8 +15,8 @@ export const getPartido: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partido no encontrado" });
 		return res.status(200).json(partido);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -25,8 +27,8 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -43,7 +45,7 @@ export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 		return res.status(200).json(puntuacionesJornada);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -59,14 +61,27 @@ export const getPartidosEquipo: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Partidos no encontrados" });
 		return res.status(200).json(partidos);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
 export const updatePartido: RequestHandler = async (req, res) => {
-	// Check admin
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		const verified = await verifyUser(email, token);
+
+		if (!verified) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
+		const usuario = (await modeloUsuario.find({ email: email })).at(0);
+		if (usuario !== undefined && usuario.admin) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
 		const partido = await modeloPartido.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -79,6 +94,6 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		return res.status(200).json(partido);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };

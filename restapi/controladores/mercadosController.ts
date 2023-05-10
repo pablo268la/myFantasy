@@ -88,7 +88,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		res.status(200).json(newLiga);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -139,7 +139,7 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error)
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -177,7 +177,7 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -218,7 +218,7 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -297,7 +297,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 

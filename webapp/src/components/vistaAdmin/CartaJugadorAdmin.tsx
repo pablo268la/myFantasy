@@ -15,6 +15,7 @@ import {
 	IonSelectOption,
 	useIonActionSheet,
 	useIonAlert,
+	useIonToast,
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
@@ -36,13 +37,23 @@ type CartaJugadorAdminProps = {
 
 export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 	const [alert] = useIonAlert();
-	const [present] = useIonActionSheet();
+	const [actionSheet] = useIonActionSheet();
 
 	const [edited, setEdited] = useState<boolean>(false);
 
 	const [jugador, setJugador] = useState<Jugador>(props.jugador);
 
 	const [showModal, setShowModal] = useState(true);
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	const setEditedPlayer = () => {
 		setEdited(true);
@@ -57,15 +68,22 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 	const updateJugadorAndReset = async () => {
 		resetValores();
 		setEdited(false);
-		setJugador(await updateJugador(jugador));
-	
+		updateJugador(jugador)
+			.then((j) => {
+				crearToast("Jugador actualizado correctamente", true, "success");
+				setJugador(j);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
+		setShowPopover(false);
 	};
 
 	const [showPopover, setShowPopover] = useState(false);
 
 	function seguroEliminarJugador() {
 		return new Promise<boolean>((resolve, reject) => {
-			present({
+			actionSheet({
 				header: "¿Estas seguro de querer borrar este jugador?",
 				buttons: [
 					{
@@ -79,7 +97,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 				],
 				onWillDismiss: (ev) => {
 					if (ev.detail.role === "confirm") {
-						alert("Jugador borrado");
+						crearToast("Jugador eliminado", true, "success");
 					} else {
 						reject();
 					}
@@ -237,6 +255,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 												jugador={jugador}
 												equipos={props.equipos}
 												getJugadoresFromApi={props.getJugadoresFromApi}
+												updateJugador={updateJugadorAndReset}
 											/>
 										) : null}
 

@@ -1,8 +1,7 @@
 import { apiEndPoint } from "../helpers/constants";
 import {
 	getToken,
-	getUsuarioLogueado,
-	updateUsuarioInfo,
+	getUsuarioLogueado
 } from "../helpers/helpers";
 import { PlantillaUsuario } from "../shared/sharedTypes";
 
@@ -25,16 +24,12 @@ export async function getPlantilla(
 		}
 	);
 
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 500:
-			throw new Error("Error en el servidor");
-		default:
-			throw new Error("Error al coger la plantilla");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function crearPlantillaUsuario(
@@ -56,17 +51,12 @@ export async function crearPlantillaUsuario(
 		}),
 	});
 
-	switch (response.status) {
-		case 201:
-			await updateUsuarioInfo();
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 500:
-			throw new Error("Error en el servidor");
-		default:
-			throw new Error("Error al crear plantilla");
+	if (response.status !== 201) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function updatePlantillaUsuario(
@@ -86,15 +76,10 @@ export async function updatePlantillaUsuario(
 		body: JSON.stringify({ plantilla: plantilla, idLiga: idLiga }),
 	});
 
-	switch (response.status) {
-		case 200:
-			await updateUsuarioInfo();
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 500:
-			throw new Error("Error en el servidor");
-		default:
-			throw new Error("Error al crear plantilla");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }

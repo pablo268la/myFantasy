@@ -12,7 +12,7 @@ export const getUsuario: RequestHandler = async (req, res) => {
 		res.status(200).json(usuario);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -31,7 +31,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -45,7 +45,7 @@ export const updateUsuario: RequestHandler = async (req, res) => {
 		res.status(200).json(usuario);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -72,7 +72,7 @@ export const requestToken: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -94,7 +94,7 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 

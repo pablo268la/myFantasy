@@ -10,6 +10,7 @@ import {
 import { logOut } from "ionicons/icons";
 
 export function FantasyToolbar(props: any): JSX.Element {
+	// TODO - Quitar todas 
 	const [presentAlert] = useIonAlert();
 
 	return (

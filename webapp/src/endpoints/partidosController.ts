@@ -10,12 +10,24 @@ export async function getPartidosByJornada(
 	jornada: number
 ): Promise<Partido[]> {
 	let response = await fetch(apiEndPoint + "/partidos/jornada/" + jornada);
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
 export async function getPartidosByEquipo(equipo: Equipo): Promise<Partido[]> {
 	let response = await fetch(apiEndPoint + "/partidos/equipo/" + equipo._id);
 	//TODO - Usar para mostrar siguiente partido
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
@@ -26,6 +38,11 @@ export async function getPuntuacionesPartido(
 		apiEndPoint + "/partidos/puntuaciones/" + idPartido
 	);
 
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }
 
@@ -37,5 +54,11 @@ export async function updatePartido(partido: Partido): Promise<Partido> {
 		},
 		body: JSON.stringify(partido),
 	});
+
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
 	return response.json();
 }

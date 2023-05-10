@@ -21,6 +21,7 @@ import {
 	IonSelectOption,
 	IonTitle,
 	IonToolbar,
+	useIonToast,
 } from "@ionic/react";
 import {
 	addCircleOutline,
@@ -81,6 +82,16 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [jugadorEvento, setJugadorEvento] = useState<Jugador>();
 	const [jugadorEvento2, setJugadorEvento2] = useState<Jugador>();
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const setAlineacionLocalForAll = (a: Alineacion) => {
 		setVaciosLocal(Array.from(Array(11 - a.jugadoresTitulares.length)));
 		setAlineacionLocal({
@@ -125,12 +136,16 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			const p = partidos.filter((p) => p._id === partido).at(0);
 			if (p) {
 				setPartidoSeleccionado(p);
-				getJugadoresPorEquipo(p.local._id).then((jugadores) =>
-					setJugadoresLocales(jugadores)
-				);
-				getJugadoresPorEquipo(p.visitante._id).then((jugadores) =>
-					setJugadoresVisitantes(jugadores)
-				);
+				getJugadoresPorEquipo(p.local._id)
+					.then((jugadores) => setJugadoresLocales(jugadores))
+					.catch((err) => {
+						crearToast(err, true, "danger");
+					});
+				getJugadoresPorEquipo(p.visitante._id)
+					.then((jugadores) => setJugadoresVisitantes(jugadores))
+					.catch((err) => {
+						crearToast(err, true, "danger");
+					});
 				setAlineacionLocalForAll(p.alineacionLocal);
 				setAlineacionVisitanteForAll(p.alineacionVisitante);
 
@@ -147,7 +162,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const guardarPartido = async () => {
 		setLoading(true);
 		if (partidoSeleccionado) {
-			console.log(alineacionLocal);
 			if (alineacionLocal)
 				partidoSeleccionado.alineacionLocal = alineacionLocal;
 			if (alineacionVisitante)
@@ -264,10 +278,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			getJugadoresAntiguos(
 				partidoSeleccionado?.visitante._id as string,
 				partidoSeleccionado?.jornada as number
-			).then((j) => {
-				let aux = jugadoresLocales.concat(j);
-				setJugadoresLocales([...aux]);
-			});
+			)
+				.then((j) => {
+					let aux = jugadoresLocales.concat(j);
+					setJugadoresLocales([...aux]);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setAntiguosCogidosLocal(true);
 		}
 	};
@@ -315,10 +333,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			getJugadoresAntiguos(
 				partidoSeleccionado?.visitante._id as string,
 				partidoSeleccionado?.jornada as number
-			).then((j) => {
-				let aux = jugadoresVisitantes.concat(j);
-				setJugadoresVisitantes([...aux]);
-			});
+			)
+				.then((j) => {
+					let aux = jugadoresVisitantes.concat(j);
+					setJugadoresVisitantes([...aux]);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setAntiguosCogidosVisitante(true);
 		}
 	};

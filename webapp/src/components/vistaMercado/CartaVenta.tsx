@@ -191,7 +191,6 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 											<IonButton
 												color={"danger"}
 												onClick={() => {
-													console.log("Rechazado");
 													rechazarOferta(
 														props.idLiga,
 														oferta.comprador.id,

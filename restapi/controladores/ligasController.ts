@@ -39,8 +39,8 @@ export const getLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json(error);
+		console.log(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -62,8 +62,8 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json(error);
+		console.log(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -133,7 +133,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -166,8 +166,8 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json(error);
+		console.log(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -191,15 +191,16 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 				);
 			ligas = shuffle(ligas);
 
-			if (ligas.length === 0) return res.status(404).json();
+			if (ligas.length === 0)
+				return res.status(404).json({ message: "No existe liga disponible para unirse" });
 
 			return res.status(200).json(ligas[0]);
 		} else {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json(error);
+		console.log(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -231,7 +232,7 @@ export const checkJoinLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json(error);
+		console.log(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };

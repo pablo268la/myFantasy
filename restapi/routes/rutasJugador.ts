@@ -152,6 +152,18 @@ api.get(
  *       schema:
  *         type: string
  *       default: 789381
+ *     - name: email
+ *       in: header
+ *       description: email del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: token
+ *       in: header
+ *       description: token del usuario
+ *       required: true
+ *       schema:
+ *         type: string
  *     requestBody:
  *       description: Datos del jugador
  *       required: true
