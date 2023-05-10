@@ -92,7 +92,11 @@ function Login(props: LoginProps): JSX.Element {
 				return false;
 			}
 		}
-		let usuario = await getUsuario(email);
+
+		let usuario = await getUsuario(email).catch((err) => {
+			crearToast(err, true, "danger");
+		});
+
 		if (isLogin) {
 			if (usuario !== null) {
 				return true;

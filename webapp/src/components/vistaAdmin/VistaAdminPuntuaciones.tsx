@@ -8,6 +8,7 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getPartidosByJornada } from "../../endpoints/partidosController";
@@ -32,12 +33,26 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	const jornadas = Array.from(Array(38).keys());
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
 		setJornada(jornada);
-		await getPartidosByJornada(jornada).then((partidos) => {
-			setPartidos(partidos);
-		});
+		await getPartidosByJornada(jornada)
+			.then((partidos) => {
+				setPartidos(partidos);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		setLoading(false);
 	};
 

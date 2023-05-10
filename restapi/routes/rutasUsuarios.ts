@@ -7,8 +7,6 @@ api.get("/usuario/:email", UsuariosController.getUsuario);
 
 api.post("/usuario", UsuariosController.createUsuario);
 
-api.put("/usuario/:email", UsuariosController.updateUsuario);
-
 api.post("/token", UsuariosController.requestToken);
 
 api.get("/token", UsuariosController.verifyToken);

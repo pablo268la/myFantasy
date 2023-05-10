@@ -50,10 +50,20 @@ export function PlantillaStart(): JSX.Element {
 	async function getJugadores() {
 		setLoading(true);
 		const jugadores: Jugador[] = [];
-		const plantilla: PlantillaUsuario = await getPlantilla(
+
+		let p: any = null;
+		getPlantilla(
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
-		);
+		)
+			.then((res) => {
+				p = res;
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
+
+		const plantilla = p as PlantillaUsuario;
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			await getJugadorById(

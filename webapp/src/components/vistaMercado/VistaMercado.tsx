@@ -7,7 +7,7 @@ import {
 	IonPage,
 	IonSegment,
 	IonSegmentButton,
-	useIonAlert,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
@@ -24,8 +24,6 @@ import { CartaJugadorMercado } from "./CartaJugadorMercado";
 import { CartaVenta } from "./CartaVenta";
 
 export function VistaMercado(props: any): JSX.Element {
-	const [alert] = useIonAlert();
-
 	const [liga, setLiga] = useState<Liga>();
 	const [jugadoresEnMercado, setJugadoresEnMercado] = useState<
 		PropiedadJugador[]
@@ -37,6 +35,16 @@ export function VistaMercado(props: any): JSX.Element {
 		"mercado"
 	);
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const actualizarMercado = () => {
 		getLiga(getLocalLigaSeleccionada())
 			.then((liga) => {
@@ -44,7 +52,7 @@ export function VistaMercado(props: any): JSX.Element {
 				setJugadoresEnMercado(liga.mercado);
 			})
 			.catch((err) => {
-				alert(err);
+				crearToast(err, true, "danger");
 			});
 	};
 
@@ -62,7 +70,7 @@ export function VistaMercado(props: any): JSX.Element {
 					setReseteandoMercado(false);
 				})
 				.catch((err) => {
-					alert(err);
+					crearToast(err, true, "danger");
 				});
 		}
 	};

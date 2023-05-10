@@ -782,6 +782,7 @@ function getMinutoOut(
 	return minutoOut;
 }
 
+// TODO - Manejar errores
 export async function getAlineacionesSofaScore(partido: Partido) {
 	const jugadoresLocales = await getJugadoresPorEquipo(partido.local._id);
 	const jugadoresVisitantes = await getJugadoresPorEquipo(

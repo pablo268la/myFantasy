@@ -122,9 +122,13 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(true);
 		setCambiado(false);
 		setJornada(jornada);
-		await getPartidosByJornada(jornada).then((partidos) => {
-			setPartidos(partidos);
-		});
+		await getPartidosByJornada(jornada)
+			.then((partidos) => {
+				setPartidos(partidos);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		changeSelectedPartido(undefined);
 	};
 
@@ -171,9 +175,13 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			if (link) partidoSeleccionado.linkSofaScore = link;
 			if (eventosPartido) partidoSeleccionado.eventos = eventosPartido;
 
-			updatePartido(partidoSeleccionado).then((p) => {
-				setPartidoSeleccionado(p);
-			});
+			updatePartido(partidoSeleccionado)
+				.then((p) => {
+					setPartidoSeleccionado(p);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setPartidos(
 				partidos.map((p) => {
 					if (p._id === partidoSeleccionado._id) return partidoSeleccionado;

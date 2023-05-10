@@ -10,6 +10,7 @@ import {
 	IonItem,
 	IonLabel,
 	IonRow,
+	useIonToast,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
@@ -49,6 +50,16 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	return propiedadJugador ? (
 		<>
@@ -188,14 +199,24 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 											? [
 													{
 														// TODO - Comprobar si está en el mercado y ofrecer quitarlo.
-														// Mostrar de alguna forma que está en el mercado.
 														text: "Añadir al mercado",
 														icon: cart,
 														handler: async () => {
+															// TODO - Añadir loading
 															await añadirJugadorAMercado(
 																propiedadJugador,
 																getLocalLigaSeleccionada()
-															);
+															)
+																.then((res) => {
+																	crearToast(
+																		"Jugador añadido al mercado",
+																		true,
+																		"success"
+																	);
+																})
+																.catch((err) => {
+																	crearToast(err, true, "danger");
+																});
 														},
 													},
 													{
