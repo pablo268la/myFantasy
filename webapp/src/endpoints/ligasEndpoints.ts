@@ -2,8 +2,7 @@ import * as UUID from "uuid";
 import { apiEndPoint } from "../helpers/constants";
 import {
 	getToken,
-	getUsuarioLogueado,
-	updateUsuarioInfo,
+	getUsuarioLogueado
 } from "../helpers/helpers";
 import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
 
@@ -19,18 +18,12 @@ export async function getLiga(idLiga: string): Promise<Liga> {
 		},
 	});
 
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 409:
-			throw new Error("No pertenece a la liga");
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function getLigasUsuario(): Promise<Liga[]> {
@@ -47,16 +40,12 @@ export async function getLigasUsuario(): Promise<Liga[]> {
 		},
 	});
 
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function crearLiga(
@@ -91,17 +80,12 @@ export async function crearLiga(
 		body: JSON.stringify({ liga: liga }),
 	});
 
-	switch (response.status) {
-		case 201:
-			await updateUsuarioInfo();
-			return response.json();
-		case 401:
-			throw new Error("No autorizado");
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 201) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function añadirUsuarioALiga(
@@ -119,21 +103,12 @@ export async function añadirUsuarioALiga(
 		},
 	});
 
-	switch (response.status) {
-		case 200:
-			await updateUsuarioInfo();
-			return response.json();
-		case 204:
-			throw new Error("Liga no encontrada");
-		case 401:
-			throw new Error("No autorizado");
-		case 409:
-			throw new Error(JSON.stringify(response.json()));
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function getRandomLiga(): Promise<Liga> {
@@ -148,18 +123,12 @@ export async function getRandomLiga(): Promise<Liga> {
 		},
 	});
 
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 204:
-			throw new Error("No hay liga disponible");
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }
 
 export async function checkJoinLiga(idLiga: string): Promise<boolean> {
@@ -174,16 +143,10 @@ export async function checkJoinLiga(idLiga: string): Promise<boolean> {
 		},
 	});
 
-	switch (response.status) {
-		case 200:
-			return true;
-		case 401:
-			throw new Error("Usuario no autorizado");
-		case 409:
-			return false;
-		case 500:
-			throw new Error("Error interno");
-		default:
-			throw new Error("Error desconocido");
+	if (response.status !== 200) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
 	}
+	return response.json();
 }

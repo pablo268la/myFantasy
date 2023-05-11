@@ -15,13 +15,14 @@ import {
 	IonRow,
 	IonTitle,
 	IonToolbar,
+	useIonToast,
 } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import {
 	getPuntuacionJugadorSemana,
 	guardarPuntuacionJugador,
-} from "../../endpoints/puntuacionesController";
+} from "../../endpoints/puntuacionesEndpoint";
 import {
 	filterAndPop,
 	filterAndPopByTramos,
@@ -65,44 +66,65 @@ export function VistaAdminPuntuacionJugador(
 
 	const [guardando, setGuardando] = useState<boolean>(false);
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const actualizarPuntuacionYPuntos = (p: PuntuacionJugador) => {
 		p.puntos = calcularPuntosPuntuacion(p);
 		setPuntuacion(p);
+		crearToast("Puntuación actualizada", true, "success");
 	};
 
 	useEffect(() => {
 		if (props.guardarPuntuaciones) {
 			setGuardando(true);
-			guardarPuntuacionJugadorEnBD();
+			guardarPuntuacionJugadorEnBD().catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		} else {
-			getPuntuacionDelJugador();
+			getPuntuacionDelJugador().catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		}
 	}, [props.somethingChanged]);
 
 	const guardarPuntuacionJugadorEnBD = async () => {
 		if (puntuacion !== undefined)
-			await guardarPuntuacionJugador(puntuacion).then((p) => {
-				actualizarPuntuacionYPuntos(p);
-				setGuardando(false);
-			});
+			await guardarPuntuacionJugador(puntuacion)
+				.then((p) => {
+					actualizarPuntuacionYPuntos(p);
+					setGuardando(false);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 	};
 
 	const getPuntuacionDelJugador = async () => {
-		await getPuntuacionJugadorSemana(props.jugador._id, props.jornada).then(
-			async (p) => {
+		await getPuntuacionJugadorSemana(props.jugador._id, props.jornada)
+			.then(async (p) => {
 				if (p === null) {
-					await getPuntuacionesDeSofaScore(
-						props.partido,
-						j,
-						props.titular
-					).then((ps) => {
-						actualizarPuntuacionYPuntos(ps[0]);
-					});
+					await getPuntuacionesDeSofaScore(props.partido, j, props.titular)
+						.then((ps) => {
+							actualizarPuntuacionYPuntos(ps[0]);
+						})
+						.catch((err) => {
+							crearToast(err, true, "danger");
+						});
 				} else {
 					actualizarPuntuacionYPuntos(p);
 				}
-			}
-		);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 	};
 
 	return (

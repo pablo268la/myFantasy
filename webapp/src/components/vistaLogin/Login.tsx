@@ -20,7 +20,8 @@ import { personCircle } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { createUsuario, getUsuario } from "../../endpoints/userEndpoints";
 import {
-	setUsuarioAndRequestToken
+	getUsuarioLogueado,
+	setUsuarioAndRequestToken,
 } from "../../helpers/helpers";
 
 type LoginProps = {};
@@ -36,9 +37,10 @@ function Login(props: LoginProps): JSX.Element {
 	const [isLogin, setIsLogin] = useState<boolean>(true);
 
 	const [present] = useIonToast();
-	function crearToast(mensaje: string, mostrarToast: boolean) {
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
 		if (mostrarToast)
 			present({
+				color: color,
 				message: mensaje,
 				duration: 1500,
 			});
@@ -48,50 +50,63 @@ function Login(props: LoginProps): JSX.Element {
 
 	async function validateFields(mostrarToast: boolean): Promise<boolean> {
 		if (email === "" || contraseña === "") {
-			crearToast("Por favor, rellena todos los campos", mostrarToast);
+			crearToast(
+				"Por favor, rellena todos los campos",
+				mostrarToast,
+				"warning"
+			);
 			return false;
 		}
 
 		if (!validateEmail(email)) {
-			crearToast("Formato de email incorrecto", mostrarToast);
+			crearToast("Formato de email incorrecto", mostrarToast, "warning");
 			return false;
 		}
 
 		if (!isLogin) {
 			if (nombre.length < 1) {
-				crearToast("El nombre no puede estar vacio", mostrarToast);
+				crearToast("El nombre no puede estar vacio", mostrarToast, "warning");
 				return false;
 			}
 
 			if (nombreUsuario.length < 1) {
-				crearToast("El nombre de usuario no puede estar vacio", mostrarToast);
+				crearToast(
+					"El nombre de usuario no puede estar vacio",
+					mostrarToast,
+					"warning"
+				);
 				return false;
 			}
 
 			if (!validatePassword(contraseña)) {
 				crearToast(
 					"La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
-					mostrarToast
+					mostrarToast,
+					"warning"
 				);
 				return false;
 			}
 
 			if (contraseña !== repPassword) {
-				crearToast("Las contraseñas no coinciden", mostrarToast);
+				crearToast("Las contraseñas no coinciden", mostrarToast, "warning");
 				return false;
 			}
 		}
-		let usuario = await getUsuario(email);
+
+		let usuario = await getUsuario(email).catch((err) => {
+			crearToast(err, true, "danger");
+		});
+
 		if (isLogin) {
 			if (usuario !== null) {
 				return true;
 			} else {
-				crearToast("Email o contraseña incorrectos", mostrarToast);
+				crearToast("Email o contraseña incorrectos", mostrarToast, "danger");
 				return false;
 			}
 		} else {
 			if (usuario !== null) {
-				crearToast("El email ya está en uso", mostrarToast);
+				crearToast("El email ya está en uso", mostrarToast, "danger");
 				return false;
 			} else {
 				return true;
@@ -103,7 +118,6 @@ function Login(props: LoginProps): JSX.Element {
 		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
 			return true;
 		}
-		//alert("You have entered an invalid email address!");
 		return false;
 	}
 
@@ -132,20 +146,25 @@ function Login(props: LoginProps): JSX.Element {
 				admin: false,
 			})
 				.then(() => {
-					crearToast("Usuario creado correctamente", true);
+					crearToast("Usuario creado correctamente", true, "success");
 				})
 				.catch((error) => {
-					crearToast(error.message, true);
+					crearToast(error.message, true, "danger");
 					return;
 				});
 		}
 
 		await setUsuarioAndRequestToken(email, contraseña)
 			.then(() => {
+				crearToast(
+					"Bienvenido " + getUsuarioLogueado()?.nombre,
+					true,
+					"success"
+				);
 				navigate.push("/home", "forward");
 			})
 			.catch((error) => {
-				crearToast(error.message, true);
+				crearToast(error.message, true, "danger");
 			});
 	}
 
@@ -154,7 +173,7 @@ function Login(props: LoginProps): JSX.Element {
 			<IonPage>
 				<IonHeader>
 					<IonToolbar>
-						<IonTitle>Login</IonTitle>
+						<IonTitle>Headline Coach</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ justifyContent: "center" }}>

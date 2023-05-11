@@ -8,6 +8,7 @@ import {
 	IonSelect,
 	IonSelectOption,
 	IonText,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
@@ -28,8 +29,20 @@ export function VistaAdminJugadores(
 ): JSX.Element {
 	const [anyEdited, setAnyEdited] = useState<boolean>(false);
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	useEffect(() => {
-		props.getEquiposFromApi();
+		props.getEquiposFromApi().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (
@@ -38,7 +51,11 @@ export function VistaAdminJugadores(
 				<IonSelect
 					placeholder="Selecciona un equipo"
 					onIonChange={(e) => {
-						props.getJugadoresFromApi(`${e.detail.value}`, false);
+						props
+							.getJugadoresFromApi(`${e.detail.value}`, false)
+							.catch((err) => {
+								crearToast(err, true, "danger");
+							});
 					}}
 					value={props.equipoSeleccionado ? props.equipoSeleccionado._id : null}
 				>
@@ -106,7 +123,6 @@ export function VistaAdminJugadores(
 							jugador={jugador}
 							setAnyEdited={setAnyEdited}
 							equipos={props.equipos}
-							getJugadoresFromApi={props.getJugadoresFromApi}
 						/>
 					))
 				) : (

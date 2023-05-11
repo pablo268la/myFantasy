@@ -36,7 +36,7 @@ type VistaPlantillaNormalProps = {
 		idOut: string
 	) => void;
 	cambioAlineacion: boolean;
-	guardarPlantilla: () => void;
+	guardarPlantilla: () => Promise<void>;
 	setValueFormacion: (f: string) => void;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
@@ -46,11 +46,6 @@ export function VistaPlantillaNormal(
 ): JSX.Element {
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const sameUsuario: boolean = idPlantillaUsuario === getUsuarioLogueado()?.id;
-
-	const cambiarJugador = (idJugador: string) => {
-		if (idJugador === props.jugadorPulsado) props.setJugadorPulsado("");
-		else props.setJugadorPulsado(idJugador);
-	};
 
 	const cambiarJugadorSiOSi = (idJugador: string) => {
 		if (props.jugadorPulsado === "" && idJugador !== props.jugadorPulsado)
@@ -102,7 +97,9 @@ export function VistaPlantillaNormal(
 										</IonCol>
 										<IonCol size="6">
 											{props.cambioAlineacion ? (
-												<IonButton onClick={() => props.guardarPlantilla()}>
+												<IonButton
+													onClick={async () => await props.guardarPlantilla()}
+												>
 													Guardar cambios
 												</IonButton>
 											) : (

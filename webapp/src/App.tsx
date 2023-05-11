@@ -54,11 +54,6 @@ function App(): JSX.Element {
 					<Route exact path="/ligas/create">
 						<VistaCrearLiga />
 					</Route>
-					<Route exact path="/ligas/join/:idLiga">
-						{
-							// TODO - Unirse con enlace
-						}
-					</Route>
 					<Route exact path="/plantilla/:idUsuario">
 						<VistaPlantilla />
 					</Route>

@@ -14,6 +14,7 @@ import {
 	IonPopover,
 	IonRow,
 	IonText,
+	useIonToast,
 } from "@ionic/react";
 import { cart, close, pencil } from "ionicons/icons";
 import { useState } from "react";
@@ -47,6 +48,16 @@ export function CartaJugadorMercado(
 
 	const [showActionSheet, setShowActionSheet] = useState(false);
 	const [showPopover, setShowPopover] = useState(false);
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	var x = setInterval(function () {
 		const countDownDate = new Date(
@@ -92,9 +103,13 @@ export function CartaJugadorMercado(
 			valorOferta: puja,
 		};
 
-		await hacerPuja(propiedadJugadorEnVenta, props.idLiga, o).then((res) => {
-			setPropiedadJugadorEnVenta(res);
-		});
+		await hacerPuja(propiedadJugadorEnVenta, props.idLiga, o)
+			.then((res) => {
+				setPropiedadJugadorEnVenta(res);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 	};
 
 	const hasPuja = () => {
@@ -209,6 +224,7 @@ export function CartaJugadorMercado(
 											getUsuarioLogueado()?.id
 												? [
 														{
+															//TODO - Que funcione
 															text: "Quitar del mercado",
 															icon: cart,
 															handler: () => {},
@@ -228,6 +244,8 @@ export function CartaJugadorMercado(
 																setShowPopover(true);
 															},
 														},
+														// TODO - Eliminar puja
+														// TODO - Añadir mensajes en todos sitios
 														{
 															text: "Cancelar",
 															icon: close,
@@ -273,8 +291,8 @@ export function CartaJugadorMercado(
 												</IonButton>
 												<IonButton
 													slot="end"
-													onClick={() => {
-														hacerPujaAlBack();
+													onClick={async () => {
+														await hacerPujaAlBack();
 														setShowPopover(false);
 													}}
 												>

@@ -2,6 +2,37 @@ import { model, Schema } from "mongoose";
 import { IPlantillaUsuario, plantillaUsuario } from "./plantillaUsuario";
 import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Liga:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     nombre:
+ *      type: string
+ *     plantillasUsuarios:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PlantillaUsuario'
+ *     propiedadJugadores:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     enlaceInvitacion:
+ *      type: string
+ *     maxJugadores:
+ *      type: number
+ *     mercado:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     configuracion:
+ *      type: string
+ */
+
 export const liga = new Schema<ILiga>(
 	{
 		_id: {

@@ -21,6 +21,7 @@ import {
 	IonSelectOption,
 	IonTitle,
 	IonToolbar,
+	useIonToast,
 } from "@ionic/react";
 import {
 	addCircleOutline,
@@ -37,7 +38,7 @@ import {
 import {
 	getPartidosByJornada,
 	updatePartido,
-} from "../../endpoints/partidosController";
+} from "../../endpoints/partidosEndpoint";
 import { comparePosiciones, getIconByTipoEvento } from "../../helpers/helpers";
 import {
 	getAlineacionesSofaScore,
@@ -81,6 +82,16 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [jugadorEvento, setJugadorEvento] = useState<Jugador>();
 	const [jugadorEvento2, setJugadorEvento2] = useState<Jugador>();
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const setAlineacionLocalForAll = (a: Alineacion) => {
 		setVaciosLocal(Array.from(Array(11 - a.jugadoresTitulares.length)));
 		setAlineacionLocal({
@@ -111,10 +122,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setLoading(true);
 		setCambiado(false);
 		setJornada(jornada);
-		await getPartidosByJornada(jornada).then((partidos) => {
-			setPartidos(partidos);
-		});
-		changeSelectedPartido(undefined);
+		await getPartidosByJornada(jornada)
+			.then((partidos) => {
+				setPartidos(partidos);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
+		await changeSelectedPartido(undefined);
 	};
 
 	const changeSelectedPartido = async (partido: string | undefined) => {
@@ -125,12 +140,16 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			const p = partidos.filter((p) => p._id === partido).at(0);
 			if (p) {
 				setPartidoSeleccionado(p);
-				getJugadoresPorEquipo(p.local._id).then((jugadores) =>
-					setJugadoresLocales(jugadores)
-				);
-				getJugadoresPorEquipo(p.visitante._id).then((jugadores) =>
-					setJugadoresVisitantes(jugadores)
-				);
+				await getJugadoresPorEquipo(p.local._id)
+					.then((jugadores) => setJugadoresLocales(jugadores))
+					.catch((err) => {
+						crearToast(err, true, "danger");
+					});
+				await getJugadoresPorEquipo(p.visitante._id)
+					.then((jugadores) => setJugadoresVisitantes(jugadores))
+					.catch((err) => {
+						crearToast(err, true, "danger");
+					});
 				setAlineacionLocalForAll(p.alineacionLocal);
 				setAlineacionVisitanteForAll(p.alineacionVisitante);
 
@@ -147,7 +166,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const guardarPartido = async () => {
 		setLoading(true);
 		if (partidoSeleccionado) {
-			console.log(alineacionLocal);
 			if (alineacionLocal)
 				partidoSeleccionado.alineacionLocal = alineacionLocal;
 			if (alineacionVisitante)
@@ -157,9 +175,13 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			if (link) partidoSeleccionado.linkSofaScore = link;
 			if (eventosPartido) partidoSeleccionado.eventos = eventosPartido;
 
-			updatePartido(partidoSeleccionado).then((p) => {
-				setPartidoSeleccionado(p);
-			});
+			await updatePartido(partidoSeleccionado)
+				.then((p) => {
+					setPartidoSeleccionado(p);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setPartidos(
 				partidos.map((p) => {
 					if (p._id === partidoSeleccionado._id) return partidoSeleccionado;
@@ -192,8 +214,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setEventosLoading(false);
 	};
 
-	const borrarEvento = async (evento: EventoPartido) => {
-		setLoading(true);
+	const borrarEvento = (evento: EventoPartido) => {
 		setEventosPartido(
 			eventosPartido.filter(
 				(e) =>
@@ -206,7 +227,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			)
 		);
 		setCambiado(true);
-		setLoading(false);
 	};
 
 	const callSofaScoreForAlineaciones = async () => {
@@ -222,7 +242,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	};
 
 	useEffect(() => {
-		getPartidosDeJornada(jornada);
+		getPartidosDeJornada(jornada).catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	const [showModalLocal, setShowModalLocal] = useState<boolean>(false);
@@ -234,7 +256,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [antiguosCogidosLocal, setAntiguosCogidosLocal] =
 		useState<boolean>(false);
 
-	const changeTitularesLocal = async (newTitulares: Jugador[]) => {
+	const changeTitularesLocal = (newTitulares: Jugador[]) => {
 		setAlineacionLocalForAll({
 			jugadoresTitulares: newTitulares,
 			jugadoresSuplentes: alineacionLocal?.jugadoresSuplentes as Jugador[],
@@ -264,10 +286,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			getJugadoresAntiguos(
 				partidoSeleccionado?.visitante._id as string,
 				partidoSeleccionado?.jornada as number
-			).then((j) => {
-				let aux = jugadoresLocales.concat(j);
-				setJugadoresLocales([...aux]);
-			});
+			)
+				.then((j) => {
+					let aux = jugadoresLocales.concat(j);
+					setJugadoresLocales([...aux]);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setAntiguosCogidosLocal(true);
 		}
 	};
@@ -283,7 +309,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [antiguosCogidosVisitante, setAntiguosCogidosVisitante] =
 		useState<boolean>(false);
 
-	const changeTitularesVisitante = async (newTitulares: Jugador[]) => {
+	const changeTitularesVisitante = (newTitulares: Jugador[]) => {
 		setAlineacionVisitanteForAll({
 			jugadoresTitulares: newTitulares,
 			jugadoresSuplentes: alineacionVisitante?.jugadoresSuplentes as Jugador[],
@@ -315,10 +341,14 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			getJugadoresAntiguos(
 				partidoSeleccionado?.visitante._id as string,
 				partidoSeleccionado?.jornada as number
-			).then((j) => {
-				let aux = jugadoresVisitantes.concat(j);
-				setJugadoresVisitantes([...aux]);
-			});
+			)
+				.then((j) => {
+					let aux = jugadoresVisitantes.concat(j);
+					setJugadoresVisitantes([...aux]);
+				})
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 			setAntiguosCogidosVisitante(true);
 		}
 	};
@@ -334,9 +364,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 							<IonCol size="6">
 								<IonSelect
 									value={jornada}
-									onIonChange={(e) => {
+									onIonChange={async (e) => {
 										setMessage("Analizando el Big Data");
-										getPartidosDeJornada(e.detail.value);
+										await getPartidosDeJornada(e.detail.value);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -353,8 +383,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											placeholder="Selecciona un partido"
 											interface="action-sheet"
 											onIonChange={async (e) => {
-												await changeSelectedPartido(e.detail.value);
 												setMessage("Buscando los resumenes");
+												await changeSelectedPartido(e.detail.value);
 											}}
 										>
 											{partidos.map((p) => (
@@ -378,9 +408,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonCol className="ion-text-end">
 											<IonButton
 												color="danger"
-												onClick={() => {
+												onClick={async () => {
 													setMessage("Volviendo a la realidad");
-													changeSelectedPartido(partido);
+													await changeSelectedPartido(partido);
 													setCambiado(false);
 												}}
 											>
@@ -388,8 +418,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											</IonButton>
 											<IonButton
 												color="success"
-												onClick={() => {
-													guardarPartido();
+												onClick={async () => {
+													setMessage("Guardando los cambios");
+													await guardarPartido();
 												}}
 											>
 												Guardar
@@ -453,7 +484,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 						</IonCol>
 						<IonCol sizeSm="4" sizeXs="12">
 							<IonItem lines="none">
-								<IonLabel position="stacked">Fecha</IonLabel>
+								<IonLabel position="stacked">Fecha y hora</IonLabel>
 								<IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 							</IonItem>
 							<IonModal

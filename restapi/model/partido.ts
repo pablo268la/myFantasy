@@ -18,6 +18,42 @@ export interface IPartido {
 	eventos: IEventoPartido[];
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Partido:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     local:
+ *      $ref: '#/components/schemas/Equipo'
+ *     visitante:
+ *      $ref: '#/components/schemas/Equipo'
+ *     alineacionLocal:
+ *      $ref: '#/components/schemas/Alineacion'
+ *     alineacionVisitante:
+ *      $ref: '#/components/schemas/Alineacion'
+ *     resultadoLocal:
+ *      type: number
+ *     resultadoVisitante:
+ *      type: number
+ *     jornada:
+ *      type: number
+ *     fecha:
+ *      type: string
+ *     linkSofaScore:
+ *      type: string
+ *     estado:
+ *      type: string
+ *      enum: ["Por jugar", "Finalizado", "En juego", "Cancelado"]
+ *     eventos:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/EventoPartido'
+ */
+
 export const partido = new Schema<IPartido>(
 	{
 		_id: {

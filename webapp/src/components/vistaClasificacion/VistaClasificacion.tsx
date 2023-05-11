@@ -7,13 +7,11 @@ import {
 	IonPage,
 	IonProgressBar,
 	IonRow,
-	useIonAlert,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
-import {
-	getLocalLigaSeleccionada
-} from "../../helpers/helpers";
+import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import { Liga, PlantillaUsuario } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -22,10 +20,19 @@ import { CartaClasificaion } from "./CartaClasificacion";
 type ClassificacionProps = {};
 
 function VistaClasificacion(props: ClassificacionProps): JSX.Element {
-	const [alert] = useIonAlert();
 	const [loading, setLoading] = useState<boolean>(true);
 
 	const [liga, setLiga] = useState<Liga>();
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	const getLigaFromAPI = async () => {
 		await getLiga(getLocalLigaSeleccionada())
@@ -33,11 +40,15 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 				setLiga(liga);
 				setLoading(false);
 			})
-			.catch((error) => alert(error.message));
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 	};
 
 	useEffect(() => {
-		getLigaFromAPI();
+		getLigaFromAPI().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	const ordenarPorPuntos = (a: PlantillaUsuario, b: PlantillaUsuario) => {

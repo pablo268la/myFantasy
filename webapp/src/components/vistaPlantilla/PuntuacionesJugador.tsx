@@ -53,14 +53,6 @@ type PuntuacionesJugadorProps = {
 export function PuntuacionesJugador(
 	props: PuntuacionesJugadorProps
 ): JSX.Element {
-	//	const [puntuaciones, setPuntuaciones] = useState<PuntuacionJugador[]>();
-
-	/*useEffect(() => {
-		getPuntuacionJugador(props.jugador.jugador).then((p) => {
-			setPuntuaciones(p);
-		});
-	}, []);*/
-
 	const sliderRef = useRef<SwiperRef>(null);
 
 	const [selectedPos, setSelectedPos] = useState<number>(props.jornada - 1);

@@ -8,9 +8,10 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getPartidosByJornada } from "../../endpoints/partidosController";
+import { getPartidosByJornada } from "../../endpoints/partidosEndpoint";
 import { Partido } from "../../shared/sharedTypes";
 import { VistaAdminPuntuacionesLista } from "./VistaAdminPuntuacionesLista";
 
@@ -32,17 +33,33 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 
 	const jornadas = Array.from(Array(38).keys());
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	const getPartidosDeJornada = async (jornada: number) => {
 		setLoading(true);
 		setJornada(jornada);
-		await getPartidosByJornada(jornada).then((partidos) => {
-			setPartidos(partidos);
-		});
+		await getPartidosByJornada(jornada)
+			.then((partidos) => {
+				setPartidos(partidos);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		setLoading(false);
 	};
 
 	useEffect(() => {
-		getPartidosDeJornada(jornada);
+		getPartidosDeJornada(jornada).catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (
@@ -55,9 +72,9 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 							<IonCol size="6">
 								<IonSelect
 									value={jornada}
-									onIonChange={(e) => {
+									onIonChange={async (e) => {
 										setMessage("Analizando el Big Data");
-										getPartidosDeJornada(e.detail.value);
+										await getPartidosDeJornada(e.detail.value);
 										setPartido(undefined);
 										setPartidoSeleccionado(undefined);
 										setGuardarPuntuaciones(false);

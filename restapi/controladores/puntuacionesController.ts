@@ -12,9 +12,16 @@ import {
 	modelPuntuacionJugador,
 } from "../model/puntuacion/puntuacionJugador";
 import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
+import { modeloUsuario } from "../model/usuario";
+import { verifyUser } from "./usuariosController";
+
+//TODO - Crear object error
 
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
+		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		if (!jugador) return res.json([]);
+
 		const puntuaciones = await modelPuntuacionJugador.find({
 			idJugador: req.params.idJugador,
 		});
@@ -30,7 +37,8 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 
 		res.status(200).json(result);
 	} catch (error) {
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -39,20 +47,44 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 	res
 ) => {
 	try {
-		const puntuacion = await modelPuntuacionJugador.findOne({
+		// TOD - Check valores negativosd en todas las requests
+		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		if (!jugador) return res.status(404);
+
+		let puntuacion = await modelPuntuacionJugador.findOne({
 			idJugador: req.params.idJugador,
 			semana: req.params.semana,
 		});
 
+		if (!puntuacion) {
+			puntuacion = createPuntuacionJugadorVacia(
+				req.params.idJugador,
+				req.params.semana
+			);
+		}
 		res.status(200).json(puntuacion);
 	} catch (error) {
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
 export const guardarPuntuacion: RequestHandler = async (req, res) => {
-	// TODO - Verificar usuario es admin
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		const verified = await verifyUser(email, token);
+
+		if (!verified) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
+		const usuario = (await modeloUsuario.find({ email: email })).at(0);
+		if (usuario === undefined || !usuario.admin) {
+			return res.status(401).json({ message: "Usuario no autorizado" });
+		}
+
 		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);
 		const jugador = await modeloJugador.findOne({
 			_id: puntuacionJugador.idJugador,
@@ -97,7 +129,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -218,7 +250,8 @@ export const puntuarPuntuacionesJugador: RequestHandler = async (req, res) => {
 		});
 		res.status(200).json();
 	} catch (error) {
-		res.status(500).json(error);
+		console.log(error);
+		res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 function calcularPuntuacion(

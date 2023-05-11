@@ -2,6 +2,28 @@ import { model, Schema } from "mongoose";
 
 import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
+/**
+ * @openapi
+ *
+ * components:
+ *   schemas:
+ *     PuntuacionCalculable:
+ *       type: object
+ *       properties:
+ *         golesRecibidos:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         tarjetasAmarilla:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         tarjetasRoja:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         dobleAmarilla:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         playerIn:
+ *          type: number
+ *         playerOut:
+ *          type: number
+ */
+
 export const puntuacionCalculable = new Schema<IPuntuacionCalculable>(
 	{
 		golesRecibidos: {

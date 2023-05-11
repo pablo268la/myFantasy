@@ -1,6 +1,40 @@
 import { model, Schema } from "mongoose";
 import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   AlineacionJugador:
+ *    type: object
+ *    properties:
+ *     _id:
+ *      type: string
+ *     porteros:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     defensas:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     medios:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     delanteros:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/PropiedadJugador'
+ *     formacion:
+ *      type: string
+ *      enum: ["5-4-1", "5-3-2", "4-5-1", "4-4-2", "4-3-3", "3-5-2", "3-4-3"]
+ *     guardadoEn:
+ *      type: string
+ *     idLiga:
+ *      type: string
+ */
+
 export const alineacionJugador = new Schema<IAlineacionJugador>(
 	{
 		_id: {

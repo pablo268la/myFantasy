@@ -23,6 +23,7 @@ export function ListaJugadoresPuntuaciones(
 		<IonList>
 			{props.porteros
 				.filter((j) => j.jugador._id !== "empty")
+				.filter((j) => j.titular === true)
 				.map((j) =>
 					crearCartaDetallesJugador(
 						j,
@@ -33,6 +34,7 @@ export function ListaJugadoresPuntuaciones(
 				)}
 			{props.defensas
 				.filter((j) => j.jugador._id !== "empty")
+				.filter((j) => j.titular === true)
 				.map((j) =>
 					crearCartaDetallesJugador(
 						j,
@@ -43,6 +45,7 @@ export function ListaJugadoresPuntuaciones(
 				)}
 			{props.mediocentros
 				.filter((j) => j.jugador._id !== "empty")
+				.filter((j) => j.titular === true)
 				.map((j) =>
 					crearCartaDetallesJugador(
 						j,
@@ -53,6 +56,7 @@ export function ListaJugadoresPuntuaciones(
 				)}
 			{props.delanteros
 				.filter((j) => j.jugador._id !== "empty")
+				.filter((j) => j.titular === true)
 				.map((j) =>
 					crearCartaDetallesJugador(
 						j,

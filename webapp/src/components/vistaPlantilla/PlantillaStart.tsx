@@ -8,6 +8,7 @@ import {
 	IonProgressBar,
 	IonRouterLink,
 	IonRow,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,45 +37,73 @@ export function PlantillaStart(): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
+
 	async function getJugadores() {
 		setLoading(true);
 		const jugadores: Jugador[] = [];
-		const plantilla: PlantillaUsuario = await getPlantilla(
+
+		let p: any = null;
+		getPlantilla(
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
-		);
+		)
+			.then((res) => {
+				p = res;
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
+
+		const plantilla = p as PlantillaUsuario;
 
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
-			const jugador = await getJugadorById(
+			await getJugadorById(
 				plantilla.alineacionJugador.delanteros[i].jugador._id
-			);
-			jugadores.push(jugador);
+			)
+				.then((res) => jugadores.push(res))
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.medios.length; i++) {
-			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.medios[i].jugador._id
-			);
-			jugadores.push(jugador);
+			await getJugadorById(plantilla.alineacionJugador.medios[i].jugador._id)
+				.then((res) => jugadores.push(res))
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.defensas.length; i++) {
-			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.defensas[i].jugador._id
-			);
-			jugadores.push(jugador);
+			await getJugadorById(plantilla.alineacionJugador.defensas[i].jugador._id)
+				.then((res) => jugadores.push(res))
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.porteros.length; i++) {
-			const jugador = await getJugadorById(
-				plantilla.alineacionJugador.porteros[i].jugador._id
-			);
-			jugadores.push(jugador);
+			await getJugadorById(plantilla.alineacionJugador.porteros[i].jugador._id)
+				.then((res) => jugadores.push(res))
+				.catch((err) => {
+					crearToast(err, true, "danger");
+				});
 		}
 
-		setJugadores(jugadores);
+		await setJugadores(jugadores);
 		setLoading(false);
 	}
 
 	useEffect(() => {
-		getJugadores();
+		getJugadores().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return !loading ? (

@@ -11,11 +11,12 @@ import {
 	IonLabel,
 	IonLoading,
 	IonPage,
+	IonRouterLink,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	useIonAlert,
 	useIonRouter,
+	useIonToast,
 } from "@ionic/react";
 import { settings } from "ionicons/icons";
 import { useState } from "react";
@@ -27,31 +28,42 @@ import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 
 export function VistaCrearLiga(props: any): JSX.Element {
-	const [alert] = useIonAlert();
 	const navigate = useIonRouter();
 	const [showLoading, setShowLoading] = useState(false);
 
 	const [nombreLiga, setNombreLiga] = useState<string>();
 	const [maxPlayers, setMaxPlayers] = useState<number>(0);
 	const [usarEntrenador, setUsarEntrenador] = useState<boolean>(false);
-	const [ligaPrivada, setLigaPrivada] = useState<boolean>(false);
 
 	const vaciarFormulario = () => {
 		setNombreLiga("");
 		setMaxPlayers(0);
 		setUsarEntrenador(false);
-		setLigaPrivada(false);
 	};
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	const validarYcrearLiga = async () => {
 		setShowLoading(true);
 		if (nombreLiga === undefined || nombreLiga === "") {
-			alert("El nombre de la liga no puede estar vacío");
+			crearToast("El nombre de la liga no puede estar vacío", true, "danger");
 			setShowLoading(false);
 			return;
 		}
 		if (maxPlayers < 3 || maxPlayers > 8) {
-			alert("El número de jugadores debe estar entre 2 y 8");
+			crearToast(
+				"El número de jugadores debe estar entre 2 y 8",
+				true,
+				"danger"
+			);
 			setShowLoading(false);
 			return;
 		}
@@ -62,15 +74,16 @@ export function VistaCrearLiga(props: any): JSX.Element {
 				await crearPlantillaUsuario(response._id as string)
 					.then(() => {
 						setLocalLigaSeleccionada(response._id as string);
+						crearToast("Liga creada correctamente", true, "success");
 						navigate.push("/plantilla/starts/" + response._id, "forward");
 						setShowLoading(false);
 					})
-					.catch((error) => {
-						alert(error.message);
+					.catch((err) => {
+						crearToast(err, true, "danger");
 					});
 			})
-			.catch((error) => {
-				alert(error.message);
+			.catch((err) => {
+				crearToast(err, true, "danger");
 			});
 	};
 
@@ -172,7 +185,9 @@ export function VistaCrearLiga(props: any): JSX.Element {
 										>
 											Crear
 										</IonButton>
-										<IonButton color={"danger"}>Cancelar</IonButton>
+										<IonRouterLink href="/ligas">
+											<IonButton color={"danger"}>Cancelar</IonButton>
+										</IonRouterLink>
 									</IonItem>
 								</IonCol>
 							</IonRow>

@@ -4,14 +4,11 @@ import {
 	IonIcon,
 	IonMenuButton,
 	IonTitle,
-	IonToolbar,
-	useIonAlert,
+	IonToolbar
 } from "@ionic/react";
 import { logOut } from "ionicons/icons";
 
 export function FantasyToolbar(props: any): JSX.Element {
-	const [presentAlert] = useIonAlert();
-
 	return (
 		<>
 			<IonToolbar>

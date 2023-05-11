@@ -6,6 +6,7 @@ import {
 	IonSegment,
 	IonSegmentButton,
 	useIonRouter,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import {
@@ -13,7 +14,7 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
-import { getPuntuacionJugador } from "../../endpoints/puntuacionesController";
+import { getPuntuacionJugador } from "../../endpoints/puntuacionesEndpoint";
 import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,
@@ -41,7 +42,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const idLiga: string = getLocalLigaSeleccionada();
 
-	const [segment, setSegment] = useState<"plantilla" | "alineacion">(
+	const [segment, setSegment] = useState<"plantilla" | "puntuaciones">(
 		"plantilla"
 	);
 
@@ -67,6 +68,16 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [puntuacionesMap, setPuntuacionesMap] = useState<
 		Map<string, PuntuacionJugador[]>
 	>(new Map());
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
@@ -103,10 +114,14 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 				let map = new Map<string, PuntuacionJugador[]>();
 
-				ju.forEach(async (jugador) => {
-					await getPuntuacionJugador(jugador.jugador._id).then((puntuaciones) => {
-						map.set(jugador.jugador._id, puntuaciones);
-					});
+				ju.forEach((jugador) => {
+					getPuntuacionJugador(jugador.jugador._id)
+						.then((puntuaciones) => {
+							map.set(jugador.jugador._id, puntuaciones);
+						})
+						.catch((err) => {
+							crearToast(err, true, "danger");
+						});
 				});
 
 				setPuntuacionesMap(map);
@@ -115,6 +130,8 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				await new Promise((f) => setTimeout(f, 2000));
 			})
 			.catch((err) => {
+				crearToast(err, true, "danger");
+				// TODO - Meter boton de redirigir
 				nav.push("/ligas", "forward");
 			});
 
@@ -222,12 +239,22 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			dinero: plantilla?.dinero as number,
 		};
 
-		setPlantilla(await updatePlantillaUsuario(plantillaUsuario, idLiga));
+		await updatePlantillaUsuario(plantillaUsuario, idLiga)
+			.then((res) => {
+				setPlantilla(res);
+				crearToast("Plantilla guardada", true, "success");
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
+
 		setCambioAlineacion(false);
 	};
 
 	useEffect(() => {
-		getJugadoresAPI();
+		getJugadoresAPI().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (
@@ -249,12 +276,12 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 								Plantilla
 							</IonSegmentButton>
 							<IonSegmentButton
-								value="alineacion"
+								value="puntuaciones"
 								onClick={() => {
-									setSegment("alineacion");
+									setSegment("puntuaciones");
 								}}
 							>
-								Alineacion
+								Puntuaciones
 							</IonSegmentButton>
 						</IonSegment>
 						{segment === "plantilla" ? (

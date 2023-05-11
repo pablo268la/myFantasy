@@ -1,6 +1,24 @@
 import { model, Schema } from "mongoose";
 import { IOferta, oferta } from "./oferta";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Venta:
+ *    type: object
+ *    properties:
+ *     enVenta:
+ *      type: boolean
+ *     ofertas:
+ *      type: array
+ *      items:
+ *       $ref: '#/components/schemas/Oferta'
+ *     fechaLimite:
+ *      type: string
+ *
+ */
+
 export const venta = new Schema<IVenta>(
 	{
 		enVenta: {

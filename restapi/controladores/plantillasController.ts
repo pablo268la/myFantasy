@@ -8,7 +8,7 @@ import { IJugador, modeloJugador } from "../model/jugador";
 import { ILiga, modeloLiga } from "../model/liga";
 import {
 	IPlantillaUsuario,
-	modeloPlantillaUsuario
+	modeloPlantillaUsuario,
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
@@ -53,7 +53,7 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json(error);
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -66,10 +66,23 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			const idLiga = req.body.idLiga;
+			const liga = await modeloLiga.findById(idLiga);
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+
+			if (liga.plantillasUsuarios.length === liga.maxJugadores)
+				return res.status(409).json({ message: "Liga llena" });
+			if (
+				liga.plantillasUsuarios.filter(
+					(plantilla) => plantilla.usuario.id === usuario?.id
+				).length > 0
+			)
+				return res
+					.status(409)
+					.json({ message: "Ya estás inscrito en esta liga" });
 
 			const plantillaGuardada = await crearPlantillaParaUsuarioYGuardar(
 				usuario,
-				idLiga
+				liga
 			);
 
 			return res.status(201).json(plantillaGuardada);
@@ -77,7 +90,8 @@ export const createPlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		return res.status(500).json(error);
+		console.log(error)
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
@@ -96,6 +110,12 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			const liga = await modeloLiga.findById(idLiga);
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+			if (
+				liga.plantillasUsuarios.filter(
+					(plantilla) => plantilla._id === plantillaParaActualizar._id
+				).length === 0
+			)
+				return res.status(404).json({ message: "Plantilla no encontrada" });
 
 			liga.plantillasUsuarios = liga.plantillasUsuarios.map(
 				(plantillaUsuario) => {
@@ -111,85 +131,84 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		return res.status(500).json(error);
+		console.log(error)
+		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
 	}
 };
 
 export async function crearPlantillaParaUsuarioYGuardar(
 	usuario: any,
-	idLiga: string
+	liga: ILiga
 ) {
-	const liga = await modeloLiga.findById(idLiga);
-	if (liga) {
-		let delanteros = liga.propiedadJugadores
-			.filter((propiedad) => propiedad.jugador.posicion === "Delantero")
-			.filter((propiedad) => propiedad.usuario.id === "-1")
-			.map((propiedad) => propiedad.jugador);
-		let mediocentros = liga.propiedadJugadores
-			.filter((propiedad) => propiedad.jugador.posicion === "Mediocentro")
-			.filter((propiedad) => propiedad.usuario.id === "-1")
-			.map((propiedad) => propiedad.jugador);
-		let defensas = liga.propiedadJugadores
-			.filter((propiedad) => propiedad.jugador.posicion === "Defensa")
-			.filter((propiedad) => propiedad.usuario.id === "-1")
-			.map((propiedad) => propiedad.jugador);
-		let porteros = liga.propiedadJugadores
-			.filter((propiedad) => propiedad.jugador.posicion === "Portero")
-			.filter((propiedad) => propiedad.usuario.id === "-1")
-			.map((propiedad) => propiedad.jugador);
+	let delanteros = liga.propiedadJugadores
+		.filter((propiedad) => propiedad.jugador.posicion === "Delantero")
+		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.map((propiedad) => propiedad.jugador);
+	let mediocentros = liga.propiedadJugadores
+		.filter((propiedad) => propiedad.jugador.posicion === "Mediocentro")
+		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.map((propiedad) => propiedad.jugador);
+	let defensas = liga.propiedadJugadores
+		.filter((propiedad) => propiedad.jugador.posicion === "Defensa")
+		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.map((propiedad) => propiedad.jugador);
+	let porteros = liga.propiedadJugadores
+		.filter((propiedad) => propiedad.jugador.posicion === "Portero")
+		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.map((propiedad) => propiedad.jugador);
 
-		let porPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
-			shuffle(porteros).slice(0, 2),
-			usuario
-		);
-		let defPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
-			shuffle(defensas).slice(0, 5),
-			usuario
-		);
-		let medPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
-			shuffle(mediocentros).slice(0, 5),
-			usuario
-		);
-		let delPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
-			shuffle(delanteros).slice(0, 4),
-			usuario
-		);
+	let porPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+		shuffle(porteros).slice(0, 2),
+		usuario
+	);
+	let defPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+		shuffle(defensas).slice(0, 5),
+		usuario
+	);
+	let medPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+		shuffle(mediocentros).slice(0, 5),
+		usuario
+	);
+	let delPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
+		shuffle(delanteros).slice(0, 4),
+		usuario
+	);
 
-		const alineacionJugador = new modeloAlineacionJugador({
-			_id: UUID.v4(),
-			porteros: porPlantilla,
-			defensas: defPlantilla,
-			medios: medPlantilla,
-			delanteros: delPlantilla,
-			formacion: "4-3-3",
-			guardadoEn: new Date().toISOString(),
-			idLiga: idLiga,
-		});
-		const plantillaUsuario = new modeloPlantillaUsuario({
-			_id: UUID.v4(),
-			idLiga: idLiga,
-			usuario: usuario,
-			alineacionJugador: alineacionJugador,
-			alineacionesJornada: [],
-			valor: calcularValorAlineacion(alineacionJugador),
-			puntos: 0,
-			dinero: 100000000,
-		});
+	const alineacionJugador = new modeloAlineacionJugador({
+		_id: UUID.v4(),
+		porteros: porPlantilla,
+		defensas: defPlantilla,
+		medios: medPlantilla,
+		delanteros: delPlantilla,
+		formacion: "4-3-3",
+		guardadoEn: new Date().toISOString(),
+		idLiga: liga._id,
+	});
+	const plantillaUsuario = new modeloPlantillaUsuario({
+		_id: UUID.v4(),
+		idLiga: liga._id,
+		usuario: usuario,
+		alineacionJugador: alineacionJugador,
+		alineacionesJornada: [],
+		valor: calcularValorAlineacion(alineacionJugador),
+		puntos: 0,
+		dinero: 100000000,
+	});
 
-		liga.plantillasUsuarios.push(plantillaUsuario);
+	liga.plantillasUsuarios.push(plantillaUsuario);
 
-		intercambiarPropiedades(porPlantilla, liga);
-		intercambiarPropiedades(defPlantilla, liga);
-		intercambiarPropiedades(medPlantilla, liga);
-		intercambiarPropiedades(delPlantilla, liga);
+	intercambiarPropiedades(porPlantilla, liga);
+	intercambiarPropiedades(defPlantilla, liga);
+	intercambiarPropiedades(medPlantilla, liga);
+	intercambiarPropiedades(delPlantilla, liga);
 
-		if (usuario.ligas.indexOf(idLiga) === -1) {
-			usuario.ligas.push(idLiga);
-			await usuario.save();
-		}
-		await liga.save();
-		return plantillaUsuario;
+	if (usuario.ligas.indexOf(liga._id) === -1) {
+		usuario.ligas.push(liga._id);
+		await usuario.save();
 	}
+
+	await modeloLiga.create(liga);
+	return plantillaUsuario;
 }
 
 export function intercambiarPropiedades(

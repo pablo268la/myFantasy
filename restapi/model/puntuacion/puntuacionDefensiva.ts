@@ -1,6 +1,35 @@
 import { model, Schema } from "mongoose";
 import { IPuntuacionTupple, puntuacionTupple } from "./puntuacionTupple";
 
+
+/**
+ * @openapi
+ * 
+ * components:
+ *   schemas:
+ *     PuntuacionDefensiva:
+ *       type: object
+ *       properties:
+ *         despejes:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         tirosBloqueados:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         intercepciones:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         entradas:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         regatesSuperado:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         erroresParaDisparo:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         despejesEnLineaDeGol:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         golesEnPropia:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ *         penaltiCometido:
+ *           $ref: '#/components/schemas/IPuntuacionTupple'
+ */
+
 export const puntuacionDefensiva = new Schema<IPuntuacionDefensiva>(
 	{
 		despejes: {

@@ -12,6 +12,7 @@ import {
 	IonLabel,
 	IonRow,
 	IonText,
+	useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import {
@@ -34,6 +35,15 @@ type CartaVentaProps = {
 export function CartaVenta(props: CartaVentaProps): JSX.Element {
 	const [tiempoRestante, setTiempoRestante] = useState<string>("");
 
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 	const [propiedadJugadorEnVenta, setPropiedadJugadorEnVenta] =
 		useState<PropiedadJugador>(props.propiedadJugadorEnVenta);
 	var x = setInterval(function () {
@@ -179,30 +189,37 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 														props.idLiga,
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador._id
-													).then((res) => {
-														setPropiedadJugadorEnVenta(res);
-														props.actualizarMercado();
-													});
+													)
+														.then((res) => {
+															setPropiedadJugadorEnVenta(res);
+															props.actualizarMercado();
+															crearToast("Oferta aceptada", true, "success");
+														})
+														.catch((err) => {
+															crearToast(err, true, "danger");
+														});
 												}}
 											>
-												{" "}
 												Aceptar
 											</IonButton>
 											<IonButton
 												color={"danger"}
 												onClick={() => {
-													console.log("Rechazado");
 													rechazarOferta(
 														props.idLiga,
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador._id
-													).then((res) => {
-														setPropiedadJugadorEnVenta(res);
-														props.actualizarMercado();
-													});
+													)
+														.then((res) => {
+															setPropiedadJugadorEnVenta(res);
+															props.actualizarMercado();
+															crearToast("Oferta rechazada", true, "success");
+														})
+														.catch((err) => {
+															crearToast(err, true, "danger");
+														});
 												}}
 											>
-												{" "}
 												Rechazar
 											</IonButton>
 										</IonItem>

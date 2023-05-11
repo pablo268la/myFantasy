@@ -11,6 +11,7 @@ import {
 	IonItemDivider,
 	IonLabel,
 	IonRow,
+	useIonToast,
 } from "@ionic/react";
 import {
 	arrowForwardCircle,
@@ -20,7 +21,7 @@ import {
 	swapHorizontal,
 } from "ionicons/icons";
 import { ReactComponentElement, useEffect, useState } from "react";
-import { getPuntuacionesPartido } from "../../endpoints/partidosController";
+import { getPuntuacionesPartido } from "../../endpoints/partidosEndpoint";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 
 type ResultadoProps = {
@@ -29,11 +30,24 @@ type ResultadoProps = {
 
 export function Resultados(props: ResultadoProps): JSX.Element {
 	const [puntuaciones, setPuntuaciones] = useState<PuntuacionJugador[]>([]);
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	useEffect(() => {
-		getPuntuacionesPartido(props.partido._id).then((puntuaciones) => {
-			setPuntuaciones(puntuaciones);
-		});
+		getPuntuacionesPartido(props.partido._id)
+			.then((puntuaciones) => {
+				setPuntuaciones(puntuaciones);
+			})
+			.catch((err) => {
+				crearToast(err, true, "danger");
+			});
 	}, []);
 
 	return (

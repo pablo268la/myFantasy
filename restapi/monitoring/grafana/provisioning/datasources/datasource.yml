@@ -1,8 +1,14 @@
 apiVersion: 1
+
+deleteDatasources:
+  - name: Prometheus
+    orgId: 1
+
 datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
+    uid: c08c6d11-0a2c-4ff9-806c-ec4eb369371d
     orgId: 1
     url: http://prometheus:9090
     basicAuth: false
