@@ -14,7 +14,7 @@ import {
 	IonSelect,
 	IonSelectOption,
 	useIonActionSheet,
-	useIonToast
+	useIonToast,
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
@@ -66,7 +66,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 	const updateJugadorAndReset = async () => {
 		resetValores();
 		setEdited(false);
-		updateJugador(jugador)
+		await updateJugador(jugador)
 			.then((j) => {
 				crearToast("Jugador actualizado correctamente", true, "success");
 				setJugador(j);
@@ -202,7 +202,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 											size="small"
 											disabled={!edited}
 											color="success"
-											onClick={() => updateJugadorAndReset()}
+											onClick={async () => await updateJugadorAndReset()}
 										>
 											Guardar
 										</IonButton>

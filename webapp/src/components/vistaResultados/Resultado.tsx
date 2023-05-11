@@ -21,7 +21,7 @@ import {
 	swapHorizontal,
 } from "ionicons/icons";
 import { ReactComponentElement, useEffect, useState } from "react";
-import { getPuntuacionesPartido } from "../../endpoints/partidosController";
+import { getPuntuacionesPartido } from "../../endpoints/partidosEndpoint";
 import { Partido, PuntuacionJugador } from "../../shared/sharedTypes";
 
 type ResultadoProps = {

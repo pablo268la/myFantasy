@@ -14,7 +14,7 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
-import { getPuntuacionJugador } from "../../endpoints/puntuacionesController";
+import { getPuntuacionJugador } from "../../endpoints/puntuacionesEndpoint";
 import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,

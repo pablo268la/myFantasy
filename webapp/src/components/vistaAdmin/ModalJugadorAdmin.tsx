@@ -22,7 +22,7 @@ type ModalJugadorAdminProps = {
 	jugador: Jugador;
 	equipos: Equipo[];
 	getJugadoresFromApi: (idEquipo: string, fromModal: boolean) => void;
-	updateJugador:  (jugador: Jugador) => void;
+	updateJugador:  (jugador: Jugador) => Promise<void>;
 };
 
 export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {

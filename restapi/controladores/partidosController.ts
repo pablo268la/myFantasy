@@ -78,7 +78,7 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		}
 
 		const usuario = (await modeloUsuario.find({ email: email })).at(0);
-		if (usuario !== undefined && usuario.admin) {
+		if (usuario === undefined || !usuario.admin) {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 

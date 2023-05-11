@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 
 import { useEffect, useState } from "react";
-import { getPartidosByJornada } from "../../endpoints/partidosController";
+import { getPartidosByJornada } from "../../endpoints/partidosEndpoint";
 import { Partido } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";

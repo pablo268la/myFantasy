@@ -45,7 +45,7 @@ export function VistaAdmin(): JSX.Element {
 	const getEquiposFromApi = async () => {
 		setLoading(true);
 
-		getEquipos()
+		await getEquipos()
 			.then((e) =>
 				setEquipos(e.sort((a, b) => a.nombre.localeCompare(b.nombre)))
 			)
@@ -88,7 +88,9 @@ export function VistaAdmin(): JSX.Element {
 	};
 
 	useEffect(() => {
-		getEquiposFromApi();
+		getEquiposFromApi().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (

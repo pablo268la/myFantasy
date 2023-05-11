@@ -1,4 +1,5 @@
 import { apiEndPoint } from "../helpers/constants";
+import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { PuntuacionJugador } from "../shared/sharedTypes";
 
 export async function getPuntuacionJugador(
@@ -33,10 +34,15 @@ export async function getPuntuacionJugadorSemana(
 export async function guardarPuntuacionJugador(
 	puntuacion: PuntuacionJugador
 ): Promise<PuntuacionJugador> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
 	let response = await fetch(apiEndPoint + "/puntuaciones", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			email: email,
+			token: token,
 		},
 		body: JSON.stringify(puntuacion),
 	});

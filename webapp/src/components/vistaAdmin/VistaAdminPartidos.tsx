@@ -38,7 +38,7 @@ import {
 import {
 	getPartidosByJornada,
 	updatePartido,
-} from "../../endpoints/partidosController";
+} from "../../endpoints/partidosEndpoint";
 import { comparePosiciones, getIconByTipoEvento } from "../../helpers/helpers";
 import {
 	getAlineacionesSofaScore,
@@ -140,12 +140,12 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			const p = partidos.filter((p) => p._id === partido).at(0);
 			if (p) {
 				setPartidoSeleccionado(p);
-				getJugadoresPorEquipo(p.local._id)
+				await getJugadoresPorEquipo(p.local._id)
 					.then((jugadores) => setJugadoresLocales(jugadores))
 					.catch((err) => {
 						crearToast(err, true, "danger");
 					});
-				getJugadoresPorEquipo(p.visitante._id)
+				await getJugadoresPorEquipo(p.visitante._id)
 					.then((jugadores) => setJugadoresVisitantes(jugadores))
 					.catch((err) => {
 						crearToast(err, true, "danger");
@@ -175,7 +175,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			if (link) partidoSeleccionado.linkSofaScore = link;
 			if (eventosPartido) partidoSeleccionado.eventos = eventosPartido;
 
-			updatePartido(partidoSeleccionado)
+			await updatePartido(partidoSeleccionado)
 				.then((p) => {
 					setPartidoSeleccionado(p);
 				})
@@ -214,8 +214,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setEventosLoading(false);
 	};
 
-	const borrarEvento = async (evento: EventoPartido) => {
-		setLoading(true);
+	const borrarEvento = (evento: EventoPartido) => {
 		setEventosPartido(
 			eventosPartido.filter(
 				(e) =>
@@ -228,7 +227,6 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			)
 		);
 		setCambiado(true);
-		setLoading(false);
 	};
 
 	const callSofaScoreForAlineaciones = async () => {
@@ -244,7 +242,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	};
 
 	useEffect(() => {
-		getPartidosDeJornada(jornada);
+		getPartidosDeJornada(jornada).catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	const [showModalLocal, setShowModalLocal] = useState<boolean>(false);
@@ -256,7 +256,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [antiguosCogidosLocal, setAntiguosCogidosLocal] =
 		useState<boolean>(false);
 
-	const changeTitularesLocal = async (newTitulares: Jugador[]) => {
+	const changeTitularesLocal = (newTitulares: Jugador[]) => {
 		setAlineacionLocalForAll({
 			jugadoresTitulares: newTitulares,
 			jugadoresSuplentes: alineacionLocal?.jugadoresSuplentes as Jugador[],
@@ -309,7 +309,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [antiguosCogidosVisitante, setAntiguosCogidosVisitante] =
 		useState<boolean>(false);
 
-	const changeTitularesVisitante = async (newTitulares: Jugador[]) => {
+	const changeTitularesVisitante = (newTitulares: Jugador[]) => {
 		setAlineacionVisitanteForAll({
 			jugadoresTitulares: newTitulares,
 			jugadoresSuplentes: alineacionVisitante?.jugadoresSuplentes as Jugador[],
@@ -364,9 +364,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 							<IonCol size="6">
 								<IonSelect
 									value={jornada}
-									onIonChange={(e) => {
+									onIonChange={async (e) => {
 										setMessage("Analizando el Big Data");
-										getPartidosDeJornada(e.detail.value);
+										await getPartidosDeJornada(e.detail.value);
 									}}
 								>
 									{jornadas.map((jornada) => (
@@ -383,8 +383,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											placeholder="Selecciona un partido"
 											interface="action-sheet"
 											onIonChange={async (e) => {
-												await changeSelectedPartido(e.detail.value);
 												setMessage("Buscando los resumenes");
+												await changeSelectedPartido(e.detail.value);
 											}}
 										>
 											{partidos.map((p) => (
@@ -408,9 +408,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonCol className="ion-text-end">
 											<IonButton
 												color="danger"
-												onClick={() => {
+												onClick={async () => {
 													setMessage("Volviendo a la realidad");
-													changeSelectedPartido(partido);
+													await changeSelectedPartido(partido);
 													setCambiado(false);
 												}}
 											>
@@ -418,8 +418,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											</IonButton>
 											<IonButton
 												color="success"
-												onClick={() => {
-													guardarPartido();
+												onClick={async () => {
+													setMessage("Guardando los cambios");
+													await guardarPartido();
 												}}
 											>
 												Guardar

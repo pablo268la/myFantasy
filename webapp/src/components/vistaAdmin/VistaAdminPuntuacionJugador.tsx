@@ -22,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 import {
 	getPuntuacionJugadorSemana,
 	guardarPuntuacionJugador,
-} from "../../endpoints/puntuacionesController";
+} from "../../endpoints/puntuacionesEndpoint";
 import {
 	filterAndPop,
 	filterAndPopByTramos,
@@ -85,9 +85,13 @@ export function VistaAdminPuntuacionJugador(
 	useEffect(() => {
 		if (props.guardarPuntuaciones) {
 			setGuardando(true);
-			guardarPuntuacionJugadorEnBD();
+			guardarPuntuacionJugadorEnBD().catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		} else {
-			getPuntuacionDelJugador();
+			getPuntuacionDelJugador().catch((err) => {
+				crearToast(err, true, "danger");
+			});
 		}
 	}, [props.somethingChanged]);
 

@@ -1,4 +1,5 @@
 import { apiEndPoint } from "../helpers/constants";
+import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { Equipo, Partido, PuntuacionJugador } from "../shared/sharedTypes";
 
 export async function getPartido(id: string): Promise<Partido> {
@@ -47,10 +48,15 @@ export async function getPuntuacionesPartido(
 }
 
 export async function updatePartido(partido: Partido): Promise<Partido> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
 	let response = await fetch(apiEndPoint + "/partidos/" + partido._id, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
+			email: email,
+			token: token,
 		},
 		body: JSON.stringify(partido),
 	});
