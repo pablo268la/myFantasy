@@ -6,7 +6,7 @@ import {
 	IonList,
 	IonRow,
 	IonSelect,
-	IonSelectOption
+	IonSelectOption,
 } from "@ionic/react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
@@ -36,7 +36,7 @@ type VistaPlantillaNormalProps = {
 		idOut: string
 	) => void;
 	cambioAlineacion: boolean;
-	guardarPlantilla: () => void;
+	guardarPlantilla: () => Promise<void>;
 	setValueFormacion: (f: string) => void;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
@@ -97,7 +97,9 @@ export function VistaPlantillaNormal(
 										</IonCol>
 										<IonCol size="6">
 											{props.cambioAlineacion ? (
-												<IonButton onClick={() => props.guardarPlantilla()}>
+												<IonButton
+													onClick={async () => await props.guardarPlantilla()}
+												>
 													Guardar cambios
 												</IonButton>
 											) : (

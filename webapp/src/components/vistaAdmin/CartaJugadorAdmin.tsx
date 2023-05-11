@@ -31,7 +31,6 @@ type CartaJugadorAdminProps = {
 	jugador: Jugador;
 	setAnyEdited: (b: boolean) => void;
 	equipos: Equipo[];
-	getJugadoresFromApi: (idEquipo: string, fromModal: boolean) => void;
 };
 
 export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
@@ -252,7 +251,6 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 											<ModalJugadorAdmin
 												jugador={jugador}
 												equipos={props.equipos}
-												getJugadoresFromApi={props.getJugadoresFromApi}
 												updateJugador={updateJugadorAndReset}
 											/>
 										) : null}

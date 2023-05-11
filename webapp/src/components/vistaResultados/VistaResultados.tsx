@@ -49,7 +49,9 @@ export function VistaResultados(): JSX.Element {
 	};
 
 	useEffect(() => {
-		getPartidosDeJornada(jornada);
+		getPartidosDeJornada(jornada).catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (
@@ -65,8 +67,8 @@ export function VistaResultados(): JSX.Element {
 					</IonRow>
 					<IonSelect
 						value={jornada}
-						onIonChange={(e) => {
-							getPartidosDeJornada(e.detail.value);
+						onIonChange={async (e) => {
+							await getPartidosDeJornada(e.detail.value);
 						}}
 					>
 						{jornadas.map((jornada) => (

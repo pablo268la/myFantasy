@@ -96,7 +96,7 @@ export function PlantillaStart(): JSX.Element {
 				});
 		}
 
-		setJugadores(jugadores);
+		await setJugadores(jugadores);
 		setLoading(false);
 	}
 

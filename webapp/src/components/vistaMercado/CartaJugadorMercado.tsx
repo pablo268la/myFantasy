@@ -291,8 +291,8 @@ export function CartaJugadorMercado(
 												</IonButton>
 												<IonButton
 													slot="end"
-													onClick={() => {
-														hacerPujaAlBack();
+													onClick={async () => {
+														await hacerPujaAlBack();
 														setShowPopover(false);
 													}}
 												>

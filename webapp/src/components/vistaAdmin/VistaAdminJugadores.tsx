@@ -51,7 +51,11 @@ export function VistaAdminJugadores(
 				<IonSelect
 					placeholder="Selecciona un equipo"
 					onIonChange={(e) => {
-						props.getJugadoresFromApi(`${e.detail.value}`, false);
+						props
+							.getJugadoresFromApi(`${e.detail.value}`, false)
+							.catch((err) => {
+								crearToast(err, true, "danger");
+							});
 					}}
 					value={props.equipoSeleccionado ? props.equipoSeleccionado._id : null}
 				>
@@ -119,7 +123,6 @@ export function VistaAdminJugadores(
 							jugador={jugador}
 							setAnyEdited={setAnyEdited}
 							equipos={props.equipos}
-							getJugadoresFromApi={props.getJugadoresFromApi}
 						/>
 					))
 				) : (

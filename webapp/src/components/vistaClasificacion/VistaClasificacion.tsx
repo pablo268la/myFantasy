@@ -7,7 +7,7 @@ import {
 	IonPage,
 	IonProgressBar,
 	IonRow,
-	useIonToast
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
@@ -46,7 +46,9 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 	};
 
 	useEffect(() => {
-		getLigaFromAPI();
+		getLigaFromAPI().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	const ordenarPorPuntos = (a: PlantillaUsuario, b: PlantillaUsuario) => {

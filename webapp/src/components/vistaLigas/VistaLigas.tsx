@@ -78,7 +78,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 		setShowLoading(true);
 		getRandomLiga()
 			.then(async (liga) => {
-				unirseConEnlace(liga.enlaceInvitacion);
+				await unirseConEnlace(liga.enlaceInvitacion);
 				setShowLoading(false);
 			})
 			.catch((error) => {
@@ -98,14 +98,18 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 						.then(() => {
 							setShowLoading(true);
 							setLocalLigaSeleccionada(e);
-							crearToast("Te has unido a la liga correctamente", true, "success");
+							crearToast(
+								"Te has unido a la liga correctamente",
+								true,
+								"success"
+							);
 							navigate.push("/plantilla/starts/" + e, "forward");
 						})
 						.catch((error) => {
 							crearToast(error.message, true, "danger");
 						});
 				} else {
-					crearToast("No es posible unirse a esta liga", true, "danger")
+					crearToast("No es posible unirse a esta liga", true, "danger");
 					setShowLoading(false);
 				}
 			})
@@ -181,8 +185,8 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 												</IonCard>
 											</IonRouterLink>
 											<IonCard
-												onClick={() => {
-													unirseALigaAleatoria();
+												onClick={async () => {
+													await unirseALigaAleatoria();
 												}}
 											>
 												<IonCardContent
@@ -211,8 +215,8 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 																	"Introduce el código de invitación",
 															},
 														],
-														onDidDismiss: (e) => {
-															unirseConEnlace(e.detail.data.values[0]);
+														onDidDismiss: async (e) => {
+															await unirseConEnlace(e.detail.data.values[0]);
 														},
 													});
 												}}

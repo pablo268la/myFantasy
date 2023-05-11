@@ -252,7 +252,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	useEffect(() => {
-		getJugadoresAPI();
+		getJugadoresAPI().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return (

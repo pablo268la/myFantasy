@@ -129,7 +129,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			.catch((err) => {
 				crearToast(err, true, "danger");
 			});
-		changeSelectedPartido(undefined);
+		await changeSelectedPartido(undefined);
 	};
 
 	const changeSelectedPartido = async (partido: string | undefined) => {
