@@ -101,7 +101,9 @@ export function PlantillaStart(): JSX.Element {
 	}
 
 	useEffect(() => {
-		getJugadores();
+		getJugadores().catch((err) => {
+			crearToast(err, true, "danger");
+		});
 	}, []);
 
 	return !loading ? (

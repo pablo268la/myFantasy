@@ -281,7 +281,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				"",
 				"Dejar posicion vacia",
 				props.esParaCambio,
-				props.posicion || "",
+				props.posicion ?? "",
 				props.porteros,
 				props.defensas,
 				props.mediocentros,

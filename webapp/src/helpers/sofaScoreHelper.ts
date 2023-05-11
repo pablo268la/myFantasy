@@ -664,10 +664,8 @@ function calcularGolesSiTitularOSuplente(
 		);
 
 		if (
-			jugador.jugadorAntiguo !== undefined &&
-			jugador.jugadorAntiguo.equipo !== undefined &&
-			jugador.jugadorAntiguo.jornadaTraspaso !== undefined &&
-			jugador.jugadorAntiguo.jornadaTraspaso < partido.jornada
+			jugador.jugadorAntiguo?.equipo !== undefined &&
+			jugador.jugadorAntiguo?.jornadaTraspaso < partido.jornada
 		) {
 			return eventosConJugador
 				.filter((e) => e.tipo === "Gol")
@@ -698,9 +696,8 @@ function calcularGolesSiTitularOSuplente(
 			);
 
 			if (
-				jugador.jugadorAntiguo !== undefined &&
-				jugador.jugadorAntiguo.equipo !== undefined &&
-				jugador.jugadorAntiguo.jornadaTraspaso < partido.jornada
+				jugador.jugadorAntiguo?.equipo !== undefined &&
+				jugador.jugadorAntiguo?.jornadaTraspaso < partido.jornada
 			) {
 				return eventosConJugador
 					.filter((e) => e.tipo === "Gol")
