@@ -232,7 +232,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 
 	const usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
-	const nuevoUsuario = await modeloUsuario.findOne({ id: idComprador });
+	const nuevoUsuario = await modeloUsuario.findOne({ id: idComprador.toString() });
 
 	try {
 		if (usuario && verified) {

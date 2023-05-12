@@ -18,8 +18,10 @@ export const getUsuario: RequestHandler = async (req, res) => {
 
 export const createUsuario: RequestHandler = async (req, res) => {
 	try {
-		const find = await modeloUsuario.findOne({ email: req.body.email });
-		const find2 = await modeloUsuario.findOne({ id: req.body.id });
+		const find = await modeloUsuario.findOne({
+			email: req.body.email.toString(),
+		});
+		const find2 = await modeloUsuario.findOne({ id: req.body.id.toString() });
 		if (!find && !find2) {
 			let usuario = new modeloUsuario(req.body);
 			usuario.contraseña = await bcrypt.hash(usuario.contraseña, 10);
@@ -37,7 +39,9 @@ export const createUsuario: RequestHandler = async (req, res) => {
 
 export const requestToken: RequestHandler = async (req, res) => {
 	try {
-		const usuario = await modeloUsuario.findOne({ email: req.body.email });
+		const usuario = await modeloUsuario.findOne({
+			email: req.body.email.toString(),
+		});
 		if (usuario) {
 			const contraseñaCorrecta = await bcrypt.compare(
 				req.body.contraseña,
@@ -90,7 +94,7 @@ export async function verifyUser(
 ): Promise<boolean> {
 	try {
 		const payload: any = jwt.verify(token, process.env.JWT_SECRET || "secret");
-		const usuario = await modeloUsuario.findOne({ email: email });
+		const usuario = await modeloUsuario.findOne({ email: email.toString() });
 
 		if (usuario !== null && payload.id === usuario.id) {
 			return true;
