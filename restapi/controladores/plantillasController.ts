@@ -53,45 +53,7 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
-	}
-};
-
-export const createPlantillaUsuario: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-	try {
-		if (usuario && verified) {
-			const idLiga = req.body.idLiga;
-			const liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
-
-			if (liga.plantillasUsuarios.length === liga.maxJugadores)
-				return res.status(409).json({ message: "Liga llena" });
-			if (
-				liga.plantillasUsuarios.filter(
-					(plantilla) => plantilla.usuario.id === usuario?.id
-				).length > 0
-			)
-				return res
-					.status(409)
-					.json({ message: "Ya estás inscrito en esta liga" });
-
-			const plantillaGuardada = await crearPlantillaParaUsuarioYGuardar(
-				usuario,
-				liga
-			);
-
-			return res.status(201).json(plantillaGuardada);
-		} else {
-			return res.status(401).json({ message: "Usuario no autenticado" });
-		}
-	} catch (error) {
-		console.log(error)
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -131,8 +93,8 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		console.log(error);
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 

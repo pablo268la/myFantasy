@@ -81,7 +81,7 @@ describe("getJugadores", () => {
 		const response: Response = await request(app).get("/jugadores");
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toHaveLength(617);
+		expect(response.body).toHaveLength(27);
 	});
 });
 

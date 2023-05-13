@@ -87,7 +87,7 @@ export interface ILiga {
 	enlaceInvitacion: string;
 	maxJugadores: number;
 	mercado: IPropiedadJugador[];
-	configuracion: string;
+	configuracion?: string;
 }
 
 liga.index({ _id: 1 }, { unique: true });
