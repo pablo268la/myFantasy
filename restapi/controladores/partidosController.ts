@@ -8,7 +8,6 @@ import { modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
 
 export const getPartido: RequestHandler = async (req, res) => {
-	//TODO -- Validar en todas las request que los params son correctos - Lanzar BAD REQUEST (400)
 	try {
 		const partido = await modeloPartido.findById(req.params.id);
 		if (!partido)
@@ -74,7 +73,7 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		const verified = await verifyUser(email, token);
 
 		if (!verified) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 
 		const usuario = (await modeloUsuario.find({ email: email })).at(0);

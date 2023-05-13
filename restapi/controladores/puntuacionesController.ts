@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+
 import {
 	filterAndPop,
 	filterAndPopByTramos,
@@ -14,8 +15,6 @@ import {
 import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
 import { modeloUsuario } from "../model/usuario";
 import { verifyUser } from "./usuariosController";
-
-//TODO - Crear object error
 
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
@@ -38,7 +37,7 @@ export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 		res.status(200).json(result);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -65,7 +64,7 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 		res.status(200).json(puntuacion);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -77,7 +76,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		const verified = await verifyUser(email, token);
 
 		if (!verified) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 
 		const usuario = (await modeloUsuario.find({ email: email })).at(0);
@@ -129,7 +128,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		res.status(201).json(puntuacionGuardada);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -251,7 +250,7 @@ export const puntuarPuntuacionesJugador: RequestHandler = async (req, res) => {
 		res.status(200).json();
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 function calcularPuntuacion(

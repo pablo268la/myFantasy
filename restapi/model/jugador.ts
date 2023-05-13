@@ -12,7 +12,7 @@ export interface IJugador {
 	puntos: number;
 	estado: string;
 	foto: string;
-	jugadorAntiguo: IJugadorAntiguo;
+	jugadorAntiguo?: IJugadorAntiguo;
 	fantasyMarcaId: string;
 }
 

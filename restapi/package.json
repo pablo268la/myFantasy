@@ -26,6 +26,7 @@
     "helmet": "^5.1.1",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
+    "mockingoose": "^2.16.2",
     "mongoose-typescript": "^2.3.3",
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.1",
