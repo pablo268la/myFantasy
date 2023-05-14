@@ -74,7 +74,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
 	await modeloLiga.deleteOne({ id: "1234" });
-	await modeloUsuario.deleteOne({ id: "d796014e-717f-4cd9-9f66-422546a0116d" });
+	await modeloUsuario.deleteOne({ id: usuario4.id });
 
 	server.close();
 	mongoose.connection.close();
@@ -203,8 +203,6 @@ describe("plantillas/update", () => {
 	 * Test: Devuelve 404 si la plantilla no existe
 	 */
 	it("Devuelve 404 si la plantilla no existe", async () => {
-		await new modeloUsuario(usuario4).save();
-
 		const response: Response = await request(app)
 			.post("/plantillas/update")
 			.set({ email: usuario4.email, token: token4 })

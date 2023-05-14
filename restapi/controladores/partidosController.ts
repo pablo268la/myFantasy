@@ -15,7 +15,7 @@ export const getPartido: RequestHandler = async (req, res) => {
 		return res.status(200).json(partido);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -27,7 +27,7 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 		return res.status(200).json(partidos);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -44,7 +44,7 @@ export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 		return res.status(200).json(puntuacionesJornada);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -61,7 +61,7 @@ export const getPartidosEquipo: RequestHandler = async (req, res) => {
 		return res.status(200).json(partidos);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -71,28 +71,26 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		const token = req.headers.token as string;
 
 		const verified = await verifyUser(email, token);
+		const usuario = (await modeloUsuario.find({ email: email })).at(0);
 
 		if (!verified) {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 
-		const usuario = (await modeloUsuario.find({ email: email })).at(0);
 		if (usuario === undefined || !usuario.admin) {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 
-		const partido = await modeloPartido.findByIdAndUpdate(
-			req.params.id,
+		const partido = await modeloPartido.findOneAndUpdate(
+			{ id: req.params.id },
 			req.body,
-			{
-				new: true,
-			}
+			{ new: true }
 		);
 		if (!partido)
 			return res.status(404).json({ message: "Partido no encontrado" });
 		return res.status(200).json(partido);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
