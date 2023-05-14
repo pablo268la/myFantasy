@@ -1,14 +1,14 @@
 import {
-	IonButton,
-	IonCol,
-	IonLabel,
-	IonList,
-	IonProgressBar,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	IonText,
-	useIonToast,
+    IonButton,
+    IonCol,
+    IonLabel,
+    IonList,
+    IonProgressBar,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonText,
+    useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
@@ -57,13 +57,13 @@ export function VistaAdminJugadores(
 								crearToast(err, true, "danger");
 							});
 					}}
-					value={props.equipoSeleccionado ? props.equipoSeleccionado._id : null}
+					value={props.equipoSeleccionado ? props.equipoSeleccionado.id : null}
 				>
 					<IonSelectOption key={""} value={""}>
 						Todos
 					</IonSelectOption>
 					{props.equipos.map((equipo) => (
-						<IonSelectOption key={equipo._id} value={equipo._id}>
+						<IonSelectOption key={equipo.id} value={equipo.id}>
 							{equipo.nombre}
 						</IonSelectOption>
 					))}
@@ -119,7 +119,7 @@ export function VistaAdminJugadores(
 				{!props.loading ? (
 					props.jugadores.map((jugador) => (
 						<CartaJugadorAdmin
-							key={jugador._id}
+							key={jugador.id}
 							jugador={jugador}
 							setAnyEdited={setAnyEdited}
 							equipos={props.equipos}

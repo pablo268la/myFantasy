@@ -121,14 +121,14 @@ function crearCartaJugador(
 ): JSX.Element {
 	return jugador.titular ? (
 		<CartaJugador
-			key={jugador.jugador._id}
+			key={jugador.jugador.id}
 			jugador={jugador}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
 		/>
 	) : (
 		<CartaJugador
-			key={jugador.jugador._id}
+			key={jugador.jugador.id}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
 		/>
@@ -137,7 +137,7 @@ function crearCartaJugador(
 
 function crearJugadorEmpty(): Jugador {
 	return {
-		_id: "empty",
+		id: "empty",
 		nombre: "",
 		slug: "",
 		posicion: "",
@@ -153,7 +153,7 @@ function crearJugadorEmpty(): Jugador {
 
 function createEquipoEmpty(): Equipo {
 	return {
-		_id: "empty",
+		id: "empty",
 		nombre: "",
 		slug: "",
 		shortName: "",

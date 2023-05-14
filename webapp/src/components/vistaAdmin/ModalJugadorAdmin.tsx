@@ -1,19 +1,19 @@
 import {
-	IonButton,
-	IonButtons,
-	IonCol,
-	IonContent,
-	IonHeader,
-	IonImg,
-	IonInput,
-	IonItem,
-	IonLabel,
-	IonModal,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	IonTitle,
-	IonToolbar,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonHeader,
+    IonImg,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    IonToolbar,
 } from "@ionic/react";
 import { useRef, useState } from "react";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
@@ -71,18 +71,18 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 				<IonItem>
 					<IonLabel position="stacked">Equipo</IonLabel>
 					<IonSelect
-						value={jugador.equipo._id}
+						value={jugador.equipo.id}
 						onIonChange={(e) => {
 							setJugador({
 								...jugador,
 								equipo: equipos.find(
-									(equipo) => equipo._id === e.detail.value!
+									(equipo) => equipo.id === e.detail.value!
 								)!,
 							});
 						}}
 					>
 						{equipos.map((equipo) => (
-							<IonSelectOption key={equipo._id} value={equipo._id}>
+							<IonSelectOption key={equipo.id} value={equipo.id}>
 								{equipo.nombre}
 							</IonSelectOption>
 						))}
@@ -94,13 +94,13 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 						<IonItem>
 							<IonLabel position="stacked">Equipo antiguo</IonLabel>
 							<IonSelect
-								value={jugador.jugadorAntiguo?.equipo?._id}
+								value={jugador.jugadorAntiguo?.equipo?.id}
 								onIonChange={(e) => {
 									setJugador({
 										...jugador,
 										jugadorAntiguo: {
 											equipo: equipos.find(
-												(equipo) => equipo._id === e.detail.value!
+												(equipo) => equipo.id === e.detail.value!
 											)!,
 											jornadaTraspaso:
 												jugador.jugadorAntiguo?.jornadaTraspaso || 0,
@@ -109,7 +109,7 @@ export function ModalJugadorAdmin(props: ModalJugadorAdminProps): JSX.Element {
 								}}
 							>
 								{equipos.map((equipo) => (
-									<IonSelectOption key={equipo._id} value={equipo._id}>
+									<IonSelectOption key={equipo.id} value={equipo.id}>
 										{equipo.nombre}
 									</IonSelectOption>
 								))}

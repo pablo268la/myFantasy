@@ -1,18 +1,18 @@
 import {
-	IonButton,
-	IonCol,
-	IonContent,
-	IonGrid,
-	IonList,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
+    IonButton,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonList,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
 } from "@ionic/react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
-	PlantillaUsuario,
-	PropiedadJugador,
-	PuntuacionJugador,
+    PlantillaUsuario,
+    PropiedadJugador,
+    PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
 import { Alineacion } from "./Alineacion";
@@ -145,7 +145,7 @@ export function VistaPlantillaNormal(
 											<>
 												<CartaDetallesJugador
 													propiedadJugador={props.jugadores.find(
-														(j) => j.jugador._id === props.jugadorPulsado
+														(j) => j.jugador.id === props.jugadorPulsado
 													)}
 													esParaCambio={true}
 													posicion={props.jugadorPulsado}

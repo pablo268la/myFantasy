@@ -3,7 +3,7 @@ import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { Liga, Oferta, PropiedadJugador } from "../shared/sharedTypes";
 
 export async function resetMercado(liga: Liga): Promise<Liga> {
-	let response = await fetch(apiEndPoint + "/mercado/resetMercado/" + liga._id);
+	let response = await fetch(apiEndPoint + "/mercado/resetMercado/" + liga.id);
 
 	if (response.status !== 200) {
 		await response.json().then((data) => {

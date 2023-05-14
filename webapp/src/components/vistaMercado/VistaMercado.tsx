@@ -1,21 +1,21 @@
 import {
-	IonContent,
-	IonHeader,
-	IonItem,
-	IonLabel,
-	IonList,
-	IonPage,
-	IonSegment,
-	IonSegmentButton,
-	useIonToast,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonPage,
+    IonSegment,
+    IonSegmentButton,
+    useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
 import { resetMercado } from "../../endpoints/mercadoEndpoints";
 import {
-	getLocalLigaSeleccionada,
-	getUsuarioLogueado,
-	ponerPuntosAValor,
+    getLocalLigaSeleccionada,
+    getUsuarioLogueado,
+    ponerPuntosAValor,
 } from "../../helpers/helpers";
 import { Liga, PropiedadJugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -116,9 +116,9 @@ export function VistaMercado(props: any): JSX.Element {
 							<IonList>
 								{jugadoresEnMercado.map((jugadorEnVenta) => (
 									<CartaJugadorMercado
-										key={jugadorEnVenta.jugador._id}
+										key={jugadorEnVenta.jugador.id}
 										propiedadJugadorEnVenta={jugadorEnVenta}
-										idLiga={liga?._id as string}
+										idLiga={liga?.id as string}
 										resetMercado={resetMercadoFromAPI}
 										reseteandoMercado={reseteandoMercado}
 									/>
@@ -141,9 +141,9 @@ export function VistaMercado(props: any): JSX.Element {
 									})
 									.map((jugadorEnVenta) => (
 										<CartaJugadorMercado
-											key={jugadorEnVenta.jugador._id}
+											key={jugadorEnVenta.jugador.id}
 											propiedadJugadorEnVenta={jugadorEnVenta}
-											idLiga={liga?._id as string}
+											idLiga={liga?.id as string}
 											resetMercado={resetMercadoFromAPI}
 											reseteandoMercado={reseteandoMercado}
 										/>
@@ -161,9 +161,9 @@ export function VistaMercado(props: any): JSX.Element {
 									})
 									.map((jugadorEnVenta) => (
 										<CartaVenta
-											key={jugadorEnVenta.jugador._id}
+											key={jugadorEnVenta.jugador.id}
 											propiedadJugadorEnVenta={jugadorEnVenta}
-											idLiga={liga?._id as string}
+											idLiga={liga?.id as string}
 											actualizarMercado={actualizarMercado}
 										/>
 									))}

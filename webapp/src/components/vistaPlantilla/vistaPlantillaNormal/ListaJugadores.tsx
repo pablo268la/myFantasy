@@ -1,8 +1,8 @@
 import { IonGrid, IonList, IonRow } from "@ionic/react";
 import { useState } from "react";
 import {
-	PropiedadJugador,
-	PuntuacionJugador,
+    PropiedadJugador,
+    PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 import { Formacion } from "../VistaPlantilla";
@@ -44,22 +44,22 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 		<>
 			<IonList>
 				{props.porteros
-					.filter((j) => j.jugador._id !== "empty")
+					.filter((j) => j.jugador.id !== "empty")
 					.map((j) =>
 						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
 					)}
 				{props.defensas
-					.filter((j) => j.jugador._id !== "empty")
+					.filter((j) => j.jugador.id !== "empty")
 					.map((j) =>
 						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
 					)}
 				{props.mediocentros
-					.filter((j) => j.jugador._id !== "empty")
+					.filter((j) => j.jugador.id !== "empty")
 					.map((j) =>
 						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
 					)}
 				{props.delanteros
-					.filter((j) => j.jugador._id !== "empty")
+					.filter((j) => j.jugador.id !== "empty")
 					.map((j) =>
 						crearCartaDetallesJugador(j, props, setJugadorSeleccionadoMethod)
 					)}
@@ -78,7 +78,7 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 					jornada={props.jornada}
 					puntuaciones={
 						props.puntuacionesMap.get(
-							jugadorSeleccionado?.jugador._id as string
+							jugadorSeleccionado?.jugador.id as string
 						) as PuntuacionJugador[]
 					}
 				/>
@@ -93,7 +93,7 @@ function crearCartaDetallesJugador(
 	setJugadorSeleccionadoMethod: (pj: PropiedadJugador) => void
 ): JSX.Element {
 	return (
-		<IonRow key={j.jugador._id}>
+		<IonRow key={j.jugador.id}>
 			<CartaDetallesJugador
 				propiedadJugador={j}
 				esParaCambio={false}

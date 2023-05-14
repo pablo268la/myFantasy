@@ -1,29 +1,29 @@
 import {
-	IonActionSheet,
-	IonBadge,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonContent,
-	IonGrid,
-	IonImg,
-	IonInput,
-	IonItem,
-	IonLabel,
-	IonPopover,
-	IonRow,
-	IonText,
-	useIonToast,
+    IonActionSheet,
+    IonBadge,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonImg,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonPopover,
+    IonRow,
+    IonText,
+    useIonToast,
 } from "@ionic/react";
 import { cart, close, pencil } from "ionicons/icons";
 import { useState } from "react";
 import { hacerPuja } from "../../endpoints/mercadoEndpoints";
 import {
-	getColorBadge,
-	getUsuarioLogueado,
-	ponerPuntosAValor,
-	urlBackground,
+    getColorBadge,
+    getUsuarioLogueado,
+    ponerPuntosAValor,
+    urlBackground,
 } from "../../helpers/helpers";
 import { Oferta, PropiedadJugador } from "../../shared/sharedTypes";
 
@@ -152,7 +152,7 @@ export function CartaJugadorMercado(
 													<IonImg
 														src={
 															"https://api.sofascore.app/api/v1/team/" +
-															propiedadJugadorEnVenta.jugador.equipo._id +
+															propiedadJugadorEnVenta.jugador.equipo.id +
 															"/image"
 														}
 													/>

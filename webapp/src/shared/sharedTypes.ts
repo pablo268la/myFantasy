@@ -1,5 +1,5 @@
 export type Jugador = {
-	_id: string;
+	id: string;
 	nombre: string;
 	slug: string;
 	posicion: string;
@@ -18,7 +18,7 @@ export type JugadorAntiguo = {
 };
 
 export type Equipo = {
-	_id: string;
+	id: string;
 	nombre: string;
 	slug: string;
 	shortName: string;
@@ -26,7 +26,7 @@ export type Equipo = {
 };
 
 export type Partido = {
-	_id: string;
+	id: string;
 	local: Equipo;
 	visitante: Equipo;
 	alineacionLocal: Alineacion;
@@ -53,7 +53,7 @@ export type Alineacion = {
 };
 
 export type PlantillaUsuario = {
-	_id: string;
+	id: string;
 	usuario: Usuario;
 	idLiga: string;
 	alineacionJugador: AlineacionJugador;
@@ -64,7 +64,7 @@ export type PlantillaUsuario = {
 };
 
 export type AlineacionJugador = {
-	_id: string;
+	id: string;
 	porteros: PropiedadJugador[];
 	defensas: PropiedadJugador[];
 	medios: PropiedadJugador[];
@@ -85,7 +85,7 @@ export type Usuario = {
 };
 
 export type Liga = {
-	_id: string | undefined;
+	id: string | undefined;
 	nombre: string;
 	plantillasUsuarios: PlantillaUsuario[];
 	propiedadJugadores: PropiedadJugador[];

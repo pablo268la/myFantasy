@@ -58,7 +58,7 @@ export async function crearLiga(
 
 	let idLiga = UUID.v4();
 	const liga: Liga = {
-		_id: idLiga,
+		id: idLiga,
 		nombre: nombre,
 		plantillasUsuarios: [],
 		propiedadJugadores: [],

@@ -52,7 +52,7 @@ export function PlantillaStart(): JSX.Element {
 		const jugadores: Jugador[] = [];
 
 		let p: any = null;
-		getPlantilla(
+		await getPlantilla(
 			window.location.pathname.split("/")[3],
 			getUsuarioLogueado()?.id as string
 		)
@@ -65,9 +65,10 @@ export function PlantillaStart(): JSX.Element {
 
 		const plantilla = p as PlantillaUsuario;
 
+
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
 			await getJugadorById(
-				plantilla.alineacionJugador.delanteros[i].jugador._id
+				plantilla.alineacionJugador.delanteros[i].jugador.id
 			)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
@@ -75,21 +76,21 @@ export function PlantillaStart(): JSX.Element {
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.medios.length; i++) {
-			await getJugadorById(plantilla.alineacionJugador.medios[i].jugador._id)
+			await getJugadorById(plantilla.alineacionJugador.medios[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
 					crearToast(err, true, "danger");
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.defensas.length; i++) {
-			await getJugadorById(plantilla.alineacionJugador.defensas[i].jugador._id)
+			await getJugadorById(plantilla.alineacionJugador.defensas[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
 					crearToast(err, true, "danger");
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.porteros.length; i++) {
-			await getJugadorById(plantilla.alineacionJugador.porteros[i].jugador._id)
+			await getJugadorById(plantilla.alineacionJugador.porteros[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
 					crearToast(err, true, "danger");
@@ -119,7 +120,7 @@ export function PlantillaStart(): JSX.Element {
 					{jugadores.map((jugador) => (
 						<>
 							<SwiperSlide
-								key={jugador._id}
+								key={jugador.id}
 								style={{ background: getColorBadge(jugador.posicion) }}
 							>
 								<IonGrid>

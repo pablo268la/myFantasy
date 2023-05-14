@@ -92,7 +92,7 @@ export function AlineacionPuntuaciones(
 								props.setJugadorPulsado,
 								"Portero",
 								props.puntuacionesMap.get(
-									jugador.jugador._id
+									jugador.jugador.id
 								) as PuntuacionJugador[],
 								props.jornada
 							)
@@ -107,7 +107,7 @@ export function AlineacionPuntuaciones(
 								props.setJugadorPulsado,
 								"Defensa",
 								props.puntuacionesMap.get(
-									jugador.jugador._id
+									jugador.jugador.id
 								) as PuntuacionJugador[],
 								props.jornada
 							)
@@ -122,7 +122,7 @@ export function AlineacionPuntuaciones(
 								props.setJugadorPulsado,
 								"Mediocentro",
 								props.puntuacionesMap.get(
-									jugador.jugador._id
+									jugador.jugador.id
 								) as PuntuacionJugador[],
 								props.jornada
 							)
@@ -137,7 +137,7 @@ export function AlineacionPuntuaciones(
 								props.setJugadorPulsado,
 								"Delantero",
 								props.puntuacionesMap.get(
-									jugador.jugador._id
+									jugador.jugador.id
 								) as PuntuacionJugador[],
 								props.jornada
 							)
@@ -157,7 +157,7 @@ function crearCartaJugador(
 ): JSX.Element {
 	return jugador.titular ? (
 		<CartaJugadorPuntuacion
-			key={jugador.jugador._id}
+			key={jugador.jugador.id}
 			jugador={jugador}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
@@ -166,7 +166,7 @@ function crearCartaJugador(
 		/>
 	) : (
 		<CartaJugadorPuntuacion
-			key={jugador.jugador._id}
+			key={jugador.jugador.id}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
 			jornada={jornada}
@@ -176,7 +176,7 @@ function crearCartaJugador(
 
 function crearJugadorEmpty(): Jugador {
 	return {
-		_id: "empty",
+		id: "empty",
 		nombre: "",
 		slug: "",
 		posicion: "",
@@ -192,7 +192,7 @@ function crearJugadorEmpty(): Jugador {
 
 function createEquipoEmpty(): Equipo {
 	return {
-		_id: "empty",
+		id: "empty",
 		nombre: "",
 		slug: "",
 		shortName: "",

@@ -127,7 +127,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 													<IonList>
 														{ligas?.map((liga) => (
 															<CartaLiga
-																key={liga._id}
+																key={liga.id}
 																liga={liga}
 																disabled={false}
 															/>

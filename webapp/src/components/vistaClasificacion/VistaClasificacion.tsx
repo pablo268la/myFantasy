@@ -1,13 +1,13 @@
 import {
-	IonContent,
-	IonGrid,
-	IonHeader,
-	IonLabel,
-	IonList,
-	IonPage,
-	IonProgressBar,
-	IonRow,
-	useIonToast,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonLabel,
+    IonList,
+    IonPage,
+    IonProgressBar,
+    IonRow,
+    useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
@@ -92,7 +92,7 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 											<CartaClasificaion
 												plantilla={plantilla}
 												posicion={liga.plantillasUsuarios.findIndex(
-													(p) => p._id === plantilla._id
+													(p) => p.id === plantilla.id
 												)}
 											/>
 										))}

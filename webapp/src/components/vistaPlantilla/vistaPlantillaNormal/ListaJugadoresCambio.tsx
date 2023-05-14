@@ -27,19 +27,19 @@ export function ListaJugadoresCambio(
 		switch (posicion) {
 			case "Portero":
 				return props.porteros.filter(
-					(j) => !j.titular && j.jugador._id !== "empty"
+					(j) => !j.titular && j.jugador.id !== "empty"
 				);
 			case "Defensa":
 				return props.defensas.filter(
-					(j) => !j.titular && j.jugador._id !== "empty"
+					(j) => !j.titular && j.jugador.id !== "empty"
 				);
 			case "Mediocentro":
 				return props.mediocentros.filter(
-					(j) => !j.titular && j.jugador._id !== "empty"
+					(j) => !j.titular && j.jugador.id !== "empty"
 				);
 			case "Delantero":
 				return props.delanteros.filter(
-					(j) => !j.titular && j.jugador._id !== "empty"
+					(j) => !j.titular && j.jugador.id !== "empty"
 				);
 			default:
 				return [];
@@ -63,10 +63,10 @@ export function ListaJugadoresCambio(
 	return (
 		<>
 			{getJugadoresACambiar(props.posicion).map((j) => (
-				<IonRow key={j.jugador._id}>
+				<IonRow key={j.jugador.id}>
 					<IonCol>
 						<CartaDetallesJugador
-							key={j.jugador._id}
+							key={j.jugador.id}
 							propiedadJugador={j}
 							esParaCambio={false}
 							porteros={props.porteros}
@@ -83,7 +83,7 @@ export function ListaJugadoresCambio(
 							onClick={() =>
 								props.cambiarTitulares(
 									getLista(props.posicion),
-									j.jugador._id,
+									j.jugador.id,
 									props.idJugador
 								)
 							}

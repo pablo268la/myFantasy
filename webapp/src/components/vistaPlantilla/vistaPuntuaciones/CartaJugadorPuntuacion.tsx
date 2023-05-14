@@ -2,12 +2,12 @@ import { IonBadge, IonCard, IonCol, IonImg } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
 import {
-	getColorPuntos,
-	urlBackground
+    getColorPuntos,
+    urlBackground
 } from "../../../helpers/helpers";
 import {
-	PropiedadJugador,
-	PuntuacionJugador,
+    PropiedadJugador,
+    PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 
 type CartaJugadorProps = {
@@ -25,7 +25,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 			<IonCard
 				style={{ maxHeight: "200px", maxWidth: "100px" }}
 				onClick={() => {
-					if (props.jugador) props.setJugadorPulsado(props.jugador.jugador._id);
+					if (props.jugador) props.setJugadorPulsado(props.jugador.jugador.id);
 					else props.setJugadorPulsado(props.posicion);
 				}}
 			>
@@ -55,7 +55,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 								: "https://assets.laligafantasymarca.com/players/no-player.png"
 						}
 					/>
-					{props.jugador?.jugador.equipo._id ? (
+					{props.jugador?.jugador.equipo.id ? (
 						<IonImg
 							style={{
 								width: 20,
@@ -65,7 +65,7 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 							}}
 							src={
 								"https://api.sofascore.app/api/v1/team/" +
-								props.jugador.jugador.equipo._id +
+								props.jugador.jugador.equipo.id +
 								"/image"
 							}
 						/>

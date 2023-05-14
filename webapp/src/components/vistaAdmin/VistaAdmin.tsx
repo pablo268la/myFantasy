@@ -1,16 +1,16 @@
 import {
-	IonContent,
-	IonHeader,
-	IonPage,
-	IonSegment,
-	IonSegmentButton,
-	useIonToast,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonSegment,
+    IonSegmentButton,
+    useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
 import {
-	getJugadores,
-	getJugadoresPorEquipo,
+    getJugadores,
+    getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
 import { comparePosiciones } from "../../helpers/helpers";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
@@ -58,7 +58,7 @@ export function VistaAdmin(): JSX.Element {
 	const getJugadoresFromApi = async (idEquipo: string, fromModal: boolean) => {
 		setLoading(true);
 		if (fromModal) {
-			idEquipo = equipoSeleccionado?._id || "";
+			idEquipo = equipoSeleccionado?.id || "";
 		}
 		if (idEquipo === "") {
 			await getJugadores()
@@ -82,7 +82,7 @@ export function VistaAdmin(): JSX.Element {
 					crearToast(err, true, "danger");
 				});
 
-			setEquipoSeleccionado(equipos.find((e) => e._id === idEquipo));
+			setEquipoSeleccionado(equipos.find((e) => e.id === idEquipo));
 		}
 		setLoading(false);
 	};

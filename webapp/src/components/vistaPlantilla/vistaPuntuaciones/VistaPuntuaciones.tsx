@@ -1,18 +1,18 @@
 import {
-	IonCol,
-	IonContent,
-	IonGrid,
-	IonList,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	IonText,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonList,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonText,
 } from "@ionic/react";
 import { useState } from "react";
 import {
-	PlantillaUsuario,
-	PropiedadJugador,
-	PuntuacionJugador,
+    PlantillaUsuario,
+    PropiedadJugador,
+    PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
 import { AlineacionPuntuaciones } from "./AlineacionPuntuaciones";
@@ -116,7 +116,7 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 											<>
 												<CartaDetallesPuntuacionJugador
 													propiedadJugador={props.jugadores.find(
-														(j) => j.jugador._id === jugadorPulsado
+														(j) => j.jugador.id === jugadorPulsado
 													)}
 													showPuntuaciones={true}
 													setJugadorPulsado={cambiarJugador}

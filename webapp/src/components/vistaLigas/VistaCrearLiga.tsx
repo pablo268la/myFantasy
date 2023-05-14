@@ -70,18 +70,20 @@ export function VistaCrearLiga(props: any): JSX.Element {
 		await crearLiga(nombreLiga, maxPlayers, usarEntrenador)
 			.then(async (response: Liga) => {
 				vaciarFormulario();
-				await añadirUsuarioALiga(response._id as string)
+				await añadirUsuarioALiga(response.id as string)
 					.then(() => {
-						setLocalLigaSeleccionada(response._id as string);
+						setLocalLigaSeleccionada(response.id as string);
 						crearToast("Liga creada correctamente", true, "success");
-						navigate.push("/plantilla/starts/" + response._id, "forward");
+						navigate.push("/plantilla/starts/" + response.id, "forward");
 						setShowLoading(false);
 					})
 					.catch((err) => {
+						setShowLoading(false);
 						crearToast(err, true, "danger");
 					});
 			})
 			.catch((err) => {
+				setShowLoading(false);
 				crearToast(err, true, "danger");
 			});
 	};

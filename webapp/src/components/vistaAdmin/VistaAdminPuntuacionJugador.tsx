@@ -1,44 +1,44 @@
 import {
-	IonButton,
-	IonButtons,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonContent,
-	IonHeader,
-	IonIcon,
-	IonInput,
-	IonItem,
-	IonItemDivider,
-	IonLabel,
-	IonModal,
-	IonRow,
-	IonTitle,
-	IonToolbar,
-	useIonToast,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonItemDivider,
+    IonLabel,
+    IonModal,
+    IonRow,
+    IonTitle,
+    IonToolbar,
+    useIonToast,
 } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import {
-	getPuntuacionJugadorSemana,
-	guardarPuntuacionJugador,
+    getPuntuacionJugadorSemana,
+    guardarPuntuacionJugador,
 } from "../../endpoints/puntuacionesEndpoint";
 import {
-	filterAndPop,
-	filterAndPopByTramos,
-	getByTramos,
-	openJSON,
+    filterAndPop,
+    filterAndPopByTramos,
+    getByTramos,
+    openJSON,
 } from "../../helpers/jsonHelper";
 import {
-	calcularPuntosPuntuacion,
-	getPuntuacionesDeSofaScore,
+    calcularPuntosPuntuacion,
+    getPuntuacionesDeSofaScore,
 } from "../../helpers/sofaScoreHelper";
 import {
-	Jugador,
-	Partido,
-	PuntuacionJSON,
-	PuntuacionJugador,
-	PuntuacionTupple,
+    Jugador,
+    Partido,
+    PuntuacionJSON,
+    PuntuacionJugador,
+    PuntuacionTupple,
 } from "../../shared/sharedTypes";
 
 type PuntuacionJugadorAdminProps = {
@@ -108,7 +108,7 @@ export function VistaAdminPuntuacionJugador(
 	};
 
 	const getPuntuacionDelJugador = async () => {
-		await getPuntuacionJugadorSemana(props.jugador._id, props.jornada)
+		await getPuntuacionJugadorSemana(props.jugador.id, props.jornada)
 			.then(async (p) => {
 				if (p === null) {
 					await getPuntuacionesDeSofaScore(props.partido, j, props.titular)
@@ -131,7 +131,7 @@ export function VistaAdminPuntuacionJugador(
 		<>
 			{puntuacion && !guardando ? (
 				<>
-					<IonCard key={j._id}>
+					<IonCard key={j.id}>
 						<IonCardContent>
 							<IonItem>
 								<IonLabel> {j.nombre} </IonLabel>
@@ -196,7 +196,7 @@ export function VistaAdminPuntuacionJugador(
 						<IonContent>
 							<IonItemDivider>Basicas</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Valoracion",
 								jornada,
 								puntuacion.puntuacionBasica.valoracion,
@@ -218,7 +218,7 @@ export function VistaAdminPuntuacionJugador(
 								10.0
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Minutos",
 								jornada,
 								puntuacion.puntuacionBasica.minutos,
@@ -240,7 +240,7 @@ export function VistaAdminPuntuacionJugador(
 								90
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Goles",
 								jornada,
 								puntuacion.puntuacionBasica.goles,
@@ -261,7 +261,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Asistencias",
 								jornada,
 								puntuacion.puntuacionBasica.asistencias,
@@ -282,7 +282,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Goles recibidos",
 								jornada,
 								puntuacion.puntuacionCalculable.golesRecibidos,
@@ -305,7 +305,7 @@ export function VistaAdminPuntuacionJugador(
 								1
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tarjeta amarilla",
 								jornada,
 								puntuacion.puntuacionCalculable.tarjetasAmarilla,
@@ -327,7 +327,7 @@ export function VistaAdminPuntuacionJugador(
 								1
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tarjeta roja",
 								jornada,
 								puntuacion.puntuacionCalculable.tarjetasRoja,
@@ -349,7 +349,7 @@ export function VistaAdminPuntuacionJugador(
 								1
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Doble amarilla",
 								jornada,
 								puntuacion.puntuacionCalculable.dobleAmarilla,
@@ -372,7 +372,7 @@ export function VistaAdminPuntuacionJugador(
 							)}
 							<IonItemDivider>Ofensivas</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tiros a puerta",
 								jornada,
 								puntuacion.puntuacionOfensiva.tirosPuerta,
@@ -393,7 +393,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tiros fuera",
 								jornada,
 								puntuacion.puntuacionOfensiva.tirosFuera,
@@ -414,7 +414,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tiros rechazados",
 								jornada,
 								puntuacion.puntuacionOfensiva.tirosBloqueados,
@@ -435,7 +435,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tiros al palo",
 								jornada,
 								puntuacion.puntuacionOfensiva.tirosAlPalo,
@@ -456,7 +456,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Regates intentados",
 								jornada,
 								puntuacion.puntuacionOfensiva.regatesIntentados,
@@ -477,7 +477,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Regates completados",
 								jornada,
 								puntuacion.puntuacionOfensiva.regatesCompletados,
@@ -498,7 +498,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Ocasiones falladas",
 								jornada,
 								puntuacion.puntuacionOfensiva.ocasionClaraFallada,
@@ -519,7 +519,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Penalti provocado",
 								jornada,
 								puntuacion.puntuacionOfensiva.penaltiRecibido,
@@ -540,7 +540,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Penalti fallado",
 								jornada,
 								puntuacion.puntuacionOfensiva.penaltiFallado,
@@ -562,7 +562,7 @@ export function VistaAdminPuntuacionJugador(
 							)}
 							<IonItemDivider>Posesivas</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Toques de balon",
 								jornada,
 								puntuacion.puntuacionPosesion.toquesBalon,
@@ -583,7 +583,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Pases clave",
 								jornada,
 								puntuacion.puntuacionPosesion.pasesClave,
@@ -604,7 +604,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Pases completados",
 								jornada,
 								puntuacion.puntuacionPosesion.pasesCompletados,
@@ -625,7 +625,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Centros completados",
 								jornada,
 								puntuacion.puntuacionPosesion.centrosCompletados,
@@ -646,7 +646,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Pases largos completados",
 								jornada,
 								puntuacion.puntuacionPosesion.pasesLargosCompletados,
@@ -667,7 +667,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Grandes ocasiones creadas",
 								jornada,
 								puntuacion.puntuacionPosesion.grandesOcasiones,
@@ -689,7 +689,7 @@ export function VistaAdminPuntuacionJugador(
 							)}
 							<IonItemDivider>Defensivas</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Despejes",
 								jornada,
 								puntuacion.puntuacionDefensiva.despejes,
@@ -710,7 +710,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Despejes sobre la linea",
 								jornada,
 								puntuacion.puntuacionDefensiva.despejesEnLineaDeGol,
@@ -731,7 +731,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Entradas",
 								jornada,
 								puntuacion.puntuacionDefensiva.entradas,
@@ -752,7 +752,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Intercepciones",
 								jornada,
 								puntuacion.puntuacionDefensiva.intercepciones,
@@ -773,7 +773,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Tiros bloqueados",
 								jornada,
 								puntuacion.puntuacionDefensiva.tirosBloqueados,
@@ -794,7 +794,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Errores para disparo",
 								jornada,
 								puntuacion.puntuacionDefensiva.erroresParaDisparo,
@@ -815,7 +815,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Goles en propia",
 								jornada,
 								puntuacion.puntuacionDefensiva.golesEnPropia,
@@ -836,7 +836,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Penalti cometido",
 								jornada,
 								puntuacion.puntuacionDefensiva.penaltiCometido,
@@ -857,7 +857,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Regateado",
 								jornada,
 								puntuacion.puntuacionDefensiva.regatesSuperado,
@@ -879,7 +879,7 @@ export function VistaAdminPuntuacionJugador(
 							)}
 							<IonItemDivider>Fisicas</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Faltas cometidas",
 								jornada,
 								puntuacion.puntuacionFisico.faltasCometidas,
@@ -900,7 +900,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Faltas recibidas",
 								jornada,
 								puntuacion.puntuacionFisico.faltasRecibidas,
@@ -921,7 +921,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Duelos ganados",
 								jornada,
 								puntuacion.puntuacionFisico.duelosGanados,
@@ -942,7 +942,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Duelos perdidos",
 								jornada,
 								puntuacion.puntuacionFisico.duelosPerdidos,
@@ -963,7 +963,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Duelos aereos ganados",
 								jornada,
 								puntuacion.puntuacionFisico.duelosAereosGanados,
@@ -984,7 +984,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Duelos aereos perdidos",
 								jornada,
 								puntuacion.puntuacionFisico.duelosAereosPerdidos,
@@ -1005,7 +1005,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Posesion perdida",
 								jornada,
 								puntuacion.puntuacionFisico.posesionPerdida,
@@ -1026,7 +1026,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Fueras de juego",
 								jornada,
 								puntuacion.puntuacionFisico.fuerasDeJuego,
@@ -1048,7 +1048,7 @@ export function VistaAdminPuntuacionJugador(
 							)}
 							<IonItemDivider>Portero</IonItemDivider>
 							{CrearItem(
-								j._id,
+								j.id,
 								"Paradas",
 								jornada,
 								puntuacion.puntuacionPortero.paradas,
@@ -1069,7 +1069,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Salidas",
 								jornada,
 								puntuacion.puntuacionPortero.salidas,
@@ -1090,7 +1090,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Salidas en alto",
 								jornada,
 								puntuacion.puntuacionPortero.highClaim,
@@ -1111,7 +1111,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Despejes ",
 								jornada,
 								puntuacion.puntuacionPortero.despejes,
@@ -1132,7 +1132,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							{CrearItem(
-								j._id,
+								j.id,
 								"Penaltis parados",
 								jornada,
 								puntuacion.puntuacionPortero.penaltiesParados,
@@ -1153,7 +1153,7 @@ export function VistaAdminPuntuacionJugador(
 								}
 							)}
 							<IonItemDivider />
-							<IonItem key={j._id + "- Total -" + jornada} lines="none">
+							<IonItem key={j.id + "- Total -" + jornada} lines="none">
 								<IonCol size="7">
 									<IonLabel>Total</IonLabel>
 								</IonCol>
@@ -1170,7 +1170,7 @@ export function VistaAdminPuntuacionJugador(
 				</>
 			) : (
 				<>
-					<IonCard key={j._id}>
+					<IonCard key={j.id}>
 						<IonCardContent>
 							<IonItem>
 								<IonLabel> {j.nombre} </IonLabel>
