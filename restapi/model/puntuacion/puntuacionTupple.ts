@@ -25,7 +25,7 @@ export const puntuacionTupple = new Schema<IPuntuacionTupple>(
 		},
 	},
 	{
-		_id: false,
+		id: false,
 	}
 );
 

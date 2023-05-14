@@ -18,7 +18,7 @@ import { verifyUser } from "./usuariosController";
 
 export const getPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
-		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		const jugador = await modeloJugador.findOne({ id: req.params.idJugador });
 		if (!jugador) return res.json([]);
 
 		const puntuaciones = await modelPuntuacionJugador.find({
@@ -47,7 +47,7 @@ export const getPuntuacionesJugadorJornada: RequestHandler = async (
 ) => {
 	try {
 		// TOD - Check valores negativosd en todas las requests
-		const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		const jugador = await modeloJugador.findOne({ id: req.params.idJugador });
 		if (!jugador) return res.status(404);
 
 		let puntuacion = await modelPuntuacionJugador.findOne({
@@ -86,7 +86,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 
 		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);
 		const jugador = await modeloJugador.findOne({
-			_id: puntuacionJugador.idJugador,
+			id: puntuacionJugador.idJugador,
 		});
 		const exists = await modelPuntuacionJugador.findOne({
 			idJugador: puntuacionJugador.idJugador,
@@ -97,7 +97,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 
 		puntuacionJugador = calcularPuntuacion(puntuacionJugador, PuntuacionJSON);
 
-		puntuacionJugador._id =
+		puntuacionJugador.id =
 			puntuacionJugador.idJugador + "-" + puntuacionJugador.idPartido;
 
 		let puntuacionGuardada = null;
@@ -116,7 +116,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 
 		if (jugador) {
 			const puntuaciones = await modelPuntuacionJugador.find({
-				idJugador: jugador._id,
+				idJugador: jugador.id,
 			});
 			jugador.puntos = puntuaciones.reduce(
 				(acc, puntuacion) => acc + puntuacion.puntos,
@@ -141,7 +141,7 @@ const createPuntuacionJugadorVacia: any = (
 		puntos: 0,
 	};
 	const puntuacionJugador: IPuntuacionJugador = {
-		_id: "",
+		id: "",
 		idJugador: idJugador,
 		idPartido: "",
 		semana: semana,
@@ -221,11 +221,11 @@ export const puntuarPuntuacionesJugador: RequestHandler = async (req, res) => {
 	try {
 		const jugadores = await modeloJugador.find();
 
-		//const jugador = await modeloJugador.findOne({ _id: req.params.idJugador });
+		//const jugador = await modeloJugador.findOne({ id: req.params.idJugador });
 
 		await jugadores.forEach(async (jugador) => {
 			const puntuaciones = await modelPuntuacionJugador.find({
-				idJugador: jugador?._id,
+				idJugador: jugador?.id,
 			});
 
 			const PuntuacionJSON = openJSON(jugador?.posicion as string);

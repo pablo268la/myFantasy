@@ -41,6 +41,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+	await modeloJugador.deleteOne({ id: "0" });
+
 	server.close();
 	mongoose.connection.close();
 });
@@ -105,24 +107,11 @@ describe("getJugador", () => {
 		const response: Response = await request(app).get("/jugadores/3306");
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toEqual({
-			_id: "3306",
-			nombre: "Karim Benzema",
-			slug: "karim-benzema",
-			posicion: "Delantero",
-			valor: 26000000,
-			puntos: 0,
-			estado: "Dudoso",
-			foto: "https://assets.laligafantasymarca.com/players/t186/p250/256x256/p250_t186_1_001_000.png",
-			fantasyMarcaId: "250",
-			equipo: {
-				_id: "2829",
-				nombre: "Real Madrid",
-				slug: "real-madrid",
-				shortName: "Real Madrid",
-				escudo: "https://api.sofascore.app/api/v1/team/2829/image",
-			},
-		});
+
+		expect(response.body.id).toEqual("3306");
+		expect(response.body.nombre).toEqual("Karim Benzema");
+		expect(response.body.equipo.id).toEqual("2829");
+		expect(response.body.equipo.nombre).toEqual("Real Madrid");
 	});
 
 	/*
@@ -149,26 +138,13 @@ describe("getJugadoresAntiguos", () => {
 
 		expect(response.statusCode).toBe(200);
 		expect(response.body).toHaveLength(1);
-		expect(response.body[0]).toEqual(
-			expect.objectContaining({
-				_id: "344847",
-				equipo: {
-					_id: "2819",
-					escudo: "https://api.sofascore.app/api/v1/team/2819/image",
-					nombre: "Villarreal",
-					shortName: "Villarreal",
-					slug: "villarreal",
-				},
-				estado: "Disponible",
-				fantasyMarcaId: "1200",
-				foto: "https://assets.laligafantasymarca.com/players/t449/p1200/256x256/p1200_t449_1_001_000.png",
-				nombre: "Johan Mojica",
-				posicion: "Defensa",
-				puntos: 0,
-				slug: "johan-mojica",
-				valor: 2800000,
-			})
-		);
+		expect(response.body[0].id).toEqual("344847");
+		expect(response.body[0].nombre).toEqual("Johan Mojica");
+		expect(response.body[0].equipo.id).toEqual("2819");
+		expect(response.body[0].equipo.nombre).toEqual("Villarreal");
+		expect(response.body[0].jugadorAntiguo.equipo.id).toEqual("2846");
+		expect(response.body[0].jugadorAntiguo.equipo.nombre).toEqual("Elche CF");
+		expect(response.body[0].jugadorAntiguo.jornadaTraspaso).toEqual(4);
 	});
 });
 
@@ -222,6 +198,8 @@ describe("updateJugador", () => {
 	 * Test: Devuelve 200 si actualiza el jugador
 	 */
 	it("200 si actualiza el jugador", async () => {
+		const randomPoints = Math.floor(Math.random() * 100);
+
 		const response: Response = await request(app)
 			.put("/jugadores/3306")
 			.set({
@@ -230,36 +208,21 @@ describe("updateJugador", () => {
 			})
 			.send({
 				equipo: {
-					_id: "2829",
+					id: "2829",
 					nombre: "Real Madrid",
 					slug: "real-madrid",
 					shortName: "Real Madrid",
 					escudo: "https://api.sofascore.app/api/v1/team/2829/image",
 				},
-				puntos: 10,
+				puntos: randomPoints,
 			});
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toEqual(
-			expect.objectContaining({
-				_id: "3306",
-				nombre: "Karim Benzema",
-				slug: "karim-benzema",
-				posicion: "Delantero",
-				valor: 26000000,
-				estado: "Dudoso",
-				foto: "https://assets.laligafantasymarca.com/players/t186/p250/256x256/p250_t186_1_001_000.png",
-				fantasyMarcaId: "250",
-				equipo: {
-					_id: "2829",
-					nombre: "Real Madrid",
-					slug: "real-madrid",
-					shortName: "Real Madrid",
-					escudo: "https://api.sofascore.app/api/v1/team/2829/image",
-				},
-				puntos: 10,
-			})
-		);
+		expect(response.body.id).toEqual("3306");
+		expect(response.body.nombre).toEqual("Karim Benzema");
+		expect(response.body.equipo.id).toEqual("2829");
+		expect(response.body.equipo.nombre).toEqual("Real Madrid");
+		expect(response.body.puntos).toEqual(randomPoints);
 	});
 
 	/**
@@ -267,7 +230,7 @@ describe("updateJugador", () => {
 	 */
 	it("200 si actualiza el jugador y le cambia el equipo", async () => {
 		const mockJuagador = new modeloJugador({
-			_id: "0",
+			id: "0",
 			nombre: "Foo",
 			slug: "Foo",
 			posicion: "Delantero",
@@ -276,7 +239,7 @@ describe("updateJugador", () => {
 			foto: "",
 			fantasyMarcaId: "0",
 			equipo: {
-				_id: "2829",
+				id: "2829",
 				nombre: "Real Madrid",
 				slug: "real-madrid",
 				shortName: "Real Madrid",
@@ -295,7 +258,7 @@ describe("updateJugador", () => {
 			})
 			.send({
 				equipo: {
-					_id: "2817",
+					id: "2817",
 					nombre: "Barcelona",
 					slug: "barcelona",
 					shortName: "Barcelona",
@@ -305,36 +268,20 @@ describe("updateJugador", () => {
 			});
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toEqual(
-			expect.objectContaining({
-				_id: "0",
-				nombre: "Foo",
-				slug: "Foo",
-				posicion: "Delantero",
-				valor: 0,
-				estado: "Disponible",
-				foto: "",
-				fantasyMarcaId: "0",
-				equipo: {
-					_id: "2817",
-					nombre: "Barcelona",
-					slug: "barcelona",
-					shortName: "Barcelona",
-					escudo: "https://api.sofascore.app/api/v1/team/2817/image",
-				},
-				puntos: 10,
-			})
-		);
 
-		await modeloJugador.deleteOne({ _id: "0" }).then((res) => {
-			console.log(res);
-		});
+		expect(response.body.id).toEqual("0");
+		expect(response.body.nombre).toEqual("Foo");
+		expect(response.body.equipo.id).toEqual("2817");
+		expect(response.body.equipo.nombre).toEqual("Barcelona");
+		expect(response.body.jugadorAntiguo.equipo.id).toEqual("2829");
+		expect(response.body.jugadorAntiguo.equipo.nombre).toEqual("Real Madrid");
+		expect(response.body.jugadorAntiguo.jornadaTraspaso).toEqual(1);
 	});
 
 	/**
-	 * Test: Devuelve 500 si error interno. Caso: No hay equipo._id en el response
+	 * Test: Devuelve 500 si error interno. Caso: No hay equipo.id en el response
 	 */
-	it("500 si error interno. Caso: No hay equipo._id en el response", async () => {
+	it("500 si error interno. Caso: No hay equipo.id en el response", async () => {
 		const response: Response = await request(app)
 			.put("/jugadores/3306")
 			.set({

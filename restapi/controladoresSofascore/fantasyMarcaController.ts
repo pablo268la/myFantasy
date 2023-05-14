@@ -12,14 +12,14 @@ export const getStatusJugador: RequestHandler = async (req, res) => {
 		let jugador = j[i];
 		if (
 			jugador !== null &&
-			jugador.equipo._id !== "0" &&
+			jugador.equipo.id !== "0" &&
 			jugador.fantasyMarcaId !== undefined
 		) {
 			await axios
 				.get(urlPlayerMarca + jugador.fantasyMarcaId)
 				.then(async (response) => {
 					jugador.estado = checkEstado(response.data.playerStatus);
-					await modeloJugador.findOneAndUpdate({ _id: jugador._id }, jugador, {
+					await modeloJugador.findOneAndUpdate({ id: jugador.id }, jugador, {
 						new: true,
 					});
 				});
@@ -35,14 +35,14 @@ export const getFotoJugadorMarca: RequestHandler = async (req, res) => {
 		console.log(jugador.nombre);
 		if (
 			jugador !== null &&
-			jugador.equipo._id !== "0" &&
+			jugador.equipo.id !== "0" &&
 			jugador.fantasyMarcaId !== undefined
 		) {
 			await axios
 				.get(urlPlayerMarca + jugador.fantasyMarcaId)
 				.then(async (response) => {
 					jugador.foto = response.data.images.transparent["256x256"];
-					await modeloJugador.findOneAndUpdate({ _id: jugador._id }, jugador, {
+					await modeloJugador.findOneAndUpdate({ id: jugador.id }, jugador, {
 						new: true,
 					});
 				})

@@ -9,6 +9,7 @@ import request, { Response } from "supertest";
 import { verifyUser } from "../controladores/usuariosController";
 import { modeloEquipo } from "../model/equipo";
 import { modeloJugador } from "../model/jugador";
+import { modeloLiga } from "../model/liga";
 import { modeloUsuario } from "../model/usuario";
 import apiEquipos from "../routes/rutasEquipos";
 import apiJugadores from "../routes/rutasJugador";
@@ -71,6 +72,10 @@ beforeAll(async () => {
 		.toReturn(new Error("Error interno. Pruebe más tarde"), "find");
 
 	mockingoose(modeloJugador)
+		.toReturn(new Error("Error interno. Pruebe más tarde"), "findOne")
+		.toReturn(new Error("Error interno. Pruebe más tarde"), "find");
+
+	mockingoose(modeloLiga)
 		.toReturn(new Error("Error interno. Pruebe más tarde"), "findOne")
 		.toReturn(new Error("Error interno. Pruebe más tarde"), "find");
 });
@@ -209,6 +214,68 @@ describe("Jugadores", () => {
 		const response: Response = await request(app).get(
 			"/jugadores/antiguos/2820/1"
 		);
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+});
+
+describe("Ligas", () => {
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).get("/ligas/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).get("/ligas/random/new");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).get("/ligas/usuario/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).post("/ligas");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).post("/ligas/1");
 
 		expect(response.statusCode).toBe(500);
 		expect(response.body).toEqual({

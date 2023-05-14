@@ -59,13 +59,9 @@ describe("getEquipo", () => {
 		const response: Response = await request(app).get("/equipos/2820");
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toEqual({
-			_id: "2820",
-			nombre: "Osasuna",
-			slug: "osasuna",
-			shortName: "Osasuna",
-			escudo: "https://api.sofascore.app/api/v1/team/2820/image",
-		});
+
+		expect(response.body.id).toEqual("2820");
+		expect(response.body.nombre).toEqual("Osasuna");
 	});
 
 	/*

@@ -8,7 +8,7 @@ import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
  *   AlineacionJugador:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     porteros:
  *      type: array
@@ -37,11 +37,11 @@ import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 export const alineacionJugador = new Schema<IAlineacionJugador>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		porteros: {
 			type: [propiedadJugador],
@@ -84,10 +84,10 @@ export const alineacionJugador = new Schema<IAlineacionJugador>(
 		versionKey: false,
 		timestamps: false,
 	}
-);
+)
 
 export interface IAlineacionJugador {
-	_id: string;
+	id: string;
 	porteros: IPropiedadJugador[];
 	defensas: IPropiedadJugador[];
 	medios: IPropiedadJugador[];
@@ -96,8 +96,6 @@ export interface IAlineacionJugador {
 	guardadoEn: string;
 	idLiga: string;
 }
-
-alineacionJugador.index({ _id: 1 }, { unique: true });
 
 export const modeloAlineacionJugador = model<IAlineacionJugador>(
 	"alineacionJugador",

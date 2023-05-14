@@ -9,7 +9,7 @@ import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
  *   Liga:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     nombre:
  *      type: string
@@ -35,11 +35,11 @@ import { IPropiedadJugador, propiedadJugador } from "./propiedadJugador";
 
 export const liga = new Schema<ILiga>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		nombre: {
 			type: String,
@@ -80,7 +80,7 @@ export const liga = new Schema<ILiga>(
 );
 
 export interface ILiga {
-	_id: string;
+	id: string;
 	nombre: string;
 	plantillasUsuarios: IPlantillaUsuario[];
 	propiedadJugadores: IPropiedadJugador[];
@@ -89,7 +89,5 @@ export interface ILiga {
 	mercado: IPropiedadJugador[];
 	configuracion?: string;
 }
-
-liga.index({ _id: 1 }, { unique: true });
 
 export const modeloLiga = model<ILiga>("liga", liga);

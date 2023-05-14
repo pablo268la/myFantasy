@@ -5,11 +5,15 @@ import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
+import * as UUID from "uuid";
+import { modeloAlineacionJugador } from "../model/alineacionJugador";
 import { modeloLiga } from "../model/liga";
+import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
 import apiUsuarios from "../routes/rutasUsuarios";
 
+const randomstring = require("randomstring");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 
@@ -43,7 +47,8 @@ beforeAll(async () => {
 afterAll(async () => {
 	await modeloUsuario.deleteOne({ email: usuario4.email });
 	await modeloUsuario.deleteOne({ email: usuario5Ligas.email });
-	await modeloLiga.deleteOne({ _id: "1234" });
+	await modeloLiga.deleteOne({ id: "1234" });
+	await modeloLiga.deleteOne({ id: "5678" });
 
 	server.close();
 	mongoose.connection.close();
@@ -103,7 +108,7 @@ describe("createLiga", () => {
 			.set({ email: usuario4.email, token: token4 })
 			.send({
 				liga: {
-					_id: "1234",
+					id: "1234",
 					nombre: "Liga de prueba",
 					plantillasUsuarios: [],
 					propiedadJugadores: [],
@@ -188,7 +193,17 @@ describe("añadirUsuarioALiga", () => {
 	/**
 	 * Test: Devuelve 409 si la liga está llena
 	 */
-	// TODO
+	it("Devuelve 409 si la liga está llena", async () => {
+		await crearLigaLLena();
+		const response: Response = await request(app)
+			.post("/ligas/5678")
+			.set({ email: usuarioAdmin.email, token: tokenAdmin });
+
+		expect(response.status).toBe(409);
+		expect(response.body).toEqual({
+			message: "Liga completa",
+		});
+	});
 });
 
 describe("getLiga", () => {
@@ -275,3 +290,89 @@ describe("getLigasUsuario", () => {
 		expect(response.body[0].plantillasUsuarios).toHaveLength(1);
 	});
 });
+
+describe("getRandomLiga", () => {
+	/**
+	 * Test: Devuelve 401 si el usuario no está autenticado
+	 */
+	it("Devuelve 401 si el usuario no está autenticado", async () => {
+		const response: Response = await request(app).get("/ligas/random/new");
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({ message: "Usuario no autenticado" });
+	});
+
+	/**
+	 * Test: Devuelve 200 si hay ligas disponibles para unirse
+	 */
+	it("Devuelve 200 si hay ligas disponibles para unirse", async () => {
+		const response: Response = await request(app)
+			.get("/ligas/random/new")
+			.set({ email: usuarioAdmin.email, token: tokenAdmin });
+
+		expect(response.status).toBe(200);
+		expect(response.body.nombre).toEqual("Liga de prueba");
+		expect(response.body.maxJugadores).toEqual(3);
+		expect(response.body.enlaceInvitacion).toEqual("join-to:1234");
+		expect(response.body.mercado).toHaveLength(10);
+		expect(response.body.plantillasUsuarios).toHaveLength(1);
+	});
+
+	/**
+	 * Test: Devuelve 404 si no hay ligas disponibles para unirse
+	 */
+	it("Devuelve 404 si no hay ligas disponibles para unirse", async () => {
+		const response: Response = await request(app)
+			.get("/ligas/random/new")
+			.set({ email: usuario4.email, token: token4 });
+
+		expect(response.status).toBe(404);
+		expect(response.body).toEqual({ message: "No hay ligas disponibles" });
+	});
+});
+
+const crearLigaLLena = async () => {
+	const liga = new modeloLiga({
+		id: "5678",
+		nombre: "Liga de prueba",
+		plantillasUsuarios: [],
+		propiedadJugadores: [],
+		maxJugadores: 3,
+		enlaceInvitacion: "join-to:5678",
+		mercado: [],
+	});
+
+	const alineacionJugador = new modeloAlineacionJugador({
+		id: UUID.v4(),
+		porteros: [],
+		defensas: [],
+		medios: [],
+		delanteros: [],
+		formacion: "4-3-3",
+		guardadoEn: new Date().toISOString(),
+		idLiga: liga.id,
+	});
+	const plantillaUsuario = new modeloPlantillaUsuario({
+		id: UUID.v4(),
+		idLiga: liga.id,
+		usuario: {
+			id: randomstring.generate(10),
+			nombre: randomstring.generate(10),
+			usuario: randomstring.generate(10),
+			email: randomstring.generate(10),
+			contraseña: randomstring.generate(10),
+			ligas: [],
+			admin: false,
+		},
+		alineacionJugador: alineacionJugador,
+		alineacionesJornada: [],
+		valor: 0,
+		puntos: 0,
+		dinero: 100000000,
+	});
+
+	liga.plantillasUsuarios.push(plantillaUsuario);
+	liga.plantillasUsuarios.push(plantillaUsuario);
+	liga.plantillasUsuarios.push(plantillaUsuario);
+	await liga.save();
+};

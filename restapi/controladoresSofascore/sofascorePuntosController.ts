@@ -30,7 +30,7 @@ export const getIncidentesPartidoSofascore: RequestHandler = async (
 
 export const getPuntosPartidoSofascore: RequestHandler = async (req, res) => {
 	let partido: IPartido | null = await modeloPartido.findOne({
-		_id: req.body.idPartido,
+		id: req.body.idPartido,
 	});
 
 	if (partido !== null) res.json(await getPuntosDePartido(partido));
@@ -39,8 +39,8 @@ export const getPuntosPartidoSofascore: RequestHandler = async (req, res) => {
 
 async function getPuntosDePartido(partido: IPartido) {
 	if (new Date(partido.fecha).getTime() < new Date().getTime()) {
-		await getIncidentesDePartidoSofascore(partido._id);
-		return await getPuntosJugadoresPartido(partido._id);
+		await getIncidentesDePartidoSofascore(partido.id);
+		return await getPuntosJugadoresPartido(partido.id);
 	}
 	return null;
 }
@@ -49,7 +49,7 @@ export async function getPuntosJugadoresPartido(
 	idPartido: any
 ): Promise<IJugador[] | null> {
 	let partido: IPartido | null = await modeloPartido.findOne({
-		_id: idPartido,
+		id: idPartido,
 	});
 
 	let resultJugadores: any[] = [];
@@ -86,12 +86,12 @@ async function cogerPuntuacionesJugador(
 	jugadores: any[]
 ): Promise<IJugador | null> {
 	let jugador: IJugador | null = await modeloJugador.findOne({
-		_id: jugadores[i].player.id,
+		id: jugadores[i].player.id,
 	});
 
 	const statistics = jugadores[i].statistics;
 	if (jugador !== null && statistics !== undefined) {
-		const idEquipo = jugador.equipo._id;
+		const idEquipo = jugador.equipo.id;
 		const idEquipoRival =
 			partido.idLocal === idEquipo ? partido.idVisitante : partido.idLocal;
 
@@ -176,8 +176,8 @@ async function cogerPuntuacionesJugador(
 		});
 
 		let puntuacion: IPuntuacionJugador = new modelPuntuacionJugador({
-			idJugador: jugador._id,
-			idPartido: partido._id,
+			idJugador: jugador.id,
+			idPartido: partido.id,
 			semana: partido.jornada,
 			puntos: 0,
 			puntuacionBasica: puntuacionBasica,
@@ -194,7 +194,7 @@ async function cogerPuntuacionesJugador(
 		puntuacion.puntos = getPuntosDeJugador(puntuacion);
 
 		jugador = await modeloJugador.findByIdAndUpdate(
-			{ _id: jugador._id },
+			{ id: jugador.id },
 			jugador,
 			{ new: true }
 		);
@@ -231,7 +231,7 @@ export async function getIncidentesDePartidoSofascore(idPartido: string) {
 
 	extraerEventos(eventosPartido, evento);
 
-	let partido = await modeloPartido.findOne({ _id: idPartido.toString() });
+	let partido = await modeloPartido.findOne({ id: idPartido.toString() });
 
 	if (partido !== null) {
 		let aLocal: IAlineacion = partido.alineacionLocal;
@@ -365,7 +365,7 @@ export async function getIncidentesDePartidoSofascore(idPartido: string) {
 
 	for (let i = 0; i < jLocales.length; i++) {
 		let jugador: IJugador | null = await modeloJugador.findOne({
-			_id: jLocales[i].id,
+			id: jLocales[i].id,
 		});
 		if (
 			jugador !== null &&
@@ -382,7 +382,7 @@ export async function getIncidentesDePartidoSofascore(idPartido: string) {
 	}
 
 	for (let i = 0; i < jVisitantes.length; i++) {
-		let jugador = await modeloJugador.findOne({ _id: jVisitantes[i].id });
+		let jugador = await modeloJugador.findOne({ id: jVisitantes[i].id });
 		if (
 			jugador !== null &&
 			partido !== null &&
@@ -428,7 +428,7 @@ async function guardarPuntuacionCalculable(
 			jugador.puntuaciones[partido.jornada - 1]
 		);
 		jugador = await modeloJugador.findOneAndUpdate(
-			{ _id: jLocales[i].id },
+			{ id: jLocales[i].id },
 			jugador,
 			{ new: true }
 		);

@@ -3,7 +3,7 @@ import { equipo, IEquipo } from "./equipo";
 import { IJugadorAntiguo, jugadorAntiguo } from "./jugadorAntiguo";
 
 export interface IJugador {
-	_id: string;
+	id: string;
 	nombre: string;
 	slug: string;
 	posicion: string;
@@ -23,7 +23,7 @@ export interface IJugador {
  *   Jugador:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     nombre:
  *      type: string
@@ -50,7 +50,7 @@ export interface IJugador {
  */
 export const jugador = new Schema<IJugador>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
@@ -111,7 +111,5 @@ export const jugador = new Schema<IJugador>(
 		timestamps: false,
 	}
 );
-
-jugador.index({ _id: 1 }, { unique: true });
 
 export const modeloJugador = model<IJugador>("jugador", jugador);

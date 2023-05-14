@@ -10,7 +10,7 @@ import { verifyUser } from "./usuariosController";
 
 export const resetmercado: RequestHandler = async (req, res) => {
 	try {
-		const liga = await modeloLiga.findById(req.params.idLiga);
+		const liga = await modeloLiga.findOne({ id: req.params.idLiga });
 
 		if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
@@ -97,14 +97,14 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 	const token = req.headers.token as string;
 	const idLiga = req.params.idLiga;
 	const ofertaHecha: IOferta = req.body.oferta;
-	const idJugadorEnVenta = req.body.jugadorEnVenta.jugador._id;
+	const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.id;
 
 	const usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
 
 	try {
 		if (usuario && verified) {
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
 			const mercado = liga.mercado;
@@ -112,7 +112,7 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 			let j;
 
 			mercado.map((propiedadJugadorMercado) => {
-				if (propiedadJugadorMercado.jugador._id === idJugadorEnVenta) {
+				if (propiedadJugadorMercado.jugador.id === idJugadorEnVenta) {
 					if (propiedadJugadorMercado.venta.ofertas.length !== 0) {
 						propiedadJugadorMercado.venta.ofertas.map((oferta) => {
 							if (oferta.comprador.id === usuario.id) {
@@ -154,7 +154,7 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 
 	try {
 		if (usuario && verified) {
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
 			const mercado = liga.mercado;
@@ -194,12 +194,12 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 
 	try {
 		if (usuario && verified) {
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
 			let r;
 			liga.mercado.map((propiedadJugador) => {
-				if (propiedadJugador.jugador._id === idJugadorEnVenta) {
+				if (propiedadJugador.jugador.id === idJugadorEnVenta) {
 					propiedadJugador.venta.ofertas =
 						propiedadJugador.venta.ofertas.filter((oferta) => {
 							return oferta.comprador.id !== idComprador;
@@ -237,7 +237,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 	try {
 		if (usuario && verified) {
 			if (nuevoUsuario) {
-				const liga = await modeloLiga.findById(idLiga);
+				const liga = await modeloLiga.findOne({ id: idLiga });
 				if (!liga)
 					return res.status(404).json({ message: "Liga no encontrada" });
 
@@ -245,7 +245,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				let valorOfertaAcetada = 0;
 				liga.mercado.forEach((propiedadJugador) => {
 					// TODO -- Checkear que hacer cuando el jugador no esta en el mercado
-					if (propiedadJugador.jugador._id === idJugadorEnVenta) {
+					if (propiedadJugador.jugador.id === idJugadorEnVenta) {
 						propiedadJugador.venta.ofertas.forEach((oferta) => {
 							if (oferta.comprador.id === idComprador) {
 								valorOfertaAcetada = oferta.valorOferta;
@@ -260,7 +260,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				});
 
 				liga.mercado = liga.mercado.filter(
-					(p) => p.jugador._id !== idJugadorEnVenta
+					(p) => p.jugador.id !== idJugadorEnVenta
 				);
 
 				// TODO -- Checkear que hacer cuando el comprador o vendedor es la liga
@@ -280,7 +280,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				});
 
 				liga.propiedadJugadores.map((propiedadJugador) => {
-					if (propiedadJugador.jugador._id === idJugadorEnVenta) {
+					if (propiedadJugador.jugador.id === idJugadorEnVenta) {
 						propiedadJugador.usuario = nuevoUsuario;
 					}
 					return propiedadJugador;
@@ -310,25 +310,25 @@ function quitarJugadorDePlantilla(
 		case "Portero":
 			plantilla.alineacionJugador.porteros =
 				plantilla.alineacionJugador.porteros.filter(
-					(j) => j.jugador._id !== idJugadorAQuitar
+					(j) => j.jugador.id !== idJugadorAQuitar
 				);
 			break;
 		case "Defensa":
 			plantilla.alineacionJugador.defensas =
 				plantilla.alineacionJugador.defensas.filter(
-					(j) => j.jugador._id !== idJugadorAQuitar
+					(j) => j.jugador.id !== idJugadorAQuitar
 				);
 			break;
 		case "Mediocentro":
 			plantilla.alineacionJugador.medios =
 				plantilla.alineacionJugador.medios.filter(
-					(j) => j.jugador._id !== idJugadorAQuitar
+					(j) => j.jugador.id !== idJugadorAQuitar
 				);
 			break;
 		case "Delantero":
 			plantilla.alineacionJugador.delanteros =
 				plantilla.alineacionJugador.delanteros.filter(
-					(j) => j.jugador._id !== idJugadorAQuitar
+					(j) => j.jugador.id !== idJugadorAQuitar
 				);
 			break;
 	}

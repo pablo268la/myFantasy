@@ -20,7 +20,7 @@ export const getJugadores: RequestHandler = async (req, res) => {
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	try {
 		const j = await modeloJugador.find({
-			"equipo._id": req.params.idEquipo,
+			"equipo.id": req.params.idEquipo,
 		});
 		res.status(200).json(j);
 	} catch (error) {
@@ -31,8 +31,8 @@ export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 
 export const getJugador: RequestHandler = async (req, res) => {
 	try {
-		const j = await modeloJugador.findOne({ _id: req.params.idJugador });
-		//			.populate("equipo._id")
+		const j = await modeloJugador.findOne({ id: req.params.idJugador });
+		//			.populate("equipo.id")
 		if (j) {
 			res.status(200).json(j);
 		} else {
@@ -46,12 +46,11 @@ export const getJugador: RequestHandler = async (req, res) => {
 
 export const getJugadoresAntiguos: RequestHandler = async (req, res) => {
 	try {
-		res.status(200).json(
-			await modeloJugador.find({
-				"jugadorAntiguo.equipo._id": req.params.idEquipo,
-				"jugadorAntiguo.jornadaTraspaso": { $lte: req.params.semana },
-			})
-		);
+		const j = await modeloJugador.find({
+			"jugadorAntiguo.equipo.id": req.params.idEquipo,
+			"jugadorAntiguo.jornadaTraspaso": { $lte: req.params.semana },
+		});
+		res.status(200).json(j);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
@@ -63,7 +62,7 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		const email = req.headers.email as string;
 		const token = req.headers.token as string;
 		const jugadorRequqest = req.body as IJugador;
-		
+
 		const verified = await verifyUser(email, token);
 
 		if (!verified) {
@@ -75,12 +74,12 @@ export const updateJugador: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 
-		const j = (await modeloJugador.find({ _id: req.params.idJugador })).at(0);
+		const j = (await modeloJugador.find({ id: req.params.idJugador })).at(0);
 		if (j === undefined) {
 			return res.status(404).json({ message: "Jugador no encontrado" });
 		}
 
-		if (j !== undefined && j.equipo._id !== req.body.equipo._id) {
+		if (j !== undefined && j.equipo.id !== req.body.equipo.id) {
 			jugadorRequqest.jugadorAntiguo = {
 				equipo: j.equipo,
 				jornadaTraspaso: 1,
@@ -88,7 +87,7 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		}
 
 		const jugador = await modeloJugador.findOneAndUpdate(
-			{ _id: req.params.idJugador },
+			{ id: req.params.idJugador },
 			jugadorRequqest,
 			{ new: true }
 		);

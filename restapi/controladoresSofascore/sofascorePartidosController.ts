@@ -16,7 +16,7 @@ export const getAlineacionesPartidoSofascore: RequestHandler = async (
 	res
 ) => {
 	let partido: IPartido | null = await modeloPartido.findOne({
-		_id: req.body.idPartido,
+		id: req.body.idPartido,
 	});
 
 	if (partido !== null) res.json(await getAlineacionesDePartido(partido));
@@ -36,7 +36,7 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 		await new Promise((f) => setTimeout(f, 1000));
 		let p = partidosJornada[i];
 		let partido: IPartido | null = new modeloPartido({
-			_id: p.id,
+			id: p.id,
 			idLocal: p.homeTeam.id,
 			idVisitante: p.awayTeam.id,
 			alineacionLocal: new modeloAlineacion({}),
@@ -49,9 +49,9 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 			estado: checkStatusPartido(p.status.type),
 		});
 
-		let exists = await modeloPartido.findOne({ _id: p.id });
+		let exists = await modeloPartido.findOne({ id: p.id });
 		if (exists) {
-			partido = await modeloPartido.findOneAndUpdate({ _id: p.id }, partido, {
+			partido = await modeloPartido.findOneAndUpdate({ id: p.id }, partido, {
 				new: true,
 			});
 		} else {
@@ -72,14 +72,14 @@ export const getPartidosRondaSofascore: RequestHandler = async (req, res) => {
 
 async function getAlineacionesDePartido(partido: IPartido) {
 	if (new Date(partido.fecha).getTime() < new Date().getTime()) {
-		return await cogerAlineaciones(partido._id);
+		return await cogerAlineaciones(partido.id);
 	}
 	return null;
 }
 
 async function cogerAlineaciones(idPartido: any): Promise<IPartido | null> {
 	let partido: IPartido | null = await modeloPartido.findOne({
-		_id: idPartido,
+		id: idPartido,
 	});
 	let jugadoresLocal: any[] = [];
 	let jugadoresVisitante: any[] = [];
@@ -123,21 +123,21 @@ async function cogerAlineacion(
 	for (let i = 0; i < jugadores.length; i++) {
 		let jugador = jugadores[i];
 		let exists: IJugador | null = await modeloJugador.findOne({
-			_id: jugador.player.id,
+			id: jugador.player.id,
 		});
 
 		if (exists === null) {
 			exists = await modeloJugador.create(createJugadorNoDisponible(jugador));
 		}
 
-		if (exists.equipo._id !== idEquipo) {
+		if (exists.equipo.id !== idEquipo) {
 			let jugadorAntiguo: IJugadorAntiguo = new modeloJugadorAntiguo({
 				idEquipoAntiguo: idEquipo,
 				jornadaTraspaso: jornada,
 			});
 			exists.jugadorAntiguo = jugadorAntiguo;
 			exists = await modeloJugador.findOneAndUpdate(
-				{ _id: jugador.player.id },
+				{ id: jugador.player.id },
 				exists,
 				{ new: true }
 			);
@@ -160,7 +160,7 @@ async function cogerAlineacion(
 
 function createJugadorNoDisponible(jugador: any) {
 	return new modeloJugador({
-		_id: jugador.player.id,
+		id: jugador.player.id,
 		nombre: jugador.player.name,
 		slug: jugador.player.slug,
 		posicion: checkPosition(jugador.player.position),

@@ -9,7 +9,7 @@ import { verifyUser } from "./usuariosController";
 
 export const getPartido: RequestHandler = async (req, res) => {
 	try {
-		const partido = await modeloPartido.findById(req.params.id);
+		const partido = await modeloPartido.findOne({ id: req.params.id });
 		if (!partido)
 			return res.status(404).json({ message: "Partido no encontrado" });
 		return res.status(200).json(partido);
@@ -33,7 +33,7 @@ export const getPartidosJornada: RequestHandler = async (req, res) => {
 
 export const getPuntuacionesPartido: RequestHandler = async (req, res) => {
 	try {
-		const partidos = await modeloPartido.find({ _id: req.params.idPartido });
+		const partidos = await modeloPartido.find({ id: req.params.idPartido });
 		if (partidos.filter((p) => p.id === req.params.idPartido).length === 0)
 			return res.status(404).json({ message: "Partido no encontrado" });
 
@@ -52,8 +52,8 @@ export const getPartidosEquipo: RequestHandler = async (req, res) => {
 	try {
 		const partidos = await modeloPartido.find({
 			$or: [
-				{ "local._id": req.params.idEquipo },
-				{ "visitante._id": req.params.idEquipo },
+				{ "local.id": req.params.idEquipo },
+				{ "visitante.id": req.params.idEquipo },
 			],
 		});
 		if (partidos.length === 0)

@@ -26,7 +26,7 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 			const idLiga = req.params.idLiga;
 			const idUsuario = req.params.idUsuario;
 
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
@@ -69,19 +69,19 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
 			const idLiga = req.body.idLiga;
 
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 			if (
 				liga.plantillasUsuarios.filter(
-					(plantilla) => plantilla._id === plantillaParaActualizar._id
+					(plantilla) => plantilla.id === plantillaParaActualizar.id
 				).length === 0
 			)
 				return res.status(404).json({ message: "Plantilla no encontrada" });
 
 			liga.plantillasUsuarios = liga.plantillasUsuarios.map(
 				(plantillaUsuario) => {
-					if (plantillaUsuario._id === plantillaParaActualizar._id)
+					if (plantillaUsuario.id === plantillaParaActualizar.id)
 						return plantillaParaActualizar;
 					else return plantillaUsuario;
 				}
@@ -137,18 +137,18 @@ export async function crearPlantillaParaUsuarioYGuardar(
 	);
 
 	const alineacionJugador = new modeloAlineacionJugador({
-		_id: UUID.v4(),
+		id: UUID.v4(),
 		porteros: porPlantilla,
 		defensas: defPlantilla,
 		medios: medPlantilla,
 		delanteros: delPlantilla,
 		formacion: "4-3-3",
 		guardadoEn: new Date().toISOString(),
-		idLiga: liga._id,
+		idLiga: liga.id,
 	});
 	const plantillaUsuario = new modeloPlantillaUsuario({
-		_id: UUID.v4(),
-		idLiga: liga._id,
+		id: UUID.v4(),
+		idLiga: liga.id,
 		usuario: usuario,
 		alineacionJugador: alineacionJugador,
 		alineacionesJornada: [],
@@ -164,8 +164,8 @@ export async function crearPlantillaParaUsuarioYGuardar(
 	intercambiarPropiedades(medPlantilla, liga);
 	intercambiarPropiedades(delPlantilla, liga);
 
-	if (usuario.ligas.indexOf(liga._id) === -1) {
-		usuario.ligas.push(liga._id);
+	if (usuario.ligas.indexOf(liga.id) === -1) {
+		usuario.ligas.push(liga.id);
 		await usuario.save();
 	}
 
@@ -179,7 +179,7 @@ export function intercambiarPropiedades(
 ) {
 	for (let i = 0; i < jugadoresACambiarPropiedad.length; i++) {
 		liga.propiedadJugadores.forEach((pj) => {
-			if (jugadoresACambiarPropiedad[i].jugador._id === pj.jugador._id) {
+			if (jugadoresACambiarPropiedad[i].jugador.id === pj.jugador.id) {
 				pj.usuario = jugadoresACambiarPropiedad[i].usuario;
 			}
 		});
@@ -240,7 +240,7 @@ async function actualizarDatosDeJugadoresDesdeBD(
 	propiedades: IPropiedadJugador[]
 ) {
 	for (let j of propiedades) {
-		j.jugador = (await modeloJugador.findOne({ _id: j.jugador._id })) as any;
+		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as any;
 		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as any;
 	}
 }

@@ -52,7 +52,7 @@ export const puntuacionCalculable = new Schema<IPuntuacionCalculable>(
 		},
 	},
 	{
-		_id: false,
+		id: false,
 		versionKey: false,
 		timestamps: false,
 	}

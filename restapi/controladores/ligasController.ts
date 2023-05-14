@@ -21,7 +21,8 @@ export const getLiga: RequestHandler = async (req, res) => {
 		const verified = await verifyUser(email, token);
 
 		if (usuario && verified) {
-			const ligaEncontrada = await modeloLiga.findById(req.params.id);
+			// TODO -Diferenciar usuario y verified
+			const ligaEncontrada = await modeloLiga.findOne({ id: req.params.id });
 			if (!ligaEncontrada)
 				return res.status(404).json({ message: "Liga no encontrada" });
 
@@ -55,7 +56,7 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 		if (usuario && verified) {
 			let ligas = [];
 			for (let i = 0; i < usuario.ligas.length; i++) {
-				const liga = await modeloLiga.findById(usuario.ligas[i]);
+				const liga = await modeloLiga.findOne({ id: usuario.ligas[i] });
 				ligas.push(liga);
 			}
 			return res.status(200).json(ligas);
@@ -127,7 +128,7 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
 		if (usuario && verified) {
-			let liga = await modeloLiga.findById(idLiga);
+			let liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 			else if (usuario.ligas.length >= 5) {
@@ -183,9 +184,7 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 			ligas = shuffle(ligas);
 
 			if (ligas.length === 0)
-				return res
-					.status(404)
-					.json({ message: "No existe liga disponible para unirse" });
+				return res.status(404).json({ message: "No hay ligas disponibles" });
 
 			return res.status(200).json(ligas[0]);
 		} else {

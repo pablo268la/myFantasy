@@ -55,7 +55,7 @@ api.get("/ligas/:id", LigasController.getLiga);
 
 /**
  * @openapi
- * /ligas/random/new:
+ * /ligas/random:
  *  get:
  *     tags:
  *     - Ligas
