@@ -283,3 +283,29 @@ describe("Ligas", () => {
 		});
 	});
 });
+
+describe("Plantillas", () => {
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		let response: Response = await request(app).get("/plantillas/1/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		let response: Response = await request(app).post("/plantillas/update");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+});

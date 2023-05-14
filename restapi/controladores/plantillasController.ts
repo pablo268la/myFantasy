@@ -16,12 +16,12 @@ import { modeloVenta } from "../model/venta";
 import { verifyUser } from "./usuariosController";
 
 export const getPlantilla: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		let usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
 		if (usuario && verified) {
 			const idLiga = req.params.idLiga;
 			const idUsuario = req.params.idUsuario;
@@ -58,13 +58,13 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 };
 
 export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		let usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
 		if (usuario && verified) {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
 			const idLiga = req.body.idLiga;

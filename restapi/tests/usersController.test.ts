@@ -1,5 +1,4 @@
 import bp from "body-parser";
-import cors from "cors";
 import express, { Application, RequestHandler } from "express";
 import promBundle from "express-prom-bundle";
 import { Server } from "http";
@@ -19,10 +18,6 @@ const app: Application = express();
 const mongoose = require("mongoose");
 const connectionString =
 	"mongodb+srv://pablo268la:iOv0N7wwYSI4Xiwy@cluster0.1n0snau.mongodb.net/?retryWrites=true&w=majority";
-
-const options: cors.CorsOptions = {
-	origin: ["http://localhost:3000"],
-};
 
 beforeAll(async () => {
 	const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
@@ -81,15 +76,11 @@ describe("getUsuario", () => {
 		);
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toEqual(
-			expect.objectContaining({
-				nombre: "Test",
-				usuario: "TestFantasy",
-				email: emailCorrecto,
-				ligas: [],
-				admin: true,
-			})
-		);
+		expect(response.body.nombre).toEqual("Test");
+		expect(response.body.usuario).toEqual("TestFantasy");
+		expect(response.body.email).toEqual(emailCorrecto);
+		expect(response.body.ligas).toEqual(["1234"]);
+		expect(response.body.admin).toEqual(true);
 	});
 
 	/**
