@@ -367,3 +367,41 @@ describe("Partidos", () => {
 		});
 	});
 });
+
+describe("Puntuaciones", () => {
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).get("/puntuaciones/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).get("/puntuaciones/1/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).post("/puntuaciones");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+});

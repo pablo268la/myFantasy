@@ -116,6 +116,10 @@ api.get(
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/PuntuacionJugador'
+ *        401:
+ *          description: Usuario no autenticado | Usuario no autorizado
+ *        404:
+ *          description: Jugador no encontrado
  *        500:
  *          description: Error interno
  *          content:
