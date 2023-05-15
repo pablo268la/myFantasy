@@ -67,7 +67,7 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 
 		if (usuario && verified) {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
-			const idLiga = req.body.idLiga;
+			const idLiga = req.body.idLiga.toString();
 
 			const liga = await modeloLiga.findOne({ id: idLiga });
 
