@@ -21,6 +21,7 @@ jobs:
       - uses: codecov/codecov-action@v2
   build:
     runs-on: ubuntu-latest
+    needs: [unit-test-restapi]
     env:
       MONGO_DB_URI: ${{secrets.MONGO_DB_URI}}
     steps:
