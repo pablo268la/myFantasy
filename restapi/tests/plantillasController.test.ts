@@ -213,7 +213,8 @@ describe("plantillas/update", () => {
 	it("Devuelve 200 si la plantilla existe", async () => {
 		const crypto = require("crypto");
 		const dinero = Math.floor(
-			crypto.getRandomValues(new Uint32Array(1)[0] / (0xffffffff + 1)) * 1000000
+			(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
+				1000000
 		);
 		plantillaUsuario.dinero = dinero;
 		const response: Response = await request(app)
