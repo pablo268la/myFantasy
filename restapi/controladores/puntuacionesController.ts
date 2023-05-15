@@ -98,7 +98,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 			return res.status(404).json({ message: "Jugador no encontrado" });
 		}
 
-		let exists = await modelPuntuacionJugador.findOne({
+		const exists = await modelPuntuacionJugador.findOne({
 			idJugador: puntuacionJugador.idJugador,
 			idPartido: puntuacionJugador.idPartido,
 		});
