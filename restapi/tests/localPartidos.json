@@ -1,0 +1,5357 @@
+[{
+  "id": "10408559",
+  "alineacionLocal": {
+    "jugadoresTitulares": [
+      {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644"
+      },
+      {
+        "id": "897902",
+        "nombre": "Juan Cruz",
+        "slug": "juan-cruz",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p850/256x256/p850_t450_1_001_000.png",
+        "fantasyMarcaId": "850"
+      },
+      {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 11000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650"
+      },
+      {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649"
+      },
+      {
+        "id": "255973",
+        "nombre": "Rubén Peña",
+        "slug": "ruben-pena",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 3300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p360/256x256/p360_t450_1_001_000.png",
+        "fantasyMarcaId": "360"
+      },
+      {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 185000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517"
+      },
+      {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680"
+      },
+      {
+        "id": "187313",
+        "nombre": "Lucas Torró",
+        "slug": "lucas-torro",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 4400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p873/256x256/p873_t450_1_001_000.png",
+        "fantasyMarcaId": "873"
+      },
+      {
+        "id": "976141",
+        "nombre": "Jon Moncayola",
+        "slug": "jon-moncayola",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 9300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p637/256x256/p637_t450_1_001_000.png",
+        "fantasyMarcaId": "637"
+      },
+      {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478"
+      },
+      {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651"
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "252777",
+        "nombre": "Juan Pérez",
+        "slug": "juan-perez",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p648/256x256/p648_t450_1_001_000.png",
+        "fantasyMarcaId": "648"
+      },
+      {
+        "id": "99516",
+        "nombre": "Aitor Fernández",
+        "slug": "aitor-fernandez",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p204/256x256/p204_t450_1_001_000.png",
+        "fantasyMarcaId": "204"
+      },
+      {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168"
+      },
+      {
+        "id": "844752",
+        "nombre": "Nacho Vidal",
+        "slug": "nacho-vidal",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p642/256x256/p642_t450_1_001_000.png",
+        "fantasyMarcaId": "642"
+      },
+      {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image"
+      },
+      {
+        "id": "944225",
+        "nombre": "Jorge Herrando",
+        "slug": "herrando-jorge",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/944225/image"
+      },
+      {
+        "id": "1086346",
+        "nombre": "Iker Benito",
+        "slug": "iker-benito",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1086346/image"
+      },
+      {
+        "id": "211122",
+        "nombre": "Roberto Torres",
+        "slug": "roberto-torres",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p654/256x256/p654_t450_1_001_000.png",
+        "fantasyMarcaId": "654"
+      },
+      {
+        "id": "913732",
+        "nombre": "Javi Martínez",
+        "slug": "javi-martinez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/913732/image",
+        "fantasyMarcaId": "1001"
+      },
+      {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136"
+      },
+      {
+        "id": "37318",
+        "nombre": "Ante Budimir",
+        "slug": "ante-budimir",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p942/256x256/p942_t450_1_001_000.png",
+        "fantasyMarcaId": "942"
+      },
+      {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155"
+      }
+    ],
+    "id": {
+      "$oid": "642d9ac334cd6efa9f14a535"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [
+      {
+        "id": "360938",
+        "nombre": "Bono",
+        "slug": "bono",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 14500000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p734/256x256/p734_t179_1_001_000.png",
+        "fantasyMarcaId": "734"
+      },
+      {
+        "id": "578560",
+        "nombre": "Marcos Acuña",
+        "slug": "marcos-acuna",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 13500000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p912/256x256/p912_t179_1_001_000.png",
+        "fantasyMarcaId": "912"
+      },
+      {
+        "id": "138827",
+        "nombre": "Karim Rekik",
+        "slug": "karim-rekik",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 3800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p943/256x256/p943_t179_1_001_000.png",
+        "fantasyMarcaId": "943"
+      },
+      {
+        "id": "11869",
+        "nombre": "Jesús Navas",
+        "slug": "jesus-navas",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 2800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p284/256x256/p284_t179_1_001_000.png",
+        "fantasyMarcaId": "284"
+      },
+      {
+        "id": "33381",
+        "nombre": "Papu Gómez",
+        "slug": "papu-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 6400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1008/256x256/p1008_t179_1_001_000.png",
+        "fantasyMarcaId": "1008"
+      },
+      {
+        "id": "123906",
+        "nombre": "Jesús Corona",
+        "slug": "jesus-corona",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 24000000,
+        "puntos": 0,
+        "estado": "Lesionado",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1328/256x256/p1328_t179_1_001_000.png",
+        "fantasyMarcaId": "1328"
+      },
+      {
+        "id": "66477",
+        "nombre": "Thomas Delaney",
+        "slug": "thomas-delaney",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 7300000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1288/256x256/p1288_t179_1_001_000.png",
+        "fantasyMarcaId": "1288"
+      },
+      {
+        "id": "41837",
+        "nombre": "Fernando",
+        "slug": "fernando",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 3900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p669/256x256/p669_t179_1_001_000.png",
+        "fantasyMarcaId": "1422"
+      },
+      {
+        "id": "68332",
+        "nombre": "Nemanja Gudelj",
+        "slug": "nemanja-gudelj",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 3800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p683/256x256/p683_t179_1_001_000.png",
+        "fantasyMarcaId": "683"
+      },
+      {
+        "id": "825754",
+        "nombre": "Rafa Mir",
+        "slug": "rafa-mir",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 16500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1275/256x256/p1275_t179_1_001_000.png",
+        "fantasyMarcaId": "1275"
+      },
+      {
+        "id": "155702",
+        "nombre": "Lucas Ocampos",
+        "slug": "lucas-ocampos",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/155702/image"
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "94527",
+        "nombre": "Marko Dmitrović",
+        "slug": "marko-dmitrovic",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 5500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1163/256x256/p1163_t179_1_001_000.png",
+        "fantasyMarcaId": "1163"
+      },
+      {
+        "id": "1108577",
+        "nombre": "Alberto Flores",
+        "slug": "alberto-flores",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1108577/image"
+      },
+      {
+        "id": "1097719",
+        "nombre": "Kike Salas",
+        "slug": "kike-salas",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1097719/image"
+      },
+      {
+        "id": "1015240",
+        "nombre": "José Ángel Carmona",
+        "slug": "jose-angel-carmona",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1015240/image",
+        "fantasyMarcaId": "1251"
+      },
+      {
+        "id": "822933",
+        "nombre": "Gonzalo Montiel",
+        "slug": "gonzalo-montiel",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 18300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1280/256x256/p1280_t179_1_001_000.png",
+        "fantasyMarcaId": "1280"
+      },
+      {
+        "id": "312110",
+        "nombre": "Alex Telles",
+        "slug": "alex-telles",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 17100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1492/256x256/p1492_t179_1_001_000.png",
+        "fantasyMarcaId": "1492"
+      },
+      {
+        "id": "7635",
+        "nombre": "Ivan Rakitić",
+        "slug": "ivan-rakitic",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 7700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p102/256x256/p102_t179_1_001_000.png",
+        "fantasyMarcaId": "102"
+      },
+      {
+        "id": "591750",
+        "nombre": "Joan Jordán",
+        "slug": "joan-jordan",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 29000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p296/256x256/p296_t179_1_001_000.png",
+        "fantasyMarcaId": "296"
+      },
+      {
+        "id": "122702",
+        "nombre": "Erik Lamela",
+        "slug": "erik-lamela",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 21000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1187/256x256/p1187_t179_1_001_000.png",
+        "fantasyMarcaId": "1187"
+      },
+      {
+        "id": "231776",
+        "nombre": "Óliver Torres",
+        "slug": "oliver-torres",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 9700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p675/256x256/p675_t179_1_001_000.png",
+        "fantasyMarcaId": "675"
+      },
+      {
+        "id": "846470",
+        "nombre": "Youssef En-Nesyri",
+        "slug": "youssef-en-nesyri",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 42000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p415/256x256/p415_t179_1_001_000.png",
+        "fantasyMarcaId": "415"
+      },
+      {
+        "id": "1014042",
+        "nombre": "Iván Romero",
+        "slug": "ivan-romero",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        },
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1014042/image",
+        "fantasyMarcaId": "1254"
+      }
+    ],
+    "id": {
+      "$oid": "642d9ac334cd6efa9f14a536"
+    }
+  },
+  "resultadoLocal": 2,
+  "resultadoVisitante": 1,
+  "jornada": 1,
+  "fecha": "2022-08-12T19:00:00.000Z",
+  "linkSofaScore": "79bMo9kpft",
+  "estado": "Finalizado",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2833",
+    "nombre": "Sevilla",
+    "slug": "sevilla",
+    "shortName": "Sevilla",
+    "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+  },
+  "eventos": [
+    {
+      "tipo": "Gol",
+      "minuto": 9,
+      "jugador": {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8700000,
+        "puntos": 14,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478"
+      },
+      "jugador2": {
+        "id": "255973",
+        "nombre": "Rubén Peña",
+        "slug": "ruben-pena",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 3300000,
+        "puntos": 20,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p360/256x256/p360_t450_1_001_000.png",
+        "fantasyMarcaId": "360"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b1"
+      }
+    },
+    {
+      "tipo": "Gol",
+      "minuto": 11,
+      "jugador": {
+        "id": "825754",
+        "nombre": "Rafa Mir",
+        "slug": "rafa-mir",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 16500000,
+        "puntos": 18,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1275/256x256/p1275_t179_1_001_000.png",
+        "fantasyMarcaId": "1275"
+      },
+      "jugador2": {
+        "id": "33381",
+        "nombre": "Papu Gómez",
+        "slug": "papu-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 6400000,
+        "puntos": 28,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1008/256x256/p1008_t179_1_001_000.png",
+        "fantasyMarcaId": "1008"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b2"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 34,
+      "jugador": {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 11000000,
+        "puntos": -2,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b3"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 50,
+      "jugador": {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 1600000,
+        "puntos": 6,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b4"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 56,
+      "jugador": {
+        "id": "844752",
+        "nombre": "Nacho Vidal",
+        "slug": "nacho-vidal",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p642/256x256/p642_t450_1_001_000.png",
+        "fantasyMarcaId": "642"
+      },
+      "jugador2": {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2900000,
+        "puntos": -16,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b5"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 62,
+      "jugador": {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2100000,
+        "puntos": 4,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136"
+      },
+      "jugador2": {
+        "id": "255973",
+        "nombre": "Rubén Peña",
+        "slug": "ruben-pena",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 3300000,
+        "puntos": 20,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p360/256x256/p360_t450_1_001_000.png",
+        "fantasyMarcaId": "360"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b6"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 63,
+      "jugador": {
+        "id": "846470",
+        "nombre": "Youssef En-Nesyri",
+        "slug": "youssef-en-nesyri",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 42000000,
+        "puntos": 8,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p415/256x256/p415_t179_1_001_000.png",
+        "fantasyMarcaId": "415"
+      },
+      "jugador2": {
+        "id": "825754",
+        "nombre": "Rafa Mir",
+        "slug": "rafa-mir",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 16500000,
+        "puntos": 18,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1275/256x256/p1275_t179_1_001_000.png",
+        "fantasyMarcaId": "1275"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b7"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 63,
+      "jugador": {
+        "id": "122702",
+        "nombre": "Erik Lamela",
+        "slug": "erik-lamela",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 21000000,
+        "puntos": 2,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1187/256x256/p1187_t179_1_001_000.png",
+        "fantasyMarcaId": "1187"
+      },
+      "jugador2": {
+        "id": "123906",
+        "nombre": "Jesús Corona",
+        "slug": "jesus-corona",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 24000000,
+        "puntos": 12,
+        "estado": "Lesionado",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1328/256x256/p1328_t179_1_001_000.png",
+        "fantasyMarcaId": "1328"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b8"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 68,
+      "jugador": {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8700000,
+        "puntos": 14,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89b9"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 72,
+      "jugador": {
+        "id": "33381",
+        "nombre": "Papu Gómez",
+        "slug": "papu-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 6400000,
+        "puntos": 28,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1008/256x256/p1008_t179_1_001_000.png",
+        "fantasyMarcaId": "1008"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89ba"
+      }
+    },
+    {
+      "tipo": "Gol",
+      "minuto": 74,
+      "jugador": {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 185000,
+        "puntos": 22,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89bb"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 79,
+      "jugador": {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8600000,
+        "puntos": 4,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168"
+      },
+      "jugador2": {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 1600000,
+        "puntos": 6,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89bc"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 80,
+      "jugador2": {
+        "id": "33381",
+        "nombre": "Papu Gómez",
+        "slug": "papu-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 6400000,
+        "puntos": 28,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1008/256x256/p1008_t179_1_001_000.png",
+        "fantasyMarcaId": "1008"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89bd"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 80,
+      "jugador": {
+        "id": "7635",
+        "nombre": "Ivan Rakitić",
+        "slug": "ivan-rakitic",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 7700000,
+        "puntos": 6,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p102/256x256/p102_t179_1_001_000.png",
+        "fantasyMarcaId": "102"
+      },
+      "jugador2": {
+        "id": "66477",
+        "nombre": "Thomas Delaney",
+        "slug": "thomas-delaney",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 7300000,
+        "puntos": 16,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1288/256x256/p1288_t179_1_001_000.png",
+        "fantasyMarcaId": "1288"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89be"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 80,
+      "jugador": {
+        "id": "312110",
+        "nombre": "Alex Telles",
+        "slug": "alex-telles",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 17100000,
+        "puntos": 6,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p1492/256x256/p1492_t179_1_001_000.png",
+        "fantasyMarcaId": "1492"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89bf"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 81,
+      "jugador": {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2600000,
+        "puntos": 8,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155"
+      },
+      "jugador2": {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8700000,
+        "puntos": 14,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c0"
+      }
+    },
+    {
+      "tipo": "Cambio",
+      "minuto": 81,
+      "jugador": {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 260000,
+        "puntos": 8,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image"
+      },
+      "jugador2": {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 185000,
+        "puntos": 22,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c1"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 83,
+      "jugador": {
+        "id": "41837",
+        "nombre": "Fernando",
+        "slug": "fernando",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2833",
+          "nombre": "Sevilla",
+          "slug": "sevilla",
+          "shortName": "Sevilla",
+          "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+        },
+        "valor": 3900000,
+        "puntos": 16,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t179/p669/256x256/p669_t179_1_001_000.png",
+        "fantasyMarcaId": "1422"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c2"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 90,
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c3"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 90,
+      "jugador": {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8500000,
+        "puntos": 28,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c4"
+      }
+    },
+    {
+      "tipo": "Tarjeta amarilla",
+      "minuto": 90,
+      "jugador": {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 5600000,
+        "puntos": 10,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644"
+      },
+      "id": {
+        "$oid": "64314fe5fb719a2f270f89c5"
+      }
+    }
+  ]
+},{
+  "id": "10408630",
+  "alineacionLocal": {
+    "jugadoresTitulares": [
+      {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "255973",
+        "nombre": "Rubén Peña",
+        "slug": "ruben-pena",
+        "posicion": "Defensa",
+        "valor": 3300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p360/256x256/p360_t450_1_001_000.png",
+        "fantasyMarcaId": "360",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "valor": 11000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "897902",
+        "nombre": "Juan Cruz",
+        "slug": "juan-cruz",
+        "posicion": "Defensa",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p850/256x256/p850_t450_1_001_000.png",
+        "fantasyMarcaId": "850",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "976141",
+        "nombre": "Jon Moncayola",
+        "slug": "jon-moncayola",
+        "posicion": "Mediocentro",
+        "valor": 9300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p637/256x256/p637_t450_1_001_000.png",
+        "fantasyMarcaId": "637",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "187313",
+        "nombre": "Lucas Torró",
+        "slug": "lucas-torro",
+        "posicion": "Mediocentro",
+        "valor": 4400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p873/256x256/p873_t450_1_001_000.png",
+        "fantasyMarcaId": "873",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "37318",
+        "nombre": "Ante Budimir",
+        "slug": "ante-budimir",
+        "posicion": "Delantero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p942/256x256/p942_t450_1_001_000.png",
+        "fantasyMarcaId": "942",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "valor": 185000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "99516",
+        "nombre": "Aitor Fernández",
+        "slug": "aitor-fernandez",
+        "posicion": "Portero",
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p204/256x256/p204_t450_1_001_000.png",
+        "fantasyMarcaId": "204",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "252777",
+        "nombre": "Juan Pérez",
+        "slug": "juan-perez",
+        "posicion": "Portero",
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p648/256x256/p648_t450_1_001_000.png",
+        "fantasyMarcaId": "648",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "valor": 8600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "844752",
+        "nombre": "Nacho Vidal",
+        "slug": "nacho-vidal",
+        "posicion": "Defensa",
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p642/256x256/p642_t450_1_001_000.png",
+        "fantasyMarcaId": "642",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "41013",
+        "nombre": "Aridane Hernández",
+        "slug": "aridane-hernandez",
+        "posicion": "Defensa",
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p645/256x256/p645_t450_1_001_000.png",
+        "fantasyMarcaId": "645",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "211122",
+        "nombre": "Roberto Torres",
+        "slug": "roberto-torres",
+        "posicion": "Mediocentro",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p654/256x256/p654_t450_1_001_000.png",
+        "fantasyMarcaId": "654",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "260031",
+        "nombre": "Rubén García",
+        "slug": "ruben-garcia",
+        "posicion": "Mediocentro",
+        "valor": 8400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p652/256x256/p652_t450_1_001_000.png",
+        "fantasyMarcaId": "652",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "913732",
+        "nombre": "Javi Martínez",
+        "slug": "javi-martinez",
+        "posicion": "Mediocentro",
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/913732/image",
+        "fantasyMarcaId": "1001",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        }
+      },
+      {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "63249271ea570198de0f0896"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [
+      {
+        "id": "341097",
+        "nombre": "Jeremías Ledesma",
+        "slug": "jeremias-ledesma",
+        "posicion": "Portero",
+        "valor": 5500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p947/256x256/p947_t1737_1_001_000.png",
+        "fantasyMarcaId": "947",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "347450",
+        "nombre": "Joseba Zaldúa",
+        "slug": "joseba-zaldua",
+        "posicion": "Defensa",
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p258/256x256/p258_t1737_1_001_000.png",
+        "fantasyMarcaId": "258",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "260097",
+        "nombre": "Luis Hernández",
+        "slug": "luis-hernandez",
+        "posicion": "Defensa",
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1344/256x256/p1344_t1737_1_001_000.png",
+        "fantasyMarcaId": "1344",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "855831",
+        "nombre": "Víctor Chust",
+        "slug": "victor-chust",
+        "posicion": "Defensa",
+        "valor": 1100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1263/256x256/p1263_t1737_1_001_000.png",
+        "fantasyMarcaId": "1263",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "542634",
+        "nombre": "Alfonso Espino",
+        "slug": "alfonso-espino",
+        "posicion": "Defensa",
+        "valor": 2800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p801/256x256/p801_t1737_1_001_000.png",
+        "fantasyMarcaId": "801",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "822702",
+        "nombre": "Mamady Diarra",
+        "slug": "mamady-diarra",
+        "posicion": "Delantero",
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/822702/image",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        }
+      },
+      {
+        "id": "349794",
+        "nombre": "Fali",
+        "slug": "fali",
+        "posicion": "Defensa",
+        "valor": 2300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p805/256x256/p805_t1737_1_001_000.png",
+        "fantasyMarcaId": "805",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "844224",
+        "nombre": "Tomás Alarcón",
+        "slug": "tomas-alarcon",
+        "posicion": "Mediocentro",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1144/256x256/p1144_t1737_1_001_000.png",
+        "fantasyMarcaId": "1144",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "307082",
+        "nombre": "Awer Mabil",
+        "slug": "awer-mabil",
+        "posicion": "Mediocentro",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1494/256x256/p1494_t1737_1_001_000.png",
+        "fantasyMarcaId": "1494",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "107128",
+        "nombre": "Lucas Pérez",
+        "slug": "lucas-perez",
+        "posicion": "Delantero",
+        "valor": 2400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p576/256x256/p576_t1737_1_001_000.png",
+        "fantasyMarcaId": "576",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "169549",
+        "nombre": "Anthony Lozano",
+        "slug": "anthony-lozano",
+        "posicion": "Delantero",
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p813/256x256/p813_t1737_1_001_000.png",
+        "fantasyMarcaId": "813",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "138390",
+        "nombre": "David Gil",
+        "slug": "david-gil",
+        "posicion": "Portero",
+        "valor": 825000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p804/256x256/p804_t1737_1_001_000.png",
+        "fantasyMarcaId": "804",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "40984",
+        "nombre": "Juan Cala",
+        "slug": "juan-cala",
+        "posicion": "Defensa",
+        "valor": 965000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p808/256x256/p808_t1737_1_001_000.png",
+        "fantasyMarcaId": "808",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "921621",
+        "nombre": "Mamadou Mbaye",
+        "slug": "mamadou-mbaye",
+        "posicion": "Defensa",
+        "valor": 54000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1514/256x256/p1514_t1737_1_001_000.png",
+        "fantasyMarcaId": "1514",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "1394031",
+        "nombre": "Kikín",
+        "slug": "kikin",
+        "posicion": "Defensa",
+        "valor": 1000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1394031/image",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "887429",
+        "nombre": "Santiago Arzamendia",
+        "slug": "santiago-arzamendia",
+        "posicion": "Defensa",
+        "valor": 2800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1145/256x256/p1145_t1737_1_001_000.png",
+        "fantasyMarcaId": "1145",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "855832",
+        "nombre": "Antonio Blanco",
+        "slug": "antonio-blanco",
+        "posicion": "Mediocentro",
+        "valor": 4900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t186/p1246/256x256/p1246_t186_1_001_000.png",
+        "fantasyMarcaId": "1246",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "376382",
+        "nombre": "Fede San Emeterio",
+        "slug": "fede-san-emeterio",
+        "posicion": "Mediocentro",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1325/256x256/p1325_t1737_1_001_000.png",
+        "fantasyMarcaId": "1325",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "352486",
+        "nombre": "Iván Alejo",
+        "slug": "ivan-alejo",
+        "posicion": "Mediocentro",
+        "valor": 775000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p812/256x256/p812_t1737_1_001_000.png",
+        "fantasyMarcaId": "812",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "141997",
+        "nombre": "José Mari",
+        "slug": "jose-mari",
+        "posicion": "Mediocentro",
+        "valor": 360000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p816/256x256/p816_t1737_1_001_000.png",
+        "fantasyMarcaId": "816",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "83687",
+        "nombre": "Álvaro Giménez",
+        "slug": "alvaro-gimenez",
+        "posicion": "Delantero",
+        "valor": 1000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p1554/256x256/p1554_t1737_1_001_000.png",
+        "fantasyMarcaId": "1554",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      },
+      {
+        "id": "27838",
+        "nombre": "Álvaro Negredo",
+        "slug": "alvaro-negredo",
+        "posicion": "Delantero",
+        "valor": 1300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1737/p863/256x256/p863_t1737_1_001_000.png",
+        "fantasyMarcaId": "863",
+        "equipo": {
+          "id": "4488",
+          "nombre": "Cádiz CF",
+          "slug": "cadiz-cf",
+          "shortName": "Cádiz",
+          "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "63249272ea570198de0f08d3"
+    }
+  },
+  "resultadoLocal": 2,
+  "resultadoVisitante": 0,
+  "jornada": 2,
+  "fecha": "Sat Aug 20 2022 17:30:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/cadiz-cf-osasuna/vgbsNOb",
+  "estado": "Finalizado",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "4488",
+    "nombre": "Cádiz CF",
+    "slug": "cadiz-cf",
+    "shortName": "Cádiz",
+    "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+  }
+},{
+  "id": "10408599",
+  "alineacionLocal": {
+    "jugadoresTitulares": [
+      {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "844752",
+        "nombre": "Nacho Vidal",
+        "slug": "nacho-vidal",
+        "posicion": "Defensa",
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p642/256x256/p642_t450_1_001_000.png",
+        "fantasyMarcaId": "642",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "valor": 11000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "897902",
+        "nombre": "Juan Cruz",
+        "slug": "juan-cruz",
+        "posicion": "Defensa",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p850/256x256/p850_t450_1_001_000.png",
+        "fantasyMarcaId": "850",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "976141",
+        "nombre": "Jon Moncayola",
+        "slug": "jon-moncayola",
+        "posicion": "Mediocentro",
+        "valor": 9300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p637/256x256/p637_t450_1_001_000.png",
+        "fantasyMarcaId": "637",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "187313",
+        "nombre": "Lucas Torró",
+        "slug": "lucas-torro",
+        "posicion": "Mediocentro",
+        "valor": 4400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p873/256x256/p873_t450_1_001_000.png",
+        "fantasyMarcaId": "873",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "valor": 185000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "37318",
+        "nombre": "Ante Budimir",
+        "slug": "ante-budimir",
+        "posicion": "Delantero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p942/256x256/p942_t450_1_001_000.png",
+        "fantasyMarcaId": "942",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "99516",
+        "nombre": "Aitor Fernández",
+        "slug": "aitor-fernandez",
+        "posicion": "Portero",
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p204/256x256/p204_t450_1_001_000.png",
+        "fantasyMarcaId": "204",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "252777",
+        "nombre": "Juan Pérez",
+        "slug": "juan-perez",
+        "posicion": "Portero",
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p648/256x256/p648_t450_1_001_000.png",
+        "fantasyMarcaId": "648",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "41013",
+        "nombre": "Aridane Hernández",
+        "slug": "aridane-hernandez",
+        "posicion": "Defensa",
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p645/256x256/p645_t450_1_001_000.png",
+        "fantasyMarcaId": "645",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "valor": 8600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "260031",
+        "nombre": "Rubén García",
+        "slug": "ruben-garcia",
+        "posicion": "Mediocentro",
+        "valor": 8400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p652/256x256/p652_t450_1_001_000.png",
+        "fantasyMarcaId": "652",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "211122",
+        "nombre": "Roberto Torres",
+        "slug": "roberto-torres",
+        "posicion": "Mediocentro",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p654/256x256/p654_t450_1_001_000.png",
+        "fantasyMarcaId": "654",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "1011375",
+        "nombre": "Abde",
+        "slug": "abdessamad-ezzalzouli",
+        "posicion": "Delantero",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1319/256x256/p1319_t450_1_001_000.png",
+        "fantasyMarcaId": "1319",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "63249334ea570198de0f1b62"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [
+      {
+        "id": "97951",
+        "nombre": "Stole Dimitrievski",
+        "slug": "stole-dimitrievski",
+        "posicion": "Portero",
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1046/256x256/p1046_t184_1_001_000.png",
+        "fantasyMarcaId": "1046",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "152446",
+        "nombre": "Ivan Balliu",
+        "slug": "ivan-balliu",
+        "posicion": "Defensa",
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1121/256x256/p1121_t184_1_001_000.png",
+        "fantasyMarcaId": "1121",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "88528",
+        "nombre": "Florian Lejeune",
+        "slug": "florian-lejeune",
+        "posicion": "Defensa",
+        "valor": 2400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1208/256x256/p1208_t184_1_001_000.png",
+        "fantasyMarcaId": "1208",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "900792",
+        "nombre": "Alejandro Catena",
+        "slug": "alejandro-catena",
+        "posicion": "Defensa",
+        "valor": 3600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1033/256x256/p1033_t184_1_001_000.png",
+        "fantasyMarcaId": "1033",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "851271",
+        "nombre": "Fran García",
+        "slug": "fran-garcia",
+        "posicion": "Defensa",
+        "valor": 3200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1269/256x256/p1269_t184_1_001_000.png",
+        "fantasyMarcaId": "1269",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "913679",
+        "nombre": "Ismaila Ciss",
+        "slug": "ismaila-ciss",
+        "posicion": "Mediocentro",
+        "valor": 1100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1186/256x256/p1186_t184_1_001_000.png",
+        "fantasyMarcaId": "1186",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "900008",
+        "nombre": "Óscar Valentín",
+        "slug": "oscar-valentin",
+        "posicion": "Mediocentro",
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1103/256x256/p1103_t184_1_001_000.png",
+        "fantasyMarcaId": "1103",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "811493",
+        "nombre": "Salvi",
+        "slug": "salvi",
+        "posicion": "Mediocentro",
+        "valor": 1800000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p822/256x256/p822_t184_1_001_000.png",
+        "fantasyMarcaId": "822",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "21949",
+        "nombre": "Óscar Trejo",
+        "slug": "oscar-trejo",
+        "posicion": "Mediocentro",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1107/256x256/p1107_t184_1_001_000.png",
+        "fantasyMarcaId": "1107",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "345111",
+        "nombre": "Álvaro García",
+        "slug": "alvaro-garcia",
+        "posicion": "Mediocentro",
+        "valor": 3900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1029/256x256/p1029_t184_1_001_000.png",
+        "fantasyMarcaId": "1029",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "910024",
+        "nombre": "Sergio Camello",
+        "slug": "sergio-camello",
+        "posicion": "Delantero",
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p980/256x256/p980_t184_1_001_000.png",
+        "fantasyMarcaId": "980",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "945816",
+        "nombre": "Miguel Ángel Morro",
+        "slug": "miguel-angel-morro",
+        "posicion": "Portero",
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1268/256x256/p1268_t184_1_001_000.png",
+        "fantasyMarcaId": "1268",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "900671",
+        "nombre": "Mario Hernández",
+        "slug": "mario-hernandez",
+        "posicion": "Defensa",
+        "valor": 720000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1102/256x256/p1102_t184_1_001_000.png",
+        "fantasyMarcaId": "1102",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "249393",
+        "nombre": "Esteban Saveljich",
+        "slug": "esteban-saveljich",
+        "posicion": "Defensa",
+        "valor": 775000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1098/256x256/p1098_t184_1_001_000.png",
+        "fantasyMarcaId": "1098",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "14046",
+        "nombre": "Mario Suárez",
+        "slug": "mario-suarez",
+        "posicion": "Defensa",
+        "valor": 290000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1129/256x256/p1129_t184_1_001_000.png",
+        "fantasyMarcaId": "1129",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "1010421",
+        "nombre": "Josep Chavarría",
+        "slug": "josep-chavarria",
+        "posicion": "Defensa",
+        "valor": 775000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1535/256x256/p1535_t184_1_001_000.png",
+        "fantasyMarcaId": "1535",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "124950",
+        "nombre": "Bebé",
+        "slug": "bebe",
+        "posicion": "Mediocentro",
+        "valor": 735000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1042/256x256/p1042_t184_1_001_000.png",
+        "fantasyMarcaId": "1042",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "843678",
+        "nombre": "Santi Comesaña",
+        "slug": "santi-comesana",
+        "posicion": "Mediocentro",
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1031/256x256/p1031_t184_1_001_000.png",
+        "fantasyMarcaId": "1031",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "899982",
+        "nombre": "Isi Palazón",
+        "slug": "isi-palazon",
+        "posicion": "Mediocentro",
+        "valor": 2200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1032/256x256/p1032_t184_1_001_000.png",
+        "fantasyMarcaId": "1032",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "1391366",
+        "nombre": "Pablo Muñoz",
+        "slug": "pablo-munoz",
+        "posicion": "Mediocentro",
+        "valor": 0,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1391366/image",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "608370",
+        "nombre": "José Pozo",
+        "slug": "jose-pozo",
+        "posicion": "Mediocentro",
+        "valor": 1200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1039/256x256/p1039_t184_1_001_000.png",
+        "fantasyMarcaId": "1039",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "588566",
+        "nombre": "Unai López",
+        "slug": "unai-lopez",
+        "posicion": "Mediocentro",
+        "valor": 12400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p82/256x256/p82_t184_1_001_000.png",
+        "fantasyMarcaId": "82",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      },
+      {
+        "id": "25682",
+        "nombre": "Radamel Falcao",
+        "slug": "radamel-falcao",
+        "posicion": "Delantero",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t184/p1312/256x256/p1312_t184_1_001_000.png",
+        "fantasyMarcaId": "1312",
+        "equipo": {
+          "id": "2818",
+          "nombre": "Rayo Vallecano",
+          "slug": "rayo-vallecano",
+          "shortName": "Rayo Vallecano",
+          "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "63249336ea570198de0f1bad"
+    }
+  },
+  "resultadoLocal": 2,
+  "resultadoVisitante": 1,
+  "jornada": 4,
+  "fecha": "Sun Sep 04 2022 14:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-rayo-vallecano/tgbsvgb",
+  "estado": "Finalizado",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2818",
+    "nombre": "Rayo Vallecano",
+    "slug": "rayo-vallecano",
+    "shortName": "Rayo Vallecano",
+    "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+  }
+},{
+  "id": "10408591",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2553923949dba0c089"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2553923949dba0c08a"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 8,
+  "fecha": "Sun Oct 09 2022 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/valencia-osasuna/vgbsDgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2828",
+    "nombre": "Valencia",
+    "slug": "valencia",
+    "shortName": "Valencia",
+    "escudo": "https://api.sofascore.app/api/v1/team/2828/image"
+  }
+},{
+  "id": "10408324",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2e53923949dba0c1e5"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2e53923949dba0c1e6"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 14,
+  "fecha": "Wed Nov 09 2022 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-barcelona/rgbsvgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2817",
+    "nombre": "Barcelona",
+    "slug": "barcelona",
+    "shortName": "Barcelona",
+    "escudo": "https://api.sofascore.app/api/v1/team/2817/image"
+  }
+},{
+  "id": "10408275",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2853923949dba0c101"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2853923949dba0c102"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 10,
+  "fecha": "Wed Oct 19 2022 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-espanyol/ogbsvgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2814",
+    "nombre": "Espanyol",
+    "slug": "espanyol",
+    "shortName": "Espanyol",
+    "escudo": "https://api.sofascore.app/api/v1/team/2814/image"
+  }
+},{
+  "id": "10408436",
+  "alineacionLocal": {
+    "jugadoresTitulares": [
+      {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "844752",
+        "nombre": "Nacho Vidal",
+        "slug": "nacho-vidal",
+        "posicion": "Defensa",
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p642/256x256/p642_t450_1_001_000.png",
+        "fantasyMarcaId": "642",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "valor": 11000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "897902",
+        "nombre": "Juan Cruz",
+        "slug": "juan-cruz",
+        "posicion": "Defensa",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p850/256x256/p850_t450_1_001_000.png",
+        "fantasyMarcaId": "850",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "187313",
+        "nombre": "Lucas Torró",
+        "slug": "lucas-torro",
+        "posicion": "Mediocentro",
+        "valor": 4400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p873/256x256/p873_t450_1_001_000.png",
+        "fantasyMarcaId": "873",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "260031",
+        "nombre": "Rubén García",
+        "slug": "ruben-garcia",
+        "posicion": "Mediocentro",
+        "valor": 8400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p652/256x256/p652_t450_1_001_000.png",
+        "fantasyMarcaId": "652",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "37318",
+        "nombre": "Ante Budimir",
+        "slug": "ante-budimir",
+        "posicion": "Delantero",
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p942/256x256/p942_t450_1_001_000.png",
+        "fantasyMarcaId": "942",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "99516",
+        "nombre": "Aitor Fernández",
+        "slug": "aitor-fernandez",
+        "posicion": "Portero",
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p204/256x256/p204_t450_1_001_000.png",
+        "fantasyMarcaId": "204",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "252777",
+        "nombre": "Juan Pérez",
+        "slug": "juan-perez",
+        "posicion": "Portero",
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p648/256x256/p648_t450_1_001_000.png",
+        "fantasyMarcaId": "648",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "valor": 8600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "255973",
+        "nombre": "Rubén Peña",
+        "slug": "ruben-pena",
+        "posicion": "Defensa",
+        "valor": 3300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p360/256x256/p360_t450_1_001_000.png",
+        "fantasyMarcaId": "360",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "976141",
+        "nombre": "Jon Moncayola",
+        "slug": "jon-moncayola",
+        "posicion": "Mediocentro",
+        "valor": 9300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p637/256x256/p637_t450_1_001_000.png",
+        "fantasyMarcaId": "637",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "211122",
+        "nombre": "Roberto Torres",
+        "slug": "roberto-torres",
+        "posicion": "Mediocentro",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p654/256x256/p654_t450_1_001_000.png",
+        "fantasyMarcaId": "654",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "1011375",
+        "nombre": "Abde",
+        "slug": "abdessamad-ezzalzouli",
+        "posicion": "Delantero",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1319/256x256/p1319_t450_1_001_000.png",
+        "fantasyMarcaId": "1319",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      },
+      {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "633c8335fb8d1a2f5d2b1c2c"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [
+      {
+        "id": "604258",
+        "nombre": "David Soria",
+        "slug": "david-soria",
+        "posicion": "Portero",
+        "valor": 6800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p184/256x256/p184_t1450_1_001_000.png",
+        "fantasyMarcaId": "184",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "36982",
+        "nombre": "Damián Suárez",
+        "slug": "damian-suarez",
+        "posicion": "Defensa",
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p187/256x256/p187_t1450_1_001_000.png",
+        "fantasyMarcaId": "187",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "576276",
+        "nombre": "Domingos Duarte",
+        "slug": "domingos-duarte",
+        "posicion": "Defensa",
+        "valor": 9800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p673/256x256/p673_t1450_1_001_000.png",
+        "fantasyMarcaId": "673",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "108736",
+        "nombre": "Stefan Mitrović",
+        "slug": "stefan-mitrovic",
+        "posicion": "Defensa",
+        "valor": 1500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1148/256x256/p1148_t1450_1_001_000.png",
+        "fantasyMarcaId": "1148",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "980578",
+        "nombre": "Gastón Álvarez",
+        "slug": "gaston-alvarez",
+        "posicion": "Defensa",
+        "valor": 515000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1345/256x256/p1345_t1450_1_001_000.png",
+        "fantasyMarcaId": "1345",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "949707",
+        "nombre": "Juan Iglesias",
+        "slug": "juan-iglesias",
+        "posicion": "Defensa",
+        "valor": 480000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1147/256x256/p1147_t1450_1_001_000.png",
+        "fantasyMarcaId": "1147",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "794937",
+        "nombre": "Carles Aleñá",
+        "slug": "carles-alena",
+        "posicion": "Mediocentro",
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/794937/image",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "385888",
+        "nombre": "Mauro Arambarri",
+        "slug": "mauro-arambarri",
+        "posicion": "Mediocentro",
+        "valor": 15500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p193/256x256/p193_t1450_1_001_000.png",
+        "fantasyMarcaId": "193",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "331449",
+        "nombre": "Nemanja Maksimović",
+        "slug": "nemanja-maksimovic",
+        "posicion": "Mediocentro",
+        "valor": 14500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p197/256x256/p197_t1450_1_001_000.png",
+        "fantasyMarcaId": "197",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "604954",
+        "nombre": "Borja Mayoral",
+        "slug": "borja-mayoral",
+        "posicion": "Delantero",
+        "valor": 10400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1329/256x256/p1329_t1450_1_001_000.png",
+        "fantasyMarcaId": "1329",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "336655",
+        "nombre": "Enes Ünal",
+        "slug": "enes-unal",
+        "posicion": "Delantero",
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p334/256x256/p334_t1450_1_001_000.png",
+        "fantasyMarcaId": "334",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "951008",
+        "nombre": "Diego Conde",
+        "slug": "diego-conde",
+        "posicion": "Portero",
+        "valor": 320000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1231/256x256/p1231_t1450_1_001_000.png",
+        "fantasyMarcaId": "1231",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "18184",
+        "nombre": "Kiko Casilla",
+        "slug": "kiko-casilla",
+        "posicion": "Portero",
+        "valor": 775000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1138/256x256/p1138_t1450_1_001_000.png",
+        "fantasyMarcaId": "1138",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "311462",
+        "nombre": "Fabrizio Angileri",
+        "slug": "fabrizio-angileri",
+        "posicion": "Defensa",
+        "valor": 4300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1487/256x256/p1487_t1450_1_001_000.png",
+        "fantasyMarcaId": "1487",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "1392458",
+        "nombre": "Álex Revuelta",
+        "slug": "alex-revuelta",
+        "posicion": "Defensa",
+        "valor": 0,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1392458/image",
+        "equipo": {
+          "id": "-1",
+          "nombre": "Sin equipo",
+          "slug": "Sin slug",
+          "shortName": "Sin shortName",
+          "escudo": "Sin escudo"
+        }
+      },
+      {
+        "id": "342915",
+        "nombre": "Jordan Amavi",
+        "slug": "jordan-amavi",
+        "posicion": "Defensa",
+        "valor": 7600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1543/256x256/p1543_t1450_1_001_000.png",
+        "fantasyMarcaId": "1543",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "838636",
+        "nombre": "Jaime Seoane",
+        "slug": "jaime-seoane",
+        "posicion": "Mediocentro",
+        "valor": 3400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1473/256x256/p1473_t1450_1_001_000.png",
+        "fantasyMarcaId": "1473",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "218616",
+        "nombre": "Portu",
+        "slug": "portu",
+        "posicion": "Mediocentro",
+        "valor": 16200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p275/256x256/p275_t1450_1_001_000.png",
+        "fantasyMarcaId": "275",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "811629",
+        "nombre": "Luis Milla",
+        "slug": "luis-milla",
+        "posicion": "Mediocentro",
+        "valor": 3600000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p853/256x256/p853_t1450_1_001_000.png",
+        "fantasyMarcaId": "853",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "966219",
+        "nombre": "Ángel Algobia",
+        "slug": "angel-algobia",
+        "posicion": "Mediocentro",
+        "valor": 97000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1510/256x256/p1510_t1450_1_001_000.png",
+        "fantasyMarcaId": "1510",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "350170",
+        "nombre": "Munir El Haddadi",
+        "slug": "munir-el-haddadi",
+        "posicion": "Delantero",
+        "valor": 7300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p294/256x256/p294_t1450_1_001_000.png",
+        "fantasyMarcaId": "294",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "351140",
+        "nombre": "Jaime Mata",
+        "slug": "jaime-mata",
+        "posicion": "Delantero",
+        "valor": 2800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p200/256x256/p200_t1450_1_001_000.png",
+        "fantasyMarcaId": "200",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      },
+      {
+        "id": "966679",
+        "nombre": "Juanmi Latasa",
+        "slug": "juanmi-latasa",
+        "posicion": "Delantero",
+        "valor": 485000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t1450/p1530/256x256/p1530_t1450_1_001_000.png",
+        "fantasyMarcaId": "1530",
+        "equipo": {
+          "id": "2859",
+          "nombre": "Getafe",
+          "slug": "getafe",
+          "shortName": "Getafe",
+          "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+        }
+      }
+    ],
+    "id": {
+      "$oid": "633c8339fb8d1a2f5d2b1c4b"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 2,
+  "jornada": 6,
+  "fecha": "Sun Sep 18 2022 14:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/getafe-osasuna/vgbsjhb",
+  "estado": "Finalizado",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2859",
+    "nombre": "Getafe",
+    "slug": "getafe",
+    "shortName": "Getafe",
+    "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+  }
+},{
+  "id": "10408501",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2b53923949dba0c16d"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b2b53923949dba0c16e"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 12,
+  "fecha": "Sun Oct 30 2022 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/real-valladolid-osasuna/vgbsGgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2831",
+    "nombre": "Real Valladolid",
+    "slug": "real-valladolid",
+    "shortName": "Valladolid",
+    "escudo": "https://api.sofascore.app/api/v1/team/2831/image"
+  }
+},{
+  "id": "10408390",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4353923949dba0c43d"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4353923949dba0c43e"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 24,
+  "fecha": "Sun Mar 05 2023 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/celta-vigo-osasuna/vgbswgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2821",
+    "nombre": "Celta Vigo",
+    "slug": "celta-vigo",
+    "shortName": "Celta",
+    "escudo": "https://api.sofascore.app/api/v1/team/2821/image"
+  }
+},{
+  "id": "10408425",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4f53923949dba0c5a5"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4f53923949dba0c5a6"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 30,
+  "fecha": "Sun Apr 23 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-real-betis-balompie/qgbsvgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2816",
+    "nombre": "Real Betis Balompié",
+    "slug": "real-betis-balompie",
+    "shortName": "Betis",
+    "escudo": "https://api.sofascore.app/api/v1/team/2816/image"
+  }
+},{
+  "id": "10408335",
+  "alineacionLocal": {
+    "jugadoresTitulares": [
+      {
+        "id": "99516",
+        "nombre": "Aitor Fernández",
+        "slug": "aitor-fernandez",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 3700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p204/256x256/p204_t450_1_001_000.png",
+        "fantasyMarcaId": "204"
+      },
+      {
+        "id": "984789",
+        "nombre": "Manuel Sánchez",
+        "slug": "manuel-sanchez",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1168/256x256/p1168_t450_1_001_000.png",
+        "fantasyMarcaId": "1168"
+      },
+      {
+        "id": "591136",
+        "nombre": "David García",
+        "slug": "david-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 11000000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p650/256x256/p650_t450_1_001_000.png",
+        "fantasyMarcaId": "650"
+      },
+      {
+        "id": "41013",
+        "nombre": "Aridane Hernández",
+        "slug": "aridane-hernandez",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p645/256x256/p645_t450_1_001_000.png",
+        "fantasyMarcaId": "645"
+      },
+      {
+        "id": "149370",
+        "nombre": "Moi Gómez",
+        "slug": "moi-gomez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p680/256x256/p680_t450_1_001_000.png",
+        "fantasyMarcaId": "680"
+      },
+      {
+        "id": "187313",
+        "nombre": "Lucas Torró",
+        "slug": "lucas-torro",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 4400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p873/256x256/p873_t450_1_001_000.png",
+        "fantasyMarcaId": "873"
+      },
+      {
+        "id": "985329",
+        "nombre": "Aimar Oroz",
+        "slug": "aimar-oroz",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 185000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1517/256x256/p1517_t450_1_001_000.png",
+        "fantasyMarcaId": "1517"
+      },
+      {
+        "id": "1011375",
+        "nombre": "Abde",
+        "slug": "abdessamad-ezzalzouli",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1319/256x256/p1319_t450_1_001_000.png",
+        "fantasyMarcaId": "1319"
+      },
+      {
+        "id": "37318",
+        "nombre": "Ante Budimir",
+        "slug": "ante-budimir",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p942/256x256/p942_t450_1_001_000.png",
+        "fantasyMarcaId": "942"
+      },
+      {
+        "id": "789381",
+        "nombre": "Chimy Ávila",
+        "slug": "chimy-avila",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "No disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p478/256x256/p478_t450_1_001_000.png",
+        "fantasyMarcaId": "478"
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "294377",
+        "nombre": "Sergio Herrera",
+        "slug": "sergio-herrera",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 5600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p644/256x256/p644_t450_1_001_000.png",
+        "fantasyMarcaId": "644"
+      },
+      {
+        "id": "252777",
+        "nombre": "Juan Pérez",
+        "slug": "juan-perez",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 640000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p648/256x256/p648_t450_1_001_000.png",
+        "fantasyMarcaId": "648"
+      },
+      {
+        "id": "1084381",
+        "nombre": "Pablo Ibáñez",
+        "slug": "pablo-ibanez-lumbreras",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 260000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://api.sofascore.app/api/v1/player/1084381/image"
+      },
+      {
+        "id": "330675",
+        "nombre": "Unai García",
+        "slug": "unai-garcia",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p649/256x256/p649_t450_1_001_000.png",
+        "fantasyMarcaId": "649"
+      },
+      {
+        "id": "897902",
+        "nombre": "Juan Cruz",
+        "slug": "juan-cruz",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p850/256x256/p850_t450_1_001_000.png",
+        "fantasyMarcaId": "850"
+      },
+      {
+        "id": "976141",
+        "nombre": "Jon Moncayola",
+        "slug": "jon-moncayola",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 9300000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p637/256x256/p637_t450_1_001_000.png",
+        "fantasyMarcaId": "637"
+      },
+      {
+        "id": "94539",
+        "nombre": "Darko Brašanac",
+        "slug": "darko-brasanac",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p136/256x256/p136_t450_1_001_000.png",
+        "fantasyMarcaId": "136"
+      },
+      {
+        "id": "260031",
+        "nombre": "Rubén García",
+        "slug": "ruben-garcia",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 8400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p652/256x256/p652_t450_1_001_000.png",
+        "fantasyMarcaId": "652"
+      },
+      {
+        "id": "84972",
+        "nombre": "Kike García",
+        "slug": "kike-garcia",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p1155/256x256/p1155_t450_1_001_000.png",
+        "fantasyMarcaId": "1155"
+      },
+      {
+        "id": "591132",
+        "nombre": "Kike Barja",
+        "slug": "kike-barja",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2820",
+          "nombre": "Osasuna",
+          "slug": "osasuna",
+          "shortName": "Osasuna",
+          "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+        },
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t450/p651/256x256/p651_t450_1_001_000.png",
+        "fantasyMarcaId": "651"
+      }
+    ],
+    "id": {
+      "$oid": "642f2df8a4b932e5617b7cd6"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [
+      {
+        "id": "188107",
+        "nombre": "Predrag Rajković",
+        "slug": "predrag-rajkovic",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 8700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1490/256x256/p1490_t181_1_001_000.png",
+        "fantasyMarcaId": "1490"
+      },
+      {
+        "id": "788216",
+        "nombre": "Pablo Maffeo",
+        "slug": "pablo-maffeo",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 3900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1097/256x256/p1097_t181_1_001_000.png",
+        "fantasyMarcaId": "1097"
+      },
+      {
+        "id": "300522",
+        "nombre": "Martin Valjent",
+        "slug": "martin-valjent",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 4700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1123/256x256/p1123_t181_1_001_000.png",
+        "fantasyMarcaId": "1123"
+      },
+      {
+        "id": "807116",
+        "nombre": "Antonio Raíllo",
+        "slug": "antonio-raillo",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1090/256x256/p1090_t181_1_001_000.png",
+        "fantasyMarcaId": "1090"
+      },
+      {
+        "id": "913695",
+        "nombre": "Copete",
+        "slug": "copete",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 540000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1482/256x256/p1482_t181_1_001_000.png",
+        "fantasyMarcaId": "1482"
+      },
+      {
+        "id": "44577",
+        "nombre": "Jaume Costa",
+        "slug": "jaume-costa",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1400000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p341/256x256/p341_t181_1_001_000.png",
+        "fantasyMarcaId": "341"
+      },
+      {
+        "id": "349526",
+        "nombre": "Dani Rodríguez",
+        "slug": "dani-rodriguez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1072/256x256/p1072_t181_1_001_000.png",
+        "fantasyMarcaId": "1072"
+      },
+      {
+        "id": "914014",
+        "nombre": "Iddrisu Baba",
+        "slug": "iddrisu-baba",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 2600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1073/256x256/p1073_t181_1_001_000.png",
+        "fantasyMarcaId": "1073"
+      },
+      {
+        "id": "39009",
+        "nombre": "Clément Grenier",
+        "slug": "clement-grenier",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 2900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1354/256x256/p1354_t181_1_001_000.png",
+        "fantasyMarcaId": "1354"
+      },
+      {
+        "id": "917087",
+        "nombre": "Kang-in Lee",
+        "slug": "kang-in-lee",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 10700000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p309/256x256/p309_t181_1_001_000.png",
+        "fantasyMarcaId": "309"
+      },
+      {
+        "id": "310874",
+        "nombre": "Vedat Muriqi",
+        "slug": "vedat-muriqi",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 5800000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1352/256x256/p1352_t181_1_001_000.png",
+        "fantasyMarcaId": "1352"
+      }
+    ],
+    "jugadoresSuplentes": [
+      {
+        "id": "791046",
+        "nombre": "Dominik Greif",
+        "slug": "dominik-greif",
+        "posicion": "Portero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1184/256x256/p1184_t181_1_001_000.png",
+        "fantasyMarcaId": "1184"
+      },
+      {
+        "id": "818441",
+        "nombre": "Brian Cufre",
+        "slug": "brian-cufre",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1074/256x256/p1074_t181_1_001_000.png",
+        "fantasyMarcaId": "1074"
+      },
+      {
+        "id": "98440",
+        "nombre": "Matija Nastasić",
+        "slug": "matija-nastasic",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 2100000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1546/256x256/p1546_t181_1_001_000.png",
+        "fantasyMarcaId": "1546"
+      },
+      {
+        "id": "590404",
+        "nombre": "Giovanni González",
+        "slug": "giovanni-gonzalez",
+        "posicion": "Defensa",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 2200000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1351/256x256/p1351_t181_1_001_000.png",
+        "fantasyMarcaId": "1351"
+      },
+      {
+        "id": "158257",
+        "nombre": "Rodrigo Battaglia",
+        "slug": "rodrigo-battaglia",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 2700000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1199/256x256/p1199_t181_1_001_000.png",
+        "fantasyMarcaId": "1199"
+      },
+      {
+        "id": "949722",
+        "nombre": "Antonio Sánchez",
+        "slug": "antonio-sanchez",
+        "posicion": "Mediocentro",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 880000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1069/256x256/p1069_t181_1_001_000.png",
+        "fantasyMarcaId": "1069"
+      },
+      {
+        "id": "52093",
+        "nombre": "Ángel Rodríguez",
+        "slug": "angel-rodriguez",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1900000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1124/256x256/p1124_t181_1_001_000.png",
+        "fantasyMarcaId": "1124"
+      },
+      {
+        "id": "810535",
+        "nombre": "Tino Kadewere",
+        "slug": "tino-kadewere",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 8500000,
+        "puntos": 0,
+        "estado": "Lesionado",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1539/256x256/p1539_t181_1_001_000.png",
+        "fantasyMarcaId": "1539"
+      },
+      {
+        "id": "146852",
+        "nombre": "Abdón Prats",
+        "slug": "abdon-prats",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 1600000,
+        "puntos": 0,
+        "estado": "Disponible",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1081/256x256/p1081_t181_1_001_000.png",
+        "fantasyMarcaId": "1081"
+      },
+      {
+        "id": "845168",
+        "nombre": "Amath Ndiaye",
+        "slug": "amath-ndiaye",
+        "posicion": "Delantero",
+        "equipo": {
+          "id": "2826",
+          "nombre": "RCD Mallorca",
+          "slug": "rcd-mallorca",
+          "shortName": "Mallorca",
+          "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+        },
+        "valor": 3100000,
+        "puntos": 0,
+        "estado": "Dudoso",
+        "foto": "https://assets.laligafantasymarca.com/players/t181/p1093/256x256/p1093_t181_1_001_000.png",
+        "fantasyMarcaId": "1093"
+      }
+    ],
+    "id": {
+      "$oid": "642f2df9a4b932e5617b7cd7"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 17,
+  "fecha": "Sun Jan 15 2023 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/rcd-mallorca-osasuna/vgbsBgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2826",
+    "nombre": "RCD Mallorca",
+    "slug": "rcd-mallorca",
+    "shortName": "Mallorca",
+    "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+  },
+  "eventos": []
+},{
+  "id": "10408552",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4b53923949dba0c527"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4b53923949dba0c528"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 28,
+  "fecha": "Sun Apr 09 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/elche-cf-osasuna/vgbsWgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2846",
+    "nombre": "Elche CF",
+    "slug": "elche-cf",
+    "shortName": "Elche",
+    "escudo": "https://api.sofascore.app/api/v1/team/2846/image"
+  }
+},{
+  "id": "10408361",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b3953923949dba0c317"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b3953923949dba0c318"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 19,
+  "fecha": "Sun Jan 29 2023 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/atletico-madrid-osasuna/vgbsLgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2836",
+    "nombre": "Atlético Madrid",
+    "slug": "atletico-madrid",
+    "shortName": "Atl. Madrid",
+    "escudo": "https://api.sofascore.app/api/v1/team/2836/image"
+  }
+},{
+  "id": "10408370",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4053923949dba0c3d1"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4053923949dba0c3d2"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 22,
+  "fecha": "Sun Feb 19 2023 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/real-madrid-osasuna/vgbsEgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2829",
+    "nombre": "Real Madrid",
+    "slug": "real-madrid",
+    "shortName": "Real Madrid",
+    "escudo": "https://api.sofascore.app/api/v1/team/2829/image"
+  }
+},{
+  "id": "10408401",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4853923949dba0c4bb"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b4853923949dba0c4bc"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 26,
+  "fecha": "Sun Mar 19 2023 20:00:00 GMT+0100 (hora estándar de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-villarreal/ugbsvgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2819",
+    "nombre": "Villarreal",
+    "slug": "villarreal",
+    "shortName": "Villarreal",
+    "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+  }
+},{
+  "id": "10408308",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b6153923949dba0c785"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b6153923949dba0c786"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 38,
+  "fecha": "Sun Jun 04 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/osasuna-girona-fc/vgbsoKj",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "24264",
+    "nombre": "Girona FC",
+    "slug": "girona-fc",
+    "shortName": "Girona",
+    "escudo": "https://api.sofascore.app/api/v1/team/24264/image"
+  }
+},{
+  "id": "10408576",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5253923949dba0c623"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5253923949dba0c624"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 32,
+  "fecha": "Sun Apr 30 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/real-sociedad-osasuna/vgbszgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2824",
+    "nombre": "Real Sociedad",
+    "slug": "real-sociedad",
+    "shortName": "Real Sociedad",
+    "escudo": "https://api.sofascore.app/api/v1/team/2824/image"
+  }
+},{
+  "id": "10408593",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5553923949dba0c695"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5553923949dba0c696"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 34,
+  "fecha": "Sun May 14 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/ud-almeria-osasuna/vgbsihb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2858",
+    "nombre": "UD Almería",
+    "slug": "ud-almeria",
+    "shortName": "Almería",
+    "escudo": "https://api.sofascore.app/api/v1/team/2858/image"
+  }
+},{
+  "id": "10408268",
+  "alineacionLocal": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5b53923949dba0c70d"
+    }
+  },
+  "alineacionVisitante": {
+    "jugadoresTitulares": [],
+    "jugadoresSuplentes": [],
+    "id": {
+      "$oid": "631a1b5b53923949dba0c70e"
+    }
+  },
+  "resultadoLocal": 0,
+  "resultadoVisitante": 0,
+  "jornada": 36,
+  "fecha": "Wed May 24 2023 21:00:00 GMT+0200 (hora de verano de Europa central)",
+  "linkSofaScore": "https://sofascore.com/athletic-club-osasuna/vgbsAgb",
+  "estado": "Por jugar",
+  "local": {
+    "id": "2820",
+    "nombre": "Osasuna",
+    "slug": "osasuna",
+    "shortName": "Osasuna",
+    "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+  },
+  "visitante": {
+    "id": "2825",
+    "nombre": "Athletic Club",
+    "slug": "athletic-club",
+    "shortName": "Athletic",
+    "escudo": "https://api.sofascore.app/api/v1/team/2825/image"
+  }
+}]

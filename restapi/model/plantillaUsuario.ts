@@ -37,7 +37,6 @@ export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 			type: String,
 			required: true,
 			trim: true,
-			
 		},
 		usuario: {
 			type: usuario,
@@ -88,8 +87,6 @@ export interface IPlantillaUsuario {
 	puntos: number;
 	dinero: number;
 }
-
-plantillaUsuario.index({ idLiga: 1, "usuario.id": 1 }, { unique: true });
 
 export const modeloPlantillaUsuario = model<IPlantillaUsuario>(
 	"plantillaUsuario",

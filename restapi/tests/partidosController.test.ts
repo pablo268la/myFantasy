@@ -1,48 +1,42 @@
 import bp from "body-parser";
-import express, { Application, RequestHandler } from "express";
-import promBundle from "express-prom-bundle";
+import express, { Application } from "express";
 import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
+import { MongoDBContainer } from "testcontainers";
 import { IUsuario } from "../model/usuario";
 import apiPartidos from "../routes/rutasPartidos";
 import apiUsuarios from "../routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
-const helmet = require("helmet");
 const randomstring = require("randomstring");
-
 const app: Application = express();
 var server: Server;
 
-const connectionString =
-	"mongodb+srv://pablo268la:iOv0N7wwYSI4Xiwy@cluster0.1n0snau.mongodb.net/?retryWrites=true&w=majority";
-
 beforeAll(async () => {
-	const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
-	app.use(metricsMiddleware);
-
 	app.use(bp.json());
-
 	app.use(bp.urlencoded({ extended: false }));
 	app.use(morgan("dev"));
 
 	app.use(apiPartidos);
 	app.use(apiUsuarios);
-	app.use(helmet.hidePoweredBy());
 
 	server = app.listen(5000);
 
-	mongoose.connect(connectionString, {
+	const container: MongoDBContainer = new MongoDBContainer().withReuse();
+	const startedContainer = await container.start();
+	await mongoose.connect(startedContainer.getConnectionString(), {
+		directConnection: true,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		config: { autoIndex: false },
 	});
 });
 
 afterAll(async () => {
 	server.close();
-	mongoose.connection.close();
+	await mongoose.connection.close();
 });
 
 const usuarioAdmin: IUsuario = {
@@ -161,7 +155,7 @@ describe("getPartidosEquipo", () => {
 	 * Test: Devuelve 200 los partidos de un equipo
 	 */
 	it("Devuelve 200 los partidos de un equipo", async () => {
-		const response: Response = await request(app).get("/partidos/equipo/2833");
+		const response: Response = await request(app).get("/partidos/equipo/2820");
 
 		expect(response.statusCode).toBe(200);
 		expect(response.body.length).toBe(38);

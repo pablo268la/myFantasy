@@ -1,42 +1,36 @@
 import bp from "body-parser";
-import express, { Application, RequestHandler } from "express";
-import promBundle from "express-prom-bundle";
+import express, { Application } from "express";
 import { Server } from "http";
 import morgan from "morgan";
 import request, { Response } from "supertest";
+import { MongoDBContainer } from "testcontainers";
 import apiEquipos from "../routes/rutasEquipos";
-const mongoose = require("mongoose");
-const helmet = require("helmet");
 
+const mongoose = require("mongoose");
 const app: Application = express();
 var server: Server;
 
-const connectionString =
-	"mongodb+srv://pablo268la:iOv0N7wwYSI4Xiwy@cluster0.1n0snau.mongodb.net/?retryWrites=true&w=majority";
-
 beforeAll(async () => {
-	const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
-	app.use(metricsMiddleware);
-
 	app.use(bp.json());
-
 	app.use(bp.urlencoded({ extended: false }));
 	app.use(morgan("dev"));
-
 	app.use(apiEquipos);
-	app.use(helmet.hidePoweredBy());
 
 	server = app.listen(5000);
 
-	mongoose.connect(connectionString, {
+	const container: MongoDBContainer = new MongoDBContainer().withReuse();
+	const startedContainer = await container.start();
+	await mongoose.connect(startedContainer.getConnectionString(), {
+		directConnection: true,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		config: { autoIndex: false },
 	});
 });
 
 afterAll(async () => {
 	server.close();
-	mongoose.connection.close();
+	await mongoose.connection.close();
 });
 
 describe("getEquipos", () => {

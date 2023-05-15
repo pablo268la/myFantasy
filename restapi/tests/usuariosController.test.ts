@@ -1,52 +1,44 @@
 import bp from "body-parser";
-import express, { Application, RequestHandler } from "express";
-import promBundle from "express-prom-bundle";
+import express, { Application } from "express";
 import { Server } from "http";
 import morgan from "morgan";
 import request, { Response } from "supertest";
+import { MongoDBContainer } from "testcontainers";
 import { verifyUser } from "../controladores/usuariosController";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import apiUsuarios from "../routes/rutasUsuarios";
 
 var server: Server;
-const { v4: uuidv4 } = require("uuid");
-
-let helmet = require("helmet");
-
 const app: Application = express();
-
 const mongoose = require("mongoose");
-const connectionString =
-	"mongodb+srv://pablo268la:iOv0N7wwYSI4Xiwy@cluster0.1n0snau.mongodb.net/?retryWrites=true&w=majority";
 
 beforeAll(async () => {
-	const metricsMiddleware: RequestHandler = promBundle({ includeMethod: true });
-	app.use(metricsMiddleware);
-
 	app.use(bp.json());
-
 	app.use(bp.urlencoded({ extended: false }));
 	app.use(morgan("dev"));
-
 	app.use(apiUsuarios);
-	app.use(helmet.hidePoweredBy());
 
 	server = app.listen(5000);
 
-	mongoose.connect(connectionString, {
+	const container: MongoDBContainer = new MongoDBContainer().withReuse();
+	const startedContainer = await container.start();
+	await mongoose.connect(startedContainer.getConnectionString(), {
+		directConnection: true,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		config: { autoIndex: false },
 	});
 });
 
 afterAll(async () => {
 	server.close();
-	mongoose.connection.close();
+	await mongoose.connection.close();
 });
 
 const emailCorrecto = "test@test.com";
 const contraseñaCorrecta = "Prueba123";
-const usuario: IUsuario = {
+
+const usuarioEmailRepetido: IUsuario = {
 	id: "1",
 	nombre: "Prueba",
 	usuario: "Usuario de prueba",
@@ -86,7 +78,7 @@ describe("getUsuario", () => {
 	/**
 	 * Test: Devuelve 404 si el usuario no existe
 	 */
-	it("404 cuadno no existe usuario", async () => {
+	it("404 cuando no existe usuario", async () => {
 		const response: Response = await request(app).get("/usuario/noExiste");
 
 		expect(response.statusCode).toBe(404);
@@ -126,7 +118,7 @@ describe("createUsuario", () => {
 	it("409 si ya existe el usuario", async () => {
 		const response: Response = await request(app)
 			.post("/usuario")
-			.send(usuario);
+			.send(usuarioEmailRepetido);
 
 		expect(response.statusCode).toBe(409);
 		expect(response.body).toEqual({
