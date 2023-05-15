@@ -191,10 +191,7 @@ describe("updateJugador", () => {
 	 * Test: Devuelve 200 si actualiza el jugador
 	 */
 	it("200 si actualiza el jugador", async () => {
-		const crypto = require("crypto");
-		const randomPoints = Math.floor(
-			(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) * 100
-		);
+		const randomPoints = new Date().getTime() / 100000;
 
 		const response: Response = await request(app)
 			.put("/jugadores/3306")
