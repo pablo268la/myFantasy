@@ -50,7 +50,7 @@ export async function updateJugador(jugador: Jugador): Promise<Jugador> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/jugadores/" + jugador._id, {
+	let response = await fetch(apiEndPoint + "/jugadores/" + jugador.id, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",

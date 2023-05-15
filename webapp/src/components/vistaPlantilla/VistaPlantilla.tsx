@@ -115,9 +115,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				let map = new Map<string, PuntuacionJugador[]>();
 
 				ju.forEach((jugador) => {
-					getPuntuacionJugador(jugador.jugador._id)
+					getPuntuacionJugador(jugador.jugador.id)
 						.then((puntuaciones) => {
-							map.set(jugador.jugador._id, puntuaciones);
+							map.set(jugador.jugador.id, puntuaciones);
 						})
 						.catch((err) => {
 							crearToast(err, true, "danger");
@@ -189,8 +189,8 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		idIn: string,
 		idOut: string
 	) => {
-		let jin = lista.find((j) => j.jugador._id === idIn);
-		let jout = lista.find((j) => j.jugador._id === idOut);
+		let jin = lista.find((j) => j.jugador.id === idIn);
+		let jout = lista.find((j) => j.jugador.id === idOut);
 		if (jin) {
 			jin.titular = !jin.titular;
 		}
@@ -219,7 +219,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	const guardarPlantilla = async () => {
 		const alineacionJugador: AlineacionJugador = {
-			_id: plantilla?.alineacionJugador._id as string,
+			id: plantilla?.alineacionJugador.id as string,
 			porteros: porteros,
 			defensas: defensas,
 			medios: mediocentros,
@@ -229,7 +229,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			idLiga: plantilla?.alineacionJugador.idLiga as string,
 		};
 		const plantillaUsuario: PlantillaUsuario = {
-			_id: plantilla?._id as string,
+			id: plantilla?.id as string,
 			usuario: plantilla?.usuario as any,
 			idLiga: plantilla?.idLiga as string,
 			alineacionJugador: alineacionJugador,

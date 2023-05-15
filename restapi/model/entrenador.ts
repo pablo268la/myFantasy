@@ -2,11 +2,11 @@ import { model, Schema } from "mongoose";
 
 export const entrenador = new Schema<IEntrenador>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		idEquipo: {
 			type: String,
@@ -45,13 +45,13 @@ export const entrenador = new Schema<IEntrenador>(
 );
 
 export interface IEntrenador {
-	_id: string;
+	id: string;
 	idEquipo: string;
 	nombre: string;
 	puntos: number;
 	formacionFav: string;
 }
 
-entrenador.index({ _id: 1 }, { unique: true });
+entrenador.index({ id: 1 }, { unique: true });
 
 export const modeloEntrenador = model<IEntrenador>("entrenador", entrenador);

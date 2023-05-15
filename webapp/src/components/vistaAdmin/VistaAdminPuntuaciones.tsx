@@ -1,14 +1,14 @@
 import {
-	IonButton,
-	IonCol,
-	IonGrid,
-	IonItem,
-	IonLabel,
-	IonLoading,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	useIonToast,
+    IonButton,
+    IonCol,
+    IonGrid,
+    IonItem,
+    IonLabel,
+    IonLoading,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getPartidosByJornada } from "../../endpoints/partidosEndpoint";
@@ -99,7 +99,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 												setPartido(e.detail.value);
 												setPartidoSeleccionado(
 													partidos
-														.filter((p) => p._id === e.detail.value)
+														.filter((p) => p.id === e.detail.value)
 														.at(0) as Partido
 												);
 												setMessage("Limpiando los vestuarios");
@@ -109,7 +109,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											}}
 										>
 											{partidos.map((p) => (
-												<IonSelectOption key={p._id} value={p._id}>
+												<IonSelectOption key={p.id} value={p.id}>
 													{p.local.nombre} {p.resultadoLocal} -{" "}
 													{p.resultadoVisitante} {p.visitante.nombre}
 												</IonSelectOption>
@@ -131,7 +131,7 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 											<a
 												target="_blank"
 												href={
-													partidos.filter((p) => p._id === partido).at(0)
+													partidos.filter((p) => p.id === partido).at(0)
 														?.linkSofaScore
 												}
 												rel="noreferrer"

@@ -21,7 +21,7 @@ export async function getPartidosByJornada(
 }
 
 export async function getPartidosByEquipo(equipo: Equipo): Promise<Partido[]> {
-	let response = await fetch(apiEndPoint + "/partidos/equipo/" + equipo._id);
+	let response = await fetch(apiEndPoint + "/partidos/equipo/" + equipo.id);
 	//TODO - Usar para mostrar siguiente partido
 
 	if (response.status !== 200) {
@@ -51,7 +51,7 @@ export async function updatePartido(partido: Partido): Promise<Partido> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/partidos/" + partido._id, {
+	let response = await fetch(apiEndPoint + "/partidos/" + partido.id, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",

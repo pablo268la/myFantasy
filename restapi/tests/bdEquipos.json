@@ -1,0 +1,121 @@
+[{
+  "id": "2829",
+  "nombre": "Real Madrid",
+  "slug": "real-madrid",
+  "shortName": "Real Madrid",
+  "escudo": "https://api.sofascore.app/api/v1/team/2829/image"
+},{
+  "id": "2817",
+  "nombre": "Barcelona",
+  "slug": "barcelona",
+  "shortName": "Barcelona",
+  "escudo": "https://api.sofascore.app/api/v1/team/2817/image"
+},{
+  "id": "2819",
+  "nombre": "Villarreal",
+  "slug": "villarreal",
+  "shortName": "Villarreal",
+  "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+},{
+  "id": "2816",
+  "nombre": "Real Betis Balompié",
+  "slug": "real-betis-balompie",
+  "shortName": "Betis",
+  "escudo": "https://api.sofascore.app/api/v1/team/2816/image"
+},{
+  "id": "2820",
+  "nombre": "Osasuna",
+  "slug": "osasuna",
+  "shortName": "Osasuna",
+  "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
+},{
+  "id": "2825",
+  "nombre": "Athletic Club",
+  "slug": "athletic-club",
+  "shortName": "Athletic",
+  "escudo": "https://api.sofascore.app/api/v1/team/2825/image"
+},{
+  "id": "2836",
+  "nombre": "Atlético Madrid",
+  "slug": "atletico-madrid",
+  "shortName": "Atl. Madrid",
+  "escudo": "https://api.sofascore.app/api/v1/team/2836/image"
+},{
+  "id": "2821",
+  "nombre": "Celta Vigo",
+  "slug": "celta-vigo",
+  "shortName": "Celta",
+  "escudo": "https://api.sofascore.app/api/v1/team/2821/image"
+},{
+  "id": "2824",
+  "nombre": "Real Sociedad",
+  "slug": "real-sociedad",
+  "shortName": "Real Sociedad",
+  "escudo": "https://api.sofascore.app/api/v1/team/2824/image"
+},{
+  "id": "2828",
+  "nombre": "Valencia",
+  "slug": "valencia",
+  "shortName": "Valencia",
+  "escudo": "https://api.sofascore.app/api/v1/team/2828/image"
+},{
+  "id": "2826",
+  "nombre": "RCD Mallorca",
+  "slug": "rcd-mallorca",
+  "shortName": "Mallorca",
+  "escudo": "https://api.sofascore.app/api/v1/team/2826/image"
+},{
+  "id": "24264",
+  "nombre": "Girona FC",
+  "slug": "girona-fc",
+  "shortName": "Girona",
+  "escudo": "https://api.sofascore.app/api/v1/team/24264/image"
+},{
+  "id": "2858",
+  "nombre": "UD Almería",
+  "slug": "ud-almeria",
+  "shortName": "Almería",
+  "escudo": "https://api.sofascore.app/api/v1/team/2858/image"
+},{
+  "id": "2818",
+  "nombre": "Rayo Vallecano",
+  "slug": "rayo-vallecano",
+  "shortName": "Rayo Vallecano",
+  "escudo": "https://api.sofascore.app/api/v1/team/2818/image"
+},{
+  "id": "2814",
+  "nombre": "Espanyol",
+  "slug": "espanyol",
+  "shortName": "Espanyol",
+  "escudo": "https://api.sofascore.app/api/v1/team/2814/image"
+},{
+  "id": "2831",
+  "nombre": "Real Valladolid",
+  "slug": "real-valladolid",
+  "shortName": "Valladolid",
+  "escudo": "https://api.sofascore.app/api/v1/team/2831/image"
+},{
+  "id": "2833",
+  "nombre": "Sevilla",
+  "slug": "sevilla",
+  "shortName": "Sevilla",
+  "escudo": "https://api.sofascore.app/api/v1/team/2833/image"
+},{
+  "id": "2846",
+  "nombre": "Elche CF",
+  "slug": "elche-cf",
+  "shortName": "Elche",
+  "escudo": "https://api.sofascore.app/api/v1/team/2846/image"
+},{
+  "id": "2859",
+  "nombre": "Getafe",
+  "slug": "getafe",
+  "shortName": "Getafe",
+  "escudo": "https://api.sofascore.app/api/v1/team/2859/image"
+},{
+  "id": "4488",
+  "nombre": "Cádiz CF",
+  "slug": "cadiz-cf",
+  "shortName": "Cádiz",
+  "escudo": "https://api.sofascore.app/api/v1/team/4488/image"
+}]

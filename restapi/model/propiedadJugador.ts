@@ -26,7 +26,7 @@ export const propiedadJugador = new Schema<IPropiedadJugador>(
 			type: jugador,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		usuario: {
 			type: usuario,

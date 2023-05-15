@@ -9,6 +9,4 @@ api.post("/usuario", UsuariosController.createUsuario);
 
 api.post("/token", UsuariosController.requestToken);
 
-api.get("/token", UsuariosController.verifyToken);
-
 export default api;

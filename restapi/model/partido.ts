@@ -4,7 +4,7 @@ import { equipo, IEquipo } from "./equipo";
 import { eventoPartido, IEventoPartido } from "./eventoPartido";
 
 export interface IPartido {
-	_id: string;
+	id: string;
 	local: IEquipo;
 	visitante: IEquipo;
 	alineacionLocal: IAlineacion;
@@ -25,7 +25,7 @@ export interface IPartido {
  *   Partido:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     local:
  *      $ref: '#/components/schemas/Equipo'
@@ -56,11 +56,11 @@ export interface IPartido {
 
 export const partido = new Schema<IPartido>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		local: {
 			type: equipo,
@@ -116,5 +116,5 @@ export const partido = new Schema<IPartido>(
 		timestamps: false,
 	}
 );
-
+partido.index({ id: 1 }, { unique: true });
 export const modeloPartido = model<IPartido>("partido", partido);

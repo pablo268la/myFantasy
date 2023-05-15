@@ -20,8 +20,7 @@ import {
 } from "@ionic/react";
 import { settings } from "ionicons/icons";
 import { useState } from "react";
-import { crearLiga } from "../../endpoints/ligasEndpoints";
-import { crearPlantillaUsuario } from "../../endpoints/plantillaEndpoints";
+import { añadirUsuarioALiga, crearLiga } from "../../endpoints/ligasEndpoints";
 import { setLocalLigaSeleccionada } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -71,18 +70,20 @@ export function VistaCrearLiga(props: any): JSX.Element {
 		await crearLiga(nombreLiga, maxPlayers, usarEntrenador)
 			.then(async (response: Liga) => {
 				vaciarFormulario();
-				await crearPlantillaUsuario(response._id as string)
+				await añadirUsuarioALiga(response.id as string)
 					.then(() => {
-						setLocalLigaSeleccionada(response._id as string);
+						setLocalLigaSeleccionada(response.id as string);
 						crearToast("Liga creada correctamente", true, "success");
-						navigate.push("/plantilla/starts/" + response._id, "forward");
+						navigate.push("/plantilla/starts/" + response.id, "forward");
 						setShowLoading(false);
 					})
 					.catch((err) => {
+						setShowLoading(false);
 						crearToast(err, true, "danger");
 					});
 			})
 			.catch((err) => {
+				setShowLoading(false);
 				crearToast(err, true, "danger");
 			});
 	};

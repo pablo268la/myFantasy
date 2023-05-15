@@ -1,21 +1,21 @@
 import {
-	IonActionSheet,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonIcon,
-	IonLabel,
-	IonRow,
+    IonActionSheet,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonIcon,
+    IonLabel,
+    IonRow,
 } from "@ionic/react";
 import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
 import {
-	getUsuarioLogueado,
-	ponerPuntosAValor,
-	setLocalLigaSeleccionada,
-	urlBackground2,
+    getUsuarioLogueado,
+    ponerPuntosAValor,
+    setLocalLigaSeleccionada,
+    urlBackground2,
 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 
@@ -42,7 +42,7 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 						<IonRow>
 							<IonCol
 								onClick={() => {
-									setLocalLigaSeleccionada(liga._id as string);
+									setLocalLigaSeleccionada(liga.id as string);
 									window.location.href = "/clasificacion";
 								}}
 								style={{ justifyContent: "space-around" }}

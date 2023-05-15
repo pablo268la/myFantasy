@@ -7,7 +7,7 @@ import { model, Schema } from "mongoose";
  *   Equipo:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     nombre:
  *      type: string
@@ -21,11 +21,11 @@ import { model, Schema } from "mongoose";
  */
 export const equipo = new Schema<IEquipo>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		nombre: {
 			type: String,
@@ -55,7 +55,7 @@ export const equipo = new Schema<IEquipo>(
 );
 
 export interface IEquipo {
-	_id: string;
+	id: string;
 	nombre: string;
 	slug: string;
 	shortName: string;

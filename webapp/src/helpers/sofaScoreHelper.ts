@@ -1,42 +1,42 @@
 import {
-	getJugadoresAntiguos,
-	getJugadoresPorEquipo,
+    getJugadoresAntiguos,
+    getJugadoresPorEquipo,
 } from "../endpoints/jugadorEndpoints";
 import {
-	Alineacion,
-	EventoPartido,
-	Jugador,
-	Partido,
-	PuntuacionBasica,
-	PuntuacionCalculable,
-	PuntuacionDefensiva,
-	PuntuacionFisica,
-	PuntuacionJSON,
-	PuntuacionJugador,
-	PuntuacionOfensiva,
-	PuntuacionPortero,
-	PuntuacionPosesion,
-	PuntuacionTupple,
+    Alineacion,
+    EventoPartido,
+    Jugador,
+    Partido,
+    PuntuacionBasica,
+    PuntuacionCalculable,
+    PuntuacionDefensiva,
+    PuntuacionFisica,
+    PuntuacionJSON,
+    PuntuacionJugador,
+    PuntuacionOfensiva,
+    PuntuacionPortero,
+    PuntuacionPosesion,
+    PuntuacionTupple,
 } from "../shared/sharedTypes";
 import {
-	filterAndPop,
-	filterAndPopByTramos,
-	getByTramos,
-	openJSON,
+    filterAndPop,
+    filterAndPopByTramos,
+    getByTramos,
+    openJSON,
 } from "./jsonHelper";
 
 export async function getEventosDeSofaScore(
 	partido: Partido
 ): Promise<EventoPartido[]> {
 	const eventos: EventoPartido[] = [];
-	const jugadoresLocales = await getJugadoresPorEquipo(partido.local._id);
+	const jugadoresLocales = await getJugadoresPorEquipo(partido.local.id);
 	const jugadoresVisitantes = await getJugadoresPorEquipo(
-		partido.visitante._id
+		partido.visitante.id
 	);
 	const jugadores = jugadoresLocales.concat(jugadoresVisitantes);
 
 	await fetch(
-		"https://api.sofascore.com/api/v1/event/" + partido._id + "/incidents",
+		"https://api.sofascore.com/api/v1/event/" + partido.id + "/incidents",
 		{
 			mode: "cors",
 			headers: {
@@ -51,12 +51,12 @@ export async function getEventosDeSofaScore(
 						tipo: "Gol",
 						minuto: e.time,
 						jugador: jugadores.find(
-							(j) => j._id.toString() === e.player.id.toString()
+							(j) => j.id.toString() === e.player.id.toString()
 						) as Jugador,
 						jugador2:
 							e.assist1 !== undefined
 								? (jugadores.find(
-										(j) => j._id.toString() === e.assist1.id.toString()
+										(j) => j.id.toString() === e.assist1.id.toString()
 								  ) as Jugador)
 								: undefined,
 					});
@@ -67,7 +67,7 @@ export async function getEventosDeSofaScore(
 							tipo: "Tarjeta amarilla",
 							minuto: e.time,
 							jugador: jugadores.find(
-								(j) => j._id.toString() === e.player.id.toString()
+								(j) => j.id.toString() === e.player.id.toString()
 							) as Jugador,
 							jugador2: undefined,
 						});
@@ -77,7 +77,7 @@ export async function getEventosDeSofaScore(
 							tipo: "Tarjeta roja",
 							minuto: e.time,
 							jugador: jugadores.find(
-								(j) => j._id.toString() === e.player.id.toString()
+								(j) => j.id.toString() === e.player.id.toString()
 							) as Jugador,
 							jugador2: undefined,
 						});
@@ -87,7 +87,7 @@ export async function getEventosDeSofaScore(
 							tipo: "Doble amarilla",
 							minuto: e.time,
 							jugador: jugadores.find(
-								(j) => j._id.toString() === e.player.id.toString()
+								(j) => j.id.toString() === e.player.id.toString()
 							) as Jugador,
 							jugador2: undefined,
 						});
@@ -98,10 +98,10 @@ export async function getEventosDeSofaScore(
 						tipo: "Cambio",
 						minuto: e.time,
 						jugador: jugadores.find(
-							(j) => j._id.toString() === e.playerIn.id.toString()
+							(j) => j.id.toString() === e.playerIn.id.toString()
 						) as Jugador,
 						jugador2: jugadores.find(
-							(j) => j._id.toString() === e.playerOut.id.toString()
+							(j) => j.id.toString() === e.playerOut.id.toString()
 						) as Jugador,
 					});
 					return e;
@@ -121,9 +121,9 @@ export async function getPuntuacionesDeSofaScore(
 
 	await fetch(
 		"https://api.sofascore.com/api/v1/event/" +
-			partido._id +
+			partido.id +
 			"/player/" +
-			jugador._id +
+			jugador.id +
 			"/statistics",
 		{
 			mode: "cors",
@@ -562,7 +562,7 @@ const getPuntuacionJugadorFromJSON = (
 		puntuacionPortero.penaltiesParados.puntos;
 
 	const eventos1 = partido.eventos.filter((e) => {
-		if (e.jugador !== undefined) return e.jugador._id === jugador._id;
+		if (e.jugador !== undefined) return e.jugador.id === jugador.id;
 	});
 
 	const golesRecibidos = calcularGolesSiTitularOSuplente(
@@ -620,15 +620,15 @@ const getPuntuacionJugadorFromJSON = (
 		puntuacionFisico: puntuacionFisica,
 		puntuacionPortero: puntuacionPortero,
 		idJugador: r.player.id,
-		idPartido: partido._id,
+		idPartido: partido.id,
 		idEquipo:
-			partido.local._id === r.team.id
-				? partido.local._id
-				: partido.visitante._id,
+			partido.local.id === r.team.id
+				? partido.local.id
+				: partido.visitante.id,
 		idEquipoRival:
-			partido.local._id === r.team.id
-				? partido.visitante._id
-				: partido.local._id,
+			partido.local.id === r.team.id
+				? partido.visitante.id
+				: partido.local.id,
 		puntos: puntosTotales,
 		semana: partido.jornada,
 	};
@@ -654,7 +654,7 @@ function calcularGolesSiTitularOSuplente(
 	if (titular) {
 		const posCambioOut = partido.eventos.indexOf(
 			partido.eventos.filter(
-				(e) => e.tipo === "Cambio" && e.jugador2?._id === jugador._id
+				(e) => e.tipo === "Cambio" && e.jugador2?.id === jugador.id
 			)[0]
 		);
 
@@ -670,22 +670,22 @@ function calcularGolesSiTitularOSuplente(
 			return eventosConJugador
 				.filter((e) => e.tipo === "Gol")
 				.filter(
-					(e) => e.jugador.equipo._id !== jugador.jugadorAntiguo?.equipo?._id
+					(e) => e.jugador.equipo.id !== jugador.jugadorAntiguo?.equipo?.id
 				).length;
 		} else
 			return eventosConJugador
 				.filter((e) => e.tipo === "Gol")
-				.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
+				.filter((e) => e.jugador.equipo.id !== jugador.equipo.id).length;
 	} else {
 		const posCambioIn = partido.eventos.indexOf(
 			partido.eventos.filter((e) => {
-				return e.tipo === "Cambio" && e.jugador?._id === jugador._id;
+				return e.tipo === "Cambio" && e.jugador?.id === jugador.id;
 			})[0]
 		);
 
 		const posCambioOut = partido.eventos.indexOf(
 			partido.eventos.filter(
-				(e) => e.tipo === "Cambio" && e.jugador2?._id === jugador._id
+				(e) => e.tipo === "Cambio" && e.jugador2?.id === jugador.id
 			)[0]
 		);
 
@@ -702,12 +702,12 @@ function calcularGolesSiTitularOSuplente(
 				return eventosConJugador
 					.filter((e) => e.tipo === "Gol")
 					.filter(
-						(e) => e.jugador.equipo._id !== jugador.jugadorAntiguo?.equipo?._id
+						(e) => e.jugador.equipo.id !== jugador.jugadorAntiguo?.equipo?.id
 					).length;
 			} else
 				return eventosConJugador
 					.filter((e) => e.tipo === "Gol")
-					.filter((e) => e.jugador.equipo._id !== jugador.equipo._id).length;
+					.filter((e) => e.jugador.equipo.id !== jugador.equipo.id).length;
 		}
 	}
 	return 0;
@@ -722,7 +722,7 @@ function getMinutoIn(
 		return 0;
 	} else {
 		const posCambioIn = partido.eventos.filter((e) => {
-			return e.tipo === "Cambio" && e.jugador?._id === jugador._id;
+			return e.tipo === "Cambio" && e.jugador?.id === jugador.id;
 		})[0];
 		if (posCambioIn !== undefined) return posCambioIn.minuto;
 		else return -1;
@@ -735,17 +735,17 @@ function getMinutoOut(
 	titular: boolean
 ): number {
 	const posCambioIn = partido.eventos.filter((e) => {
-		return e.tipo === "Cambio" && e.jugador?._id === jugador._id;
+		return e.tipo === "Cambio" && e.jugador?.id === jugador.id;
 	})[0];
 
 	const posCambioOut = partido.eventos.filter(
-		(e) => e.tipo === "Cambio" && e.jugador2?._id === jugador._id
+		(e) => e.tipo === "Cambio" && e.jugador2?.id === jugador.id
 	)[0];
 
 	const expulsado = partido.eventos.filter(
 		(e) =>
 			(e.tipo === "Tarjeta roja" || e.tipo === "Doble amarilla") &&
-			e.jugador?._id === jugador._id
+			e.jugador?.id === jugador.id
 	)[0];
 
 	let minutoOut = 0;
@@ -781,16 +781,16 @@ function getMinutoOut(
 
 // TODO - Manejar errores
 export async function getAlineacionesSofaScore(partido: Partido) {
-	const jugadoresLocales = await getJugadoresPorEquipo(partido.local._id);
+	const jugadoresLocales = await getJugadoresPorEquipo(partido.local.id);
 	const jugadoresVisitantes = await getJugadoresPorEquipo(
-		partido.visitante._id
+		partido.visitante.id
 	);
 	const jugadoresAntiguos = await getJugadoresAntiguos(
-		partido.local._id,
+		partido.local.id,
 		partido.jornada
 	);
 	const jugadoresAntiguos2 = await getJugadoresAntiguos(
-		partido.visitante._id,
+		partido.visitante.id,
 		partido.jornada
 	);
 
@@ -810,7 +810,7 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 	};
 
 	await fetch(
-		"https://api.sofascore.com/api/v1/event/" + partido._id + "/lineups",
+		"https://api.sofascore.com/api/v1/event/" + partido.id + "/lineups",
 		{
 			mode: "cors",
 			headers: {
@@ -823,7 +823,7 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 				.filter((p: any) => p.substitute === false)
 				.forEach((p: any) => {
 					const jugador = jugadores.filter(
-						(j) => j._id.toString() === p.player.id.toString()
+						(j) => j.id.toString() === p.player.id.toString()
 					)[0];
 					if (jugador !== undefined)
 						alineacionLocal.jugadoresTitulares.push(jugador);
@@ -833,7 +833,7 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 				.filter((p: any) => p.substitute === true)
 				.forEach((p: any) => {
 					const jugador = jugadores.filter(
-						(j) => j._id.toString() === p.player.id.toString()
+						(j) => j.id.toString() === p.player.id.toString()
 					)[0];
 					if (jugador !== undefined)
 						alineacionLocal.jugadoresSuplentes.push(jugador);
@@ -843,7 +843,7 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 				.filter((p: any) => p.substitute === false)
 				.forEach((p: any) => {
 					const jugador = jugadores.filter(
-						(j) => j._id.toString() === p.player.id.toString()
+						(j) => j.id.toString() === p.player.id.toString()
 					)[0];
 					if (jugador !== undefined)
 						alineacionVisitante.jugadoresTitulares.push(jugador);
@@ -853,7 +853,7 @@ export async function getAlineacionesSofaScore(partido: Partido) {
 				.filter((p: any) => p.substitute === true)
 				.forEach((p: any) => {
 					const jugador = jugadores.filter(
-						(j) => j._id.toString() === p.player.id.toString()
+						(j) => j.id.toString() === p.player.id.toString()
 					)[0];
 					if (jugador !== undefined)
 						alineacionVisitante.jugadoresSuplentes.push(jugador);

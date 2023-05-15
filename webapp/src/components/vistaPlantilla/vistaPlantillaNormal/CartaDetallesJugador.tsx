@@ -1,16 +1,16 @@
 import {
-	IonActionSheet,
-	IonBadge,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonImg,
-	IonItem,
-	IonLabel,
-	IonRow,
-	useIonToast,
+    IonActionSheet,
+    IonBadge,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonImg,
+    IonItem,
+    IonLabel,
+    IonRow,
+    useIonToast,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
@@ -18,12 +18,12 @@ import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
 import { añadirJugadorAMercado } from "../../../endpoints/mercadoEndpoints";
 import {
-	getColorBadge,
-	getColorEstado,
-	getIconoEstado,
-	getLocalLigaSeleccionada,
-	ponerPuntosAValor,
-	urlBackground,
+    getColorBadge,
+    getColorEstado,
+    getIconoEstado,
+    getLocalLigaSeleccionada,
+    ponerPuntosAValor,
+    urlBackground,
 } from "../../../helpers/helpers";
 import { PropiedadJugador } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
@@ -90,7 +90,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 									}}
 									src={propiedadJugador.jugador.foto}
 								/>
-								{propiedadJugador.jugador.equipo._id !== "-1" ? (
+								{propiedadJugador.jugador.equipo.id !== "-1" ? (
 									<IonImg
 										style={{
 											maxWidth: 30,
@@ -101,7 +101,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 										}}
 										src={
 											"https://api.sofascore.app/api/v1/team/" +
-											propiedadJugador.jugador.equipo._id +
+											propiedadJugador.jugador.equipo.id +
 											"/image"
 										}
 									></IonImg>
@@ -253,7 +253,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 			{
 				<>
 					{renderCambios(
-						propiedadJugador.jugador._id,
+						propiedadJugador.jugador.id,
 						"Quitar de la alineación",
 						props.esParaCambio,
 						propiedadJugador.jugador.posicion,
@@ -267,7 +267,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 							props.cambiarTitulares(
 								getListaPosicion(propiedadJugador.jugador.posicion),
 								"",
-								propiedadJugador.jugador._id
+								propiedadJugador.jugador.id
 							);
 						},
 						props.isSameUser

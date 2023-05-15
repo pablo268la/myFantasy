@@ -93,25 +93,34 @@ function Login(props: LoginProps): JSX.Element {
 			}
 		}
 
-		let usuario = await getUsuario(email).catch((err) => {
-			crearToast(err, true, "danger");
-		});
-
-		if (isLogin) {
-			if (usuario !== null) {
-				return true;
-			} else {
-				crearToast("Email o contraseña incorrectos", mostrarToast, "danger");
+		return await getUsuario(email)
+			.then((u) => {
+				if (isLogin) {
+					if (u !== null) {
+						return true;
+					} else {
+						crearToast(
+							"Email o contraseña incorrectos",
+							mostrarToast,
+							"danger"
+						);
+						return false;
+					}
+				} else {
+					if (u !== null) {
+						crearToast("El email ya está en uso", mostrarToast, "danger");
+						return false;
+					} else {
+						return true;
+					}
+				}
+			})
+			.catch((err) => {
+				// TODO - Mirar como hacer para cuando el 404 con la clasde Error -> No hay usuario -> Se puede loguear con ese email
+				if (err.toString() === "Error: Usuario no encontrado") return true;
+				crearToast(err, true, "danger");
 				return false;
-			}
-		} else {
-			if (usuario !== null) {
-				crearToast("El email ya está en uso", mostrarToast, "danger");
-				return false;
-			} else {
-				return true;
-			}
-		}
+			});
 	}
 
 	function validateEmail(email: string): boolean {
@@ -132,6 +141,7 @@ function Login(props: LoginProps): JSX.Element {
 	}
 
 	async function entrarApp() {
+		// TODO - Poner loading
 		let v = await validateFields(true);
 		if (!v) return;
 
@@ -149,6 +159,7 @@ function Login(props: LoginProps): JSX.Element {
 					crearToast("Usuario creado correctamente", true, "success");
 				})
 				.catch((error) => {
+					console.log(2);
 					crearToast(error.message, true, "danger");
 					return;
 				});

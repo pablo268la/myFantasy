@@ -1,8 +1,5 @@
 import { apiEndPoint } from "../helpers/constants";
-import {
-	getToken,
-	getUsuarioLogueado
-} from "../helpers/helpers";
+import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { PlantillaUsuario } from "../shared/sharedTypes";
 
 export async function getPlantilla(
@@ -25,33 +22,6 @@ export async function getPlantilla(
 	);
 
 	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
-}
-
-export async function crearPlantillaUsuario(
-	idLiga: string
-): Promise<PlantillaUsuario> {
-	const email = getUsuarioLogueado()?.email as string;
-	const token = getToken();
-
-	let response = await fetch(apiEndPoint + "/plantillas/crear", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			email: email,
-			token: token,
-		},
-		body: JSON.stringify({
-			idLiga: idLiga,
-			idUsuario: getUsuarioLogueado()?.id,
-		}),
-	});
-
-	if (response.status !== 201) {
 		await response.json().then((data) => {
 			throw new Error(data.message);
 		});

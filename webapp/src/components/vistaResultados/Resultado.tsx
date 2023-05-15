@@ -1,24 +1,24 @@
 import {
-	IonAccordion,
-	IonAccordionGroup,
-	IonCard,
-	IonCardContent,
-	IonCardHeader,
-	IonCol,
-	IonIcon,
-	IonImg,
-	IonItem,
-	IonItemDivider,
-	IonLabel,
-	IonRow,
-	useIonToast,
+    IonAccordion,
+    IonAccordionGroup,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCol,
+    IonIcon,
+    IonImg,
+    IonItem,
+    IonItemDivider,
+    IonLabel,
+    IonRow,
+    useIonToast,
 } from "@ionic/react";
 import {
-	arrowForwardCircle,
-	copy,
-	football,
-	square,
-	swapHorizontal,
+    arrowForwardCircle,
+    copy,
+    football,
+    square,
+    swapHorizontal,
 } from "ionicons/icons";
 import { ReactComponentElement, useEffect, useState } from "react";
 import { getPuntuacionesPartido } from "../../endpoints/partidosEndpoint";
@@ -41,7 +41,7 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 	}
 
 	useEffect(() => {
-		getPuntuacionesPartido(props.partido._id)
+		getPuntuacionesPartido(props.partido.id)
 			.then((puntuaciones) => {
 				setPuntuaciones(puntuaciones);
 			})
@@ -82,13 +82,13 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 													<IonImg src={jugador.foto} style={{ width: 30 }} />
 													<IonLabel> {jugador.nombre}</IonLabel>
 													{puntuaciones
-														.filter((p) => p.idJugador === jugador._id)
+														.filter((p) => p.idJugador === jugador.id)
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, true)}</>
 														))}
 													<IonLabel slot="end">
 														{puntuaciones
-															.filter((p) => p.idJugador === jugador._id)
+															.filter((p) => p.idJugador === jugador.id)
 															.map((p) => p.puntos)}
 													</IonLabel>
 												</IonItem>
@@ -101,13 +101,13 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 													<IonImg src={jugador.foto} style={{ width: 30 }} />
 													<IonLabel> {jugador.nombre}</IonLabel>
 													{puntuaciones
-														.filter((p) => p.idJugador === jugador._id)
+														.filter((p) => p.idJugador === jugador.id)
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, false)}</>
 														))}
 													<IonLabel slot="end">
 														{puntuaciones
-															.filter((p) => p.idJugador === jugador._id)
+															.filter((p) => p.idJugador === jugador.id)
 															.map((p) => p.puntos)}
 													</IonLabel>
 												</IonItem>
@@ -121,13 +121,13 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 													<IonImg src={jugador.foto} style={{ width: 30 }} />
 													<IonLabel> {jugador.nombre}</IonLabel>
 													{puntuaciones
-														.filter((p) => p.idJugador === jugador._id)
+														.filter((p) => p.idJugador === jugador.id)
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, true)}</>
 														))}
 													<IonLabel slot="end">
 														{puntuaciones
-															.filter((p) => p.idJugador === jugador._id)
+															.filter((p) => p.idJugador === jugador.id)
 															.map((p) => p.puntos)}
 													</IonLabel>
 												</IonItem>
@@ -140,13 +140,13 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 													<IonImg src={jugador.foto} style={{ width: 30 }} />
 													<IonLabel> {jugador.nombre}</IonLabel>
 													{puntuaciones
-														.filter((p) => p.idJugador === jugador._id)
+														.filter((p) => p.idJugador === jugador.id)
 														.map((p) => (
 															<>{getIconosPuntuaciones(p, false)}</>
 														))}
 													<IonLabel slot="end">
 														{puntuaciones
-															.filter((p) => p.idJugador === jugador._id)
+															.filter((p) => p.idJugador === jugador.id)
 															.map((p) => p.puntos)}
 													</IonLabel>
 												</IonItem>

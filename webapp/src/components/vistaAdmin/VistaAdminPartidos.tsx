@@ -1,54 +1,54 @@
 import {
-	IonButton,
-	IonButtons,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonContent,
-	IonDatetime,
-	IonDatetimeButton,
-	IonGrid,
-	IonHeader,
-	IonIcon,
-	IonInput,
-	IonItem,
-	IonItemDivider,
-	IonLabel,
-	IonLoading,
-	IonModal,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	IonTitle,
-	IonToolbar,
-	useIonToast,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonContent,
+    IonDatetime,
+    IonDatetimeButton,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonItemDivider,
+    IonLabel,
+    IonLoading,
+    IonModal,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    IonToolbar,
+    useIonToast,
 } from "@ionic/react";
 import {
-	addCircleOutline,
-	arrowForwardCircle,
-	closeCircleOutline,
-	swapHorizontal,
-	trash,
+    addCircleOutline,
+    arrowForwardCircle,
+    closeCircleOutline,
+    swapHorizontal,
+    trash,
 } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import {
-	getJugadoresAntiguos,
-	getJugadoresPorEquipo,
+    getJugadoresAntiguos,
+    getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
 import {
-	getPartidosByJornada,
-	updatePartido,
+    getPartidosByJornada,
+    updatePartido,
 } from "../../endpoints/partidosEndpoint";
 import { comparePosiciones, getIconByTipoEvento } from "../../helpers/helpers";
 import {
-	getAlineacionesSofaScore,
-	getEventosDeSofaScore,
+    getAlineacionesSofaScore,
+    getEventosDeSofaScore,
 } from "../../helpers/sofaScoreHelper";
 import {
-	Alineacion,
-	EventoPartido,
-	Jugador,
-	Partido,
+    Alineacion,
+    EventoPartido,
+    Jugador,
+    Partido,
 } from "../../shared/sharedTypes";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
@@ -137,15 +137,15 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		setPartido(partido);
 		if (partido === undefined) setPartidoSeleccionado(undefined);
 		else {
-			const p = partidos.filter((p) => p._id === partido).at(0);
+			const p = partidos.filter((p) => p.id === partido).at(0);
 			if (p) {
 				setPartidoSeleccionado(p);
-				await getJugadoresPorEquipo(p.local._id)
+				await getJugadoresPorEquipo(p.local.id)
 					.then((jugadores) => setJugadoresLocales(jugadores))
 					.catch((err) => {
 						crearToast(err, true, "danger");
 					});
-				await getJugadoresPorEquipo(p.visitante._id)
+				await getJugadoresPorEquipo(p.visitante.id)
 					.then((jugadores) => setJugadoresVisitantes(jugadores))
 					.catch((err) => {
 						crearToast(err, true, "danger");
@@ -184,7 +184,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				});
 			setPartidos(
 				partidos.map((p) => {
-					if (p._id === partidoSeleccionado._id) return partidoSeleccionado;
+					if (p.id === partidoSeleccionado.id) return partidoSeleccionado;
 					else return p;
 				})
 			);
@@ -274,9 +274,9 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		return jugadoresLocales.filter((t) => {
 			return (
 				!alineacionLocal?.jugadoresTitulares
-					.map((j) => j._id)
-					.includes(t._id) &&
-				!alineacionLocal?.jugadoresSuplentes.map((j) => j._id).includes(t._id)
+					.map((j) => j.id)
+					.includes(t.id) &&
+				!alineacionLocal?.jugadoresSuplentes.map((j) => j.id).includes(t.id)
 			);
 		});
 	};
@@ -284,7 +284,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const cogerAntiguosLocal = () => {
 		if (!antiguosCogidosLocal) {
 			getJugadoresAntiguos(
-				partidoSeleccionado?.visitante._id as string,
+				partidoSeleccionado?.visitante.id as string,
 				partidoSeleccionado?.jornada as number
 			)
 				.then((j) => {
@@ -327,11 +327,11 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 		return jugadoresVisitantes.filter((t) => {
 			return (
 				!alineacionVisitante?.jugadoresTitulares
-					.map((j) => j._id)
-					.includes(t._id) &&
+					.map((j) => j.id)
+					.includes(t.id) &&
 				!alineacionVisitante?.jugadoresSuplentes
-					.map((j) => j._id)
-					.includes(t._id)
+					.map((j) => j.id)
+					.includes(t.id)
 			);
 		});
 	};
@@ -339,7 +339,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const cogerAntiguosVisitante = () => {
 		if (!antiguosCogidosVisitante) {
 			getJugadoresAntiguos(
-				partidoSeleccionado?.visitante._id as string,
+				partidoSeleccionado?.visitante.id as string,
 				partidoSeleccionado?.jornada as number
 			)
 				.then((j) => {
@@ -388,7 +388,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 											}}
 										>
 											{partidos.map((p) => (
-												<IonSelectOption key={p._id} value={p._id}>
+												<IonSelectOption key={p.id} value={p.id}>
 													{p.local.nombre} - {p.visitante.nombre}
 												</IonSelectOption>
 											))}
@@ -656,32 +656,32 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								<IonItem>
 									<IonLabel position="stacked">Jugador</IonLabel>
 									<IonSelect
-										value={jugadorEvento?._id}
+										value={jugadorEvento?.id}
 										onIonChange={(e) => {
 											setJugadorEvento(
 												jugadoresLocales.find(
-													(jugador) => jugador._id === e.detail.value
+													(jugador) => jugador.id === e.detail.value
 												) as Jugador
 											);
 										}}
 									>
 										{alineacionLocal?.jugadoresTitulares.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
 										})}
 										{alineacionLocal?.jugadoresSuplentes.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
 										})}
 										{alineacionVisitante?.jugadoresTitulares.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
@@ -689,7 +689,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonItemDivider />
 										{alineacionVisitante?.jugadoresSuplentes.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
@@ -699,32 +699,32 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								<IonItem>
 									<IonLabel position="stacked">Jugador 2</IonLabel>
 									<IonSelect
-										value={jugadorEvento2?._id}
+										value={jugadorEvento2?.id}
 										onIonChange={(e) => {
 											setJugadorEvento2(
 												jugadoresLocales.find(
-													(jugador) => jugador._id === e.detail.value
+													(jugador) => jugador.id === e.detail.value
 												) as Jugador
 											);
 										}}
 									>
 										{alineacionLocal?.jugadoresTitulares.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
 										})}
 										{alineacionLocal?.jugadoresSuplentes.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
 										})}
 										{alineacionVisitante?.jugadoresTitulares.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
@@ -732,7 +732,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 										<IonItemDivider />
 										{alineacionVisitante?.jugadoresSuplentes.map((jugador) => {
 											return (
-												<IonSelectOption value={jugador._id}>
+												<IonSelectOption value={jugador.id}>
 													{jugador.nombre}
 												</IonSelectOption>
 											);
@@ -760,7 +760,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								</IonRow>
 								{alineacionLocal?.jugadoresTitulares.map((jugador) => (
 									<>
-										<IonCard key={"local-titular-" + jugador._id}>
+										<IonCard key={"local-titular-" + jugador.id}>
 											<IonCardContent>
 												<IonItem lines="none">
 													<IonLabel>{jugador.nombre}</IonLabel>
@@ -772,7 +772,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 														onClick={() => {
 															changeTitularesLocal(
 																alineacionLocal.jugadoresTitulares.filter(
-																	(j) => j._id !== jugador._id
+																	(j) => j.id !== jugador.id
 																)
 															);
 															setCambiado(true);
@@ -816,7 +816,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 								{alineacionLocal?.jugadoresSuplentes.map((jugador) => (
 									<>
-										<IonCard key={"local-titular-" + jugador._id}>
+										<IonCard key={"local-titular-" + jugador.id}>
 											<IonCardContent>
 												<IonItem lines="none">
 													<IonLabel>{jugador.nombre}</IonLabel>
@@ -828,7 +828,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 														onClick={() => {
 															changeSuplLocal(
 																alineacionLocal.jugadoresSuplentes.filter(
-																	(j) => j._id !== jugador._id
+																	(j) => j.id !== jugador.id
 																)
 															);
 															setCambiado(true);
@@ -916,7 +916,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								</IonRow>
 								{alineacionVisitante?.jugadoresTitulares.map((jugador) => (
 									<>
-										<IonCard key={"Visitante-titular-" + jugador._id}>
+										<IonCard key={"Visitante-titular-" + jugador.id}>
 											<IonCardContent>
 												<IonItem lines="none">
 													<IonLabel>{jugador.nombre}</IonLabel>
@@ -928,7 +928,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 														onClick={() => {
 															changeTitularesVisitante(
 																alineacionVisitante.jugadoresTitulares.filter(
-																	(j) => j._id !== jugador._id
+																	(j) => j.id !== jugador.id
 																)
 															);
 															setCambiado(true);
@@ -972,7 +972,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 								{alineacionVisitante?.jugadoresSuplentes.map((jugador) => (
 									<>
-										<IonCard key={"Visitante-titular-" + jugador._id}>
+										<IonCard key={"Visitante-titular-" + jugador.id}>
 											<IonCardContent>
 												<IonItem lines="none">
 													<IonLabel>{jugador.nombre}</IonLabel>
@@ -984,7 +984,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 														onClick={() => {
 															changeSuplVisitante(
 																alineacionVisitante.jugadoresSuplentes.filter(
-																	(j) => j._id !== jugador._id
+																	(j) => j.id !== jugador.id
 																)
 															);
 															setCambiado(true);

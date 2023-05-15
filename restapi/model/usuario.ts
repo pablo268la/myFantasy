@@ -34,7 +34,7 @@ export const usuario = new Schema<IUsuario>(
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			
 		},
 		nombre: {
 			type: String,

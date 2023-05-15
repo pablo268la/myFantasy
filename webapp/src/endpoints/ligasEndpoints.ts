@@ -58,7 +58,7 @@ export async function crearLiga(
 
 	let idLiga = UUID.v4();
 	const liga: Liga = {
-		_id: idLiga,
+		id: idLiga,
 		nombre: nombre,
 		plantillasUsuarios: [],
 		propiedadJugadores: [],
@@ -116,26 +116,6 @@ export async function getRandomLiga(): Promise<Liga> {
 	const token = getToken();
 
 	let response = await fetch(apiEndPoint + "/ligas/random/new", {
-		method: "GET",
-		headers: {
-			email: email,
-			token: token,
-		},
-	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
-}
-
-export async function checkJoinLiga(idLiga: string): Promise<boolean> {
-	const email = getUsuarioLogueado()?.email as string;
-	const token = getToken();
-
-	let response = await fetch(apiEndPoint + "/ligas/join/" + idLiga, {
 		method: "GET",
 		headers: {
 			email: email,

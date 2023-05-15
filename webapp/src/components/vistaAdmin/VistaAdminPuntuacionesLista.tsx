@@ -25,7 +25,7 @@ export function VistaAdminPuntuacionesLista(
 					</IonRow>
 					{props.partido.alineacionLocal.jugadoresTitulares.map((j) => (
 						<VistaAdminPuntuacionJugador
-							key={j._id}
+							key={j.id}
 							jugador={j}
 							jornada={props.jornada}
 							rival={props.partido.visitante.nombre}
@@ -41,7 +41,7 @@ export function VistaAdminPuntuacionesLista(
 					</IonRow>
 					{props.partido.alineacionLocal.jugadoresSuplentes.map((j) => (
 						<VistaAdminPuntuacionJugador
-							key={j._id}
+							key={j.id}
 							jugador={j}
 							jornada={props.jornada}
 							rival={props.partido.visitante.nombre}
@@ -60,7 +60,7 @@ export function VistaAdminPuntuacionesLista(
 
 					{props.partido.alineacionVisitante.jugadoresTitulares.map((j) => (
 						<VistaAdminPuntuacionJugador
-							key={j._id}
+							key={j.id}
 							jugador={j}
 							jornada={props.jornada}
 							rival={props.partido.local.nombre}
@@ -76,7 +76,7 @@ export function VistaAdminPuntuacionesLista(
 					</IonRow>
 					{props.partido.alineacionVisitante.jugadoresSuplentes.map((j) => (
 						<VistaAdminPuntuacionJugador
-							key={j._id}
+							key={j.id}
 							jugador={j}
 							jornada={props.jornada}
 							rival={props.partido.local.nombre}

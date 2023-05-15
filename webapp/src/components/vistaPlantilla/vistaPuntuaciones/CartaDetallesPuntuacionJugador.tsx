@@ -1,26 +1,26 @@
 import {
-	IonBadge,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonImg,
-	IonItem,
-	IonLabel,
-	IonRow,
+    IonBadge,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonImg,
+    IonItem,
+    IonLabel,
+    IonRow,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
 import {
-	getColorBadge,
-	getColorEstado,
-	getIconoEstado,
-	ponerPuntosAValor,
-	urlBackground,
+    getColorBadge,
+    getColorEstado,
+    getIconoEstado,
+    ponerPuntosAValor,
+    urlBackground,
 } from "../../../helpers/helpers";
 import {
-	PropiedadJugador,
-	PuntuacionJugador,
+    PropiedadJugador,
+    PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 
@@ -42,7 +42,7 @@ export function CartaDetallesPuntuacionJugador(
 			<IonCard style={{ width: "100%" }} color="primary">
 				<IonCardContent
 					onClick={(e) => {
-						props.setJugadorPulsado(propiedadJugador.jugador._id);
+						props.setJugadorPulsado(propiedadJugador.jugador.id);
 					}}
 				>
 					<IonGrid>
@@ -61,7 +61,7 @@ export function CartaDetallesPuntuacionJugador(
 									}}
 									src={propiedadJugador.jugador.foto}
 								/>
-								{propiedadJugador.jugador.equipo._id !== "-1" ? (
+								{propiedadJugador.jugador.equipo.id !== "-1" ? (
 									<IonImg
 										style={{
 											maxWidth: 30,
@@ -72,7 +72,7 @@ export function CartaDetallesPuntuacionJugador(
 										}}
 										src={
 											"https://api.sofascore.app/api/v1/team/" +
-											propiedadJugador.jugador.equipo._id +
+											propiedadJugador.jugador.equipo.id +
 											"/image"
 										}
 									></IonImg>

@@ -55,7 +55,7 @@ api.get("/ligas/:id", LigasController.getLiga);
 
 /**
  * @openapi
- * /ligas/random/new:
+ * /ligas/random:
  *  get:
  *     tags:
  *     - Ligas
@@ -143,55 +143,6 @@ api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
 
 /**
  * @openapi
- * /ligas/join/{idLiga}:
- *  get:
- *     tags:
- *     - Ligas
- *     description: Devuelve si se puede unir a una liga
- *     parameters:
- *     - name: idLiga
- *       in: path
- *       description: id de la liga
- *       required: true
- *       schema:
- *         type: string
- *     - name: email
- *       in: header
- *       description: email del usuario
- *       required: true
- *       schema:
- *         type: string
- *     - name: token
- *       in: header
- *       description: token del usuario
- *       required: true
- *       schema:
- *         type: string
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Liga'
- *       401:
- *         description: Usuario no autorizado
- *       404:
- *         description: Liga no encontrada
- *       409:
- *         description: No se puede unir a la liga (Ya pertenece, está llena o máximo de ligas alcanzado)
- *       500:
- *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *
- */
-api.get("/ligas/join/:idLiga", LigasController.checkJoinLiga);
-
-/**
- * @openapi
  * /ligas:
  *  post:
  *     tags:
@@ -253,7 +204,7 @@ api.post("/ligas", LigasController.createLiga);
  *       in: path
  *       description: id de la liga
  *       required: true
- *       schema: 
+ *       schema:
  *         type: string
  *     - name: email
  *       in: header

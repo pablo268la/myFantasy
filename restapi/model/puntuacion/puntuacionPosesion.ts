@@ -70,7 +70,7 @@ export const puntuacionPosesion = new Schema<IPuntuacionPosesion>(
 		},
 	},
 	{
-		_id: false,
+		id: false,
 		versionKey: false,
 		timestamps: false,
 	}

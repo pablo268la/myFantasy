@@ -12,7 +12,7 @@ export const getEquipos: RequestHandler = async (req, res) => {
 
 export const getEquipo: RequestHandler = async (req, res) => {
 	try {
-		const j = await modeloEquipo.findOne({ _id: req.params.idEquipo });
+		const j = await modeloEquipo.findOne({ id: req.params.idEquipo });
 		if (j) {
 			res.json(j);
 		} else {

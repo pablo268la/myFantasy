@@ -10,51 +10,50 @@ export const getJugadores: RequestHandler = async (req, res) => {
 			jugador.puntos = 0;
 			return await jugador.save();
 		});
-		res.json(jugadores);
+		res.status(200).json(jugadores);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
 export const getJugadoresEquipo: RequestHandler = async (req, res) => {
 	try {
 		const j = await modeloJugador.find({
-			"equipo._id": req.params.idEquipo,
+			"equipo.id": req.params.idEquipo,
 		});
-		res.json(j);
+		res.status(200).json(j);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
 export const getJugador: RequestHandler = async (req, res) => {
 	try {
-		const j = await modeloJugador.findOne({ _id: req.params.idJugador });
-		//			.populate("equipo._id")
+		const j = await modeloJugador.findOne({ id: req.params.idJugador });
+		//			.populate("equipo.id")
 		if (j) {
-			res.json(j);
+			res.status(200).json(j);
 		} else {
 			res.status(404).json({ message: "Jugador no encontrado" });
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
 export const getJugadoresAntiguos: RequestHandler = async (req, res) => {
 	try {
-		res.json(
-			await modeloJugador.find({
-				"jugadorAntiguo.equipo._id": req.params.idEquipo,
-				"jugadorAntiguo.jornadaTraspaso": { $lte: req.params.semana },
-			})
-		);
+		const j = await modeloJugador.find({
+			"jugadorAntiguo.equipo.id": req.params.idEquipo,
+			"jugadorAntiguo.jornadaTraspaso": { $lte: req.params.semana },
+		});
+		res.status(200).json(j);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -67,7 +66,7 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		const verified = await verifyUser(email, token);
 
 		if (!verified) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 
 		const usuario = (await modeloUsuario.find({ email: email })).at(0);
@@ -75,8 +74,12 @@ export const updateJugador: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}
 
-		const j = (await modeloJugador.find({ _id: req.params.idJugador })).at(0);
-		if (j !== undefined && j.equipo._id !== req.body.equipo._id) {
+		const j = (await modeloJugador.find({ id: req.params.idJugador })).at(0);
+		if (j === undefined) {
+			return res.status(404).json({ message: "Jugador no encontrado" });
+		}
+
+		if (j !== undefined && j.equipo.id !== req.body.equipo.id) {
 			jugadorRequqest.jugadorAntiguo = {
 				equipo: j.equipo,
 				jornadaTraspaso: 1,
@@ -84,13 +87,13 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		}
 
 		const jugador = await modeloJugador.findOneAndUpdate(
-			{ _id: req.params.idJugador },
+			{ id: req.params.idJugador },
 			jugadorRequqest,
 			{ new: true }
 		);
-		res.json(jugador);
+		res.status(200).json(jugador);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };

@@ -9,7 +9,7 @@ import { IUsuario, usuario } from "./usuario";
  *   PlantillaUsuario:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     usuario:
  *      $ref: '#/components/schemas/Usuario'
@@ -33,11 +33,10 @@ import { IUsuario, usuario } from "./usuario";
 
 export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 	{
-		_id: {
+		id: {
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
 		},
 		usuario: {
 			type: usuario,
@@ -79,7 +78,7 @@ export const plantillaUsuario = new Schema<IPlantillaUsuario>(
 );
 
 export interface IPlantillaUsuario {
-	_id: string;
+	id: string;
 	usuario: IUsuario;
 	idLiga: string;
 	alineacionJugador: IAlineacionJugador;
@@ -88,8 +87,6 @@ export interface IPlantillaUsuario {
 	puntos: number;
 	dinero: number;
 }
-
-plantillaUsuario.index({ _id: 1 }, { unique: true });
 
 export const modeloPlantillaUsuario = model<IPlantillaUsuario>(
 	"plantillaUsuario",

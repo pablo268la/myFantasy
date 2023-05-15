@@ -40,7 +40,7 @@ export function filterAndPopByTramos(
 	tope: number
 ): number {
 	if (!tope || tope < 0) return 0;
-	let r =
+	const r =
 		lista
 			.filter((element: TripleEstadisticaTramosValue) => {
 				if (tope >= element.estadistica) return element;

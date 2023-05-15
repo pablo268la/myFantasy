@@ -11,22 +11,22 @@ import {
 	modeloPlantillaUsuario,
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
-import { modeloUsuario } from "../model/usuario";
+import { IUsuario, modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
 import { verifyUser } from "./usuariosController";
 
 export const getPlantilla: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		let usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
 		if (usuario && verified) {
 			const idLiga = req.params.idLiga;
 			const idUsuario = req.params.idUsuario;
 
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
@@ -53,73 +53,35 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
-	}
-};
-
-export const createPlantillaUsuario: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-	try {
-		if (usuario && verified) {
-			const idLiga = req.body.idLiga;
-			const liga = await modeloLiga.findById(idLiga);
-			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
-
-			if (liga.plantillasUsuarios.length === liga.maxJugadores)
-				return res.status(409).json({ message: "Liga llena" });
-			if (
-				liga.plantillasUsuarios.filter(
-					(plantilla) => plantilla.usuario.id === usuario?.id
-				).length > 0
-			)
-				return res
-					.status(409)
-					.json({ message: "Ya estás inscrito en esta liga" });
-
-			const plantillaGuardada = await crearPlantillaParaUsuarioYGuardar(
-				usuario,
-				liga
-			);
-
-			return res.status(201).json(plantillaGuardada);
-		} else {
-			return res.status(401).json({ message: "Usuario no autenticado" });
-		}
-	} catch (error) {
-		console.log(error)
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
 export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-
-	let usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+
+		let usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
 		if (usuario && verified) {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
-			const idLiga = req.body.idLiga;
+			const idLiga = req.body.idLiga.toString();
 
-			const liga = await modeloLiga.findById(idLiga);
+			const liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 			if (
 				liga.plantillasUsuarios.filter(
-					(plantilla) => plantilla._id === plantillaParaActualizar._id
+					(plantilla) => plantilla.id === plantillaParaActualizar.id
 				).length === 0
 			)
 				return res.status(404).json({ message: "Plantilla no encontrada" });
 
 			liga.plantillasUsuarios = liga.plantillasUsuarios.map(
 				(plantillaUsuario) => {
-					if (plantillaUsuario._id === plantillaParaActualizar._id)
+					if (plantillaUsuario.id === plantillaParaActualizar.id)
 						return plantillaParaActualizar;
 					else return plantillaUsuario;
 				}
@@ -131,8 +93,8 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		return res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		console.log(error);
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -175,18 +137,18 @@ export async function crearPlantillaParaUsuarioYGuardar(
 	);
 
 	const alineacionJugador = new modeloAlineacionJugador({
-		_id: UUID.v4(),
+		id: UUID.v4(),
 		porteros: porPlantilla,
 		defensas: defPlantilla,
 		medios: medPlantilla,
 		delanteros: delPlantilla,
 		formacion: "4-3-3",
 		guardadoEn: new Date().toISOString(),
-		idLiga: liga._id,
+		idLiga: liga.id,
 	});
 	const plantillaUsuario = new modeloPlantillaUsuario({
-		_id: UUID.v4(),
-		idLiga: liga._id,
+		id: UUID.v4(),
+		idLiga: liga.id,
 		usuario: usuario,
 		alineacionJugador: alineacionJugador,
 		alineacionesJornada: [],
@@ -202,8 +164,8 @@ export async function crearPlantillaParaUsuarioYGuardar(
 	intercambiarPropiedades(medPlantilla, liga);
 	intercambiarPropiedades(delPlantilla, liga);
 
-	if (usuario.ligas.indexOf(liga._id) === -1) {
-		usuario.ligas.push(liga._id);
+	if (usuario.ligas.indexOf(liga.id) === -1) {
+		usuario.ligas.push(liga.id);
 		await usuario.save();
 	}
 
@@ -217,7 +179,7 @@ export function intercambiarPropiedades(
 ) {
 	for (let i = 0; i < jugadoresACambiarPropiedad.length; i++) {
 		liga.propiedadJugadores.forEach((pj) => {
-			if (jugadoresACambiarPropiedad[i].jugador._id === pj.jugador._id) {
+			if (jugadoresACambiarPropiedad[i].jugador.id === pj.jugador.id) {
 				pj.usuario = jugadoresACambiarPropiedad[i].usuario;
 			}
 		});
@@ -278,7 +240,7 @@ async function actualizarDatosDeJugadoresDesdeBD(
 	propiedades: IPropiedadJugador[]
 ) {
 	for (let j of propiedades) {
-		j.jugador = (await modeloJugador.findOne({ _id: j.jugador._id })) as any;
-		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as any;
+		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as IJugador;
+		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as IUsuario;
 	}
 }

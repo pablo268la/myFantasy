@@ -20,7 +20,7 @@ import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
  *   PuntuacionJugador:
  *    type: object
  *    properties:
- *     _id:
+ *     id:
  *      type: string
  *     idJugador:
  *      type: string
@@ -53,7 +53,7 @@ import { IPuntuacionPosesion, puntuacionPosesion } from "./puntuacionPosesion";
 
 export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 	{
-		_id: {
+		id: {
 			type: String,
 			trim: true,
 			required: true,
@@ -116,14 +116,14 @@ export const puntuacionJugador = new Schema<IPuntuacionJugador>(
 		},
 	},
 	{
-		_id: false,
+		id: false,
 		versionKey: false,
 		timestamps: false,
 	}
 );
 
 export interface IPuntuacionJugador {
-	_id: string;
+	id: string;
 	idJugador: string;
 	idPartido: string;
 	semana: number;
