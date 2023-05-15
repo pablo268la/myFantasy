@@ -3,7 +3,6 @@ import express, { Application } from "express";
 import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
-import random from "random";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import { modeloLiga } from "../model/liga";
@@ -212,7 +211,7 @@ describe("plantillas/update", () => {
 	 * Test: Devuelve 200 si la plantilla existe
 	 */
 	it("Devuelve 200 si la plantilla existe", async () => {
-		const dinero = random.int(0, 1000000);
+		const dinero = new Date().getTime() / 100;
 		plantillaUsuario.dinero = dinero;
 		const response: Response = await request(app)
 			.post("/plantillas/update")

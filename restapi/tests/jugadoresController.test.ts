@@ -3,7 +3,6 @@ import express, { Application } from "express";
 import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
-import random from "random";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import { modeloJugador } from "../model/jugador";
@@ -192,7 +191,7 @@ describe("updateJugador", () => {
 	 * Test: Devuelve 200 si actualiza el jugador
 	 */
 	it("200 si actualiza el jugador", async () => {
-		const randomPoints = random.int(0, 1000000);
+		const randomPoints = new Date().getTime() / 100000;
 
 		const response: Response = await request(app)
 			.put("/jugadores/3306")
