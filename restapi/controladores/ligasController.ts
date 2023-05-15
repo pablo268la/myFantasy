@@ -128,7 +128,7 @@ export const añadirUsuarioALiga: RequestHandler = async (req, res) => {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
 		if (usuario && verified) {
-			let liga = await modeloLiga.findOne({ id: idLiga });
+			const liga = await modeloLiga.findOne({ id: idLiga });
 
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 			else if (usuario.ligas.length >= 5) {

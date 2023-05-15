@@ -1,4 +1,3 @@
-import { GlobalConfig, ProjectConfig } from "@jest/types/build/Config";
 import { MongoDBContainer, StartedMongoDBContainer } from "testcontainers";
 import { modeloEquipo } from "../model/equipo";
 import { modeloJugador } from "../model/jugador";
@@ -8,10 +7,7 @@ import { modeloUsuario } from "../model/usuario";
 
 const mongoose = require("mongoose");
 
-module.exports = async function (
-	globalConfig: GlobalConfig,
-	projectConfig: ProjectConfig
-) {
+module.exports = async function () {
 	const oldContainer: StartedMongoDBContainer = await new MongoDBContainer()
 		.withReuse()
 		.start();

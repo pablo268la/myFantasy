@@ -17,7 +17,7 @@ const randomstring = require("randomstring");
 const mongoose = require("mongoose");
 
 const app: Application = express();
-var server: Server;
+let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());

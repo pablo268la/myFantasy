@@ -8,7 +8,7 @@ import { verifyUser } from "../controladores/usuariosController";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import apiUsuarios from "../routes/rutasUsuarios";
 
-var server: Server;
+let server: Server;
 const app: Application = express();
 const mongoose = require("mongoose");
 
@@ -178,7 +178,7 @@ describe("verifyUser", () => {
 	 * Test: Devuelve True si token válido
 	 */
 	it("True si token válido para usuario", async () => {
-		const response: Boolean = await verifyUser(emailCorrecto, verifiedToken);
+		const response: boolean = await verifyUser(emailCorrecto, verifiedToken);
 
 		expect(response).toBe(true);
 	});
@@ -187,7 +187,7 @@ describe("verifyUser", () => {
 	 * Test: Devuelve False si token no válido
 	 */
 	it("False si token no válido para usuario", async () => {
-		const response: Boolean = await verifyUser(
+		const response: boolean = await verifyUser(
 			emailCorrecto,
 			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5YzZhZGVlLWY4YzEtNGMzNS1iNGVlLTU4NzE5MmZmMjA1MiIsImlhdCI6MTY4MzkwNTQ0OH0.SVYHLLZNHPwBA0-Cyil1-2q7reNottfiGd4DoYgYw1I"
 		);

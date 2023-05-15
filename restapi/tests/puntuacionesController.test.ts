@@ -13,7 +13,7 @@ import apiUsuarios from "../routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
 const app: Application = express();
-var server: Server;
+let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());
@@ -206,7 +206,7 @@ describe("updateJugador", () => {
 	 * Test: Devuelve 200 si crea una nueva puntuacion
 	 */
 	it("200 si crea una nueva puntuacion", async () => {
-		let p = createPuntuacionJugadorVacia("3306", 10, "2829");
+		const p = createPuntuacionJugadorVacia("3306", 10, "2829");
 		p.idPartido = "1";
 		p.idEquipoRival = "1";
 		const response: Response = await request(app)
@@ -231,7 +231,7 @@ describe("updateJugador", () => {
 	 * Test: Devuelve 200 si actualiza una puntuacion
 	 */
 	it("200 si actualiza una puntuacion", async () => {
-		let p = createPuntuacionJugadorVacia("3306", 10, "2829");
+		const p = createPuntuacionJugadorVacia("3306", 10, "2829");
 		p.idPartido = "1";
 		p.idEquipoRival = "1234";
 		const response: Response = await request(app)

@@ -1,10 +1,6 @@
-import { GlobalConfig, ProjectConfig } from "@jest/types/build/Config";
 import { MongoDBContainer, StartedMongoDBContainer } from "testcontainers";
 
-module.exports = async function (
-	globalConfig: GlobalConfig,
-	projectConfig: ProjectConfig
-) {
+module.exports = async function () {
 	const container: StartedMongoDBContainer = await new MongoDBContainer()
 		.withReuse()
 		.start();

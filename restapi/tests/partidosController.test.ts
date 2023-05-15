@@ -12,7 +12,7 @@ import apiUsuarios from "../routes/rutasUsuarios";
 const mongoose = require("mongoose");
 const randomstring = require("randomstring");
 const app: Application = express();
-var server: Server;
+let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());

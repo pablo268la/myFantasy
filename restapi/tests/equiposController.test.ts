@@ -8,7 +8,7 @@ import apiEquipos from "../routes/rutasEquipos";
 
 const mongoose = require("mongoose");
 const app: Application = express();
-var server: Server;
+let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());

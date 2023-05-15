@@ -13,7 +13,7 @@ import apiPlantillas from "../routes/rutasPlantillas";
 
 const mongoose = require("mongoose");
 const app: Application = express();
-var server: Server;
+let server: Server;
 
 let plantillaUsuario: IPlantillaUsuario;
 
@@ -35,11 +35,7 @@ beforeAll(async () => {
 		config: { autoIndex: false },
 	});
 
-	/**
-	 * Aprovision de BD
-	 */
-
-	const response: Response = await request(app)
+	await request(app)
 		.post("/ligas")
 		.set({ email: usuarioAdmin.email, token: tokenAdmin })
 		.send({
@@ -217,7 +213,7 @@ describe("plantillas/update", () => {
 	it("Devuelve 200 si la plantilla existe", async () => {
 		const crypto = require("crypto");
 		const dinero = Math.floor(
-			(new Uint32Array(1)[0] / (0xffffffff + 1)) * 1000000
+			crypto.getRandomValues(new Uint32Array(1)[0] / (0xffffffff + 1)) * 1000000
 		);
 		plantillaUsuario.dinero = dinero;
 		const response: Response = await request(app)

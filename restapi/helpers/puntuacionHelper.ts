@@ -1,11 +1,11 @@
+import { IPuntuacionJugador } from "../model/puntuacion/puntuacionJugador";
+import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
 import {
 	filterAndPop,
 	filterAndPopByTramos,
 	getByTramos,
-} from "../controladoresSofascore/jsonHelper";
-import { PuntuacionJSON } from "../controladoresSofascore/sharedTypes";
-import { IPuntuacionJugador } from "../model/puntuacion/puntuacionJugador";
-import { IPuntuacionTupple } from "../model/puntuacion/puntuacionTupple";
+} from "./jsonHelper";
+import { PuntuacionJSON } from "./sharedTypes";
 
 export function createPuntuacionJugadorVacia(
 	idJugador: string,

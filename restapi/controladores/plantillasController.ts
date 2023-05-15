@@ -11,7 +11,7 @@ import {
 	modeloPlantillaUsuario,
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
-import { modeloUsuario } from "../model/usuario";
+import { IUsuario, modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
 import { verifyUser } from "./usuariosController";
 
@@ -240,7 +240,7 @@ async function actualizarDatosDeJugadoresDesdeBD(
 	propiedades: IPropiedadJugador[]
 ) {
 	for (let j of propiedades) {
-		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as any;
-		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as any;
+		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as IJugador;
+		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as IUsuario;
 	}
 }

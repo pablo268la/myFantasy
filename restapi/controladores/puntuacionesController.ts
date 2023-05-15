@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { openJSON } from "../controladoresSofascore/jsonHelper";
+import { openJSON } from "../helpers/jsonHelper";
 import {
 	calcularPuntuacion,
 	createPuntuacionJugadorVacia,

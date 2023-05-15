@@ -21,7 +21,7 @@ import apiPuntuaciones from "../routes/rutasPuntuaciones";
 import apiUsuarios from "../routes/rutasUsuarios";
 
 const app: Application = express();
-var server: Server;
+let server: Server;
 const mockingoose = require("mockingoose");
 const mongoose = require("mongoose");
 
@@ -129,7 +129,7 @@ describe("Usuarios", () => {
 	 * Test: Devuelve False si el servidor esta caido
 	 */
 	it("False si el servidor esta caido", async () => {
-		const response: Boolean = await verifyUser(emailCorrecto, "");
+		const response: boolean = await verifyUser(emailCorrecto, "");
 		expect(response).toBe(false);
 	});
 });
@@ -279,7 +279,7 @@ describe("Plantillas", () => {
 	 * Test: Devuelve 500 si el servidor esta caido
 	 */
 	it("500 si el servidor esta caido", async () => {
-		let response: Response = await request(app).get("/plantillas/1/1");
+		const response: Response = await request(app).get("/plantillas/1/1");
 
 		expect(response.statusCode).toBe(500);
 		expect(response.body).toEqual({
@@ -291,7 +291,7 @@ describe("Plantillas", () => {
 	 * Test: Devuelve 500 si el servidor esta caido
 	 */
 	it("500 si el servidor esta caido", async () => {
-		let response: Response = await request(app).post("/plantillas/update");
+		const response: Response = await request(app).post("/plantillas/update");
 
 		expect(response.statusCode).toBe(500);
 		expect(response.body).toEqual({
