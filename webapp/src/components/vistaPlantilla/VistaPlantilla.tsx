@@ -5,8 +5,7 @@ import {
 	IonProgressBar,
 	IonSegment,
 	IonSegmentButton,
-	useIonRouter,
-	useIonToast,
+	useIonToast
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import {
@@ -38,7 +37,6 @@ export type Formacion = {
 type PlantillaProps = {};
 
 function VistaPlantilla(props: PlantillaProps): JSX.Element {
-	const nav = useIonRouter();
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const idLiga: string = getLocalLigaSeleccionada();
 
@@ -134,7 +132,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				crearToast(err, true, "danger");
 				// TODO: Informar de error en content y boton de redirigir al inicio
 			});
-
 	};
 
 	const cambiarFormacion = (f: Formacion) => {

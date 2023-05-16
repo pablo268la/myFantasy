@@ -391,7 +391,7 @@ describe("eliminarUsuarioDeLiga", () => {
 	 */
 	it("Devuelve 204 si el usuario se elimina correctamente", async () => {
 		// Añadiendo ofertas para comprobar que las elimina
-		let liga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		const liga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
 		liga.mercado = liga.mercado.map((propiedad) => {
 			propiedad.venta.ofertas = [
 				{

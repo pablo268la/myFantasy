@@ -194,7 +194,7 @@ export const deleteUsuarioFromLiga: RequestHandler = async (req, res) => {
 		const token = req.headers.token as string;
 		const idLiga = req.params.idLiga.toString();
 
-		let usuario = (await modeloUsuario.findOne({
+		const usuario = (await modeloUsuario.findOne({
 			id: req.params.idUsuario.toString(),
 		})) as IUsuario;
 		const verified = await verifyUser(email, token);
