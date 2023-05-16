@@ -4,9 +4,13 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCol,
+	IonContent,
 	IonGrid,
 	IonIcon,
+	IonInput,
+	IonItem,
 	IonLabel,
+	IonPopover,
 	IonRow,
 	useIonToast,
 } from "@ionic/react";
@@ -25,6 +29,8 @@ type CartaLigaProps = {
 	liga: Liga;
 	disabled: boolean;
 	cogerLigasUsuario: () => void;
+	setMessage: (mensaje: string) => void;
+	setShowLoading: (showLoading: boolean) => void;
 };
 
 export function CartaLiga(props: CartaLigaProps): JSX.Element {
@@ -39,6 +45,8 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 				duration: 1500,
 			});
 	}
+
+	const [showPopover, setShowPopover] = useState(false);
 
 	const [liga, setLiga] = useState<Liga>(props.liga);
 	const usuario = getUsuarioLogueado();
@@ -133,15 +141,20 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 									type: "delete",
 								},
 								handler: async () => {
+									props.setMessage("Abandonando liga...");
+									props.setShowLoading(true);
 									await deleteUsuarioFromLiga(
 										liga.id as string,
 										usuario?.id as string
 									)
 										.then(() => {
 											crearToast("Has abandonado la liga", true, "success");
+											props.setShowLoading(false);
 											props.cogerLigasUsuario();
+											setLocalLigaSeleccionada("NoLiga");
 										})
 										.catch((err) => {
+											props.setShowLoading(false);
 											crearToast(err, true, "danger");
 										});
 								},
@@ -149,10 +162,30 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 							{
 								text: "Compartir",
 								icon: share,
-								handler: () => {},
+								handler: () => {
+									setShowPopover(true);
+								},
 							},
 						]}
 					></IonActionSheet>
+					<IonPopover
+						isOpen={showPopover}
+						onDidDismiss={() => setShowPopover(false)}
+					>
+						<IonContent>
+							<IonItem fill="outline">
+								<IonInput
+									value={props.liga.enlaceInvitacion}
+									readonly={true}
+								></IonInput>
+							</IonItem>
+							<IonItem>
+								<IonButton slot="end" onClick={() => setShowPopover(false)}>
+									Cerrar
+								</IonButton>
+							</IonItem>
+						</IonContent>
+					</IonPopover>
 				</IonCardContent>
 			</IonCard>
 		</>

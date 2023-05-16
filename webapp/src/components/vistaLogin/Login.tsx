@@ -8,6 +8,7 @@ import {
 	IonInput,
 	IonItem,
 	IonLabel,
+	IonLoading,
 	IonNote,
 	IonPage,
 	IonRow,
@@ -47,6 +48,9 @@ function Login(props: LoginProps): JSX.Element {
 	}
 
 	useEffect(() => {}, []);
+
+	const [showLoading, setShowLoading] = useState<boolean>(false);
+	const [message, setMessage] = useState<string>();
 
 	async function validateFields(mostrarToast: boolean): Promise<boolean> {
 		if (email === "" || contraseña === "") {
@@ -116,7 +120,6 @@ function Login(props: LoginProps): JSX.Element {
 				}
 			})
 			.catch((err) => {
-				// TODO - Mirar como hacer para cuando el 404 con la clasde Error -> No hay usuario -> Se puede loguear con ese email
 				if (err.toString() === "Error: Usuario no encontrado") return true;
 				crearToast(err, true, "danger");
 				return false;
@@ -141,11 +144,13 @@ function Login(props: LoginProps): JSX.Element {
 	}
 
 	async function entrarApp() {
-		// TODO - Poner loading
+		setMessage("Validando datos...");
+		setShowLoading(true);
 		let v = await validateFields(true);
 		if (!v) return;
 
 		if (!isLogin) {
+			setMessage("Creando usuario...");
 			await createUsuario({
 				id: "",
 				nombre: nombre,
@@ -165,6 +170,7 @@ function Login(props: LoginProps): JSX.Element {
 				});
 		}
 
+		setMessage("Iniciando sesión...");
 		await setUsuarioAndRequestToken(email, contraseña)
 			.then(() => {
 				crearToast(
@@ -177,6 +183,7 @@ function Login(props: LoginProps): JSX.Element {
 			.catch((error) => {
 				crearToast(error.message, true, "danger");
 			});
+		setShowLoading(false);
 	}
 
 	return (
@@ -187,6 +194,7 @@ function Login(props: LoginProps): JSX.Element {
 						<IonTitle>Headline Coach</IonTitle>
 					</IonToolbar>
 				</IonHeader>
+				<IonLoading isOpen={showLoading} message={message} />
 				<IonContent style={{ justifyContent: "center" }}>
 					<IonGrid style={{ maxWidth: 500 }}>
 						<IonRow style={{ justifyContent: "center" }}>

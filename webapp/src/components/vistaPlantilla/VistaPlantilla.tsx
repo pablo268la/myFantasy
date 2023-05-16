@@ -82,7 +82,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const getJugadoresAPI = async () => {
 		setLoading(true);
 		await getPlantilla(idLiga, idPlantillaUsuario)
-			.then(async (res) => {
+			.then((res) => {
 				setPlantilla(res);
 				setFormacion({
 					portero: 1,
@@ -127,15 +127,14 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				setPuntuacionesMap(map);
 
 				setJugadores(ju);
-				await new Promise((f) => setTimeout(f, 2000));
+				setLoading(false);
 			})
 			.catch((err) => {
+				setLoading(false);
 				crearToast(err, true, "danger");
-				// TODO - Meter boton de redirigir
-				nav.push("/ligas", "forward");
+				// TODO: Informar de error en content y boton de redirigir al inicio
 			});
 
-		setLoading(false);
 	};
 
 	const cambiarFormacion = (f: Formacion) => {

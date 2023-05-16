@@ -237,6 +237,4 @@ api.delete(
 	MercadosController.eliminarPujaMercado
 );
 
-
-
 export default api;

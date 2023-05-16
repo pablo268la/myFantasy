@@ -316,6 +316,7 @@ export const eliminarJugadorMercado: RequestHandler = async (req, res) => {
 				return res.status(409).json({
 					message: "Usuario no pertenece a esta liga",
 				});
+
 			if (
 				(
 					liga.mercado

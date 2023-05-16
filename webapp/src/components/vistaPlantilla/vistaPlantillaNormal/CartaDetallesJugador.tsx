@@ -18,7 +18,10 @@ import {
 import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
-import { añadirJugadorAMercado } from "../../../endpoints/mercadoEndpoints";
+import {
+	añadirJugadorAMercado,
+	eliminarJugadorDelMercado,
+} from "../../../endpoints/mercadoEndpoints";
 import {
 	getColorBadge,
 	getColorEstado,
@@ -66,6 +69,10 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	const [showLoading, setShowLoading] = useState<boolean>(false);
 	const [message, setMessage] = useState<string>();
 
+	const [enVenta, setEnVenta] = useState<boolean>(
+		propiedadJugador?.venta.enVenta ?? false
+	);
+
 	function seguroVenderJugador() {
 		return new Promise<boolean>((resolve, reject) => {
 			actionSheet({
@@ -90,6 +97,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 			});
 		});
 	}
+
 	return propiedadJugador ? (
 		<>
 			<IonLoading isOpen={showLoading} message={message} />
@@ -228,28 +236,52 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 										props.isSameUser
 											? [
 													{
-														// TODO - Comprobar si está en el mercado y ofrecer quitarlo.
-														text: "Añadir al mercado",
+														text: !enVenta
+															? "Añadir al mercado"
+															: "Quitar del mercado",
 														icon: cart,
 														handler: async () => {
-															setShowLoading(true);
-															setMessage("Añadiendo jugador al mercado...");
-															await añadirJugadorAMercado(
-																propiedadJugador,
-																getLocalLigaSeleccionada()
-															)
-																.then((res) => {
-																	setShowLoading(false);
-																	crearToast(
-																		"Jugador añadido al mercado",
-																		true,
-																		"success"
-																	);
-																})
-																.catch((err) => {
-																	setShowLoading(false);
-																	crearToast(err, true, "danger");
-																});
+															if (enVenta) {
+																setMessage("Quitando jugador del mercado...");
+																setShowLoading(true);
+																await eliminarJugadorDelMercado(
+																	getLocalLigaSeleccionada(),
+																	propiedadJugador.jugador.id
+																)
+																	.then((res) => {
+																		setShowLoading(false);
+																		setEnVenta(false);
+																		crearToast(
+																			"Jugador eliminado del mercado",
+																			true,
+																			"success"
+																		);
+																	})
+																	.catch((err) => {
+																		setShowLoading(false);
+																		crearToast(err, true, "danger");
+																	});
+															} else {
+																setMessage("Añadiendo jugador al mercado...");
+																setShowLoading(true);
+																await añadirJugadorAMercado(
+																	propiedadJugador,
+																	getLocalLigaSeleccionada()
+																)
+																	.then((res) => {
+																		setShowLoading(false);
+																		setEnVenta(true);
+																		crearToast(
+																			"Jugador añadido al mercado",
+																			true,
+																			"success"
+																		);
+																	})
+																	.catch((err) => {
+																		setShowLoading(false);
+																		crearToast(err, true, "danger");
+																	});
+															}
 														},
 													},
 													{

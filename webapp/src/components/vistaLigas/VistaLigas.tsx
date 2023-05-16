@@ -138,6 +138,8 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 																liga={liga}
 																cogerLigasUsuario={cogerLigasUsuario}
 																disabled={false}
+																setMessage={setMessage}
+																setShowLoading={setShowLoading}
 															/>
 														))}
 													</IonList>
