@@ -45,10 +45,6 @@ const api: Router = express.Router();
  *         description: Usuario no pertenece a la liga
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.get("/ligas/:id", LigasController.getLiga);
@@ -86,10 +82,6 @@ api.get("/ligas/:id", LigasController.getLiga);
  *         description: No hay ligas disponibles
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.get("/ligas/random/new", LigasController.getRandomLiga);
@@ -133,10 +125,6 @@ api.get("/ligas/random/new", LigasController.getRandomLiga);
  *         description: Usuario no autorizado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
@@ -184,10 +172,6 @@ api.get("/ligas/usuario/:idUsuario", LigasController.getLigasUsuario);
  *         description: Máximo de ligas alcanzado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.post("/ligas", LigasController.createLiga);
@@ -231,12 +215,60 @@ api.post("/ligas", LigasController.createLiga);
  *         description: Máximo de ligas alcanzado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.post("/ligas/:idLiga", LigasController.añadirUsuarioALiga);
+
+
+/**
+ * @openapi
+ * /ligas/{idLiga}/{idUsuario}:
+ *  delete:
+ *     tags:
+ *     - Ligas
+ *     description: Eliminar usuario de liga
+ *     parameters:
+ *     - name: idLiga
+ *       in: path
+ *       description: id de la liga
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: id
+ *       in: path
+ *       description: id del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: email
+ *       in: header
+ *       description: email del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     - name: token
+ *       in: header
+ *       description: token del usuario
+ *       required: true
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *       401:
+ *         description: Usuario no autorizado | Usuario no autenticado
+ *       404:
+ *         description: Liga no encontrada 
+ *       409:
+ *         description: Usuario no pertenece a la liga
+ *       500:
+ *         description: Error interno del servidor
+ *
+ */
+api.delete("/ligas/:idLiga/:idUsuario", LigasController.deleteUsuarioFromLiga);
 
 export default api;

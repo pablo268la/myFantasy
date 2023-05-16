@@ -1,16 +1,18 @@
 import {
-    IonActionSheet,
-    IonBadge,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonGrid,
-    IonImg,
-    IonItem,
-    IonLabel,
-    IonRow,
-    useIonToast,
+	IonActionSheet,
+	IonBadge,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonGrid,
+	IonImg,
+	IonItem,
+	IonLabel,
+	IonLoading,
+	IonRow,
+	useIonActionSheet,
+	useIonToast,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
@@ -18,12 +20,12 @@ import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
 import { añadirJugadorAMercado } from "../../../endpoints/mercadoEndpoints";
 import {
-    getColorBadge,
-    getColorEstado,
-    getIconoEstado,
-    getLocalLigaSeleccionada,
-    ponerPuntosAValor,
-    urlBackground,
+	getColorBadge,
+	getColorEstado,
+	getIconoEstado,
+	getLocalLigaSeleccionada,
+	ponerPuntosAValor,
+	urlBackground,
 } from "../../../helpers/helpers";
 import { PropiedadJugador } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
@@ -48,7 +50,7 @@ type CartaJugadorProps = {
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
-
+	const [actionSheet] = useIonActionSheet();
 	const [showActionSheet, setShowActionSheet] = useState(false);
 
 	const [present] = useIonToast();
@@ -61,8 +63,36 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 			});
 	}
 
+	const [showLoading, setShowLoading] = useState<boolean>(false);
+	const [message, setMessage] = useState<string>();
+
+	function seguroVenderJugador() {
+		return new Promise<boolean>((resolve, reject) => {
+			actionSheet({
+				header: "¿Estas seguro de querer vender a este jugador?",
+				buttons: [
+					{
+						text: "Si",
+						role: "confirm",
+					},
+					{
+						text: "No",
+						role: "cancel",
+					},
+				],
+				onWillDismiss: (ev) => {
+					if (ev.detail.role === "confirm") {
+						crearToast("Jugador eliminado", true, "success");
+					} else {
+						reject();
+					}
+				},
+			});
+		});
+	}
 	return propiedadJugador ? (
 		<>
+			<IonLoading isOpen={showLoading} message={message} />
 			<IonCard style={{ width: "100%" }} color="primary">
 				<IonCardContent
 					onClick={(e) => {
@@ -202,12 +232,14 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 														text: "Añadir al mercado",
 														icon: cart,
 														handler: async () => {
-															// TODO - Añadir loading
+															setShowLoading(true);
+															setMessage("Añadiendo jugador al mercado...");
 															await añadirJugadorAMercado(
 																propiedadJugador,
 																getLocalLigaSeleccionada()
 															)
 																.then((res) => {
+																	setShowLoading(false);
 																	crearToast(
 																		"Jugador añadido al mercado",
 																		true,
@@ -215,6 +247,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	);
 																})
 																.catch((err) => {
+																	setShowLoading(false);
 																	crearToast(err, true, "danger");
 																});
 														},
@@ -222,7 +255,9 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 													{
 														text: "Vender inmediatamente",
 														icon: cash,
-														handler: () => {},
+														handler: () => {
+															seguroVenderJugador();
+														},
 													},
 													{
 														text: "Cancelar",

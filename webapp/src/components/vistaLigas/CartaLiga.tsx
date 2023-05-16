@@ -1,31 +1,44 @@
 import {
-    IonActionSheet,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonGrid,
-    IonIcon,
-    IonLabel,
-    IonRow,
+	IonActionSheet,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonGrid,
+	IonIcon,
+	IonLabel,
+	IonRow,
+	useIonToast,
 } from "@ionic/react";
 import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
+import { deleteUsuarioFromLiga } from "../../endpoints/ligasEndpoints";
 import {
-    getUsuarioLogueado,
-    ponerPuntosAValor,
-    setLocalLigaSeleccionada,
-    urlBackground2,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+	setLocalLigaSeleccionada,
+	urlBackground2,
 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 
 type CartaLigaProps = {
 	liga: Liga;
 	disabled: boolean;
+	cogerLigasUsuario: () => void;
 };
 
 export function CartaLiga(props: CartaLigaProps): JSX.Element {
 	const [showActionSheet, setShowActionSheet] = useState(false);
+
+	const [present] = useIonToast();
+	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
+		if (mostrarToast)
+			present({
+				color: color,
+				message: mensaje,
+				duration: 1500,
+			});
+	}
 
 	const [liga, setLiga] = useState<Liga>(props.liga);
 	const usuario = getUsuarioLogueado();
@@ -119,7 +132,19 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 								data: {
 									type: "delete",
 								},
-								handler: () => {},
+								handler: async () => {
+									await deleteUsuarioFromLiga(
+										liga.id as string,
+										usuario?.id as string
+									)
+										.then(() => {
+											crearToast("Has abandonado la liga", true, "success");
+											props.cogerLigasUsuario();
+										})
+										.catch((err) => {
+											crearToast(err, true, "danger");
+										});
+								},
 							},
 							{
 								text: "Compartir",

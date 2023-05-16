@@ -5,7 +5,7 @@ import {
 	IPropiedadJugador,
 	modeloPropiedadJugador,
 } from "../model/propiedadJugador";
-import { modeloUsuario } from "../model/usuario";
+import { IUsuario, modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
 import {
 	crearPlantillaParaUsuarioYGuardar,
@@ -20,25 +20,23 @@ export const getLiga: RequestHandler = async (req, res) => {
 		let usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
 
-		if (usuario && verified) {
-			// TODO -Diferenciar usuario y verified
-			const ligaEncontrada = await modeloLiga.findOne({ id: req.params.id });
-			if (!ligaEncontrada)
-				return res.status(404).json({ message: "Liga no encontrada" });
+		if (!usuario || !verified)
+			return res.status(401).json({ message: "Usuario no autenticado" });
 
-			if (
-				ligaEncontrada.plantillasUsuarios
-					.map((plantilla) => plantilla.usuario.id)
-					.indexOf(usuario.id) === -1
-			)
-				return res
-					.status(409)
-					.json({ message: "Usuario no pertenece a esta liga" });
+		const ligaEncontrada = await modeloLiga.findOne({ id: req.params.id });
+		if (!ligaEncontrada)
+			return res.status(404).json({ message: "Liga no encontrada" });
 
-			return res.status(200).json(ligaEncontrada);
-		} else {
-			return res.status(401).json({ message: "Usuario no autorizado" });
-		}
+		if (
+			ligaEncontrada.plantillasUsuarios
+				.map((plantilla) => plantilla.usuario.id)
+				.indexOf(usuario.id) === -1
+		)
+			return res
+				.status(409)
+				.json({ message: "Usuario no pertenece a esta liga" });
+
+		return res.status(200).json(ligaEncontrada);
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
@@ -53,16 +51,18 @@ export const getLigasUsuario: RequestHandler = async (req, res) => {
 		let usuario = await modeloUsuario.findOne({ id: req.params.idUsuario });
 		const verified = await verifyUser(email, token);
 
-		if (usuario && verified) {
-			let ligas = [];
-			for (let i = 0; i < usuario.ligas.length; i++) {
-				const liga = await modeloLiga.findOne({ id: usuario.ligas[i] });
-				ligas.push(liga);
-			}
-			return res.status(200).json(ligas);
-		} else {
+		if (!usuario || !verified)
+			return res.status(401).json({ message: "Usuario no autenticado" });
+
+		if (usuario.email !== email)
 			return res.status(401).json({ message: "Usuario no autorizado" });
+
+		let ligas = [];
+		for (let i = 0; i < usuario.ligas.length; i++) {
+			const liga = await modeloLiga.findOne({ id: usuario.ligas[i] });
+			ligas.push(liga);
 		}
+		return res.status(200).json(ligas);
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
@@ -77,15 +77,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 		jugadores.forEach((jugador) => {
 			const propiedad = new modeloPropiedadJugador({
 				jugador: jugador,
-				usuario: new modeloUsuario({
-					id: "-1",
-					nombre: "liga",
-					usuario: "liga",
-					email: "liga",
-					contraseña: "liga",
-					ligas: [],
-					admin: false,
-				}),
+				usuario: crearJugadorOwnerLaLiga(),
 				titular: false,
 				venta: new modeloVenta({
 					enVenta: false,
@@ -195,3 +187,78 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
+
+export const deleteUsuarioFromLiga: RequestHandler = async (req, res) => {
+	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga;
+
+		let usuario = (await modeloUsuario.findOne({
+			email: email,
+		})) as IUsuario;
+		const verified = await verifyUser(email, token);
+
+		if (!usuario || !verified)
+		// TODO - 401 X 403
+			return res.status(401).json({ message: "Usuario no autenticado" });
+
+		if (usuario.email !== email)
+			return res.status(401).json({ message: "Usuario no autorizado" });
+
+		const liga = await modeloLiga.findOne({ id: idLiga });
+
+		if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+		if (
+			liga.plantillasUsuarios
+				.map((plantilla) => plantilla.usuario.id)
+				.indexOf(usuario.id) === -1
+		)
+			return res.status(409).json({
+				message: "Usuario no pertenece a esta liga",
+			});
+
+		liga.plantillasUsuarios = liga.plantillasUsuarios.filter(
+			(plantilla) => plantilla.usuario.id !== usuario.id
+		);
+
+		liga.propiedadJugadores = liga.propiedadJugadores.map((propiedad) => {
+			if (propiedad.usuario.id === usuario.id) {
+				propiedad.usuario = crearJugadorOwnerLaLiga();
+			}
+			return propiedad;
+		});
+
+		liga.mercado = liga.mercado
+			.filter((propiedad) => {
+				return propiedad.usuario.id !== usuario.id;
+			})
+			.map((propiedad) => {
+				propiedad.venta.ofertas = propiedad.venta.ofertas.filter((oferta) => {
+					return oferta.comprador.id !== usuario.id;
+				});
+				return propiedad;
+			});
+
+		await liga.save();
+		usuario.ligas = usuario.ligas.filter((id) => id !== liga.id);
+		await modeloUsuario.updateOne({ id: usuario.id }, usuario);
+
+		return res.status(204).json({ message: "Usuario eliminado de la liga" });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
+	}
+};
+
+function crearJugadorOwnerLaLiga(): IUsuario {
+	return new modeloUsuario({
+		id: "-1",
+		nombre: "liga",
+		usuario: "liga",
+		email: "liga",
+		contraseña: "liga",
+		ligas: [],
+		admin: false,
+	});
+}

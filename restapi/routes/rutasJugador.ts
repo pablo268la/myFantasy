@@ -21,10 +21,6 @@ const api: Router = express.Router();
  *                 $ref: '#/components/schemas/Jugador'
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/jugadores", JugadoresController.getJugadores);
 
@@ -54,10 +50,6 @@ api.get("/jugadores", JugadoresController.getJugadores);
  *                 $ref: '#/components/schemas/Jugador'
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
 
@@ -87,10 +79,6 @@ api.get("/jugadoresEquipo/:idEquipo", JugadoresController.getJugadoresEquipo);
  *         description: Jugador no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/jugadores/:idJugador", JugadoresController.getJugador);
 
@@ -180,10 +168,6 @@ api.get(
  *               $ref: '#/components/schemas/Jugador'
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.put("/jugadores/:idJugador", JugadoresController.updateJugador);
 

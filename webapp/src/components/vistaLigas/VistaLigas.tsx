@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import {
 	añadirUsuarioALiga,
 	getLigasUsuario,
-	getRandomLiga
+	getRandomLiga,
 } from "../../endpoints/ligasEndpoints";
 import {
 	setLocalLigaSeleccionada,
@@ -49,6 +49,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 
 	const [showLoading, setShowLoading] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const [message, setMessage] = useState("Cargando...");
 
 	const [presentAlert] = useIonAlert();
 	const [present] = useIonToast();
@@ -61,7 +62,8 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 			});
 	}
 
-	useEffect(() => {
+	function cogerLigasUsuario() {
+		setLoading(true);
 		getLigasUsuario()
 			.then((ligas) => {
 				setLigas(ligas);
@@ -71,10 +73,15 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 				crearToast(error.message, true, "danger");
 				setLoading(false);
 			});
+	}
+
+	useEffect(() => {
+		cogerLigasUsuario();
 	}, []);
 
 	const unirseALigaAleatoria = async () => {
 		setShowLoading(true);
+		setMessage("Buscando una liga acorde a tu gran nivel...");
 		getRandomLiga()
 			.then(async (liga) => {
 				await unirseConEnlace(liga.enlaceInvitacion);
@@ -92,16 +99,16 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 
 		await añadirUsuarioALiga(e)
 			.then(() => {
-				setShowLoading(true);
+				setMessage("Buscando hueco entre tus amigos...");
 				setLocalLigaSeleccionada(e);
 				crearToast("Te has unido a la liga correctamente", true, "success");
 				navigate.push("/plantilla/starts/" + e, "forward");
+				setShowLoading(false);
 			})
 			.catch((error) => {
 				crearToast(error.message, true, "danger");
+				setShowLoading(false);
 			});
-
-		setShowLoading(false);
 	};
 
 	return (
@@ -114,7 +121,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 				<IonContent>
 					{!loading ? (
 						<>
-							<IonLoading isOpen={showLoading} message={"Please wait..."} />
+							<IonLoading isOpen={showLoading} message={message} />
 							<IonGrid>
 								<IonRow>
 									<IonCol sizeSm="6" sizeXs="12">
@@ -129,6 +136,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 															<CartaLiga
 																key={liga.id}
 																liga={liga}
+																cogerLigasUsuario={cogerLigasUsuario}
 																disabled={false}
 															/>
 														))}

@@ -88,7 +88,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		res.status(200).json(newLiga);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -114,13 +114,14 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 			mercado.map((propiedadJugadorMercado) => {
 				if (propiedadJugadorMercado.jugador.id === idJugadorEnVenta) {
 					if (propiedadJugadorMercado.venta.ofertas.length !== 0) {
-						propiedadJugadorMercado.venta.ofertas.map((oferta) => {
-							if (oferta.comprador.id === usuario.id) {
-								return ofertaHecha;
-							} else {
-								return oferta;
-							}
-						});
+						propiedadJugadorMercado.venta.ofertas =
+							propiedadJugadorMercado.venta.ofertas.map((oferta) => {
+								if (oferta.comprador.id === usuario.id) {
+									return ofertaHecha;
+								} else {
+									return oferta;
+								}
+							});
 					} else {
 						propiedadJugadorMercado.venta.ofertas.push(ofertaHecha);
 					}
@@ -138,8 +139,8 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
 	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		console.log(error);
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -177,7 +178,7 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -218,7 +219,7 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
@@ -232,7 +233,9 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 
 	const usuario = await modeloUsuario.findOne({ email: email });
 	const verified = await verifyUser(email, token);
-	const nuevoUsuario = await modeloUsuario.findOne({ id: idComprador.toString() });
+	const nuevoUsuario = await modeloUsuario.findOne({
+		id: idComprador.toString(),
+	});
 
 	try {
 		if (usuario && verified) {
@@ -297,7 +300,96 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({message: "Error interno. Pruebe más tarde"});
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
+	}
+};
+
+export const eliminarJugadorMercado: RequestHandler = async (req, res) => {
+	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga.toString();
+		const idJugador = req.params.idJugador.toString();
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
+		if (usuario && verified) {
+			const liga = await modeloLiga.findOne({ id: idLiga });
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+			if (
+				liga.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
+					.indexOf(usuario.id) === -1
+			)
+				return res.status(409).json({
+					message: "Usuario no pertenece a esta liga",
+				});
+			if (
+				(
+					liga.mercado
+						.filter((p) => p.jugador.id === idJugador)
+						.at(0) as IPropiedadJugador
+				).usuario.id !== usuario.id
+			)
+				return res.status(403).json({
+					message: "Usuario no es dueño del jugador",
+				});
+
+			liga.mercado = liga.mercado.filter(
+				(propiedadJugador) => propiedadJugador.jugador.id !== idJugador
+			);
+
+			await liga.save();
+			return res.status(204).json(liga);
+		} else {
+			res.status(401).json({ message: "Usuario no autenticado" });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
+	}
+};
+
+export const eliminarPujaMercado: RequestHandler = async (req, res) => {
+	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga.toString();
+		const idJugador = req.params.idJugador.toString();
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
+		if (usuario && verified) {
+			const liga = await modeloLiga.findOne({ id: idLiga });
+			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+			if (
+				liga.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
+					.indexOf(usuario.id) === -1
+			)
+				return res.status(409).json({
+					message: "Usuario no pertenece a esta liga",
+				});
+
+			liga.mercado = liga.mercado.map((propiedadJugador) => {
+				if (propiedadJugador.jugador.id === idJugador) {
+					propiedadJugador.venta.ofertas = propiedadJugador.venta.ofertas.filter(
+						(oferta) => oferta.comprador.id !== usuario.id
+					);
+				}
+				return propiedadJugador;
+			});
+
+			await liga.save();
+			return res.status(204).json(liga);
+		} else {
+			res.status(401).json({ message: "Usuario no autenticado" });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 

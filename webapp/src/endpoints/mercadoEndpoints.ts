@@ -124,3 +124,55 @@ export async function rechazarOferta(
 	}
 	return response.json();
 }
+
+export async function eliminarJugadorDelMercado(
+	idLiga: string,
+	idJugador: string
+): Promise<void> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(
+		apiEndPoint + "/mercado/eliminar/" + idLiga + "/" + idJugador,
+		{
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				email: email,
+				token: token,
+			},
+		}
+	);
+
+	if (response.status !== 204) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
+}
+
+export async function eliminaPujaDelMercado(
+	idLiga: string,
+	idJugador: string
+): Promise<void> {
+	const email = getUsuarioLogueado()?.email as string;
+	const token = getToken();
+
+	let response = await fetch(
+		apiEndPoint + "/mercado/eliminarPuja/" + idLiga + "/" + idJugador,
+		{
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				email: email,
+				token: token,
+			},
+		}
+	);
+
+	if (response.status !== 204) {
+		await response.json().then((data) => {
+			throw new Error(data.message);
+		});
+	}
+}

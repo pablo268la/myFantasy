@@ -56,10 +56,6 @@ api.get("/mercado/resetmercado/:idLiga", MercadosController.resetmercado);
  *         description: Liga no encontrada
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  *
  */
@@ -114,10 +110,6 @@ api.post("/mercado/pujar/:idLiga", MercadosController.hacerPuja);
  *         description: Liga no encontrada
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  *
  */
@@ -174,10 +166,6 @@ api.post("/mercado/anadir/:idLiga", MercadosController.añadirJugadorMercado);
  *         description: Liga no encontrada | Usuario comprador no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  *
  */
@@ -234,13 +222,21 @@ api.post("/mercado/aceptaroferta/:idLiga", MercadosController.aceptarOferta);
  *         description: Liga no encontrada | Usuario comprador no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  *
  */
 api.post("/mercado/rechazaroferta/:idLiga", MercadosController.rechazarOferta);
+
+api.delete(
+	"/mercado/eliminar/:idLiga/:idJugador",
+	MercadosController.eliminarJugadorMercado
+);
+
+api.delete(
+	"/mercado/eliminarPuja/:idLiga/:idJugador",
+	MercadosController.eliminarPujaMercado
+);
+
+
 
 export default api;
