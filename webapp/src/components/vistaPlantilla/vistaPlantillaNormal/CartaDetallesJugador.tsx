@@ -287,8 +287,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 													{
 														text: "Vender inmediatamente",
 														icon: cash,
-														handler: () => {
-															seguroVenderJugador();
+														handler: async () => {
+															await seguroVenderJugador();
 														},
 													},
 													{

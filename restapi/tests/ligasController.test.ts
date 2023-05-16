@@ -8,7 +8,6 @@ import * as UUID from "uuid";
 import { modeloAlineacionJugador } from "../model/alineacionJugador";
 import { ILiga, modeloLiga } from "../model/liga";
 import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
-import { IPropiedadJugador } from "../model/propiedadJugador";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
 import apiUsuarios from "../routes/rutasUsuarios";
@@ -25,7 +24,6 @@ beforeAll(async () => {
 	app.use(apiLigas);
 	app.use(apiUsuarios);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -42,7 +40,6 @@ afterAll(async () => {
 	await modeloLiga.deleteOne({ id: "1234" });
 	await modeloLiga.deleteOne({ id: "5678" });
 
-	
 	await mongoose.connection.close();
 });
 
@@ -402,7 +399,7 @@ describe("eliminarUsuarioDeLiga", () => {
 				},
 			];
 			return propiedad;
-		}) as IPropiedadJugador[];
+		});
 
 		await modeloLiga.updateOne({ id: "1234" }, liga);
 
