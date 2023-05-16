@@ -31,8 +31,6 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			}
 		});
 
-		let plantillas: IPlantillaUsuario[] = [];
-
 		ventasConOfertas.forEach((propiedadJugador) => {
 			const mejorOferta = propiedadJugador.venta.ofertas.sort(
 				(a: IOferta, b: IOferta) => {
@@ -40,8 +38,8 @@ export const resetmercado: RequestHandler = async (req, res) => {
 				}
 			)[0];
 
-			plantillas.push(
-				...liga.plantillasUsuarios.map((plantilla) => {
+			if (mejorOferta.comprador.id !== "-1")
+				liga.plantillasUsuarios = liga.plantillasUsuarios.map((plantilla) => {
 					if (plantilla.usuario.id === mejorOferta.comprador.id) {
 						propiedadJugador.venta.ofertas = [];
 						propiedadJugador.venta.enVenta = false;
@@ -51,11 +49,10 @@ export const resetmercado: RequestHandler = async (req, res) => {
 						plantilla.dinero -= mejorOferta.valorOferta;
 					}
 					return plantilla;
-				})
-			);
+				});
 		});
 
-		const fromLaLiga = liga.mercado.filter((propiedadJugador) => {
+		const fromLaLiga = newMercado.filter((propiedadJugador) => {
 			return propiedadJugador.usuario.id === "-1";
 		});
 
@@ -77,13 +74,7 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			});
 
 		liga.mercado = newMercado;
-		const newLiga = await modeloLiga.findByIdAndUpdate(
-			req.params.idLiga,
-			liga,
-			{
-				new: true,
-			}
-		);
+		const newLiga = await modeloLiga.updateOne({ id: req.params.idLiga }, liga);
 
 		res.status(200).json(newLiga);
 	} catch (error) {
@@ -93,16 +84,16 @@ export const resetmercado: RequestHandler = async (req, res) => {
 };
 
 export const hacerPuja: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-	const idLiga = req.params.idLiga;
-	const ofertaHecha: IOferta = req.body.oferta;
-	const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.id;
-
-	const usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga;
+		const ofertaHecha: IOferta = req.body.oferta;
+		const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.id;
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
 		if (usuario && verified) {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
@@ -145,15 +136,15 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 };
 
 export const añadirJugadorMercado: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-	const idLiga = req.params.idLiga;
-	const propiedadJugador = req.body.propiedadJugador;
-
-	const usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga;
+		const propiedadJugador = req.body.propiedadJugador;
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
 		if (usuario && verified) {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
@@ -183,17 +174,17 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 };
 
 export const rechazarOferta: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-	const idLiga = req.params.idLiga;
-
-	const idComprador = req.body.idComprador;
-	const idJugadorEnVenta = req.body.idJugadorEnVenta;
-
-	const usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga;
+
+		const idComprador = req.body.idComprador;
+		const idJugadorEnVenta = req.body.idJugadorEnVenta;
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+
 		if (usuario && verified) {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
@@ -224,20 +215,20 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 };
 
 export const aceptarOferta: RequestHandler = async (req, res) => {
-	const email = req.headers.email as string;
-	const token = req.headers.token as string;
-	const idLiga = req.params.idLiga;
-
-	const idComprador = req.body.idComprador;
-	const idJugadorEnVenta = req.body.idJugadorEnVenta;
-
-	const usuario = await modeloUsuario.findOne({ email: email });
-	const verified = await verifyUser(email, token);
-	const nuevoUsuario = await modeloUsuario.findOne({
-		id: idComprador.toString(),
-	});
-
 	try {
+		const email = req.headers.email as string;
+		const token = req.headers.token as string;
+		const idLiga = req.params.idLiga;
+
+		const idComprador = req.body.idComprador;
+		const idJugadorEnVenta = req.body.idJugadorEnVenta;
+
+		const usuario = await modeloUsuario.findOne({ email: email });
+		const verified = await verifyUser(email, token);
+		const nuevoUsuario = await modeloUsuario.findOne({
+			id: idComprador.toString(),
+		});
+
 		if (usuario && verified) {
 			if (nuevoUsuario) {
 				const liga = await modeloLiga.findOne({ id: idLiga });
@@ -375,9 +366,10 @@ export const eliminarPujaMercado: RequestHandler = async (req, res) => {
 
 			liga.mercado = liga.mercado.map((propiedadJugador) => {
 				if (propiedadJugador.jugador.id === idJugador) {
-					propiedadJugador.venta.ofertas = propiedadJugador.venta.ofertas.filter(
-						(oferta) => oferta.comprador.id !== usuario.id
-					);
+					propiedadJugador.venta.ofertas =
+						propiedadJugador.venta.ofertas.filter(
+							(oferta) => oferta.comprador.id !== usuario.id
+						);
 				}
 				return propiedadJugador;
 			});

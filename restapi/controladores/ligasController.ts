@@ -192,15 +192,14 @@ export const deleteUsuarioFromLiga: RequestHandler = async (req, res) => {
 	try {
 		const email = req.headers.email as string;
 		const token = req.headers.token as string;
-		const idLiga = req.params.idLiga;
+		const idLiga = req.params.idLiga.toString();
 
 		let usuario = (await modeloUsuario.findOne({
-			email: email,
+			id: req.params.idUsuario.toString(),
 		})) as IUsuario;
 		const verified = await verifyUser(email, token);
 
 		if (!usuario || !verified)
-		// TODO - 401 X 403
 			return res.status(401).json({ message: "Usuario no autenticado" });
 
 		if (usuario.email !== email)

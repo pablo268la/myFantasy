@@ -1,7 +1,6 @@
 require("dotenv").config();
 import bp from "body-parser";
 import express, { Application } from "express";
-import { Server } from "http";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
@@ -21,7 +20,6 @@ import apiPuntuaciones from "../routes/rutasPuntuaciones";
 import apiUsuarios from "../routes/rutasUsuarios";
 
 const app: Application = express();
-let server: Server;
 const mockingoose = require("mockingoose");
 const mongoose = require("mongoose");
 
@@ -38,8 +36,7 @@ beforeAll(async () => {
 	app.use(apiPuntuaciones);
 	app.use(apiPartidos);
 
-	server = app.listen(5000);
-
+	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -71,7 +68,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	server.close();
+	
 	await mongoose.connection.close();
 });
 
@@ -266,6 +263,18 @@ describe("Ligas", () => {
 	 */
 	it("500 si el servidor esta caido", async () => {
 		const response: Response = await request(app).post("/ligas/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si el servidor esta caido
+	 */
+	it("500 si el servidor esta caido", async () => {
+		const response: Response = await request(app).delete("/ligas/1/1");
 
 		expect(response.statusCode).toBe(500);
 		expect(response.body).toEqual({
