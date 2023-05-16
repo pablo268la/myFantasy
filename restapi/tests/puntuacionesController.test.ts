@@ -1,6 +1,5 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
@@ -13,7 +12,6 @@ import apiUsuarios from "../routes/rutasUsuarios";
 
 const mongoose = require("mongoose");
 const app: Application = express();
-let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());
@@ -22,8 +20,7 @@ beforeAll(async () => {
 	app.use(apiPuntuaciones);
 	app.use(apiUsuarios);
 
-	server = app.listen(5000);
-
+	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -37,7 +34,7 @@ beforeAll(async () => {
 afterAll(async () => {
 	await modelPuntuacionJugador.deleteOne({ id: "3306-1" });
 
-	server.close();
+	
 	await mongoose.connection.close();
 });
 

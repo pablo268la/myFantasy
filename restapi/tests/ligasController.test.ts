@@ -1,13 +1,12 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import { Server } from "http";
 import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import * as UUID from "uuid";
 import { modeloAlineacionJugador } from "../model/alineacionJugador";
-import { modeloLiga } from "../model/liga";
+import { ILiga, modeloLiga } from "../model/liga";
 import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
 import { IUsuario, modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
@@ -17,7 +16,6 @@ const randomstring = require("randomstring");
 const mongoose = require("mongoose");
 
 const app: Application = express();
-let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());
@@ -25,8 +23,6 @@ beforeAll(async () => {
 	app.use(morgan("dev"));
 	app.use(apiLigas);
 	app.use(apiUsuarios);
-
-	server = app.listen(5000);
 
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
@@ -44,7 +40,6 @@ afterAll(async () => {
 	await modeloLiga.deleteOne({ id: "1234" });
 	await modeloLiga.deleteOne({ id: "5678" });
 
-	server.close();
 	await mongoose.connection.close();
 });
 
@@ -202,13 +197,13 @@ describe("añadirUsuarioALiga", () => {
 
 describe("getLiga", () => {
 	/**
-	 * Test: Devuelve 401 si el usuario no está autorizado
+	 * Test: Devuelve 401 si el usuario no está autenticado
 	 */
-	it("Devuelve 401 si el usuario no está autorizado", async () => {
+	it("Devuelve 401 si el usuario no está autenticado", async () => {
 		const response: Response = await request(app).get("/ligas/1234");
 
 		expect(response.status).toBe(401);
-		expect(response.body).toEqual({ message: "Usuario no autorizado" });
+		expect(response.body).toEqual({ message: "Usuario no autenticado" });
 	});
 
 	/**
@@ -256,12 +251,24 @@ describe("getLiga", () => {
 
 describe("getLigasUsuario", () => {
 	/**
-	 * Test: Devuelve 401 si el usuario no está autorizado
+	 * Test: Devuelve 401 si el usuario no está autenticado
 	 */
-	it("Devuelve 401 si el usuario no está autorizado", async () => {
+	it("Devuelve 401 si el usuario no está autenticado", async () => {
 		const response: Response = await request(app).get(
 			"/ligas/usuario/" + usuario4.id
 		);
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({ message: "Usuario no autenticado" });
+	});
+
+	/**
+	 * Test: Devuelve 401 si el usuario no está autorizado
+	 */
+	it("Devuelve 401 si el usuario no está autorizado", async () => {
+		const response: Response = await request(app)
+			.get("/ligas/usuario/" + usuario4.id)
+			.set({ email: usuarioAdmin.email, token: tokenAdmin });
 
 		expect(response.status).toBe(401);
 		expect(response.body).toEqual({ message: "Usuario no autorizado" });
@@ -322,6 +329,85 @@ describe("getRandomLiga", () => {
 
 		expect(response.status).toBe(404);
 		expect(response.body).toEqual({ message: "No hay ligas disponibles" });
+	});
+});
+
+describe("eliminarUsuarioDeLiga", () => {
+	/**
+	 * Test: Devuelve 401 si el usuario no está autenticado
+	 */
+	it("Devuelve 401 si el usuario no está autenticado", async () => {
+		const response: Response = await request(app).delete(
+			"/ligas/1234/" + usuario4.id
+		);
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({ message: "Usuario no autenticado" });
+	});
+
+	/**
+	 * Test: Devuelve 401 si el usuario no está autorizado
+	 */
+	it("Devuelve 401 si el usuario no está autorizado", async () => {
+		const response: Response = await request(app)
+			.delete("/ligas/1234/" + usuarioAdmin.id)
+			.set({ email: usuario4.email, token: token4 });
+
+		expect(response.status).toBe(401);
+		expect(response.body).toEqual({ message: "Usuario no autorizado" });
+	});
+
+	/**
+	 * Test: Devuelve 404 si la liga no existe
+	 */
+	it("Devuelve 404 si la liga no existe", async () => {
+		const response: Response = await request(app)
+			.delete("/ligas/NoLiga/" + usuario4.id)
+			.set({ email: usuario4.email, token: token4 });
+
+		expect(response.status).toBe(404);
+		expect(response.body).toEqual({ message: "Liga no encontrada" });
+	});
+
+	/**
+	 * Test: Devuelve 409 si el usuario no pertenece a la liga
+	 */
+	it("Devuelve 409 si el usuario no pertenece a la liga", async () => {
+		const response: Response = await request(app)
+			.delete("/ligas/1234/" + usuarioAdmin.id)
+			.set({ email: usuarioAdmin.email, token: tokenAdmin });
+
+		expect(response.status).toBe(409);
+		expect(response.body).toEqual({
+			message: "Usuario no pertenece a esta liga",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 204 si el usuario se elimina correctamente
+	 */
+	it("Devuelve 204 si el usuario se elimina correctamente", async () => {
+		// Añadiendo ofertas para comprobar que las elimina
+		const liga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		liga.mercado = liga.mercado.map((propiedad) => {
+			propiedad.venta.ofertas = [
+				{
+					comprador: usuario4,
+					valorOferta: 100,
+					estado: "ACTIVA",
+					privada: false,
+				},
+			];
+			return propiedad;
+		});
+
+		await modeloLiga.updateOne({ id: "1234" }, liga);
+
+		const response: Response = await request(app)
+			.delete("/ligas/1234/" + usuario4.id)
+			.set({ email: usuario4.email, token: token4 });
+
+		expect(response.status).toBe(204);
 	});
 });
 

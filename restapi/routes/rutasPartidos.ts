@@ -29,10 +29,6 @@ const api: Router = express.Router();
  *         description: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/partidos/:id", PartidosController.getPartido);
 
@@ -64,10 +60,6 @@ api.get("/partidos/:id", PartidosController.getPartido);
  *         description: Partidos no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/partidos/jornada/:jornada", PartidosController.getPartidosJornada);
 
@@ -99,10 +91,6 @@ api.get("/partidos/jornada/:jornada", PartidosController.getPartidosJornada);
  *         description: Partidos no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/partidos/equipo/:idEquipo", PartidosController.getPartidosEquipo);
 
@@ -134,10 +122,6 @@ api.get("/partidos/equipo/:idEquipo", PartidosController.getPartidosEquipo);
  *         description: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get(
 	"/partidos/puntuaciones/:idPartido",
@@ -191,10 +175,6 @@ api.get(
  *         description: Partido no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.put("/partidos/:id", PartidosController.updatePartido);
 

@@ -1,21 +1,22 @@
 import {
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonSegment,
-    IonSegmentButton,
-    useIonToast,
+	IonContent,
+	IonHeader,
+	IonItem,
+	IonLabel,
+	IonList,
+	IonLoading,
+	IonPage,
+	IonSegment,
+	IonSegmentButton,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
 import { resetMercado } from "../../endpoints/mercadoEndpoints";
 import {
-    getLocalLigaSeleccionada,
-    getUsuarioLogueado,
-    ponerPuntosAValor,
+	getLocalLigaSeleccionada,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
 } from "../../helpers/helpers";
 import { Liga, PropiedadJugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
@@ -75,6 +76,9 @@ export function VistaMercado(props: any): JSX.Element {
 		}
 	};
 
+	const [showLoading, setShowLoading] = useState<boolean>(false);
+	const [loadingMessage, setLoadingMessage] = useState<string>();
+
 	return (
 		<>
 			<MenuLateral />
@@ -82,6 +86,7 @@ export function VistaMercado(props: any): JSX.Element {
 				<IonHeader>
 					<FantasyToolbar />
 				</IonHeader>
+				<IonLoading isOpen={showLoading} message={loadingMessage} />
 				<IonContent>
 					<IonSegment color={"primary"} value={selectedSegment}>
 						<IonSegmentButton
@@ -121,6 +126,9 @@ export function VistaMercado(props: any): JSX.Element {
 										idLiga={liga?.id as string}
 										resetMercado={resetMercadoFromAPI}
 										reseteandoMercado={reseteandoMercado}
+										actualizarMercado={actualizarMercado}
+										setLoadingMessage={setLoadingMessage}
+										setShowLoading={setShowLoading}
 									/>
 								))}
 							</IonList>
@@ -146,6 +154,9 @@ export function VistaMercado(props: any): JSX.Element {
 											idLiga={liga?.id as string}
 											resetMercado={resetMercadoFromAPI}
 											reseteandoMercado={reseteandoMercado}
+											actualizarMercado={actualizarMercado}
+											setLoadingMessage={setLoadingMessage}
+											setShowLoading={setShowLoading}
 										/>
 									))}
 							</IonList>
@@ -165,6 +176,8 @@ export function VistaMercado(props: any): JSX.Element {
 											propiedadJugadorEnVenta={jugadorEnVenta}
 											idLiga={liga?.id as string}
 											actualizarMercado={actualizarMercado}
+											setLoadingMessage={setLoadingMessage}
+											setShowLoading={setShowLoading}
 										/>
 									))}
 							</IonList>

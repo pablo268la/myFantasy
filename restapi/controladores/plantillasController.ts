@@ -39,10 +39,22 @@ export const getPlantilla: RequestHandler = async (req, res) => {
 			if (!p)
 				return res.status(404).json({ message: "Plantilla no encontrada" });
 
-			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.porteros);
-			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.defensas);
-			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.medios);
-			await actualizarDatosDeJugadoresDesdeBD(p.alineacionJugador.delanteros);
+			await actualizarDatosDeJugadoresDesdeBD(
+				p.alineacionJugador.porteros,
+				liga.mercado
+			);
+			await actualizarDatosDeJugadoresDesdeBD(
+				p.alineacionJugador.defensas,
+				liga.mercado
+			);
+			await actualizarDatosDeJugadoresDesdeBD(
+				p.alineacionJugador.medios,
+				liga.mercado
+			);
+			await actualizarDatosDeJugadoresDesdeBD(
+				p.alineacionJugador.delanteros,
+				liga.mercado
+			);
 			p.valor = calcularValorAlineacion(p.alineacionJugador);
 			// TODO: Checkear cambio de posiciones
 
@@ -105,18 +117,22 @@ export async function crearPlantillaParaUsuarioYGuardar(
 	let delanteros = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Delantero")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 		.map((propiedad) => propiedad.jugador);
 	let mediocentros = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Mediocentro")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 		.map((propiedad) => propiedad.jugador);
 	let defensas = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Defensa")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 		.map((propiedad) => propiedad.jugador);
 	let porteros = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Portero")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
+		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 		.map((propiedad) => propiedad.jugador);
 
 	let porPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(
@@ -237,9 +253,14 @@ export function shuffle(array: any[]): any[] {
 }
 
 async function actualizarDatosDeJugadoresDesdeBD(
-	propiedades: IPropiedadJugador[]
+	propiedades: IPropiedadJugador[],
+	mercado: IPropiedadJugador[]
 ) {
 	for (let j of propiedades) {
+		const v = mercado.filter((p) => p.jugador.id === j.jugador.id).pop();
+		if (v) {
+			j.venta = v.venta;
+		}
 		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as IJugador;
 		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as IUsuario;
 	}

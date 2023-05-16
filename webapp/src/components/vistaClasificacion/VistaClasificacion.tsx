@@ -1,13 +1,13 @@
 import {
-    IonContent,
-    IonGrid,
-    IonHeader,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonProgressBar,
-    IonRow,
-    useIonToast,
+	IonContent,
+	IonGrid,
+	IonHeader,
+	IonLabel,
+	IonList,
+	IonPage,
+	IonProgressBar,
+	IonRow,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getLiga } from "../../endpoints/ligasEndpoints";
@@ -41,6 +41,7 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 				setLoading(false);
 			})
 			.catch((err) => {
+				setLoading(false);
 				crearToast(err, true, "danger");
 			});
 	};

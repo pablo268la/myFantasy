@@ -49,10 +49,6 @@ const api: Router = express.Router();
  *         description: Plantilla no encontrada | Liga no encontrada
  *       00:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.get("/plantillas/:idLiga/:idUsuario", PlantillasController.getPlantilla);
@@ -102,10 +98,6 @@ api.get("/plantillas/:idLiga/:idUsuario", PlantillasController.getPlantilla);
  *         description: Liga no encontrada | Plantilla no encontrada
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  *
  */
 api.post("/plantillas/update", PlantillasController.updatePlantillaUsuario);

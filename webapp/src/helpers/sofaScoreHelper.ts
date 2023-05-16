@@ -1,28 +1,28 @@
 import {
-    getJugadoresAntiguos,
-    getJugadoresPorEquipo,
+	getJugadoresAntiguos,
+	getJugadoresPorEquipo,
 } from "../endpoints/jugadorEndpoints";
 import {
-    Alineacion,
-    EventoPartido,
-    Jugador,
-    Partido,
-    PuntuacionBasica,
-    PuntuacionCalculable,
-    PuntuacionDefensiva,
-    PuntuacionFisica,
-    PuntuacionJSON,
-    PuntuacionJugador,
-    PuntuacionOfensiva,
-    PuntuacionPortero,
-    PuntuacionPosesion,
-    PuntuacionTupple,
+	Alineacion,
+	EventoPartido,
+	Jugador,
+	Partido,
+	PuntuacionBasica,
+	PuntuacionCalculable,
+	PuntuacionDefensiva,
+	PuntuacionFisica,
+	PuntuacionJSON,
+	PuntuacionJugador,
+	PuntuacionOfensiva,
+	PuntuacionPortero,
+	PuntuacionPosesion,
+	PuntuacionTupple,
 } from "../shared/sharedTypes";
 import {
-    filterAndPop,
-    filterAndPopByTramos,
-    getByTramos,
-    openJSON,
+	filterAndPop,
+	filterAndPopByTramos,
+	getByTramos,
+	openJSON,
 } from "./jsonHelper";
 
 export async function getEventosDeSofaScore(
@@ -779,7 +779,6 @@ function getMinutoOut(
 	return minutoOut;
 }
 
-// TODO - Manejar errores
 export async function getAlineacionesSofaScore(partido: Partido) {
 	const jugadoresLocales = await getJugadoresPorEquipo(partido.local.id);
 	const jugadoresVisitantes = await getJugadoresPorEquipo(

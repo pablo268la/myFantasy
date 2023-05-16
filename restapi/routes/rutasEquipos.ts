@@ -23,10 +23,6 @@ const api: Router = express.Router();
  *         description: Equipo no encontrado
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/equipos", EquiposController.getEquipos);
 
@@ -54,10 +50,6 @@ api.get("/equipos", EquiposController.getEquipos);
  *               $ref: '#/components/schemas/Equipo'
  *       500:
  *         description: Error interno del servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
  */
 api.get("/equipos/:idEquipo", EquiposController.getEquipo);
 

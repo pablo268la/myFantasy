@@ -95,7 +95,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 				<IonHeader>
 					<FantasyToolbar />
 				</IonHeader>
-				<IonLoading isOpen={showLoading} message={"Please wait..."} />
+				<IonLoading isOpen={showLoading} message={"Creando una liga. Ten paciencia..."} />
 				<IonContent
 					style={{
 						justifyContent: "center",
@@ -117,7 +117,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 										marginBottom: "15px",
 									}}
 								>
-									Crea tu liga con amigos
+									Nueva liga
 								</IonLabel>
 							</IonRow>
 							<IonRow style={{ justifyContent: "center" }}>

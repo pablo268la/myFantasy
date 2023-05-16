@@ -1,29 +1,33 @@
 import {
-    IonActionSheet,
-    IonBadge,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonPopover,
-    IonRow,
-    IonText,
-    useIonToast,
+	IonActionSheet,
+	IonBadge,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonContent,
+	IonGrid,
+	IonImg,
+	IonInput,
+	IonItem,
+	IonLabel,
+	IonPopover,
+	IonRow,
+	IonText,
+	useIonToast,
 } from "@ionic/react";
-import { cart, close, pencil } from "ionicons/icons";
-import { useState } from "react";
-import { hacerPuja } from "../../endpoints/mercadoEndpoints";
+import { cart, close, pencil, trash } from "ionicons/icons";
+import { useEffect, useState } from "react";
 import {
-    getColorBadge,
-    getUsuarioLogueado,
-    ponerPuntosAValor,
-    urlBackground,
+	eliminaPujaDelMercado,
+	eliminarJugadorDelMercado,
+	hacerPuja,
+} from "../../endpoints/mercadoEndpoints";
+import {
+	getColorBadge,
+	getUsuarioLogueado,
+	ponerPuntosAValor,
+	urlBackground,
 } from "../../helpers/helpers";
 import { Oferta, PropiedadJugador } from "../../shared/sharedTypes";
 
@@ -32,6 +36,9 @@ type CartaJugadorMercadoProps = {
 	idLiga: string;
 	resetMercado: () => void;
 	reseteandoMercado: boolean;
+	actualizarMercado: () => void;
+	setShowLoading: (show: boolean) => void;
+	setLoadingMessage: (message: string) => void;
 };
 
 export function CartaJugadorMercado(
@@ -118,6 +125,10 @@ export function CartaJugadorMercado(
 		});
 		return p.length > 0;
 	};
+
+	useEffect(() => {
+		setPropiedadJugadorEnVenta(props.propiedadJugadorEnVenta);
+	}, [props.propiedadJugadorEnVenta]);
 
 	return (
 		<>
@@ -224,10 +235,31 @@ export function CartaJugadorMercado(
 											getUsuarioLogueado()?.id
 												? [
 														{
-															//TODO - Que funcione
 															text: "Quitar del mercado",
 															icon: cart,
-															handler: () => {},
+															handler: async () => {
+																props.setShowLoading(true);
+																props.setLoadingMessage(
+																	"Quitando al jugador del mercado..."
+																);
+																await eliminarJugadorDelMercado(
+																	props.idLiga,
+																	propiedadJugadorEnVenta.jugador.id
+																)
+																	.then(() => {
+																		props.setShowLoading(false);
+																		props.actualizarMercado();
+																		crearToast(
+																			"Jugador eliminado del mercado con éxito",
+																			true,
+																			"success"
+																		);
+																	})
+																	.catch((err) => {
+																		props.setShowLoading(false);
+																		crearToast(err, true, "danger");
+																	});
+															},
 														},
 														{
 															text: "Cancelar",
@@ -244,8 +276,31 @@ export function CartaJugadorMercado(
 																setShowPopover(true);
 															},
 														},
-														// TODO - Eliminar puja
-														// TODO - Añadir mensajes en todos sitios
+														{
+															text: "Eliminar puja",
+															icon: trash,
+															handler: async () => {
+																props.setShowLoading(true);
+																props.setLoadingMessage("Eliminando puja...");
+																await eliminaPujaDelMercado(
+																	props.idLiga,
+																	propiedadJugadorEnVenta.jugador.id
+																)
+																	.then(() => {
+																		props.setShowLoading(false);
+																		props.actualizarMercado();
+																		crearToast(
+																			"Puja eliminada con éxito",
+																			true,
+																			"success"
+																		);
+																	})
+																	.catch((err) => {
+																		props.setShowLoading(false);
+																		crearToast(err, true, "danger");
+																	});
+															},
+														},
 														{
 															text: "Cancelar",
 															icon: close,
@@ -277,6 +332,7 @@ export function CartaJugadorMercado(
 												<IonInput
 													value={puja}
 													type="number"
+													min={propiedadJugadorEnVenta.jugador.valor}
 													onIonChange={(e) => {
 														setPuja(parseInt(e.detail.value!));
 													}}
@@ -292,7 +348,33 @@ export function CartaJugadorMercado(
 												<IonButton
 													slot="end"
 													onClick={async () => {
-														await hacerPujaAlBack();
+														props.setShowLoading(true);
+														props.setLoadingMessage(
+															"Moviendo los millones a la sede de la liga..."
+														);
+														if (puja < propiedadJugadorEnVenta.jugador.valor) {
+															crearToast(
+																"La puja debe ser mayor que el valor del jugador",
+																true,
+																"danger"
+															);
+															return;
+														}
+														await hacerPujaAlBack()
+															.then(() => {
+																props.setShowLoading(false);
+																props.actualizarMercado();
+																crearToast(
+																	"Puja realizada con éxito",
+																	true,
+																	"success"
+																);
+															})
+															.catch((err) => {
+																props.setShowLoading(false);
+																crearToast(err, true, "danger");
+															});
+
 														setShowPopover(false);
 													}}
 												>

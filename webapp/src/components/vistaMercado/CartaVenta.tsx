@@ -1,28 +1,28 @@
 import {
-    IonAccordion,
-    IonAccordionGroup,
-    IonBadge,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonGrid,
-    IonImg,
-    IonItem,
-    IonLabel,
-    IonRow,
-    IonText,
-    useIonToast,
+	IonAccordion,
+	IonAccordionGroup,
+	IonBadge,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonGrid,
+	IonImg,
+	IonItem,
+	IonLabel,
+	IonRow,
+	IonText,
+	useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import {
-    aceptarOferta,
-    rechazarOferta,
+	aceptarOferta,
+	rechazarOferta,
 } from "../../endpoints/mercadoEndpoints";
 import {
-    getColorBadge,
-    ponerPuntosAValor,
-    urlBackground,
+	getColorBadge,
+	ponerPuntosAValor,
+	urlBackground,
 } from "../../helpers/helpers";
 import { PropiedadJugador } from "../../shared/sharedTypes";
 
@@ -30,6 +30,8 @@ type CartaVentaProps = {
 	propiedadJugadorEnVenta: PropiedadJugador;
 	idLiga: string;
 	actualizarMercado: () => void;
+	setShowLoading: (show: boolean) => void;
+	setLoadingMessage: (message: string) => void;
 };
 
 export function CartaVenta(props: CartaVentaProps): JSX.Element {
@@ -184,18 +186,22 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 											</IonLabel>
 											<IonButton
 												color={"success"}
-												onClick={() => {
-													aceptarOferta(
+												onClick={async () => {
+													props.setShowLoading(true);
+													props.setLoadingMessage("Aceptando oferta...");
+													await aceptarOferta(
 														props.idLiga,
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador.id
 													)
 														.then((res) => {
+															props.setShowLoading(false);
 															setPropiedadJugadorEnVenta(res);
 															props.actualizarMercado();
 															crearToast("Oferta aceptada", true, "success");
 														})
 														.catch((err) => {
+															props.setShowLoading(false);
 															crearToast(err, true, "danger");
 														});
 												}}
@@ -204,18 +210,22 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 											</IonButton>
 											<IonButton
 												color={"danger"}
-												onClick={() => {
-													rechazarOferta(
+												onClick={async () => {
+													props.setShowLoading(true);
+													props.setLoadingMessage("Rechazando oferta...");
+													await rechazarOferta(
 														props.idLiga,
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador.id
 													)
 														.then((res) => {
+															props.setShowLoading(false);
 															setPropiedadJugadorEnVenta(res);
 															props.actualizarMercado();
 															crearToast("Oferta rechazada", true, "success");
 														})
 														.catch((err) => {
+															props.setShowLoading(false);
 															crearToast(err, true, "danger");
 														});
 												}}

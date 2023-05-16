@@ -1,6 +1,5 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import { Server } from "http";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
@@ -8,7 +7,6 @@ import apiEquipos from "../routes/rutasEquipos";
 
 const mongoose = require("mongoose");
 const app: Application = express();
-let server: Server;
 
 beforeAll(async () => {
 	app.use(bp.json());
@@ -16,8 +14,7 @@ beforeAll(async () => {
 	app.use(morgan("dev"));
 	app.use(apiEquipos);
 
-	server = app.listen(5000);
-
+	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -29,7 +26,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	server.close();
+	
 	await mongoose.connection.close();
 });
 
