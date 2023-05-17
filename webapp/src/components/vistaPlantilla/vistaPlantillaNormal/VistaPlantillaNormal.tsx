@@ -1,18 +1,18 @@
 import {
-    IonButton,
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonList,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
+	IonButton,
+	IonCol,
+	IonContent,
+	IonGrid,
+	IonList,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
 } from "@ionic/react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
-    PlantillaUsuario,
-    PropiedadJugador,
-    PuntuacionJugador,
+	PlantillaUsuario,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
 import { Alineacion } from "./Alineacion";
@@ -39,6 +39,9 @@ type VistaPlantillaNormalProps = {
 	guardarPlantilla: () => Promise<void>;
 	setValueFormacion: (f: string) => void;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
+	setShowLoading: (show: boolean) => void;
+	setMessage: (message: string) => void;
+	crearToast: (message: string, show: boolean, color: string) => void;
 };
 
 export function VistaPlantillaNormal(
@@ -98,7 +101,10 @@ export function VistaPlantillaNormal(
 										<IonCol size="6">
 											{props.cambioAlineacion ? (
 												<IonButton
-													onClick={async () => await props.guardarPlantilla()}
+													onClick={async () => {
+														props.setMessage("Guardando cambios...");
+														await props.guardarPlantilla();
+													}}
 												>
 													Guardar cambios
 												</IonButton>
@@ -140,6 +146,7 @@ export function VistaPlantillaNormal(
 												isSameUser={sameUsuario}
 												jornada={1} //TODO - Get jornada actual
 												puntuacionesMap={props.puntuacionesMap}
+												crearToast={props.crearToast}
 											/>
 										) : (
 											<>
@@ -157,6 +164,7 @@ export function VistaPlantillaNormal(
 													cambiarTitulares={props.cambiarTitulares}
 													isSameUser={sameUsuario}
 													setJugadorSeleccionadoMethod={() => {}}
+													crearToast={props.crearToast}
 												/>
 											</>
 										)}

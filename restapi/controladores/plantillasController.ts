@@ -118,21 +118,41 @@ export async function crearPlantillaParaUsuarioYGuardar(
 		.filter((propiedad) => propiedad.jugador.posicion === "Delantero")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
 		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
+		.filter(
+			(propiedad) =>
+				liga.mercado.filter((p) => p.jugador.id === propiedad.jugador.id)
+					.length === 0
+		)
 		.map((propiedad) => propiedad.jugador);
 	let mediocentros = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Mediocentro")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
 		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
+		.filter(
+			(propiedad) =>
+				liga.mercado.filter((p) => p.jugador.id === propiedad.jugador.id)
+					.length === 0
+		)
 		.map((propiedad) => propiedad.jugador);
 	let defensas = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Defensa")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
 		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
+		.filter(
+			(propiedad) =>
+				liga.mercado.filter((p) => p.jugador.id === propiedad.jugador.id)
+					.length === 0
+		)
 		.map((propiedad) => propiedad.jugador);
 	let porteros = liga.propiedadJugadores
 		.filter((propiedad) => propiedad.jugador.posicion === "Portero")
 		.filter((propiedad) => propiedad.usuario.id === "-1")
 		.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
+		.filter(
+			(propiedad) =>
+				liga.mercado.filter((p) => p.jugador.id === propiedad.jugador.id)
+					.length === 0
+		)
 		.map((propiedad) => propiedad.jugador);
 
 	let porPlantilla: IPropiedadJugador[] = crearListaPropiedadJugador(

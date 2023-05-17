@@ -12,7 +12,6 @@ import {
 	IonLoading,
 	IonRow,
 	useIonActionSheet,
-	useIonToast,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
@@ -49,22 +48,13 @@ type CartaJugadorProps = {
 	) => void;
 	isSameUser: boolean;
 	setJugadorSeleccionadoMethod: (pj: PropiedadJugador) => void;
+	crearToast: (message: string, show: boolean, color: string) => void;
 };
 
 export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
 	const [actionSheet] = useIonActionSheet();
 	const [showActionSheet, setShowActionSheet] = useState(false);
-
-	const [present] = useIonToast();
-	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
-		if (mostrarToast)
-			present({
-				color: color,
-				message: mensaje,
-				duration: 1500,
-			});
-	}
 
 	const [showLoading, setShowLoading] = useState<boolean>(false);
 	const [message, setMessage] = useState<string>();
@@ -89,7 +79,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				],
 				onWillDismiss: (ev) => {
 					if (ev.detail.role === "confirm") {
-						crearToast("Jugador eliminado", true, "success");
+						props.crearToast("Jugador eliminado", true, "success");
 					} else {
 						reject();
 					}
@@ -242,8 +232,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 														icon: cart,
 														handler: async () => {
 															if (enVenta) {
-																setMessage("Quitando jugador del mercado...");
 																setShowLoading(true);
+																setMessage("Quitando jugador del mercado...");
 																await eliminarJugadorDelMercado(
 																	getLocalLigaSeleccionada(),
 																	propiedadJugador.jugador.id
@@ -251,7 +241,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	.then((res) => {
 																		setShowLoading(false);
 																		setEnVenta(false);
-																		crearToast(
+																		props.crearToast(
 																			"Jugador eliminado del mercado",
 																			true,
 																			"success"
@@ -259,11 +249,11 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	})
 																	.catch((err) => {
 																		setShowLoading(false);
-																		crearToast(err, true, "danger");
+																		props.crearToast(err, true, "danger");
 																	});
 															} else {
-																setMessage("Añadiendo jugador al mercado...");
 																setShowLoading(true);
+																setMessage("Añadiendo jugador al mercado...");
 																await añadirJugadorAMercado(
 																	propiedadJugador,
 																	getLocalLigaSeleccionada()
@@ -271,7 +261,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	.then((res) => {
 																		setShowLoading(false);
 																		setEnVenta(true);
-																		crearToast(
+																		props.crearToast(
 																			"Jugador añadido al mercado",
 																			true,
 																			"success"
@@ -279,7 +269,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	})
 																	.catch((err) => {
 																		setShowLoading(false);
-																		crearToast(err, true, "danger");
+																		props.crearToast(err, true, "danger");
 																	});
 															}
 														},
@@ -337,7 +327,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 								propiedadJugador.jugador.id
 							);
 						},
-						props.isSameUser
+						props.isSameUser,
+						props.crearToast
 					)}
 				</>
 			}
@@ -356,7 +347,8 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 				props.formacion,
 				props.cambiarTitulares,
 				() => {},
-				props.isSameUser
+				props.isSameUser,
+				props.crearToast
 			)}
 		</>
 	);
@@ -393,7 +385,8 @@ function renderCambios(
 		idOut: string
 	) => void,
 	onclick: () => void,
-	isSameUser: boolean
+	isSameUser: boolean,
+	crearToast: (message: string, show: boolean, color: string) => void
 ) {
 	if (esParaCambio)
 		return (
@@ -414,6 +407,7 @@ function renderCambios(
 							formacion={formacion}
 							cambiarTitulares={cambiarTitulares}
 							isSameUser={isSameUser}
+							crearToast={crearToast}
 						/>
 					</>
 				) : (

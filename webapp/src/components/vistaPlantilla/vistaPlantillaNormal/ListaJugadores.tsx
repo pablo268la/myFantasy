@@ -1,8 +1,8 @@
 import { IonGrid, IonList, IonRow } from "@ionic/react";
 import { useState } from "react";
 import {
-    PropiedadJugador,
-    PuntuacionJugador,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 import { Formacion } from "../VistaPlantilla";
@@ -22,6 +22,7 @@ type ListaJugadoresProps = {
 	isSameUser: boolean;
 	jornada: number;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
+	crearToast: (message: string, show: boolean, color: string) => void;
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
@@ -105,6 +106,7 @@ function crearCartaDetallesJugador(
 				cambiarTitulares={props.cambiarTitulares}
 				isSameUser={props.isSameUser}
 				setJugadorSeleccionadoMethod={setJugadorSeleccionadoMethod}
+				crearToast={props.crearToast}
 			/>
 		</IonRow>
 	);

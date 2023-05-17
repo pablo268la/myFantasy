@@ -1,3 +1,6 @@
+import "swiper/css";
+import "swiper/css/effect-fade";
+
 import {
 	IonButton,
 	IonContent,
@@ -8,22 +11,23 @@ import {
 	IonProgressBar,
 	IonRouterLink,
 	IonRow,
-	useIonToast,
+	useIonToast
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getJugadorById } from "../../endpoints/jugadorEndpoints";
 import { getPlantilla } from "../../endpoints/plantillaEndpoints";
 import {
-	getColorBadge,
+	getColorGradient,
 	getUsuarioLogueado,
-	ponerPuntosAValor,
+	ponerPuntosAValor
 } from "../../helpers/helpers";
 import { Jugador, PlantillaUsuario } from "../../shared/sharedTypes";
 
+import { Icon } from "@iconify/react";
 import "@ionic/react/css/ionic-swiper.css";
 import styled from "styled-components";
-import SwiperCore, { Mousewheel, Pagination } from "swiper";
+import SwiperCore, { EffectFade, Mousewheel, Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import CartaJugador from "./vistaPlantillaNormal/CartaJugador";
@@ -36,6 +40,7 @@ SwiperCore.use([Mousewheel, Pagination]);
 export function PlantillaStart(): JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [jugadores, setJugadores] = useState<Jugador[]>([]);
+	const [reachEnd, setReachEnd] = useState<boolean>(false);
 
 	const [present] = useIonToast();
 	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
@@ -65,11 +70,8 @@ export function PlantillaStart(): JSX.Element {
 
 		const plantilla = p as PlantillaUsuario;
 
-
 		for (let i = 0; i < plantilla.alineacionJugador.delanteros.length; i++) {
-			await getJugadorById(
-				plantilla.alineacionJugador.delanteros[i].jugador.id
-			)
+			await getJugadorById(plantilla.alineacionJugador.delanteros[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
 					crearToast(err, true, "danger");
@@ -116,12 +118,19 @@ export function PlantillaStart(): JSX.Element {
 					pagination={{
 						clickable: true,
 					}}
+					onReachEnd={() => {
+						setReachEnd(true);
+					}}
+					modules={[EffectFade]}
+					//effect="fade"
 				>
 					{jugadores.map((jugador) => (
 						<>
 							<SwiperSlide
 								key={jugador.id}
-								style={{ background: getColorBadge(jugador.posicion) }}
+								style={{
+									background: getColorGradient(jugador.posicion),
+								}}
 							>
 								<IonGrid>
 									<IonRow style={{ justifyContent: "center" }}>
@@ -188,9 +197,19 @@ export function PlantillaStart(): JSX.Element {
 					</SwiperSlide>
 				</Swiper>
 				<IonRow style={{ justifyContent: "center" }}>
-					<IonRouterLink href={"plantilla/" + getUsuarioLogueado()?.id}>
-						<IonButton>Continuar</IonButton>
-					</IonRouterLink>
+					{reachEnd ? (
+						<IonRouterLink href={"plantilla/" + getUsuarioLogueado()?.id}>
+							<IonButton>Continuar</IonButton>
+						</IonRouterLink>
+					) : (
+						<>
+							<Icon
+								icon="material-symbols:swipe-rounded"
+								color="#dedede"
+								height="72"
+							/>
+						</>
+					)}
 				</IonRow>
 			</IonContent>
 		</IonPage>

@@ -22,7 +22,6 @@ beforeAll(async () => {
 	app.use(apiLigas);
 	app.use(apiPlantillas);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -63,7 +62,6 @@ afterAll(async () => {
 	await modeloLiga.deleteOne({ id: "1234" });
 	await modeloUsuario.deleteOne({ id: usuario4.id });
 
-	
 	await mongoose.connection.close();
 });
 

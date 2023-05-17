@@ -92,6 +92,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 		fechaLimite.setDate(fechaLimite.getDate() + 1);
 
 		shuffle(liga.propiedadJugadores)
+			.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 			.slice(0, 10)
 			.forEach((propiedad: IPropiedadJugador) => {
 				propiedad.venta = new modeloVenta({
@@ -172,6 +173,13 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 						liga.plantillasUsuarios
 							.map((plantilla) => plantilla.usuario.id)
 							.indexOf(usuario.id) === -1
+				)
+				.filter(
+					(liga) =>
+						!(
+							liga.configuracion?.includes("ligaPrivada") &&
+							liga.configuracion?.includes("true")
+						)
 				);
 			ligas = shuffle(ligas);
 

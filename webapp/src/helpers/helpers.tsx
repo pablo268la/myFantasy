@@ -128,6 +128,20 @@ export function getColorBadge(posicion: string) {
 			return "#111111";
 	}
 }
+export function getColorGradient(posicion: string) {
+	switch (posicion) {
+		case "Portero":
+			return "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(170,0,0,1) 100%)";
+		case "Defensa":
+			return "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,170,0,1) 100%)";
+		case "Mediocentro":
+			return "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,170,1) 100%)";
+		case "Delantero":
+			return "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(204,170,0,1) 100%)";
+		default:
+			return "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(17,17,17,1) 100%)";
+	}
+}
 
 export async function setUsuarioAndRequestToken(
 	email: string,

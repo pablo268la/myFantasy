@@ -81,7 +81,7 @@ export function VistaLigas(props: VistaLigasProps): JSX.Element {
 
 	const unirseALigaAleatoria = async () => {
 		setShowLoading(true);
-		setMessage("Buscando una liga acorde a tu gran nivel...");
+		setMessage("Buscando una liga acorde a tu nivel...");
 		getRandomLiga()
 			.then(async (liga) => {
 				await unirseConEnlace(liga.enlaceInvitacion);

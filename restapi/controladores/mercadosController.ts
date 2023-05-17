@@ -58,7 +58,10 @@ export const resetmercado: RequestHandler = async (req, res) => {
 
 		shuffle(
 			liga.propiedadJugadores.filter((propiedadJugador) => {
-				return propiedadJugador.usuario.id === "-1";
+				return (
+					propiedadJugador.usuario.id === "-1" &&
+					propiedadJugador.jugador.equipo.id !== "-1"
+				);
 			})
 		)
 			.slice(0, 10 - fromLaLiga.length)
