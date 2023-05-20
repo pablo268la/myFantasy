@@ -119,7 +119,7 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 
 			mercado.map((propiedadJugadorMercado) => {
 				if (propiedadJugadorMercado.jugador.id === idJugadorEnVenta) {
-					let hayOfertaDelUsuario =
+					const hayOfertaDelUsuario =
 						propiedadJugadorMercado.venta.ofertas.filter(
 							(oferta) => oferta.comprador.id === usuario.id
 						).length > 0;
@@ -290,7 +290,7 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				let propiedadJugadorVenta: IPropiedadJugador | null = null;
 				let valorOfertaAcetada = 0;
 
-				let jugadorAVender = liga.mercado
+				const jugadorAVender = liga.mercado
 					.filter(
 						(propiedadJugador) =>
 							propiedadJugador.jugador.id === idJugadorEnVenta

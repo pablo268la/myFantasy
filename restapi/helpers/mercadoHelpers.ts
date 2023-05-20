@@ -40,24 +40,16 @@ export function añadirJugadorAPlantilla(
 ) {
 	switch (propiedadJugadorVenta?.jugador.posicion) {
 		case "Portero":
-			plantilla.alineacionJugador.porteros.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
+			plantilla.alineacionJugador.porteros.push(propiedadJugadorVenta);
 			break;
 		case "Defensa":
-			plantilla.alineacionJugador.defensas.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
+			plantilla.alineacionJugador.defensas.push(propiedadJugadorVenta);
 			break;
 		case "Mediocentro":
-			plantilla.alineacionJugador.medios.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
+			plantilla.alineacionJugador.medios.push(propiedadJugadorVenta);
 			break;
 		case "Delantero":
-			plantilla.alineacionJugador.delanteros.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
+			plantilla.alineacionJugador.delanteros.push(propiedadJugadorVenta);
 			break;
 	}
 }

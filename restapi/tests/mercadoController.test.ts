@@ -11,7 +11,6 @@ import apiLigas from "../routes/rutasLigas";
 import apiMercado from "../routes/rutasMercado";
 import apiUsuarios from "../routes/rutasUsuarios";
 
-const randomstring = require("randomstring");
 const mongoose = require("mongoose");
 
 const app: Application = express();
@@ -418,7 +417,7 @@ describe("eliminarJugadorMercado", () => {
 		const l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
 		expect(response.status).toBe(204);
 		expect(l.mercado).toHaveLength(10);
-		for (let i = 0; i < l.mercado.length; i++) {
+		for (const i in l.mercado) {
 			expect(l.mercado[i].jugador.id).not.toBe(jugadorAlMercado.jugador.id);
 		}
 	});
@@ -647,11 +646,7 @@ describe("aceptarOferta", () => {
 				l.plantillasUsuarios[1].alineacionJugador.medios.length - 1
 			].jugador.id
 		).toBe(jugadorAlMercado.jugador.id);
-		for (
-			let i = 0;
-			i < l.plantillasUsuarios[0].alineacionJugador.medios.length;
-			i++
-		) {
+		for (const i in l.plantillasUsuarios[0].alineacionJugador.medios) {
 			expect(
 				l.plantillasUsuarios[0].alineacionJugador.medios[i].jugador.id
 			).not.toBe(jugadorAlMercado.jugador.id);
