@@ -175,11 +175,7 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 							.indexOf(usuario.id) === -1
 				)
 				.filter(
-					(liga) =>
-						!(
-							liga.configuracion?.includes("ligaPrivada") &&
-							liga.configuracion?.includes("true")
-						)
+					(liga) => !liga.configuracion?.includes('{"ligaPrivada":true}')
 				);
 			ligas = shuffle(ligas);
 

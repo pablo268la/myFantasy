@@ -39,6 +39,7 @@ afterAll(async () => {
 	await modeloUsuario.deleteOne({ email: usuario5Ligas.email });
 	await modeloLiga.deleteOne({ id: "1234" });
 	await modeloLiga.deleteOne({ id: "5678" });
+	await modeloLiga.deleteOne({ id: "Privada" });
 
 	await mongoose.connection.close();
 });
@@ -147,6 +148,9 @@ describe("añadirUsuarioALiga", () => {
 			.set({ email: usuario4.email, token: token4 });
 
 		expect(response.status).toBe(200);
+		expect(response.body.alineacionJugador.formacion).toEqual("4-3-3");
+		expect(response.body.idLiga).toEqual("1234");
+		expect(response.body.puntos).toEqual(0);
 	});
 
 	/**
@@ -323,6 +327,33 @@ describe("getRandomLiga", () => {
 	 * Test: Devuelve 404 si no hay ligas disponibles para unirse
 	 */
 	it("Devuelve 404 si no hay ligas disponibles para unirse", async () => {
+		const response: Response = await request(app)
+			.get("/ligas/random/new")
+			.set({ email: usuario4.email, token: token4 });
+
+		expect(response.status).toBe(404);
+		expect(response.body).toEqual({ message: "No hay ligas disponibles" });
+	});
+
+	/**
+	 * Test: Devuelve 404 si no hay ligas disponibles para unirse (Existe privada)
+	 */
+	it("Devuelve 404 si no hay ligas disponibles para unirse (Existe privada)", async () => {
+		await request(app)
+			.post("/ligas")
+			.set({ email: usuario4.email, token: token4 })
+			.send({
+				liga: {
+					id: "Privada",
+					nombre: "Liga de prueba",
+					plantillasUsuarios: [],
+					propiedadJugadores: [],
+					maxJugadores: 3,
+					enlaceInvitacion: "join-to:1234",
+					mercado: [],
+					configuracion: '{"ligaPrivada":true}',
+				},
+			});
 		const response: Response = await request(app)
 			.get("/ligas/random/new")
 			.set({ email: usuario4.email, token: token4 });

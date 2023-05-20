@@ -28,7 +28,10 @@ export async function hacerPuja(
 			email: email,
 			token: token,
 		},
-		body: JSON.stringify({ jugadorEnVenta: jugadorEnVenta, oferta: oferta }),
+		body: JSON.stringify({
+			idJugadorEnVenta: jugadorEnVenta.jugador.id,
+			oferta: oferta,
+		}),
 	});
 
 	if (response.status !== 200) {

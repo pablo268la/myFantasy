@@ -1,7 +1,10 @@
 import { RequestHandler } from "express";
+import {
+	añadirJugadorAPlantilla,
+	quitarJugadorDePlantilla,
+} from "../helpers/mercadoHelpers";
 import { modeloLiga } from "../model/liga";
 import { IOferta } from "../model/oferta";
-import { IPlantillaUsuario } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
 import { modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
@@ -92,7 +95,7 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 		const token = req.headers.token as string;
 		const idLiga = req.params.idLiga;
 		const ofertaHecha: IOferta = req.body.oferta;
-		const idJugadorEnVenta = req.body.jugadorEnVenta.jugador.id;
+		const idJugadorEnVenta = req.body.idJugadorEnVenta;
 
 		const usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
@@ -101,23 +104,36 @@ export const hacerPuja: RequestHandler = async (req, res) => {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
 
+			if (
+				liga.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
+					.indexOf(usuario.id) === -1
+			)
+				return res.status(409).json({
+					message: "Usuario no pertenece a esta liga",
+				});
+
 			const mercado = liga.mercado;
 
 			let j;
 
 			mercado.map((propiedadJugadorMercado) => {
 				if (propiedadJugadorMercado.jugador.id === idJugadorEnVenta) {
-					if (propiedadJugadorMercado.venta.ofertas.length !== 0) {
+					let hayOfertaDelUsuario =
+						propiedadJugadorMercado.venta.ofertas.filter(
+							(oferta) => oferta.comprador.id === usuario.id
+						).length > 0;
+
+					if (!hayOfertaDelUsuario) {
+						propiedadJugadorMercado.venta.ofertas.push(ofertaHecha);
+					} else {
 						propiedadJugadorMercado.venta.ofertas =
 							propiedadJugadorMercado.venta.ofertas.map((oferta) => {
 								if (oferta.comprador.id === usuario.id) {
-									return ofertaHecha;
-								} else {
-									return oferta;
+									oferta = ofertaHecha;
 								}
+								return oferta;
 							});
-					} else {
-						propiedadJugadorMercado.venta.ofertas.push(ofertaHecha);
 					}
 
 					j = propiedadJugadorMercado;
@@ -151,6 +167,14 @@ export const añadirJugadorMercado: RequestHandler = async (req, res) => {
 		if (usuario && verified) {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+			if (
+				liga.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
+					.indexOf(usuario.id) === -1
+			)
+				return res.status(409).json({
+					message: "Usuario no pertenece a esta liga",
+				});
 
 			const mercado = liga.mercado;
 
@@ -191,6 +215,14 @@ export const rechazarOferta: RequestHandler = async (req, res) => {
 		if (usuario && verified) {
 			const liga = await modeloLiga.findOne({ id: idLiga });
 			if (!liga) return res.status(404).json({ message: "Liga no encontrada" });
+			if (
+				liga.plantillasUsuarios
+					.map((plantilla) => plantilla.usuario.id)
+					.indexOf(usuario.id) === -1
+			)
+				return res.status(409).json({
+					message: "Usuario no pertenece a esta liga",
+				});
 
 			let r;
 			liga.mercado.map((propiedadJugador) => {
@@ -228,20 +260,49 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 
 		const usuario = await modeloUsuario.findOne({ email: email });
 		const verified = await verifyUser(email, token);
-		const nuevoUsuario = await modeloUsuario.findOne({
-			id: idComprador.toString(),
-		});
 
 		if (usuario && verified) {
+			const nuevoUsuario = await modeloUsuario.findOne({
+				id: idComprador.toString(),
+			});
+
 			if (nuevoUsuario) {
 				const liga = await modeloLiga.findOne({ id: idLiga });
 				if (!liga)
 					return res.status(404).json({ message: "Liga no encontrada" });
+				if (
+					liga.plantillasUsuarios
+						.map((plantilla) => plantilla.usuario.id)
+						.indexOf(usuario.id) === -1
+				)
+					return res.status(409).json({
+						message: "Usuario no pertenece a esta liga",
+					});
+				if (
+					liga.plantillasUsuarios
+						.map((plantilla) => plantilla.usuario.id)
+						.indexOf(nuevoUsuario.id) === -1
+				)
+					return res.status(409).json({
+						message: "Usuario comprador no pertenece a esta liga",
+					});
 
 				let propiedadJugadorVenta: IPropiedadJugador | null = null;
 				let valorOfertaAcetada = 0;
-				liga.mercado.forEach((propiedadJugador) => {
-					// TODO -- Checkear que hacer cuando el jugador no esta en el mercado
+
+				let jugadorAVender = liga.mercado
+					.filter(
+						(propiedadJugador) =>
+							propiedadJugador.jugador.id === idJugadorEnVenta
+					)
+					.at(0);
+
+				if (!jugadorAVender)
+					return res
+						.status(404)
+						.json({ message: "El jugador no esta en el mercado" });
+
+				liga.mercado = liga.mercado.filter((propiedadJugador) => {
 					if (propiedadJugador.jugador.id === idJugadorEnVenta) {
 						propiedadJugador.venta.ofertas.forEach((oferta) => {
 							if (oferta.comprador.id === idComprador) {
@@ -253,12 +314,10 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 						propiedadJugadorVenta.venta.enVenta = false;
 						propiedadJugadorVenta.usuario = nuevoUsuario;
 						propiedadJugadorVenta.titular = false;
+					} else {
+						return propiedadJugador;
 					}
 				});
-
-				liga.mercado = liga.mercado.filter(
-					(p) => p.jugador.id !== idJugadorEnVenta
-				);
 
 				// TODO -- Checkear que hacer cuando el comprador o vendedor es la liga
 				liga.plantillasUsuarios.map((plantilla) => {
@@ -284,11 +343,11 @@ export const aceptarOferta: RequestHandler = async (req, res) => {
 				});
 
 				await liga.save();
-				res.json(propiedadJugadorVenta);
+				return res.status(200).json(propiedadJugadorVenta);
 			} else
 				return res
 					.status(404)
-					.json({ message: "Usuario comprador no encontrada" });
+					.json({ message: "Usuario comprador no encontrado" });
 		} else {
 			res.status(401).json({ message: "Usuario no autenticado" });
 		}
@@ -388,64 +447,3 @@ export const eliminarPujaMercado: RequestHandler = async (req, res) => {
 		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
-
-function quitarJugadorDePlantilla(
-	propiedadJugadorVenta: IPropiedadJugador | null,
-	plantilla: IPlantillaUsuario,
-	idJugadorAQuitar: string
-) {
-	switch (propiedadJugadorVenta?.jugador.posicion) {
-		case "Portero":
-			plantilla.alineacionJugador.porteros =
-				plantilla.alineacionJugador.porteros.filter(
-					(j) => j.jugador.id !== idJugadorAQuitar
-				);
-			break;
-		case "Defensa":
-			plantilla.alineacionJugador.defensas =
-				plantilla.alineacionJugador.defensas.filter(
-					(j) => j.jugador.id !== idJugadorAQuitar
-				);
-			break;
-		case "Mediocentro":
-			plantilla.alineacionJugador.medios =
-				plantilla.alineacionJugador.medios.filter(
-					(j) => j.jugador.id !== idJugadorAQuitar
-				);
-			break;
-		case "Delantero":
-			plantilla.alineacionJugador.delanteros =
-				plantilla.alineacionJugador.delanteros.filter(
-					(j) => j.jugador.id !== idJugadorAQuitar
-				);
-			break;
-	}
-}
-
-function añadirJugadorAPlantilla(
-	propiedadJugadorVenta: IPropiedadJugador | null,
-	plantilla: IPlantillaUsuario
-) {
-	switch (propiedadJugadorVenta?.jugador.posicion) {
-		case "Portero":
-			plantilla.alineacionJugador.porteros.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
-			break;
-		case "Defensa":
-			plantilla.alineacionJugador.defensas.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
-			break;
-		case "Mediocentro":
-			plantilla.alineacionJugador.medios.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
-			break;
-		case "Delantero":
-			plantilla.alineacionJugador.delanteros.push(
-				propiedadJugadorVenta as IPropiedadJugador
-			);
-			break;
-	}
-}

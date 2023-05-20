@@ -36,7 +36,6 @@ beforeAll(async () => {
 	app.use(apiPuntuaciones);
 	app.use(apiPartidos);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -68,7 +67,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	
 	await mongoose.connection.close();
 });
 
@@ -401,6 +399,102 @@ describe("Puntuaciones", () => {
 	 */
 	it("Devuelve 500 si hay error en el servidor", async () => {
 		const response: Response = await request(app).post("/puntuaciones");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+});
+
+describe("Mercado", () => {
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).get(
+			"/mercado/resetmercado/1"
+		);
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).post("/mercado/pujar/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).post("/mercado/anadir/1");
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).post(
+			"/mercado/aceptaroferta/1"
+		);
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).post(
+			"/mercado/rechazaroferta/1"
+		);
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).delete(
+			"/mercado/eliminar/1/1"
+		);
+
+		expect(response.statusCode).toBe(500);
+		expect(response.body).toEqual({
+			message: "Error interno. Pruebe más tarde",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 500 si hay error en el servidor
+	 */
+	it("Devuelve 500 si hay error en el servidor", async () => {
+		const response: Response = await request(app).delete(
+			"/mercado/eliminarPuja/1/1"
+		);
 
 		expect(response.statusCode).toBe(500);
 		expect(response.body).toEqual({

@@ -1,17 +1,18 @@
 import { RequestHandler } from "express";
 import * as UUID from "uuid";
+import { actualizarDatosDeJugadoresDesdeBD } from "../helpers/plantillasHelpers";
 import {
 	IAlineacionJugador,
 	modeloAlineacionJugador,
 } from "../model/alineacionJugador";
-import { IJugador, modeloJugador } from "../model/jugador";
+import { IJugador } from "../model/jugador";
 import { ILiga, modeloLiga } from "../model/liga";
 import {
 	IPlantillaUsuario,
 	modeloPlantillaUsuario,
 } from "../model/plantillaUsuario";
 import { IPropiedadJugador } from "../model/propiedadJugador";
-import { IUsuario, modeloUsuario } from "../model/usuario";
+import { modeloUsuario } from "../model/usuario";
 import { modeloVenta } from "../model/venta";
 import { verifyUser } from "./usuariosController";
 
@@ -270,18 +271,4 @@ export function shuffle(array: any[]): any[] {
 	}
 
 	return array;
-}
-
-async function actualizarDatosDeJugadoresDesdeBD(
-	propiedades: IPropiedadJugador[],
-	mercado: IPropiedadJugador[]
-) {
-	for (let j of propiedades) {
-		const v = mercado.filter((p) => p.jugador.id === j.jugador.id).pop();
-		if (v) {
-			j.venta = v.venta;
-		}
-		j.jugador = (await modeloJugador.findOne({ id: j.jugador.id })) as IJugador;
-		j.usuario = (await modeloUsuario.findOne({ id: j.usuario.id })) as IUsuario;
-	}
 }
