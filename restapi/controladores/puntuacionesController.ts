@@ -86,7 +86,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 		}
 
 		if (usuario === undefined || !usuario.admin) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(403).json({ message: "Usuario no administrador" });
 		}
 
 		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);

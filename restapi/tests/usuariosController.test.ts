@@ -16,7 +16,6 @@ beforeAll(async () => {
 	app.use(morgan("dev"));
 	app.use(apiUsuarios);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -28,7 +27,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	
 	await mongoose.connection.close();
 });
 

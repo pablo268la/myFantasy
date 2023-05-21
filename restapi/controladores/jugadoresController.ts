@@ -71,7 +71,7 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		}
 
 		if (usuario === undefined || !usuario.admin) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(403).json({ message: "Usuario no administrador" });
 		}
 
 		const j = (await modeloJugador.find({ id: req.params.idJugador })).at(0);

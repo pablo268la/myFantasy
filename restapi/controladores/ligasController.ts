@@ -207,7 +207,7 @@ export const deleteUsuarioFromLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 
 		if (usuario.email !== email)
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(403).json({ message: "Usuario no autorizado" });
 
 		const liga = await modeloLiga.findOne({ id: idLiga });
 

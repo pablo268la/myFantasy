@@ -78,7 +78,7 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		}
 
 		if (usuario === undefined || !usuario.admin) {
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(403).json({ message: "Usuario no administrador" });
 		}
 
 		const partido = await modeloPartido.findOneAndUpdate(

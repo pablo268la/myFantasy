@@ -1,15 +1,22 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import { ILiga, modeloLiga } from "../model/liga";
 import { IPropiedadJugador } from "../model/propiedadJugador";
-import { IUsuario, modeloUsuario } from "../model/usuario";
+import { modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
 import apiMercado from "../routes/rutasMercado";
 import apiUsuarios from "../routes/rutasUsuarios";
+import {
+	token2,
+	token4,
+	tokenAdmin,
+	usuario2,
+	usuario4,
+	usuarioAdmin,
+} from "./testsObjectsHelper";
 
 const mongoose = require("mongoose");
 
@@ -39,48 +46,6 @@ afterAll(async () => {
 
 	await mongoose.connection.close();
 });
-
-const usuarioAdmin: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116b",
-	nombre: "Test",
-	usuario: "TestFantasy",
-	email: "test@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: true,
-};
-const tokenAdmin = jwt.sign(
-	{ id: usuarioAdmin.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario2: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116a",
-	nombre: "Test2",
-	usuario: "TestFantasy2",
-	email: "test2@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token2 = jwt.sign(
-	{ id: usuario2.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario4: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116d",
-	nombre: "Test4",
-	usuario: "TestFantasy4",
-	email: "test4@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token4 = jwt.sign(
-	{ id: usuario4.id },
-	process.env.JWT_SECRET || "secret"
-);
 
 let liga: ILiga;
 let idJugadorAPujar: string;
@@ -730,7 +695,7 @@ describe("resetearMercado", () => {
 
 		const medioAFichar = prevLiga.mercado.filter(
 			(p) => p.jugador.posicion === "Mediocentro"
-		)[0] as IPropiedadJugador;
+		)[0];
 
 		await request(app)
 			.post("/mercado/pujar/1234")

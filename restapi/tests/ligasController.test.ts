@@ -1,6 +1,5 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
@@ -8,9 +7,17 @@ import * as UUID from "uuid";
 import { modeloAlineacionJugador } from "../model/alineacionJugador";
 import { ILiga, modeloLiga } from "../model/liga";
 import { modeloPlantillaUsuario } from "../model/plantillaUsuario";
-import { IUsuario, modeloUsuario } from "../model/usuario";
+import { modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
 import apiUsuarios from "../routes/rutasUsuarios";
+import {
+	token4,
+	token5ligas,
+	tokenAdmin,
+	usuario4,
+	usuario5Ligas,
+	usuarioAdmin,
+} from "./testsObjectsHelper";
 
 const randomstring = require("randomstring");
 const mongoose = require("mongoose");
@@ -43,48 +50,6 @@ afterAll(async () => {
 
 	await mongoose.connection.close();
 });
-
-const usuarioAdmin: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116b",
-	nombre: "Test",
-	usuario: "TestFantasy",
-	email: "test@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: true,
-};
-const tokenAdmin = jwt.sign(
-	{ id: usuarioAdmin.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario5Ligas: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116c",
-	nombre: "Test3",
-	usuario: "TestFantasy3",
-	email: "test3@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: ["1", "2", "3", "4", "5"],
-	admin: false,
-};
-const token5ligas = jwt.sign(
-	{ id: usuario5Ligas.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario4: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116d",
-	nombre: "Test4",
-	usuario: "TestFantasy4",
-	email: "test4@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token4 = jwt.sign(
-	{ id: usuario4.id },
-	process.env.JWT_SECRET || "secret"
-);
 
 describe("createLiga", () => {
 	/**
@@ -377,14 +342,14 @@ describe("eliminarUsuarioDeLiga", () => {
 	});
 
 	/**
-	 * Test: Devuelve 401 si el usuario no está autorizado
+	 * Test: Devuelve 403 si el usuario no está autorizado
 	 */
-	it("Devuelve 401 si el usuario no está autorizado", async () => {
+	it("Devuelve 403 si el usuario no está autorizado", async () => {
 		const response: Response = await request(app)
 			.delete("/ligas/1234/" + usuarioAdmin.id)
 			.set({ email: usuario4.email, token: token4 });
 
-		expect(response.status).toBe(401);
+		expect(response.status).toBe(403);
 		expect(response.body).toEqual({ message: "Usuario no autorizado" });
 	});
 

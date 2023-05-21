@@ -1,13 +1,21 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import { modeloLiga } from "../model/liga";
 import { IPlantillaUsuario } from "../model/plantillaUsuario";
-import { IUsuario, modeloUsuario } from "../model/usuario";
+import { modeloUsuario } from "../model/usuario";
 import apiLigas from "../routes/rutasLigas";
+import {
+	token2,
+	token4,
+	tokenAdmin,
+	usuario2,
+	usuario4,
+	usuarioAdmin,
+} from "./testsObjectsHelper";
+
 import apiPlantillas from "../routes/rutasPlantillas";
 
 const mongoose = require("mongoose");
@@ -30,32 +38,6 @@ beforeAll(async () => {
 		useUnifiedTopology: true,
 		config: { autoIndex: false },
 	});
-
-	await request(app)
-		.post("/ligas")
-		.set({ email: usuarioAdmin.email, token: tokenAdmin })
-		.send({
-			liga: {
-				id: "1234",
-				nombre: "Liga de prueba",
-				plantillasUsuarios: [],
-				propiedadJugadores: [],
-				maxJugadores: 3,
-				enlaceInvitacion: "join-to:1234",
-				mercado: [],
-			},
-		});
-
-	await request(app)
-		.post("/ligas/1234")
-		.set({ email: usuarioAdmin.email, token: tokenAdmin })
-		.then((res) => {
-			plantillaUsuario = res.body;
-		});
-
-	await request(app)
-		.post("/ligas/1234")
-		.set({ email: usuario2.email, token: token2 });
 });
 
 afterAll(async () => {
@@ -64,48 +46,6 @@ afterAll(async () => {
 
 	await mongoose.connection.close();
 });
-
-const usuarioAdmin: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116b",
-	nombre: "Test",
-	usuario: "TestFantasy",
-	email: "test@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: true,
-};
-const tokenAdmin = jwt.sign(
-	{ id: usuarioAdmin.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario2: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116a",
-	nombre: "Test2",
-	usuario: "TestFantasy2",
-	email: "test2@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token2 = jwt.sign(
-	{ id: usuario2.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario4: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116d",
-	nombre: "Test4",
-	usuario: "TestFantasy4",
-	email: "test4@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token4 = jwt.sign(
-	{ id: usuario4.id },
-	process.env.JWT_SECRET || "secret"
-);
 
 describe("plantillas/liga/usuario", () => {
 	/**
@@ -136,6 +76,21 @@ describe("plantillas/liga/usuario", () => {
 	it("Devuelve 404 si la plantilla no existe", async () => {
 		await new modeloUsuario(usuario4).save();
 
+		await request(app)
+			.post("/ligas")
+			.set({ email: usuarioAdmin.email, token: tokenAdmin })
+			.send({
+				liga: {
+					id: "1234",
+					nombre: "Liga de prueba",
+					plantillasUsuarios: [],
+					propiedadJugadores: [],
+					maxJugadores: 3,
+					enlaceInvitacion: "join-to:1234",
+					mercado: [],
+				},
+			});
+
 		const response: Response = await request(app)
 			.get("/plantillas/1234/" + usuario4.id)
 			.set({ email: usuario4.email, token: token4 });
@@ -148,6 +103,17 @@ describe("plantillas/liga/usuario", () => {
 	 * Test: Devuelve 200 si la plantilla existe
 	 */
 	it("Devuelve 200 si la plantilla existe", async () => {
+		await request(app)
+			.post("/ligas/1234")
+			.set({ email: usuarioAdmin.email, token: tokenAdmin })
+			.then((res) => {
+				plantillaUsuario = res.body;
+			});
+
+		await request(app)
+			.post("/ligas/1234")
+			.set({ email: usuario2.email, token: token2 });
+
 		const response: Response = await request(app)
 			.get("/plantillas/1234/" + usuarioAdmin.id)
 			.set({ email: usuarioAdmin.email, token: tokenAdmin });
