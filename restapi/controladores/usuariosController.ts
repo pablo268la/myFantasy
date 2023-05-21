@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { RequestHandler } from "express";
 import * as jwt from "jsonwebtoken";
 import * as UUID from "uuid";
