@@ -63,13 +63,13 @@ export const updateJugador: RequestHandler = async (req, res) => {
 		const token = req.headers.token as string;
 		const jugadorRequqest = req.body as IJugador;
 
+		const usuario = (await modeloUsuario.find({ email: email })).at(0);
 		const verified = await verifyUser(email, token);
 
 		if (!verified) {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 		}
 
-		const usuario = (await modeloUsuario.find({ email: email })).at(0);
 		if (usuario === undefined || !usuario.admin) {
 			return res.status(401).json({ message: "Usuario no autorizado" });
 		}

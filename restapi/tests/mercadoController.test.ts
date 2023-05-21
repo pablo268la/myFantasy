@@ -626,6 +626,9 @@ describe("aceptarOferta", () => {
 				},
 			});
 
+		let l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		expect(l.mercado).toHaveLength(11);
+
 		const response: Response = await request(app)
 			.post("/mercado/aceptarOferta/1234")
 			.set({ email: usuario4.email, token: token4 })
@@ -634,7 +637,7 @@ describe("aceptarOferta", () => {
 				idJugadorEnVenta: jugadorAlMercado.jugador.id,
 			});
 
-		const l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
 
 		expect(response.status).toBe(200);
 		expect(response.body.usuario.id).toBe(usuarioAdmin.id);
@@ -651,5 +654,129 @@ describe("aceptarOferta", () => {
 				l.plantillasUsuarios[0].alineacionJugador.medios[i].jugador.id
 			).not.toBe(jugadorAlMercado.jugador.id);
 		}
+	});
+});
+
+describe("resetearMercado", () => {
+	/**
+	 * Test: Devuelve 404 si la liga no existe
+	 */
+	it("Devuelve 404 si la liga no existe", async () => {
+		const response: Response = await request(app).get(
+			"/mercado/resetmercado/NoLiga"
+		);
+
+		expect(response.status).toBe(404);
+		expect(response.body).toEqual({
+			message: "Liga no encontrada",
+		});
+	});
+
+	/**
+	 * Test: Devuelve 200 si se resetea el mercado correctamente (Ningun jugador caduca)
+	 */
+	it("Devuelve 200 si se resetea el mercado correctamente (Ningun jugador caduca)", async () => {
+		const prevLiga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+
+		const response: Response = await request(app).get(
+			"/mercado/resetmercado/1234"
+		);
+
+		const l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+
+		expect(response.status).toBe(200);
+		expect(l.mercado).toHaveLength(10);
+
+		for (const i in l.mercado) {
+			expect(l.mercado[i].jugador.id).toBe(prevLiga.mercado[i].jugador.id);
+		}
+	});
+
+	/**
+	 * Test: Devuelve 200 si se resetea el mercado correctamente (Algun jugador caduca)
+	 */
+	it("Devuelve 200 si se resetea el mercado correctamente (Algun jugador caduca)", async () => {
+		let prevLiga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		prevLiga.mercado = prevLiga.mercado.map((p) => {
+			p.venta.fechaLimite = new Date().toISOString();
+			return p;
+		});
+		prevLiga = await new modeloLiga(prevLiga).save();
+
+		const response: Response = await request(app).get(
+			"/mercado/resetmercado/1234"
+		);
+
+		const l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+
+		expect(response.status).toBe(200);
+		expect(l.mercado).toHaveLength(10);
+
+		for (const i in l.mercado) {
+			expect(l.mercado[i].jugador.id).not.toBe(prevLiga.mercado[i].jugador.id);
+		}
+	});
+
+	/**
+	 * Test: Devuelve 200 si se resetea el mercado correctamente (Algun jugador con ofertas)
+	 */
+	it("Devuelve 200 si se resetea el mercado correctamente (Algun jugador con ofertas)", async () => {
+		let prevLiga = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+		prevLiga.mercado = prevLiga.mercado.map((p) => {
+			p.venta.fechaLimite = new Date().toISOString();
+			return p;
+		});
+		prevLiga = await new modeloLiga(prevLiga).save();
+
+		const medioAFichar = prevLiga.mercado.filter(
+			(p) => p.jugador.posicion === "Mediocentro"
+		)[0] as IPropiedadJugador;
+
+		await request(app)
+			.post("/mercado/pujar/1234")
+			.set({ email: usuarioAdmin.email, token: tokenAdmin })
+			.send({
+				idJugadorEnVenta: medioAFichar.jugador.id,
+				oferta: {
+					comprador: usuarioAdmin,
+					valorOferta: 130,
+					estado: "ACTIVA",
+					privada: false,
+				},
+			});
+
+		await request(app)
+			.post("/mercado/pujar/1234")
+			.set({ email: usuario4.email, token: token4 })
+			.send({
+				idJugadorEnVenta: medioAFichar.jugador.id,
+				oferta: {
+					comprador: usuario4,
+					valorOferta: 150,
+					estado: "ACTIVA",
+					privada: false,
+				},
+			});
+
+		const response: Response = await request(app).get(
+			"/mercado/resetmercado/1234"
+		);
+
+		const l = (await modeloLiga.findOne({ id: "1234" })) as ILiga;
+
+		expect(response.status).toBe(200);
+		expect(l.mercado).toHaveLength(10);
+
+		for (const i in l.mercado) {
+			expect(l.mercado[i].jugador.id).not.toBe(prevLiga.mercado[i].jugador.id);
+		}
+
+		expect(l.plantillasUsuarios[0].dinero).toBe(
+			prevLiga.plantillasUsuarios[0].dinero - 150
+		);
+
+		expect(l.plantillasUsuarios[0].alineacionJugador.medios.length).toBe(
+			prevLiga.plantillasUsuarios[0].alineacionJugador.medios.length + 1
+		);
 	});
 });

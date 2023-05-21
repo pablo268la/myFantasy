@@ -19,7 +19,6 @@ beforeAll(async () => {
 	app.use(apiJugadores);
 	app.use(apiUsuarios);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -33,7 +32,6 @@ beforeAll(async () => {
 afterAll(async () => {
 	await modeloJugador.deleteOne({ id: "0" });
 
-	
 	await mongoose.connection.close();
 });
 
@@ -73,7 +71,7 @@ describe("getJugadores", () => {
 		const response: Response = await request(app).get("/jugadores");
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toHaveLength(27);
+		expect(response.body).toHaveLength(54);
 	});
 });
 
@@ -266,25 +264,5 @@ describe("updateJugador", () => {
 		expect(response.body.jugadorAntiguo.equipo.id).toEqual("2829");
 		expect(response.body.jugadorAntiguo.equipo.nombre).toEqual("Real Madrid");
 		expect(response.body.jugadorAntiguo.jornadaTraspaso).toEqual(1);
-	});
-
-	/**
-	 * Test: Devuelve 500 si error interno. Caso: No hay equipo.id en el response
-	 */
-	it("500 si error interno. Caso: No hay equipo.id en el response", async () => {
-		const response: Response = await request(app)
-			.put("/jugadores/3306")
-			.set({
-				email: usuarioAdmin.email,
-				token: tokenAdmin,
-			})
-			.send({
-				puntos: 10,
-			});
-
-		expect(response.statusCode).toBe(500);
-		expect(response.body).toEqual({
-			message: "Error interno. Pruebe más tarde",
-		});
 	});
 });

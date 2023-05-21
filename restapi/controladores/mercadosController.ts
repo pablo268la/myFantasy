@@ -25,6 +25,8 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			}
 		});
 
+		// TODO - Ofertar por jugadores con dueño
+
 		const ventasConOfertas = liga.mercado.filter((propiedadJugador) => {
 			if (
 				Date.parse(propiedadJugador.venta.fechaLimite) < new Date().getTime() &&
@@ -35,11 +37,11 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		});
 
 		ventasConOfertas.forEach((propiedadJugador) => {
-			const mejorOferta = propiedadJugador.venta.ofertas.sort(
-				(a: IOferta, b: IOferta) => {
-					return a.valorOferta >= b.valorOferta ? 1 : -1;
-				}
-			)[0];
+			const mejorOferta = propiedadJugador.venta.ofertas
+				.sort((a: IOferta, b: IOferta) => {
+					return a.valorOferta - b.valorOferta;
+				})
+				.reverse()[0];
 
 			if (mejorOferta.comprador.id !== "-1")
 				liga.plantillasUsuarios = liga.plantillasUsuarios.map((plantilla) => {
@@ -60,12 +62,20 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		});
 
 		shuffle(
-			liga.propiedadJugadores.filter((propiedadJugador) => {
-				return (
-					propiedadJugador.usuario.id === "-1" &&
-					propiedadJugador.jugador.equipo.id !== "-1"
-				);
-			})
+			liga.propiedadJugadores
+				.filter((propiedadJugador) => {
+					return (
+						propiedadJugador.usuario.id === "-1" &&
+						propiedadJugador.jugador.equipo.id !== "-1"
+					);
+				})
+				.filter((propiedadJugador) => {
+					return (
+						liga.mercado.filter((p) => {
+							return p.jugador.id === propiedadJugador.jugador.id;
+						}).length === 0
+					);
+				})
 		)
 			.slice(0, 10 - fromLaLiga.length)
 			.forEach((propiedadJugador) => {
@@ -82,10 +92,10 @@ export const resetmercado: RequestHandler = async (req, res) => {
 		liga.mercado = newMercado;
 		const newLiga = await modeloLiga.updateOne({ id: req.params.idLiga }, liga);
 
-		res.status(200).json(newLiga);
+		return res.status(200).json(newLiga);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
+		return res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
 
