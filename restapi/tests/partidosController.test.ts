@@ -1,12 +1,16 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
-import { IUsuario } from "../model/usuario";
 import apiPartidos from "../routes/rutasPartidos";
 import apiUsuarios from "../routes/rutasUsuarios";
+import {
+	token2,
+	tokenAdmin,
+	usuario2,
+	usuarioAdmin,
+} from "./testsObjectsHelper";
 
 const mongoose = require("mongoose");
 const randomstring = require("randomstring");
@@ -20,7 +24,6 @@ beforeAll(async () => {
 	app.use(apiPartidos);
 	app.use(apiUsuarios);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -32,37 +35,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	
 	await mongoose.connection.close();
 });
-
-const usuarioAdmin: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116b",
-	nombre: "Test",
-	usuario: "TestFantasy",
-	email: "test@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: true,
-};
-const tokenAdmin = jwt.sign(
-	{ id: usuarioAdmin.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario2: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116a",
-	nombre: "Test2",
-	usuario: "TestFantasy2",
-	email: "test2@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token2 = jwt.sign(
-	{ id: usuario2.id },
-	process.env.JWT_SECRET || "secret"
-);
 
 describe("getPartido", () => {
 	/**
@@ -186,17 +160,17 @@ describe("updatePartido", () => {
 	});
 
 	/**
-	 * Test: Devuelve 401 si usuario no autorizado
+	 * Test: Devuelve 403 si usuario no administrador
 	 */
-	it("Devuelve 401 si usuario no autorizado", async () => {
+	it("Devuelve 403 si usuario no administrador", async () => {
 		const response: Response = await request(app)
 			.put("/partidos/10408559")
 			.set("email", usuario2.email)
 			.set("token", token2)
 			.send({ resultadoLocal: 3, resultadoVisitante: 2 });
 
-		expect(response.statusCode).toBe(401);
-		expect(response.body.message).toBe("Usuario no autorizado");
+		expect(response.statusCode).toBe(403);
+		expect(response.body.message).toBe("Usuario no administrador");
 	});
 
 	/**

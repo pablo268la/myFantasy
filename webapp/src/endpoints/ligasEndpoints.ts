@@ -48,7 +48,7 @@ export async function getLigasUsuario(): Promise<Liga[]> {
 export async function crearLiga(
 	nombre: string,
 	maxJugadores: number,
-	usaEntrenador: boolean
+	ligaPrivada: boolean
 ): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
@@ -63,7 +63,7 @@ export async function crearLiga(
 		enlaceInvitacion: "join-to:" + idLiga,
 		mercado: [],
 		configuracion: JSON.stringify({
-			usaEntrenador: usaEntrenador,
+			ligaPrivada: ligaPrivada,
 		}),
 	};
 

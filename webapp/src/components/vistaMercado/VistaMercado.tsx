@@ -6,6 +6,7 @@ import {
 	IonList,
 	IonLoading,
 	IonPage,
+	IonRow,
 	IonSegment,
 	IonSegmentButton,
 	useIonToast,
@@ -109,14 +110,35 @@ export function VistaMercado(props: any): JSX.Element {
 					{selectedSegment === "mercado" ? (
 						<>
 							<IonItem color="primary">
-								<IonLabel>
-									Saldo:{" "}
-									{ponerPuntosAValor(
-										liga?.plantillasUsuarios
-											.filter((p) => p.usuario.id === getUsuarioLogueado()?.id)
-											.at(0)?.dinero as number
-									)}
-								</IonLabel>
+								<IonRow>
+									<IonLabel>
+										Saldo:{" "}
+										{ponerPuntosAValor(
+											liga?.plantillasUsuarios
+												.filter(
+													(p) => p.usuario.id === getUsuarioLogueado()?.id
+												)
+												.at(0)?.dinero as number
+										)}
+									</IonLabel>
+									<IonLabel color={"danger"} style={{ marginLeft: "10px" }}>
+										{"(-"}
+										{ponerPuntosAValor(
+											liga?.mercado
+												.map((j) =>
+													j.venta.ofertas
+														.filter(
+															(oferta) =>
+																oferta.comprador.id === getUsuarioLogueado()?.id
+														)
+														.map((oferta) => oferta.valorOferta)
+												)
+												.map((valor) => valor[0] ?? 0)
+												.reduce((a, b) => a + b, 0) as number
+										)}
+										{" )"}
+									</IonLabel>
+								</IonRow>
 							</IonItem>
 							<IonList>
 								{jugadoresEnMercado.map((jugadorEnVenta) => (

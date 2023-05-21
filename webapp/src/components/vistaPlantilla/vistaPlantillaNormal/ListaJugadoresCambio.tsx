@@ -18,6 +18,7 @@ type ListaJugadoresCambioProps = {
 		idOut: string
 	) => void;
 	isSameUser: boolean;
+	crearToast: (message: string, show: boolean, color: string) => void;
 };
 
 export function ListaJugadoresCambio(
@@ -77,6 +78,7 @@ export function ListaJugadoresCambio(
 							cambiarTitulares={props.cambiarTitulares}
 							isSameUser={props.isSameUser}
 							setJugadorSeleccionadoMethod={() => {}}
+							crearToast={props.crearToast}
 						/>
 
 						<IonButton

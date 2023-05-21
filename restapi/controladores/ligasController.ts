@@ -92,6 +92,7 @@ export const createLiga: RequestHandler = async (req, res) => {
 		fechaLimite.setDate(fechaLimite.getDate() + 1);
 
 		shuffle(liga.propiedadJugadores)
+			.filter((propiedad) => propiedad.jugador.equipo.id !== "-1")
 			.slice(0, 10)
 			.forEach((propiedad: IPropiedadJugador) => {
 				propiedad.venta = new modeloVenta({
@@ -172,6 +173,9 @@ export const getRandomLiga: RequestHandler = async (req, res) => {
 						liga.plantillasUsuarios
 							.map((plantilla) => plantilla.usuario.id)
 							.indexOf(usuario.id) === -1
+				)
+				.filter(
+					(liga) => !liga.configuracion?.includes('{"ligaPrivada":true}')
 				);
 			ligas = shuffle(ligas);
 
@@ -203,7 +207,7 @@ export const deleteUsuarioFromLiga: RequestHandler = async (req, res) => {
 			return res.status(401).json({ message: "Usuario no autenticado" });
 
 		if (usuario.email !== email)
-			return res.status(401).json({ message: "Usuario no autorizado" });
+			return res.status(403).json({ message: "Usuario no autorizado" });
 
 		const liga = await modeloLiga.findOne({ id: idLiga });
 

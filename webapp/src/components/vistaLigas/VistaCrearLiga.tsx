@@ -32,12 +32,12 @@ export function VistaCrearLiga(props: any): JSX.Element {
 
 	const [nombreLiga, setNombreLiga] = useState<string>();
 	const [maxPlayers, setMaxPlayers] = useState<number>(0);
-	const [usarEntrenador, setUsarEntrenador] = useState<boolean>(false);
+	const [ligaPrivada, setLigaPrivada] = useState<boolean>(false);
 
 	const vaciarFormulario = () => {
 		setNombreLiga("");
 		setMaxPlayers(0);
-		setUsarEntrenador(false);
+		setLigaPrivada(false);
 	};
 
 	const [present] = useIonToast();
@@ -67,7 +67,7 @@ export function VistaCrearLiga(props: any): JSX.Element {
 			return;
 		}
 
-		await crearLiga(nombreLiga, maxPlayers, usarEntrenador)
+		await crearLiga(nombreLiga, maxPlayers, ligaPrivada)
 			.then(async (response: Liga) => {
 				vaciarFormulario();
 				await añadirUsuarioALiga(response.id as string)
@@ -170,9 +170,9 @@ export function VistaCrearLiga(props: any): JSX.Element {
 									<IonItem>
 										<IonCheckbox
 											slot="start"
-											onClick={() => setUsarEntrenador(!usarEntrenador)}
+											onClick={() => setLigaPrivada(!ligaPrivada)}
 										></IonCheckbox>
-										<IonLabel>Utilizar entrenadores</IonLabel>
+										<IonLabel>Liga privada</IonLabel>
 									</IonItem>
 								</IonCol>
 							</IonRow>

@@ -491,5 +491,488 @@
       "escudo": "https://api.sofascore.app/api/v1/team/2820/image"
     },
     "puntos": 0
+  },
+  {
+    "id": "798835",
+    "nombre": "Giovani Lo Celso",
+    "slug": "lo-celso-giovani",
+    "posicion": "Mediocentro",
+    "valor": 21000000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1341/256x256/p1341_t449_1_001_000.png",
+    "fantasyMarcaId": "1341",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "822470",
+    "nombre": "Samuel Chukwueze",
+    "slug": "samuel-chukwueze",
+    "posicion": "Mediocentro",
+    "valor": 21000000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p350/256x256/p350_t449_1_001_000.png",
+    "fantasyMarcaId": "350",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "39182",
+    "nombre": "Dani Parejo",
+    "slug": "dani-parejo",
+    "posicion": "Mediocentro",
+    "valor": 8700000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p310/256x256/p310_t449_1_001_000.png",
+    "fantasyMarcaId": "310",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "997244",
+    "nombre": "Adrián de la Fuente",
+    "slug": "adrian-de-la-fuente",
+    "posicion": "Defensa",
+    "valor": 410000,
+    "estado": "Disponible",
+    "foto": "https://api.sofascore.app/api/v1/player/997244/image",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "40672",
+    "nombre": "Francis Coquelin",
+    "slug": "francis-coquelin",
+    "posicion": "Mediocentro",
+    "valor": 5300000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p307/256x256/p307_t449_1_001_000.png",
+    "fantasyMarcaId": "307",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "826004",
+    "nombre": "Manuel Morlanes",
+    "slug": "manuel-morlanes",
+    "posicion": "Mediocentro",
+    "valor": 4600000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1166/256x256/p1166_t449_1_001_000.png",
+    "fantasyMarcaId": "1166",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "797290",
+    "nombre": "Alfonso Pedraza",
+    "slug": "alfonso-pedraza",
+    "posicion": "Defensa",
+    "valor": 16500000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p344/256x256/p344_t449_1_001_000.png",
+    "fantasyMarcaId": "344",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "827064",
+    "nombre": "Arnaut Danjuma",
+    "slug": "arnaut-danjuma",
+    "posicion": "Delantero",
+    "valor": 38000000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1276/256x256/p1276_t449_1_001_000.png",
+    "fantasyMarcaId": "1276",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "16701",
+    "nombre": "Étienne Capoue",
+    "slug": "etienne-capoue",
+    "posicion": "Mediocentro",
+    "valor": 2300000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p996/256x256/p996_t449_1_001_000.png",
+    "fantasyMarcaId": "996",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "153966",
+    "nombre": "Manu Trigueros",
+    "slug": "manu-trigueros",
+    "posicion": "Mediocentro",
+    "valor": 11600000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p348/256x256/p348_t449_1_001_000.png",
+    "fantasyMarcaId": "348",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "910031",
+    "nombre": "Alejandro Baena",
+    "slug": "alejandro-baena",
+    "posicion": "Mediocentro",
+    "valor": 2700000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1022/256x256/p1022_t449_1_001_000.png",
+    "fantasyMarcaId": "1022",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "864169",
+    "nombre": "Pau Torres",
+    "slug": "pau-torres",
+    "posicion": "Defensa",
+    "valor": 52000000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p718/256x256/p718_t449_1_001_000.png",
+    "fantasyMarcaId": "718",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "53739",
+    "nombre": "Kiko Femenía",
+    "slug": "kiko-femenia",
+    "posicion": "Defensa",
+    "valor": 3200000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1495/256x256/p1495_t449_1_001_000.png",
+    "fantasyMarcaId": "1495",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "873189",
+    "nombre": "Juan Foyth",
+    "slug": "juan-foyth",
+    "posicion": "Defensa",
+    "valor": 22000000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p944/256x256/p944_t449_1_001_000.png",
+    "fantasyMarcaId": "944",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "984624",
+    "nombre": "Yéremy Pino",
+    "slug": "yeremy-pino",
+    "posicion": "Mediocentro",
+    "valor": 27000000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p995/256x256/p995_t449_1_001_000.png",
+    "fantasyMarcaId": "995",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "122810",
+    "nombre": "Aïssa Mandi",
+    "slug": "aissa-mandi",
+    "posicion": "Defensa",
+    "valor": 6400000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p118/256x256/p118_t449_1_001_000.png",
+    "fantasyMarcaId": "118",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "1003820",
+    "nombre": "Miguel Angel Leal",
+    "slug": "miguel-angel-leal",
+    "posicion": "Defensa",
+    "valor": 410000,
+    "estado": "Disponible",
+    "foto": "https://api.sofascore.app/api/v1/player/1003820/image",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "3041",
+    "nombre": "Raúl Albiol",
+    "slug": "raul-albiol",
+    "posicion": "Defensa",
+    "valor": 2400000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p574/256x256/p574_t449_1_001_000.png",
+    "fantasyMarcaId": "574",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "1124746",
+    "nombre": "Mamadou Fall",
+    "slug": "mamadou-fall",
+    "posicion": "Defensa",
+    "valor": 475000,
+    "estado": "Disponible",
+    "foto": "https://api.sofascore.app/api/v1/player/1124746/image",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "26937",
+    "nombre": "Pepe Reina",
+    "slug": "pepe-reina",
+    "posicion": "Portero",
+    "valor": 825000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/no-player/no-player-sq_256.png",
+    "fantasyMarcaId": "1479",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "128383",
+    "nombre": "Gerónimo Rulli",
+    "slug": "geronimo-rulli",
+    "posicion": "Portero",
+    "valor": 5800000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p877/256x256/p877_t449_1_001_000.png",
+    "fantasyMarcaId": "877",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "868715",
+    "nombre": "Jorge Cuenca",
+    "slug": "jorge-cuenca",
+    "posicion": "Defensa",
+    "valor": 6500000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1261/256x256/p1261_t449_1_001_000.png",
+    "fantasyMarcaId": "1261",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "344129",
+    "nombre": "José Luis Morales",
+    "slug": "jose-luis-morales",
+    "posicion": "Delantero",
+    "valor": 5200000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p217/256x256/p217_t449_1_001_000.png",
+    "fantasyMarcaId": "217",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "229740",
+    "nombre": "Alberto Moreno",
+    "slug": "alberto-moreno",
+    "posicion": "Defensa",
+    "valor": 4800000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p664/256x256/p664_t449_1_001_000.png",
+    "fantasyMarcaId": "664",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "1085381",
+    "nombre": "Nicolas Jackson",
+    "slug": "nicolas-jackson",
+    "posicion": "Delantero",
+    "valor": 290000,
+    "estado": "Disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p1516/256x256/p1516_t449_1_001_000.png",
+    "fantasyMarcaId": "1516",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "1002764",
+    "nombre": "Sergio Carreira",
+    "slug": "sergio-carreira",
+    "posicion": "Defensa",
+    "valor": 1100000,
+    "estado": "No disponible",
+    "foto": "https://assets.laligafantasymarca.com/players/t176/p976/256x256/p976_t176_1_001_000.png",
+    "fantasyMarcaId": "976",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
+  },
+  {
+    "id": "146866",
+    "nombre": "Gerard Moreno",
+    "slug": "gerard-moreno",
+    "posicion": "Delantero",
+    "valor": 39000000,
+    "estado": "Dudoso",
+    "foto": "https://assets.laligafantasymarca.com/players/t449/p356/256x256/p356_t449_1_001_000.png",
+    "fantasyMarcaId": "356",
+    "equipo": {
+      "id": "2819",
+      "nombre": "Villarreal",
+      "slug": "villarreal",
+      "shortName": "Villarreal",
+      "escudo": "https://api.sofascore.app/api/v1/team/2819/image"
+    },
+    "puntos": 0
   }
 ]

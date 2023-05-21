@@ -1,13 +1,17 @@
 import bp from "body-parser";
 import express, { Application } from "express";
-import * as jwt from "jsonwebtoken";
 import morgan from "morgan";
 import request, { Response } from "supertest";
 import { MongoDBContainer } from "testcontainers";
 import { modeloJugador } from "../model/jugador";
-import { IUsuario } from "../model/usuario";
 import apiJugadores from "../routes/rutasJugador";
 import apiUsuarios from "../routes/rutasUsuarios";
+import {
+	token2,
+	tokenAdmin,
+	usuario2,
+	usuarioAdmin
+} from "./testsObjectsHelper";
 
 const mongoose = require("mongoose");
 const app: Application = express();
@@ -19,7 +23,6 @@ beforeAll(async () => {
 	app.use(apiJugadores);
 	app.use(apiUsuarios);
 
-	
 	const container: MongoDBContainer = new MongoDBContainer().withReuse();
 	const startedContainer = await container.start();
 	await mongoose.connect(startedContainer.getConnectionString(), {
@@ -33,37 +36,8 @@ beforeAll(async () => {
 afterAll(async () => {
 	await modeloJugador.deleteOne({ id: "0" });
 
-	
 	await mongoose.connection.close();
 });
-
-const usuarioAdmin: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116b",
-	nombre: "Test",
-	usuario: "TestFantasy",
-	email: "test@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: true,
-};
-const tokenAdmin = jwt.sign(
-	{ id: usuarioAdmin.id },
-	process.env.JWT_SECRET || "secret"
-);
-
-const usuario2: IUsuario = {
-	id: "d796014e-717f-4cd9-9f66-422546a0116a",
-	nombre: "Test2",
-	usuario: "TestFantasy2",
-	email: "test2@test.com",
-	contraseña: "$2b$10$HCAC1lBDt/uypoJw5f/rCe.yd4q23BnJFNx.s53JVF/VuOkEXXmBC",
-	ligas: [],
-	admin: false,
-};
-const token2 = jwt.sign(
-	{ id: usuario2.id },
-	process.env.JWT_SECRET || "secret"
-);
 
 describe("getJugadores", () => {
 	/**
@@ -73,7 +47,7 @@ describe("getJugadores", () => {
 		const response: Response = await request(app).get("/jugadores");
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body).toHaveLength(27);
+		expect(response.body).toHaveLength(54);
 	});
 });
 
@@ -155,17 +129,17 @@ describe("updateJugador", () => {
 	});
 
 	/**
-	 * Test: Devuelve 401 si usuario no administrador
+	 * Test: Devuelve 403 si usuario no administrador
 	 */
-	it("401 si usuario no administrador", async () => {
+	it("403 si usuario no administrador", async () => {
 		const response: Response = await request(app).put("/jugadores/1").set({
 			email: usuario2.email,
 			token: token2,
 		});
 
-		expect(response.statusCode).toBe(401);
+		expect(response.statusCode).toBe(403);
 		expect(response.body).toEqual({
-			message: "Usuario no autorizado",
+			message: "Usuario no administrador",
 		});
 	});
 
@@ -266,25 +240,5 @@ describe("updateJugador", () => {
 		expect(response.body.jugadorAntiguo.equipo.id).toEqual("2829");
 		expect(response.body.jugadorAntiguo.equipo.nombre).toEqual("Real Madrid");
 		expect(response.body.jugadorAntiguo.jornadaTraspaso).toEqual(1);
-	});
-
-	/**
-	 * Test: Devuelve 500 si error interno. Caso: No hay equipo.id en el response
-	 */
-	it("500 si error interno. Caso: No hay equipo.id en el response", async () => {
-		const response: Response = await request(app)
-			.put("/jugadores/3306")
-			.set({
-				email: usuarioAdmin.email,
-				token: tokenAdmin,
-			})
-			.send({
-				puntos: 10,
-			});
-
-		expect(response.statusCode).toBe(500);
-		expect(response.body).toEqual({
-			message: "Error interno. Pruebe más tarde",
-		});
 	});
 });

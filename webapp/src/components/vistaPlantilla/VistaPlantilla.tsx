@@ -1,11 +1,12 @@
 import {
 	IonContent,
 	IonHeader,
+	IonLoading,
 	IonPage,
 	IonProgressBar,
 	IonSegment,
 	IonSegmentButton,
-	useIonToast
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import {
@@ -76,6 +77,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				duration: 1500,
 			});
 	}
+
+	const [showLoading, setShowLoading] = useState<boolean>(false);
+	const [message, setMessage] = useState<string>("");
 
 	const getJugadoresAPI = async () => {
 		setLoading(true);
@@ -214,6 +218,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	const guardarPlantilla = async () => {
+		setShowLoading(true);
 		const alineacionJugador: AlineacionJugador = {
 			id: plantilla?.alineacionJugador.id as string,
 			porteros: porteros,
@@ -238,9 +243,11 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		await updatePlantillaUsuario(plantillaUsuario, idLiga)
 			.then((res) => {
 				setPlantilla(res);
+				setShowLoading(false);
 				crearToast("Plantilla guardada", true, "success");
 			})
 			.catch((err) => {
+				setShowLoading(false);
 				crearToast(err, true, "danger");
 			});
 
@@ -262,6 +269,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				</IonHeader>
 				{!loading ? (
 					<>
+						<IonLoading isOpen={showLoading} message={message} />
 						<IonSegment value={segment}>
 							<IonSegmentButton
 								value="plantilla"
@@ -298,6 +306,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									guardarPlantilla={guardarPlantilla}
 									setValueFormacion={setValueFormacion}
 									puntuacionesMap={puntuacionesMap}
+									setShowLoading={setShowLoading}
+									setMessage={setMessage}
+									crearToast={crearToast}
 								/>
 							</>
 						) : (
