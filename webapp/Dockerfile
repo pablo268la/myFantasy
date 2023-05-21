@@ -1,12 +1,9 @@
 FROM node:16.13.1
-LABEL version='1.0'
 COPY . /app
 WORKDIR /app
 
 EXPOSE 8100
-#Install the dependencies
-RUN npm install -g ionic
-RUN npm install
+RUN npm install --ignore-scripts -g ionic 
+RUN npm install --ignore-scripts
 
-#Create an optimized version of the webapp
 CMD [ "ionic", "serve" ]

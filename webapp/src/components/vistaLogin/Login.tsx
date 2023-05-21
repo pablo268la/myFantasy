@@ -147,7 +147,10 @@ function Login(props: LoginProps): JSX.Element {
 		setMessage("Validando datos...");
 		setShowLoading(true);
 		let v = await validateFields(true);
-		if (!v) return;
+		if (!v) {
+			setShowLoading(false);
+			return;
+		}
 
 		if (!isLogin) {
 			setMessage("Creando usuario...");
