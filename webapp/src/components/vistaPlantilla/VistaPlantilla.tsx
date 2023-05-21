@@ -152,7 +152,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			.forEach((j) => {
 				j.titular = false;
 			});
-		setDefensas(defensas);
 
 		mediocentros
 			.slice(0, f.medio)
@@ -166,7 +165,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			.forEach((j) => {
 				j.titular = false;
 			});
-		setMediocentros(mediocentros);
 
 		delanteros
 			.slice(0, f.delantero)
@@ -180,7 +178,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			.forEach((j) => {
 				j.titular = false;
 			});
-		setDelanteros(delanteros);
+
 		setCambioAlineacion(true);
 	};
 
