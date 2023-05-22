@@ -139,15 +139,15 @@ describe("requestToken", () => {
 	});
 
 	/**
-	 * Test: Devuelve 400 si usuario no existe
+	 * Test: Devuelve 404 si usuario no existe
 	 */
-	it("400 si usuario no existe", async () => {
+	it("404 si usuario no existe", async () => {
 		const response: Response = await request(app).post("/token").send({
 			email: "No existe este usuario",
 			contraseña: "contraseñaIncorrecta",
 		});
 
-		expect(response.statusCode).toBe(400);
+		expect(response.statusCode).toBe(404);
 		expect(response.body).toEqual({
 			message: "Usuario no existe",
 		});

@@ -348,10 +348,6 @@ export function CartaJugadorMercado(
 												<IonButton
 													slot="end"
 													onClick={async () => {
-														props.setShowLoading(true);
-														props.setLoadingMessage(
-															"Moviendo los millones a la sede de la liga..."
-														);
 														if (puja < propiedadJugadorEnVenta.jugador.valor) {
 															crearToast(
 																"La puja debe ser mayor que el valor del jugador",
@@ -360,6 +356,10 @@ export function CartaJugadorMercado(
 															);
 															return;
 														}
+														props.setShowLoading(true);
+														props.setLoadingMessage(
+															"Moviendo los millones a la sede de la liga..."
+														);
 														await hacerPujaAlBack()
 															.then(() => {
 																props.setShowLoading(false);

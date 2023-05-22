@@ -51,3 +51,4 @@ jobs:
             sudo docker rm restapi
             sudo docker pull ghcr.io/uo271580/fantasyrestapi:latest
             sudo docker run -d -p 5000:5000 --net=host --name restapi ghcr.io/uo271580/fantasyrestapi:latest
+            sudo docker image prune -f
