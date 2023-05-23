@@ -1,56 +1,35 @@
 import { apiEndPoint } from "../helpers/constants";
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { Jugador } from "../shared/sharedTypes";
+import { doRequest } from "./callBackEnd";
 
 export async function getJugadores(): Promise<Jugador[]> {
-	let response = await fetch(apiEndPoint + "/jugadores");
-	return response.json();
+	return await doRequest(apiEndPoint + "/jugadores");
 }
 export async function getJugadoresPorEquipo(
 	equipoId: string
 ): Promise<Jugador[]> {
-	let response = await fetch(apiEndPoint + "/jugadoresEquipo/" + equipoId);
-	
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
+	return await doRequest(apiEndPoint + "/jugadoresEquipo/" + equipoId);
 }
 
 export async function getJugadorById(id: string): Promise<Jugador> {
-	let response = await fetch(apiEndPoint + "/jugadores/" + id);
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
+	return await doRequest(apiEndPoint + "/jugadores/" + id);
 }
 
 export async function getJugadoresAntiguos(
 	idEquipo: string,
 	semanaTraspaao: number
 ): Promise<Jugador[]> {
-	let response = await fetch(
+	return await doRequest(
 		apiEndPoint + "/jugadores/antiguos/" + idEquipo + "/" + semanaTraspaao
 	);
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function updateJugador(jugador: Jugador): Promise<Jugador> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/jugadores/" + jugador.id, {
+	return await doRequest(apiEndPoint + "/jugadores/" + jugador.id, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -59,11 +38,4 @@ export async function updateJugador(jugador: Jugador): Promise<Jugador> {
 		},
 		body: JSON.stringify(jugador),
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }

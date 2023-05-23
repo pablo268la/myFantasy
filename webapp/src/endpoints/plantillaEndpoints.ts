@@ -1,6 +1,7 @@
 import { apiEndPoint } from "../helpers/constants";
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { PlantillaUsuario } from "../shared/sharedTypes";
+import { doRequest } from "./callBackEnd";
 
 export async function getPlantilla(
 	idLiga: string,
@@ -9,7 +10,7 @@ export async function getPlantilla(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(
+	return await doRequest(
 		apiEndPoint + "/plantillas/" + idLiga + "/" + idUsuario,
 		{
 			method: "GET",
@@ -20,13 +21,6 @@ export async function getPlantilla(
 			},
 		}
 	);
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function updatePlantillaUsuario(
@@ -36,7 +30,7 @@ export async function updatePlantillaUsuario(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/plantillas/update", {
+	return await doRequest(apiEndPoint + "/plantillas/update", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -45,11 +39,4 @@ export async function updatePlantillaUsuario(
 		},
 		body: JSON.stringify({ plantilla: plantilla, idLiga: idLiga }),
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }

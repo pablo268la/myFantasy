@@ -1,16 +1,10 @@
 import { apiEndPoint } from "../helpers/constants";
 import { getToken, getUsuarioLogueado } from "../helpers/helpers";
 import { Liga, Oferta, PropiedadJugador } from "../shared/sharedTypes";
+import { doRequest } from "./callBackEnd";
 
 export async function resetMercado(liga: Liga): Promise<Liga> {
-	let response = await fetch(apiEndPoint + "/mercado/resetMercado/" + liga.id);
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
+	return await doRequest(apiEndPoint + "/mercado/resetMercado/" + liga.id);
 }
 
 export async function hacerPuja(
@@ -21,7 +15,7 @@ export async function hacerPuja(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/mercado/pujar/" + idLiga, {
+	return await doRequest(apiEndPoint + "/mercado/pujar/" + idLiga, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -33,13 +27,6 @@ export async function hacerPuja(
 			oferta: oferta,
 		}),
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function añadirJugadorAMercado(
@@ -49,7 +36,7 @@ export async function añadirJugadorAMercado(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/mercado/anadir/" + idLiga, {
+	return await doRequest(apiEndPoint + "/mercado/anadir/" + idLiga, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -58,13 +45,6 @@ export async function añadirJugadorAMercado(
 		},
 		body: JSON.stringify({ propiedadJugador: propiedadJugador }),
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function aceptarOferta(
@@ -75,7 +55,7 @@ export async function aceptarOferta(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/mercado/aceptaroferta/" + idLiga, {
+	return await doRequest(apiEndPoint + "/mercado/aceptaroferta/" + idLiga, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -87,13 +67,6 @@ export async function aceptarOferta(
 			idJugadorEnVenta: idJugadorEnVenta,
 		}),
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function rechazarOferta(
@@ -104,28 +77,18 @@ export async function rechazarOferta(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(
-		apiEndPoint + "/mercado/rechazaroferta/" + idLiga,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				email: email,
-				token: token,
-			},
-			body: JSON.stringify({
-				idComprador: idComprador,
-				idJugadorEnVenta: idJugadorEnVenta,
-			}),
-		}
-	);
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
+	return await doRequest(apiEndPoint + "/mercado/rechazaroferta/" + idLiga, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			email: email,
+			token: token,
+		},
+		body: JSON.stringify({
+			idComprador: idComprador,
+			idJugadorEnVenta: idJugadorEnVenta,
+		}),
+	});
 }
 
 export async function eliminarJugadorDelMercado(
@@ -135,7 +98,7 @@ export async function eliminarJugadorDelMercado(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(
+	return await doRequest(
 		apiEndPoint + "/mercado/eliminar/" + idLiga + "/" + idJugador,
 		{
 			method: "DELETE",
@@ -146,12 +109,6 @@ export async function eliminarJugadorDelMercado(
 			},
 		}
 	);
-
-	if (response.status !== 204) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
 }
 
 export async function eliminaPujaDelMercado(
@@ -160,22 +117,4 @@ export async function eliminaPujaDelMercado(
 ): Promise<void> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
-
-	let response = await fetch(
-		apiEndPoint + "/mercado/eliminarPuja/" + idLiga + "/" + idJugador,
-		{
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-				email: email,
-				token: token,
-			},
-		}
-	);
-
-	if (response.status !== 204) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
 }
