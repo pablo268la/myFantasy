@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -95,7 +95,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -187,7 +189,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -279,7 +283,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -308,7 +314,87 @@
         }
       ],
       "title": "Request by Status code",
+      "transformations": [],
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 17
+      },
+      "id": 71,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(status_code) (increase(api_response_time_count[1m:60s]))",
+          "legendFormat": "{{path}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Request by Status code",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "max"
+            ]
+          }
+        }
+      ],
+      "type": "piechart"
     },
     {
       "datasource": {
@@ -345,7 +431,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -361,7 +448,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 25
       },
       "id": 33,
       "options": {
@@ -370,7 +457,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -437,7 +526,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -452,7 +542,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 25
       },
       "id": 29,
       "options": {
@@ -461,7 +551,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -490,7 +582,87 @@
         }
       ],
       "title": "Request by Endpoint",
+      "transformations": [],
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 6,
+        "y": 35
+      },
+      "id": 72,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(api_response_time_count[1m:1m])) by(route, method)",
+          "legendFormat": "{{path}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Request by Endpoint",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "piechart"
     },
     {
       "datasource": {
@@ -527,7 +699,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -543,7 +716,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 27
+        "y": 45
       },
       "id": 32,
       "options": {
@@ -552,7 +725,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -619,7 +794,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -634,7 +810,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 27
+        "y": 45
       },
       "id": 27,
       "options": {
@@ -643,7 +819,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -672,7 +850,86 @@
         }
       ],
       "title": "Request by Method",
+      "transformations": [],
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 5,
+        "y": 53
+      },
+      "id": 73,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c08c6d11-0a2c-4ff9-806c-ec4eb369371d"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(api_response_time_bucket[1m:60s])) by (method)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Request by Method",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "max"
+            ]
+          }
+        }
+      ],
+      "type": "piechart"
     },
     {
       "collapsed": false,
@@ -680,7 +937,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 61
       },
       "id": 7,
       "panels": [],
@@ -722,7 +979,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -737,7 +995,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 62
       },
       "id": 64,
       "options": {
@@ -746,7 +1004,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -828,7 +1088,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 70
       },
       "id": 11,
       "options": {
@@ -922,7 +1182,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 70
       },
       "id": 37,
       "options": {
@@ -1016,7 +1276,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 52
+        "y": 78
       },
       "id": 35,
       "options": {
@@ -1110,7 +1370,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 52
+        "y": 78
       },
       "id": 36,
       "options": {
@@ -1204,7 +1464,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 86
       },
       "id": 34,
       "options": {
@@ -1253,7 +1513,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 94
       },
       "id": 14,
       "panels": [],
@@ -1310,7 +1570,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 95
       },
       "id": 65,
       "options": {
@@ -1319,7 +1579,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -1401,7 +1663,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 77
+        "y": 103
       },
       "id": 38,
       "options": {
@@ -1495,7 +1757,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 77
+        "y": 103
       },
       "id": 40,
       "options": {
@@ -1544,7 +1806,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 85
+        "y": 111
       },
       "id": 18,
       "panels": [],
@@ -1601,7 +1863,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 112
       },
       "id": 66,
       "options": {
@@ -1610,7 +1872,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -1692,7 +1956,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 94
+        "y": 120
       },
       "id": 39,
       "options": {
@@ -1786,7 +2050,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 94
+        "y": 120
       },
       "id": 42,
       "options": {
@@ -1880,7 +2144,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 102
+        "y": 128
       },
       "id": 41,
       "options": {
@@ -1974,7 +2238,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 102
+        "y": 128
       },
       "id": 43,
       "options": {
@@ -2068,7 +2332,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 110
+        "y": 136
       },
       "id": 44,
       "options": {
@@ -2162,7 +2426,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 110
+        "y": 136
       },
       "id": 45,
       "options": {
@@ -2211,7 +2475,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 118
+        "y": 144
       },
       "id": 19,
       "panels": [],
@@ -2268,7 +2532,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 145
       },
       "id": 67,
       "options": {
@@ -2277,7 +2541,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2359,7 +2625,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 127
+        "y": 153
       },
       "id": 46,
       "options": {
@@ -2453,7 +2719,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 127
+        "y": 153
       },
       "id": 47,
       "options": {
@@ -2547,7 +2813,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 135
+        "y": 161
       },
       "id": 48,
       "options": {
@@ -2641,7 +2907,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 135
+        "y": 161
       },
       "id": 49,
       "options": {
@@ -2690,7 +2956,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 143
+        "y": 169
       },
       "id": 20,
       "panels": [],
@@ -2747,7 +3013,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 144
+        "y": 170
       },
       "id": 68,
       "options": {
@@ -2756,7 +3022,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2838,7 +3106,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 152
+        "y": 178
       },
       "id": 52,
       "options": {
@@ -2932,7 +3200,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 152
+        "y": 178
       },
       "id": 56,
       "options": {
@@ -3026,7 +3294,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 160
+        "y": 186
       },
       "id": 57,
       "options": {
@@ -3120,7 +3388,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 160
+        "y": 186
       },
       "id": 58,
       "options": {
@@ -3214,7 +3482,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 168
+        "y": 194
       },
       "id": 59,
       "options": {
@@ -3263,7 +3531,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 176
+        "y": 202
       },
       "id": 50,
       "panels": [],
@@ -3320,7 +3588,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 177
+        "y": 203
       },
       "id": 69,
       "options": {
@@ -3329,7 +3597,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -3411,7 +3681,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 185
+        "y": 211
       },
       "id": 55,
       "options": {
@@ -3505,7 +3775,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 185
+        "y": 211
       },
       "id": 60,
       "options": {
@@ -3599,7 +3869,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 193
+        "y": 219
       },
       "id": 61,
       "options": {
@@ -3648,7 +3918,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 201
+        "y": 227
       },
       "id": 21,
       "panels": [],
@@ -3705,7 +3975,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 202
+        "y": 228
       },
       "id": 70,
       "options": {
@@ -3714,7 +3984,9 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "sum"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -3796,7 +4068,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 210
+        "y": 236
       },
       "id": 54,
       "options": {
@@ -3890,7 +4162,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 210
+        "y": 236
       },
       "id": 62,
       "options": {
@@ -3984,7 +4256,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 218
+        "y": 244
       },
       "id": 53,
       "options": {
@@ -4033,7 +4305,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 226
+        "y": 252
       },
       "id": 51,
       "panels": [],
@@ -4049,13 +4321,13 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "HeadlineCoach dashboard",
   "uid": "da50f15a-960e-4025-89af-6d3f3c74edf1",
-  "version": 21,
+  "version": 3,
   "weekStart": ""
 }
