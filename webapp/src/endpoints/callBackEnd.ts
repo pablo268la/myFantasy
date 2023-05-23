@@ -1,27 +1,27 @@
 class BackendError extends Error {
-	statusCode: number;
-	constructor(message: string | undefined, statusCode: number) {
+	constructor(message: string) {
 		super(message);
-		this.statusCode = statusCode;
 	}
 }
 
 export async function doRequest(path: string, options?: RequestInit) {
 	try {
-		const response = await fetch(path);
+		const response = await fetch(path, options);
 
 		if (!response.ok) {
 			await response.json().then((data) => {
-				throw new BackendError(data.message, response.status);
+				throw new BackendError(data.message);
 			});
 		}
+
+		if (response.status === 204) return;
 		return response.json();
 	} catch (error) {
 		if (error instanceof BackendError) {
-            console.log(error);
+			console.log(error);
 			throw error;
 		} else {
-            console.log(error);
+			console.log(error);
 			throw new Error("Error en el servidor. Intente nuevamente más tarde");
 		}
 	}

@@ -122,7 +122,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 							map.set(jugador.jugador.id, puntuaciones);
 						})
 						.catch((err) => {
-							crearToast(err, true, "danger");
+							crearToast(err.message, true, "danger");
 						});
 				});
 
@@ -133,7 +133,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			})
 			.catch((err) => {
 				setLoading(false);
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 				// TODO: Informar de error en content y boton de redirigir al inicio
 			});
 	};
@@ -246,7 +246,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			})
 			.catch((err) => {
 				setShowLoading(false);
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 
 		setCambioAlineacion(false);
@@ -254,7 +254,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 
 	useEffect(() => {
 		getJugadoresAPI().catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

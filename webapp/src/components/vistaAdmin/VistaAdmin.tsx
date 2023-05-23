@@ -50,7 +50,7 @@ export function VistaAdmin(): JSX.Element {
 				setEquipos(e.sort((a, b) => a.nombre.localeCompare(b.nombre)))
 			)
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		setLoading(false);
 	};
@@ -68,7 +68,7 @@ export function VistaAdmin(): JSX.Element {
 					)
 				)
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 			setEquipoSeleccionado(undefined);
 		} else {
@@ -79,7 +79,7 @@ export function VistaAdmin(): JSX.Element {
 					)
 				)
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 
 			setEquipoSeleccionado(equipos.find((e) => e.id === idEquipo));
@@ -89,7 +89,7 @@ export function VistaAdmin(): JSX.Element {
 
 	useEffect(() => {
 		getEquiposFromApi().catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

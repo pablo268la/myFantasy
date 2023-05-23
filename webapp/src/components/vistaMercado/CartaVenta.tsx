@@ -1,28 +1,28 @@
 import {
-	IonAccordion,
-	IonAccordionGroup,
-	IonBadge,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonImg,
-	IonItem,
-	IonLabel,
-	IonRow,
-	IonText,
-	useIonToast,
+    IonAccordion,
+    IonAccordionGroup,
+    IonBadge,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonImg,
+    IonItem,
+    IonLabel,
+    IonRow,
+    IonText,
+    useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import {
-	aceptarOferta,
-	rechazarOferta,
+    aceptarOferta,
+    rechazarOferta,
 } from "../../endpoints/mercadoEndpoints";
 import {
-	getColorBadge,
-	ponerPuntosAValor,
-	urlBackground,
+    getColorBadge,
+    ponerPuntosAValor,
+    urlBackground,
 } from "../../helpers/helpers";
 import { PropiedadJugador } from "../../shared/sharedTypes";
 
@@ -202,7 +202,7 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 														})
 														.catch((err) => {
 															props.setShowLoading(false);
-															crearToast(err, true, "danger");
+															crearToast(err.message, true, "danger");
 														});
 												}}
 											>
@@ -226,7 +226,7 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 														})
 														.catch((err) => {
 															props.setShowLoading(false);
-															crearToast(err, true, "danger");
+															crearToast(err.message, true, "danger");
 														});
 												}}
 											>

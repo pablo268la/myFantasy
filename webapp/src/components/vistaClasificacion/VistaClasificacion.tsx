@@ -42,13 +42,13 @@ function VistaClasificacion(props: ClassificacionProps): JSX.Element {
 			})
 			.catch((err) => {
 				setLoading(false);
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	};
 
 	useEffect(() => {
 		getLigaFromAPI().catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

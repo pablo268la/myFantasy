@@ -1,27 +1,27 @@
 import {
-	IonActionSheet,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonContent,
-	IonGrid,
-	IonIcon,
-	IonInput,
-	IonItem,
-	IonLabel,
-	IonPopover,
-	IonRow,
-	useIonToast,
+    IonActionSheet,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonPopover,
+    IonRow,
+    useIonToast,
 } from "@ionic/react";
 import { ellipsisVertical, share, trash, trophySharp } from "ionicons/icons";
 import { useState } from "react";
 import { deleteUsuarioFromLiga } from "../../endpoints/ligasEndpoints";
 import {
-	getUsuarioLogueado,
-	ponerPuntosAValor,
-	setLocalLigaSeleccionada,
-	urlBackground2,
+    getUsuarioLogueado,
+    ponerPuntosAValor,
+    setLocalLigaSeleccionada,
+    urlBackground2,
 } from "../../helpers/helpers";
 import { Liga } from "../../shared/sharedTypes";
 
@@ -155,7 +155,7 @@ export function CartaLiga(props: CartaLigaProps): JSX.Element {
 										})
 										.catch((err) => {
 											props.setShowLoading(false);
-											crearToast(err, true, "danger");
+											crearToast(err.message, true, "danger");
 										});
 								},
 							},

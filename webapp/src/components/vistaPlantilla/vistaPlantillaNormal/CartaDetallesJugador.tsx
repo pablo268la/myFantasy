@@ -1,33 +1,33 @@
 import {
-	IonActionSheet,
-	IonBadge,
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonImg,
-	IonItem,
-	IonLabel,
-	IonLoading,
-	IonRow,
-	useIonActionSheet,
+    IonActionSheet,
+    IonBadge,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonImg,
+    IonItem,
+    IonLabel,
+    IonLoading,
+    IonRow,
+    useIonActionSheet,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
 import { cart, cash, close } from "ionicons/icons";
 import { useState } from "react";
 import {
-	añadirJugadorAMercado,
-	eliminarJugadorDelMercado,
+    añadirJugadorAMercado,
+    eliminarJugadorDelMercado,
 } from "../../../endpoints/mercadoEndpoints";
 import {
-	getColorBadge,
-	getColorEstado,
-	getIconoEstado,
-	getLocalLigaSeleccionada,
-	ponerPuntosAValor,
-	urlBackground,
+    getColorBadge,
+    getColorEstado,
+    getIconoEstado,
+    getLocalLigaSeleccionada,
+    ponerPuntosAValor,
+    urlBackground,
 } from "../../../helpers/helpers";
 import { PropiedadJugador } from "../../../shared/sharedTypes";
 import { Formacion } from "../VistaPlantilla";
@@ -249,7 +249,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	})
 																	.catch((err) => {
 																		setShowLoading(false);
-																		props.crearToast(err, true, "danger");
+																		props.crearToast(err.message, true, "danger");
 																	});
 															} else {
 																setShowLoading(true);
@@ -269,7 +269,7 @@ export function CartaDetallesJugador(props: CartaJugadorProps): JSX.Element {
 																	})
 																	.catch((err) => {
 																		setShowLoading(false);
-																		props.crearToast(err, true, "danger");
+																		props.crearToast(err.message, true, "danger");
 																	});
 															}
 														},

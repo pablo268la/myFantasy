@@ -127,7 +127,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				setPartidos(partidos);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		await changeSelectedPartido(undefined);
 	};
@@ -143,12 +143,12 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				await getJugadoresPorEquipo(p.local.id)
 					.then((jugadores) => setJugadoresLocales(jugadores))
 					.catch((err) => {
-						crearToast(err, true, "danger");
+						crearToast(err.message, true, "danger");
 					});
 				await getJugadoresPorEquipo(p.visitante.id)
 					.then((jugadores) => setJugadoresVisitantes(jugadores))
 					.catch((err) => {
-						crearToast(err, true, "danger");
+						crearToast(err.message, true, "danger");
 					});
 				setAlineacionLocalForAll(p.alineacionLocal);
 				setAlineacionVisitanteForAll(p.alineacionVisitante);
@@ -180,7 +180,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					setPartidoSeleccionado(p);
 				})
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 			setPartidos(
 				partidos.map((p) => {
@@ -243,7 +243,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 	useEffect(() => {
 		getPartidosDeJornada(jornada).catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 
@@ -292,7 +292,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					setJugadoresLocales([...aux]);
 				})
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 			setAntiguosCogidosLocal(true);
 		}
@@ -347,7 +347,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 					setJugadoresVisitantes([...aux]);
 				})
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 			setAntiguosCogidosVisitante(true);
 		}

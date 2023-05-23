@@ -6,6 +6,7 @@ import {
 	IonList,
 	IonLoading,
 	IonPage,
+	IonProgressBar,
 	IonRow,
 	IonSegment,
 	IonSegmentButton,
@@ -47,38 +48,47 @@ export function VistaMercado(props: any): JSX.Element {
 			});
 	}
 
-	const actualizarMercado = () => {
-		getLiga(getLocalLigaSeleccionada())
+	const actualizarMercado = async () => {
+		await getLiga(getLocalLigaSeleccionada())
 			.then((liga) => {
 				setLiga(liga);
 				setJugadoresEnMercado(liga.mercado);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	};
 
 	useEffect(() => {
-		actualizarMercado();
+		setLoading(true);
+		actualizarMercado()
+			.then(() => {
+				setLoading(false);
+			})
+			.catch((err) => {
+				setLoading(false);
+			});
 	}, []);
 
-	const resetMercadoFromAPI = () => {
+	const resetMercadoFromAPI = async () => {
 		if (!reseteandoMercado) {
 			setReseteandoMercado(true);
-			resetMercado(liga as Liga)
+			await resetMercado(liga as Liga)
 				.then((liga) => {
 					setLiga(liga);
 					setJugadoresEnMercado(liga.mercado);
 					setReseteandoMercado(false);
 				})
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 		}
 	};
 
 	const [showLoading, setShowLoading] = useState<boolean>(false);
 	const [loadingMessage, setLoadingMessage] = useState<string>();
+
+	const [loading, setLoading] = useState<boolean>(false);
 
 	return (
 		<>
@@ -88,88 +98,66 @@ export function VistaMercado(props: any): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonLoading isOpen={showLoading} message={loadingMessage} />
-				<IonContent>
-					<IonSegment color={"primary"} value={selectedSegment}>
-						<IonSegmentButton
-							value="mercado"
-							onClick={() => {
-								setSelectedSegment("mercado");
-							}}
-						>
-							<IonLabel>Mercado</IonLabel>
-						</IonSegmentButton>
-						<IonSegmentButton
-							value="ofertas"
-							onClick={() => {
-								setSelectedSegment("ofertas");
-							}}
-						>
-							<IonLabel>Ofertas</IonLabel>
-						</IonSegmentButton>
-					</IonSegment>
-					{selectedSegment === "mercado" ? (
-						<>
-							<IonItem color="primary">
-								<IonRow>
-									<IonLabel>
-										Saldo:{" "}
-										{ponerPuntosAValor(
-											liga?.plantillasUsuarios
-												.filter(
-													(p) => p.usuario.id === getUsuarioLogueado()?.id
-												)
-												.at(0)?.dinero as number
-										)}
-									</IonLabel>
-									<IonLabel color={"danger"} style={{ marginLeft: "10px" }}>
-										{"(-"}
-										{ponerPuntosAValor(
-											liga?.mercado
-												.map((j) =>
-													j.venta.ofertas
-														.filter(
-															(oferta) =>
-																oferta.comprador.id === getUsuarioLogueado()?.id
-														)
-														.map((oferta) => oferta.valorOferta)
-												)
-												.map((valor) => valor[0] ?? 0)
-												.reduce((a, b) => a + b, 0) as number
-										)}
-										{" )"}
-									</IonLabel>
-								</IonRow>
-							</IonItem>
-							<IonList>
-								{jugadoresEnMercado.map((jugadorEnVenta) => (
-									<CartaJugadorMercado
-										key={jugadorEnVenta.jugador.id}
-										propiedadJugadorEnVenta={jugadorEnVenta}
-										idLiga={liga?.id as string}
-										resetMercado={resetMercadoFromAPI}
-										reseteandoMercado={reseteandoMercado}
-										actualizarMercado={actualizarMercado}
-										setLoadingMessage={setLoadingMessage}
-										setShowLoading={setShowLoading}
-									/>
-								))}
-							</IonList>
-						</>
-					) : (
-						<>
-							<IonItem lines="none">
-								<IonLabel>Compras:</IonLabel>
-							</IonItem>
-							<IonList>
-								{jugadoresEnMercado
-									.filter((j) => {
-										return (
-											j.venta.ofertas
-												.map((o) => o.comprador.id)
-												.indexOf(getUsuarioLogueado()?.id as string) !== -1
-										);
-									})
-									.map((jugadorEnVenta) => (
+				{loading ? (
+					<IonContent>
+						<IonProgressBar type="indeterminate"></IonProgressBar>
+					</IonContent>
+				) : (
+					<IonContent>
+						<IonSegment color={"primary"} value={selectedSegment}>
+							<IonSegmentButton
+								value="mercado"
+								onClick={() => {
+									setSelectedSegment("mercado");
+								}}
+							>
+								<IonLabel>Mercado</IonLabel>
+							</IonSegmentButton>
+							<IonSegmentButton
+								value="ofertas"
+								onClick={() => {
+									setSelectedSegment("ofertas");
+								}}
+							>
+								<IonLabel>Ofertas</IonLabel>
+							</IonSegmentButton>
+						</IonSegment>
+						{selectedSegment === "mercado" ? (
+							<>
+								<IonItem color="primary">
+									<IonRow>
+										<IonLabel>
+											Saldo:{" "}
+											{ponerPuntosAValor(
+												liga?.plantillasUsuarios
+													.filter(
+														(p) => p.usuario.id === getUsuarioLogueado()?.id
+													)
+													.at(0)?.dinero as number
+											)}
+										</IonLabel>
+										<IonLabel color={"danger"} style={{ marginLeft: "10px" }}>
+											{"(-"}
+											{ponerPuntosAValor(
+												liga?.mercado
+													.map((j) =>
+														j.venta.ofertas
+															.filter(
+																(oferta) =>
+																	oferta.comprador.id ===
+																	getUsuarioLogueado()?.id
+															)
+															.map((oferta) => oferta.valorOferta)
+													)
+													.map((valor) => valor[0] ?? 0)
+													.reduce((a, b) => a + b, 0) as number
+											)}
+											{" )"}
+										</IonLabel>
+									</IonRow>
+								</IonItem>
+								<IonList>
+									{jugadoresEnMercado.map((jugadorEnVenta) => (
 										<CartaJugadorMercado
 											key={jugadorEnVenta.jugador.id}
 											propiedadJugadorEnVenta={jugadorEnVenta}
@@ -181,31 +169,60 @@ export function VistaMercado(props: any): JSX.Element {
 											setShowLoading={setShowLoading}
 										/>
 									))}
-							</IonList>
-							<IonItem lines="none">
-								<IonLabel>Ventas:</IonLabel>
-							</IonItem>
-							<IonList>
-								{jugadoresEnMercado
-									.filter((j) => {
-										return (
-											j.usuario.id === (getUsuarioLogueado()?.id as string)
-										);
-									})
-									.map((jugadorEnVenta) => (
-										<CartaVenta
-											key={jugadorEnVenta.jugador.id}
-											propiedadJugadorEnVenta={jugadorEnVenta}
-											idLiga={liga?.id as string}
-											actualizarMercado={actualizarMercado}
-											setLoadingMessage={setLoadingMessage}
-											setShowLoading={setShowLoading}
-										/>
-									))}
-							</IonList>
-						</>
-					)}
-				</IonContent>
+								</IonList>
+							</>
+						) : (
+							<>
+								<IonItem lines="none">
+									<IonLabel>Compras:</IonLabel>
+								</IonItem>
+								<IonList>
+									{jugadoresEnMercado
+										.filter((j) => {
+											return (
+												j.venta.ofertas
+													.map((o) => o.comprador.id)
+													.indexOf(getUsuarioLogueado()?.id as string) !== -1
+											);
+										})
+										.map((jugadorEnVenta) => (
+											<CartaJugadorMercado
+												key={jugadorEnVenta.jugador.id}
+												propiedadJugadorEnVenta={jugadorEnVenta}
+												idLiga={liga?.id as string}
+												resetMercado={resetMercadoFromAPI}
+												reseteandoMercado={reseteandoMercado}
+												actualizarMercado={actualizarMercado}
+												setLoadingMessage={setLoadingMessage}
+												setShowLoading={setShowLoading}
+											/>
+										))}
+								</IonList>
+								<IonItem lines="none">
+									<IonLabel>Ventas:</IonLabel>
+								</IonItem>
+								<IonList>
+									{jugadoresEnMercado
+										.filter((j) => {
+											return (
+												j.usuario.id === (getUsuarioLogueado()?.id as string)
+											);
+										})
+										.map((jugadorEnVenta) => (
+											<CartaVenta
+												key={jugadorEnVenta.jugador.id}
+												propiedadJugadorEnVenta={jugadorEnVenta}
+												idLiga={liga?.id as string}
+												actualizarMercado={actualizarMercado}
+												setLoadingMessage={setLoadingMessage}
+												setShowLoading={setShowLoading}
+											/>
+										))}
+								</IonList>
+							</>
+						)}
+					</IonContent>
+				)}
 			</IonPage>
 		</>
 	);

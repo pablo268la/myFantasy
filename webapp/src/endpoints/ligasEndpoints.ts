@@ -1,6 +1,9 @@
 import * as UUID from "uuid";
 import { apiEndPoint } from "../helpers/constants";
-import { getToken, getUsuarioLogueado } from "../helpers/helpers";
+import {
+	getToken,
+	getUsuarioLogueado
+} from "../helpers/helpers";
 import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
 import { doRequest } from "./callBackEnd";
 

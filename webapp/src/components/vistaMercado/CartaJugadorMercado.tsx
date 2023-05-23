@@ -34,9 +34,9 @@ import { Oferta, PropiedadJugador } from "../../shared/sharedTypes";
 type CartaJugadorMercadoProps = {
 	propiedadJugadorEnVenta: PropiedadJugador;
 	idLiga: string;
-	resetMercado: () => void;
+	resetMercado: () => Promise<void>;
 	reseteandoMercado: boolean;
-	actualizarMercado: () => void;
+	actualizarMercado: () => Promise<void>;
 	setShowLoading: (show: boolean) => void;
 	setLoadingMessage: (message: string) => void;
 };
@@ -66,7 +66,7 @@ export function CartaJugadorMercado(
 			});
 	}
 
-	var x = setInterval(function () {
+	var x = setInterval(async function () {
 		const countDownDate = new Date(
 			propiedadJugadorEnVenta.venta.fechaLimite
 		).getTime();
@@ -79,7 +79,7 @@ export function CartaJugadorMercado(
 		if (distance < 0) {
 			clearInterval(x);
 			setTiempoRestante("EXPIRED");
-			if (!props.reseteandoMercado) props.resetMercado();
+			if (!props.reseteandoMercado) await props.resetMercado();
 			return;
 		} else {
 			// Time calculations for days, hours, minutes and seconds
@@ -115,7 +115,7 @@ export function CartaJugadorMercado(
 				setPropiedadJugadorEnVenta(res);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	};
 
@@ -246,18 +246,19 @@ export function CartaJugadorMercado(
 																	props.idLiga,
 																	propiedadJugadorEnVenta.jugador.id
 																)
-																	.then(() => {
-																		props.setShowLoading(false);
-																		props.actualizarMercado();
-																		crearToast(
-																			"Jugador eliminado del mercado con éxito",
-																			true,
-																			"success"
-																		);
+																	.then(async () => {
+																		await props.actualizarMercado().then(() => {
+																			props.setShowLoading(false);
+																			crearToast(
+																				"Jugador eliminado del mercado con éxito",
+																				true,
+																				"success"
+																			);
+																		});
 																	})
 																	.catch((err) => {
 																		props.setShowLoading(false);
-																		crearToast(err, true, "danger");
+																		crearToast(err.message, true, "danger");
 																	});
 															},
 														},
@@ -286,18 +287,19 @@ export function CartaJugadorMercado(
 																	props.idLiga,
 																	propiedadJugadorEnVenta.jugador.id
 																)
-																	.then(() => {
-																		props.setShowLoading(false);
-																		props.actualizarMercado();
-																		crearToast(
-																			"Puja eliminada con éxito",
-																			true,
-																			"success"
-																		);
+																	.then(async () => {
+																		await props.actualizarMercado().then(() => {
+																			props.setShowLoading(false);
+																			crearToast(
+																				"Puja eliminada con éxito",
+																				true,
+																				"success"
+																			);
+																		});
 																	})
 																	.catch((err) => {
 																		props.setShowLoading(false);
-																		crearToast(err, true, "danger");
+																		crearToast(err.message, true, "danger");
 																	});
 															},
 														},
@@ -333,7 +335,7 @@ export function CartaJugadorMercado(
 													value={puja}
 													type="number"
 													min={propiedadJugadorEnVenta.jugador.valor}
-													onIonChange={(e) => {
+													onIonInput={(e) => {
 														setPuja(parseInt(e.detail.value!));
 													}}
 												></IonInput>
@@ -361,18 +363,19 @@ export function CartaJugadorMercado(
 															"Moviendo los millones a la sede de la liga..."
 														);
 														await hacerPujaAlBack()
-															.then(() => {
-																props.setShowLoading(false);
-																props.actualizarMercado();
-																crearToast(
-																	"Puja realizada con éxito",
-																	true,
-																	"success"
-																);
+															.then(async () => {
+																await props.actualizarMercado().then(() => {
+																	props.setShowLoading(false);
+																	crearToast(
+																		"Puja realizada con éxito",
+																		true,
+																		"success"
+																	);
+																});
 															})
 															.catch((err) => {
 																props.setShowLoading(false);
-																crearToast(err, true, "danger");
+																crearToast(err.message, true, "danger");
 															});
 
 														setShowPopover(false);

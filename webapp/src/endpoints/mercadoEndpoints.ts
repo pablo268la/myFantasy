@@ -117,4 +117,16 @@ export async function eliminaPujaDelMercado(
 ): Promise<void> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
+
+	return await doRequest(
+		apiEndPoint + "/mercado/eliminarPuja/" + idLiga + "/" + idJugador,
+		{
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				email: email,
+				token: token,
+			},
+		}
+	);
 }
