@@ -2,8 +2,8 @@ FROM node:16.13.1
 COPY . /app
 WORKDIR /app
 
-
-ARG REACT_APP_API_URI='18.196.78.254'
+ARG REACT_APP_API_URI='localhost:5000/'
+ENV REACT_APP_API_URI=$REACT_APP_API_URI
 
 EXPOSE 8100
 RUN npm install --ignore-scripts -g ionic 
