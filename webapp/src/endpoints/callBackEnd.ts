@@ -1,8 +1,4 @@
-class BackendError extends Error {
-	constructor(message: string) {
-		super(message);
-	}
-}
+class BackendError extends Error {}
 
 export async function doRequest(path: string, options?: RequestInit) {
 	try {

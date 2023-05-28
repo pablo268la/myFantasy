@@ -46,8 +46,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
-        uses: elgohr/Publish-Docker-Github-Action@3.04  
-        with:        
+        uses: elgohr/Publish-Docker-Github-Action@3.04
+        with:       
           workdir: webapp
           name: uo271580/fantasywebapp
           username: ${{ secrets.DOCKER_USERNAME }}
