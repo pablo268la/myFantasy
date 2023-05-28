@@ -2,25 +2,25 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 
 import {
-	IonButton,
-	IonContent,
-	IonGrid,
-	IonImg,
-	IonLabel,
-	IonPage,
-	IonProgressBar,
-	IonRouterLink,
-	IonRow,
-	useIonToast
+    IonButton,
+    IonContent,
+    IonGrid,
+    IonImg,
+    IonLabel,
+    IonPage,
+    IonProgressBar,
+    IonRouterLink,
+    IonRow,
+    useIonToast
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getJugadorById } from "../../endpoints/jugadorEndpoints";
 import { getPlantilla } from "../../endpoints/plantillaEndpoints";
 import {
-	getColorGradient,
-	getUsuarioLogueado,
-	ponerPuntosAValor
+    getColorGradient,
+    getUsuarioLogueado,
+    ponerPuntosAValor
 } from "../../helpers/helpers";
 import { Jugador, PlantillaUsuario } from "../../shared/sharedTypes";
 
@@ -65,7 +65,7 @@ export function PlantillaStart(): JSX.Element {
 				p = res;
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 
 		const plantilla = p as PlantillaUsuario;
@@ -74,28 +74,28 @@ export function PlantillaStart(): JSX.Element {
 			await getJugadorById(plantilla.alineacionJugador.delanteros[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.medios.length; i++) {
 			await getJugadorById(plantilla.alineacionJugador.medios[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.defensas.length; i++) {
 			await getJugadorById(plantilla.alineacionJugador.defensas[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 		}
 		for (let i = 0; i < plantilla.alineacionJugador.porteros.length; i++) {
 			await getJugadorById(plantilla.alineacionJugador.porteros[i].jugador.id)
 				.then((res) => jugadores.push(res))
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 		}
 
@@ -105,7 +105,7 @@ export function PlantillaStart(): JSX.Element {
 
 	useEffect(() => {
 		getJugadores().catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

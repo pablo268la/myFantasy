@@ -1,22 +1,22 @@
 import {
-	IonButton,
-	IonCheckbox,
-	IonCol,
-	IonContent,
-	IonGrid,
-	IonHeader,
-	IonIcon,
-	IonInput,
-	IonItem,
-	IonLabel,
-	IonLoading,
-	IonPage,
-	IonRouterLink,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	useIonRouter,
-	useIonToast,
+    IonButton,
+    IonCheckbox,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonLoading,
+    IonPage,
+    IonRouterLink,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    useIonRouter,
+    useIonToast,
 } from "@ionic/react";
 import { settings } from "ionicons/icons";
 import { useState } from "react";
@@ -79,12 +79,12 @@ export function VistaCrearLiga(props: any): JSX.Element {
 					})
 					.catch((err) => {
 						setShowLoading(false);
-						crearToast(err, true, "danger");
+						crearToast(err.message, true, "danger");
 					});
 			})
 			.catch((err) => {
 				setShowLoading(false);
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	};
 

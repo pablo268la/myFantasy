@@ -51,14 +51,14 @@ export function VistaAdminPuntuaciones(props: any): JSX.Element {
 				setPartidos(partidos);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		setLoading(false);
 	};
 
 	useEffect(() => {
 		getPartidosDeJornada(jornada).catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

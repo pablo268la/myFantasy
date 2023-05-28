@@ -86,11 +86,11 @@ export function VistaAdminPuntuacionJugador(
 		if (props.guardarPuntuaciones) {
 			setGuardando(true);
 			guardarPuntuacionJugadorEnBD().catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		} else {
 			getPuntuacionDelJugador().catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		}
 	}, [props.somethingChanged]);
@@ -103,7 +103,7 @@ export function VistaAdminPuntuacionJugador(
 					setGuardando(false);
 				})
 				.catch((err) => {
-					crearToast(err, true, "danger");
+					crearToast(err.message, true, "danger");
 				});
 	};
 
@@ -116,14 +116,14 @@ export function VistaAdminPuntuacionJugador(
 							actualizarPuntuacionYPuntos(ps[0]);
 						})
 						.catch((err) => {
-							crearToast(err, true, "danger");
+							crearToast(err.message, true, "danger");
 						});
 				} else {
 					actualizarPuntuacionYPuntos(p);
 				}
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	};
 

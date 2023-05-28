@@ -29,7 +29,7 @@ import { PropiedadJugador } from "../../shared/sharedTypes";
 type CartaVentaProps = {
 	propiedadJugadorEnVenta: PropiedadJugador;
 	idLiga: string;
-	actualizarMercado: () => void;
+	actualizarMercado: () => Promise<void>;
 	setShowLoading: (show: boolean) => void;
 	setLoadingMessage: (message: string) => void;
 };
@@ -194,15 +194,15 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador.id
 													)
-														.then((res) => {
+														.then(async (res) => {
 															props.setShowLoading(false);
 															setPropiedadJugadorEnVenta(res);
-															props.actualizarMercado();
+															await props.actualizarMercado();
 															crearToast("Oferta aceptada", true, "success");
 														})
 														.catch((err) => {
 															props.setShowLoading(false);
-															crearToast(err, true, "danger");
+															crearToast(err.message, true, "danger");
 														});
 												}}
 											>
@@ -218,15 +218,15 @@ export function CartaVenta(props: CartaVentaProps): JSX.Element {
 														oferta.comprador.id,
 														propiedadJugadorEnVenta.jugador.id
 													)
-														.then((res) => {
+														.then(async (res) => {
 															props.setShowLoading(false);
 															setPropiedadJugadorEnVenta(res);
-															props.actualizarMercado();
+															await props.actualizarMercado();
 															crearToast("Oferta rechazada", true, "success");
 														})
 														.catch((err) => {
 															props.setShowLoading(false);
-															crearToast(err, true, "danger");
+															crearToast(err.message, true, "danger");
 														});
 												}}
 											>

@@ -121,7 +121,7 @@ function Login(props: LoginProps): JSX.Element {
 			})
 			.catch((err) => {
 				if (err.toString() === "Error: Usuario no encontrado") return true;
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 				return false;
 			});
 	}
@@ -145,10 +145,15 @@ function Login(props: LoginProps): JSX.Element {
 
 	async function entrarApp() {
 		setMessage("Validando datos...");
-		setShowLoading(true);
-		let v = await validateFields(true);
+		let v = await validateFields(true).then((v) => {
+			if (!v) {
+				return false;
+			}
+			setShowLoading(true);
+			return true;
+		});
+
 		if (!v) {
-			setShowLoading(false);
 			return;
 		}
 
@@ -167,13 +172,14 @@ function Login(props: LoginProps): JSX.Element {
 					crearToast("Usuario creado correctamente", true, "success");
 				})
 				.catch((error) => {
-					console.log(2);
+					setShowLoading(false);
 					crearToast(error.message, true, "danger");
 					return;
 				});
 		}
 
 		setMessage("Iniciando sesión...");
+		setShowLoading(true);
 		await setUsuarioAndRequestToken(email, contraseña)
 			.then(() => {
 				crearToast(
@@ -181,10 +187,12 @@ function Login(props: LoginProps): JSX.Element {
 					true,
 					"success"
 				);
+				setShowLoading(false);
 				navigate.push("/home", "forward");
 			})
 			.catch((error) => {
 				crearToast(error.message, true, "danger");
+				setShowLoading(false);
 			});
 		setShowLoading(false);
 	}

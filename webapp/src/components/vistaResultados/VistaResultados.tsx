@@ -1,13 +1,13 @@
 import {
-	IonContent,
-	IonHeader,
-	IonList,
-	IonPage,
-	IonProgressBar,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	useIonToast,
+    IonContent,
+    IonHeader,
+    IonList,
+    IonPage,
+    IonProgressBar,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    useIonToast,
 } from "@ionic/react";
 
 import { useEffect, useState } from "react";
@@ -43,14 +43,14 @@ export function VistaResultados(): JSX.Element {
 				setPartidos(partidos);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		setLoading(false);
 	};
 
 	useEffect(() => {
 		getPartidosDeJornada(jornada).catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 

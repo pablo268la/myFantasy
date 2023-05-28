@@ -1,12 +1,16 @@
 import * as UUID from "uuid";
 import { apiEndPoint } from "../helpers/constants";
-import { getToken, getUsuarioLogueado } from "../helpers/helpers";
+import {
+	getToken,
+	getUsuarioLogueado
+} from "../helpers/helpers";
 import { Liga, PlantillaUsuario } from "../shared/sharedTypes";
+import { doRequest } from "./callBackEnd";
 
 export async function getLiga(idLiga: string): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
-	let response = await fetch(apiEndPoint + "/ligas/" + idLiga, {
+	return await doRequest(apiEndPoint + "/ligas/" + idLiga, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -14,13 +18,6 @@ export async function getLiga(idLiga: string): Promise<Liga> {
 			token: token,
 		},
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function getLigasUsuario(): Promise<Liga[]> {
@@ -28,7 +25,7 @@ export async function getLigasUsuario(): Promise<Liga[]> {
 	const token = getToken();
 	const idUsuario = getUsuarioLogueado()?.id as string;
 
-	let response = await fetch(apiEndPoint + "/ligas/usuario/" + idUsuario, {
+	return await doRequest(apiEndPoint + "/ligas/usuario/" + idUsuario, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -36,13 +33,6 @@ export async function getLigasUsuario(): Promise<Liga[]> {
 			token: token,
 		},
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function crearLiga(
@@ -67,7 +57,7 @@ export async function crearLiga(
 		}),
 	};
 
-	let response = await fetch(apiEndPoint + "/ligas", {
+	return await doRequest(apiEndPoint + "/ligas", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -76,13 +66,6 @@ export async function crearLiga(
 		},
 		body: JSON.stringify({ liga: liga }),
 	});
-
-	if (response.status !== 201) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function añadirUsuarioALiga(
@@ -91,7 +74,7 @@ export async function añadirUsuarioALiga(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/ligas/" + idLiga, {
+	return await doRequest(apiEndPoint + "/ligas/" + idLiga, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -99,33 +82,19 @@ export async function añadirUsuarioALiga(
 			token: token,
 		},
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function getRandomLiga(): Promise<Liga> {
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(apiEndPoint + "/ligas/random/new", {
+	return await doRequest(apiEndPoint + "/ligas/random/new", {
 		method: "GET",
 		headers: {
 			email: email,
 			token: token,
 		},
 	});
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
 }
 
 export async function deleteUsuarioFromLiga(
@@ -135,20 +104,11 @@ export async function deleteUsuarioFromLiga(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
-	let response = await fetch(
-		apiEndPoint + "/ligas/" + idLiga + "/" + idUsuario,
-		{
-			method: "DELETE",
-			headers: {
-				email: email,
-				token: token,
-			},
-		}
-	);
-
-	if (response.status !== 204) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
+	return await doRequest(apiEndPoint + "/ligas/" + idLiga + "/" + idUsuario, {
+		method: "DELETE",
+		headers: {
+			email: email,
+			token: token,
+		},
+	});
 }

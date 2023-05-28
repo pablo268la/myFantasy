@@ -1,24 +1,24 @@
 import {
-    IonAccordion,
-    IonAccordionGroup,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCol,
-    IonIcon,
-    IonImg,
-    IonItem,
-    IonItemDivider,
-    IonLabel,
-    IonRow,
-    useIonToast,
+	IonAccordion,
+	IonAccordionGroup,
+	IonCard,
+	IonCardContent,
+	IonCardHeader,
+	IonCol,
+	IonIcon,
+	IonImg,
+	IonItem,
+	IonItemDivider,
+	IonLabel,
+	IonRow,
+	useIonToast,
 } from "@ionic/react";
 import {
-    arrowForwardCircle,
-    copy,
-    football,
-    square,
-    swapHorizontal,
+	arrowForwardCircle,
+	copy,
+	football,
+	square,
+	swapHorizontal,
 } from "ionicons/icons";
 import { ReactComponentElement, useEffect, useState } from "react";
 import { getPuntuacionesPartido } from "../../endpoints/partidosEndpoint";
@@ -46,7 +46,7 @@ export function Resultados(props: ResultadoProps): JSX.Element {
 				setPuntuaciones(puntuaciones);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 	}, []);
 

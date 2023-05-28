@@ -232,14 +232,14 @@ describe("getLigasUsuario", () => {
 	});
 
 	/**
-	 * Test: Devuelve 401 si el usuario no está autorizado
+	 * Test: Devuelve 403 si el usuario no está autorizado
 	 */
-	it("Devuelve 401 si el usuario no está autorizado", async () => {
+	it("Devuelve 403 si el usuario no está autorizado", async () => {
 		const response: Response = await request(app)
 			.get("/ligas/usuario/" + usuario4.id)
 			.set({ email: usuarioAdmin.email, token: tokenAdmin });
 
-		expect(response.status).toBe(401);
+		expect(response.status).toBe(403);
 		expect(response.body).toEqual({ message: "Usuario no autorizado" });
 	});
 

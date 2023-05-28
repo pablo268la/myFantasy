@@ -1,13 +1,7 @@
 import { apiEndPoint } from "../helpers/constants";
 import { Equipo } from "../shared/sharedTypes";
+import { doRequest } from "./callBackEnd";
 
 export async function getEquipos(): Promise<Equipo[]> {
-	let response = await fetch(apiEndPoint + "/equipos");
-
-	if (response.status !== 200) {
-		await response.json().then((data) => {
-			throw new Error(data.message);
-		});
-	}
-	return response.json();
+	return await doRequest(apiEndPoint + "/equipos");
 }

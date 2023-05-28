@@ -1,20 +1,20 @@
 import {
-	IonButton,
-	IonCard,
-	IonCardContent,
-	IonCol,
-	IonGrid,
-	IonIcon,
-	IonImg,
-	IonInput,
-	IonItem,
-	IonList,
-	IonPopover,
-	IonRow,
-	IonSelect,
-	IonSelectOption,
-	useIonActionSheet,
-	useIonToast,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonGrid,
+    IonIcon,
+    IonImg,
+    IonInput,
+    IonItem,
+    IonList,
+    IonPopover,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    useIonActionSheet,
+    useIonToast,
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
@@ -71,7 +71,7 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 				setJugador(j);
 			})
 			.catch((err) => {
-				crearToast(err, true, "danger");
+				crearToast(err.message, true, "danger");
 			});
 		setShowPopover(false);
 	};

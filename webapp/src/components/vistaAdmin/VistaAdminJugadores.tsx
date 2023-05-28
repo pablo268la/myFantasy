@@ -41,7 +41,7 @@ export function VistaAdminJugadores(
 
 	useEffect(() => {
 		props.getEquiposFromApi().catch((err) => {
-			crearToast(err, true, "danger");
+			crearToast(err.message, true, "danger");
 		});
 	}, []);
 
@@ -54,7 +54,7 @@ export function VistaAdminJugadores(
 						props
 							.getJugadoresFromApi(`${e.detail.value}`, false)
 							.catch((err) => {
-								crearToast(err, true, "danger");
+								crearToast(err.message, true, "danger");
 							});
 					}}
 					value={props.equipoSeleccionado ? props.equipoSeleccionado.id : null}
