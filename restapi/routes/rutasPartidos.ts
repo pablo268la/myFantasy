@@ -178,4 +178,6 @@ api.get(
  */
 api.put("/partidos/:id", PartidosController.updatePartido);
 
+api.get("/jornada", PartidosController.getJornadaActual);
+
 export default api;
