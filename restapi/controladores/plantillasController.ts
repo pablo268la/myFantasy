@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as UUID from "uuid";
+import { getJornadaActual as getSiguienteJornada } from "../helpers/partidosHelper";
 import { actualizarDatosDeJugadoresDesdeBD } from "../helpers/plantillasHelpers";
 import {
 	IAlineacionJugador,
@@ -80,6 +81,14 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 
 		if (usuario && verified) {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
+			const nextJornada = await getSiguienteJornada();
+
+			for (let i = 0; i < 38; i++) {
+				if (nextJornada - 1 <= i)
+					plantillaParaActualizar.alineacionesJornada[i] =
+						plantillaParaActualizar.alineacionJugador;
+			}
+
 			const idLiga = req.body.idLiga.toString();
 
 			const liga = await modeloLiga.findOne({ id: idLiga });

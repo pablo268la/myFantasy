@@ -1,26 +1,27 @@
 import {
-    IonBadge,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonGrid,
-    IonImg,
-    IonItem,
-    IonLabel,
-    IonRow,
+	IonBadge,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonGrid,
+	IonImg,
+	IonItem,
+	IonLabel,
+	IonRow,
 } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
 import {
-    getColorBadge,
-    getColorEstado,
-    getIconoEstado,
-    ponerPuntosAValor,
-    urlBackground,
+	getColorBadge,
+	getColorEstado,
+	getIconoEstado,
+	ponerPuntosAValor,
+	urlBackground,
 } from "../../../helpers/helpers";
 import {
-    PropiedadJugador,
-    PuntuacionJugador,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 import { PuntuacionesJugador } from "../PuntuacionesJugador";
 
@@ -36,6 +37,8 @@ export function CartaDetallesPuntuacionJugador(
 	props: CartaDetallesPuntuacionJugadorProps
 ): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
+
+	useEffect(() => {}, [props.puntuacionesJugador]);
 
 	return propiedadJugador ? (
 		<>
@@ -120,11 +123,11 @@ export function CartaDetallesPuntuacionJugador(
 										slot="end"
 									>
 										{"PTS: "}
-										{
-											props.puntuacionesJugador
-												.filter((p) => p.semana === props.jornada)
-												.at(0)?.puntos
-										}
+										{props.puntuacionesJugador
+											? props.puntuacionesJugador
+													.filter((p) => p.semana === props.jornada)
+													.at(0)?.puntos
+											: "0"}
 									</IonLabel>
 								</IonItem>
 								<IonItem lines="none" color="tertiary">

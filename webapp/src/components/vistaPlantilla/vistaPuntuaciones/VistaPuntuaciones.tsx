@@ -20,7 +20,7 @@ import { AlineacionPuntuaciones } from "./AlineacionPuntuaciones";
 import { CartaDetallesPuntuacionJugador } from "./CartaDetallesPuntuacionJugador";
 import { ListaJugadoresPuntuaciones } from "./ListaJugadoresPuntuaciones";
 
-type VistaPuntaucionesProps = {
+type VistaPuntuacionesProps = {
 	plantilla: PlantillaUsuario;
 	formacion: Formacion;
 	jugadores: PropiedadJugador[];
@@ -29,9 +29,10 @@ type VistaPuntaucionesProps = {
 	mediocentros: PropiedadJugador[];
 	delanteros: PropiedadJugador[];
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
+	jornada: number;
 };
 
-export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
+export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
 
 	const cambiarJugador = (idJugador: string) => {
@@ -45,8 +46,30 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 		else setJugadorPulsado("");
 	};
 
-	const [jornada, setJornada] = useState<number>(1);
+	const [formacion, setFormacion] = useState<Formacion>(props.formacion);
+	const [jugadores, setJugadores] = useState<PropiedadJugador[]>(
+		props.jugadores
+	);
+	const [porteros, setPorteros] = useState<PropiedadJugador[]>(props.porteros);
+	const [defensas, setDefensas] = useState<PropiedadJugador[]>(props.defensas);
+	const [mediocentros, setMediocentros] = useState<PropiedadJugador[]>(
+		props.mediocentros
+	);
+	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>(
+		props.delanteros
+	);
+
+	const [jornada, setJornada] = useState<number>(props.jornada);
 	const jornadas = Array.from(Array(38).keys());
+
+	const cambiarJornada = (jornada: number) => {
+		setJornada(jornada);
+		//setFormacion(props.plantilla.alineacionesJornada[jornada - 1].formacion);
+		setPorteros(props.plantilla.alineacionesJornada[jornada - 1].porteros);
+		setDefensas(props.plantilla.alineacionesJornada[jornada - 1].defensas);
+		setMediocentros(props.plantilla.alineacionesJornada[jornada - 1].medios);
+		setDelanteros(props.plantilla.alineacionesJornada[jornada - 1].delanteros);
+	};
 
 	return (
 		<>
@@ -64,7 +87,7 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 														value={jornada}
 														interface="popover"
 														onIonChange={(e) => {
-															setJornada(e.detail.value);
+															cambiarJornada(e.detail.value);
 															setJugadorPulsado("");
 														}}
 													>

@@ -14,6 +14,7 @@ import {
 	updatePlantillaUsuario,
 } from "../../endpoints/plantillaEndpoints";
 
+import { getJornadaActual } from "../../endpoints/partidosEndpoint";
 import { getPuntuacionJugador } from "../../endpoints/puntuacionesEndpoint";
 import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
@@ -26,7 +27,7 @@ import {
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
 import { VistaPlantillaNormal } from "./vistaPlantillaNormal/VistaPlantillaNormal";
-import { VistaPuntauciones as VistaPuntuaciones } from "./vistaPuntuaciones/VistaPuntuaciones";
+import { VistaPuntuaciones } from "./vistaPuntuaciones/VistaPuntuaciones";
 
 export type Formacion = {
 	portero: number;
@@ -63,6 +64,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>([]);
 
 	const [loading, setLoading] = useState<boolean>(false);
+	const [jornada, setJornada] = useState<number>(0);
 
 	const [puntuacionesMap, setPuntuacionesMap] = useState<
 		Map<string, PuntuacionJugador[]>
@@ -253,6 +255,13 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	};
 
 	useEffect(() => {
+		getJornadaActual()
+			.then((j) => {
+				setJornada(j);
+			})
+			.catch((err) => {
+				crearToast(err.message, true, "danger");
+			});
 		getJugadoresAPI().catch((err) => {
 			crearToast(err.message, true, "danger");
 		});
@@ -320,6 +329,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									mediocentros={mediocentros}
 									delanteros={delanteros}
 									puntuacionesMap={puntuacionesMap}
+									jornada={jornada}
 								/>
 							</>
 						)}
