@@ -1,24 +1,8 @@
 import {
-	PuntuacionJSON,
 	TripleeEstadisticaTramosValue as TripleEstadisticaTramosValue,
 	TuppleEstadisticaValue,
-	TuppleTramosValue,
+	TuppleTramosValue
 } from "./sharedTypes";
-
-export function openJSON(posicion: string): PuntuacionJSON {
-	switch (posicion.toLowerCase()) {
-		case "portero":
-			return require("./portero.json");
-		case "defensa":
-			return require("./defensa.json");
-		case "mediocentro":
-			return require("./mediocentro.json");
-		case "delantero":
-			return require("./delantero.json");
-		default:
-			return require("./mediocentro.json");
-	}
-}
 
 export function filterAndPop(
 	lista: TuppleEstadisticaValue[],

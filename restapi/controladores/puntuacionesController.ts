@@ -1,10 +1,6 @@
 import { RequestHandler } from "express";
 
-import { openJSON } from "../helpers/jsonHelper";
-import {
-	calcularPuntuacion,
-	createPuntuacionJugadorVacia,
-} from "../helpers/puntuacionHelper";
+import { createPuntuacionJugadorVacia } from "../helpers/puntuacionHelper";
 import { modeloJugador } from "../model/jugador";
 import {
 	IPuntuacionJugador,
@@ -89,7 +85,7 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 			return res.status(403).json({ message: "Usuario no administrador" });
 		}
 
-		let puntuacionJugador: any = new modelPuntuacionJugador(req.body);
+		const puntuacionJugador: any = new modelPuntuacionJugador(req.body);
 		const jugador = await modeloJugador.findOne({
 			id: puntuacionJugador.idJugador,
 		});
@@ -103,8 +99,6 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 			idPartido: puntuacionJugador.idPartido,
 		});
 
-		const PuntuacionJSON = openJSON(jugador.posicion);
-		puntuacionJugador = calcularPuntuacion(puntuacionJugador, PuntuacionJSON);
 		puntuacionJugador.id =
 			puntuacionJugador.idJugador + "-" + puntuacionJugador.idPartido;
 

@@ -1,54 +1,54 @@
 import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonDatetime,
-    IonDatetimeButton,
-    IonGrid,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonItemDivider,
-    IonLabel,
-    IonLoading,
-    IonModal,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonTitle,
-    IonToolbar,
-    useIonToast,
+	IonButton,
+	IonButtons,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonContent,
+	IonDatetime,
+	IonDatetimeButton,
+	IonGrid,
+	IonHeader,
+	IonIcon,
+	IonInput,
+	IonItem,
+	IonItemDivider,
+	IonLabel,
+	IonLoading,
+	IonModal,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
+	IonTitle,
+	IonToolbar,
+	useIonToast,
 } from "@ionic/react";
 import {
-    addCircleOutline,
-    arrowForwardCircle,
-    closeCircleOutline,
-    swapHorizontal,
-    trash,
+	addCircleOutline,
+	arrowForwardCircle,
+	closeCircleOutline,
+	swapHorizontal,
+	trash,
 } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import {
-    getJugadoresAntiguos,
-    getJugadoresPorEquipo,
+	getJugadoresAntiguos,
+	getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
 import {
-    getPartidosByJornada,
-    updatePartido,
+	getPartidosByJornada,
+	updatePartido,
 } from "../../endpoints/partidosEndpoint";
 import { comparePosiciones, getIconByTipoEvento } from "../../helpers/helpers";
 import {
-    getAlineacionesSofaScore,
-    getEventosDeSofaScore,
+	getAlineacionesSofaScore,
+	getEventosDeSofaScore,
 } from "../../helpers/sofaScoreHelper";
 import {
-    Alineacion,
-    EventoPartido,
-    Jugador,
-    Partido,
+	Alineacion,
+	EventoPartido,
+	Jugador,
+	Partido,
 } from "../../shared/sharedTypes";
 
 export function VistaAdminPartidos(props: any): JSX.Element {
@@ -380,6 +380,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								{!loading ? (
 									<>
 										<IonSelect
+										value={partidoSeleccionado?.id}
 											placeholder="Selecciona un partido"
 											interface="action-sheet"
 											onIonChange={async (e) => {

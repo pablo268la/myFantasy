@@ -94,3 +94,24 @@ export const updatePartido: RequestHandler = async (req, res) => {
 		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
 	}
 };
+
+export const getJornadaActual: RequestHandler = async (req, res) => {
+	try {
+		const today = new Date();
+		const partidos = await modeloPartido.find({}).select("fecha jornada");
+
+		const afterToday = partidos
+			.filter((p) => {
+				const date = new Date(p.fecha);
+				return date > today;
+			})
+			.sort((a, b) => a.jornada - b.jornada);
+
+		if (afterToday.length === 0) return res.status(200).json(-1);
+
+		return res.status(200).json(afterToday[0].jornada);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error interno. Pruebe más tarde" });
+	}
+};

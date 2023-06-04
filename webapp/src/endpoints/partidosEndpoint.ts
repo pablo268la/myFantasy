@@ -38,3 +38,7 @@ export async function updatePartido(partido: Partido): Promise<Partido> {
 		body: JSON.stringify(partido),
 	});
 }
+
+export async function getJornadaActual(): Promise<number> {
+	return await doRequest(apiEndPoint + "/jornada");
+}

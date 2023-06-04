@@ -90,12 +90,12 @@ export function getColorEstado(estado: string) {
 }
 
 export function getColorPuntos(puntos: number) {
-	if (puntos < 4) {
-		return "danger";
-	} else if (puntos < 12) {
+	if (puntos > 12) {
+		return "success";
+	} else if (puntos > 4) {
 		return "warning";
 	} else {
-		return "success";
+		return "danger";
 	}
 }
 

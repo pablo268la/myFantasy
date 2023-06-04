@@ -1,6 +1,9 @@
 import { IonGrid, IonRow } from "@ionic/react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
+	AlineacionJugador,
 	Equipo,
 	Jugador,
 	PropiedadJugador,
@@ -15,134 +18,208 @@ const MyGrid = styled(IonGrid)`
 `;
 
 type AlineacionPuntuacionesProps = {
-	formacion: Formacion;
 	setJugadorPulsado: (idJugador: string) => void;
-	porteros: PropiedadJugador[];
-	defensas: PropiedadJugador[];
-	mediocentros: PropiedadJugador[];
-	delanteros: PropiedadJugador[];
-	usuario: Usuario | undefined;
+	alineacion: AlineacionJugador;
 	jornada: number;
+	formacion: Formacion;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function AlineacionPuntuaciones(
 	props: AlineacionPuntuacionesProps
 ): JSX.Element {
-	if (props.usuario !== undefined) {
-		while (props.porteros.length < props.formacion.portero) {
-			props.porteros.push({
-				jugador: crearJugadorEmpty(),
-				usuario: props.usuario,
-				titular: false,
-				venta: {
-					enVenta: false,
-					ofertas: [],
-					fechaLimite: "",
-				},
-			});
-		}
-		while (props.defensas.length < props.formacion.defensa) {
-			props.defensas.push({
-				jugador: crearJugadorEmpty(),
-				usuario: props.usuario,
-				titular: false,
-				venta: {
-					enVenta: false,
-					ofertas: [],
-					fechaLimite: "",
-				},
-			});
-		}
-		while (props.mediocentros.length < props.formacion.medio) {
-			props.mediocentros.push({
-				jugador: crearJugadorEmpty(),
-				usuario: props.usuario,
-				titular: false,
-				venta: {
-					enVenta: false,
-					ofertas: [],
-					fechaLimite: "",
-				},
-			});
-		}
-		while (props.delanteros.length < props.formacion.delantero) {
-			props.delanteros.push({
-				jugador: crearJugadorEmpty(),
-				usuario: props.usuario,
-				titular: false,
-				venta: {
-					enVenta: false,
-					ofertas: [],
-					fechaLimite: "",
-				},
-			});
-		}
-	}
+	const usuario = getUsuarioLogueado() as Usuario;
+
+	const [alineacion, setAlineacion] = useState<AlineacionJugador>();
+
+	const [formacion, setFormacion] = useState<Formacion>();
+
+	const meterVacios = (a: AlineacionJugador) => {
+		const f = {
+			portero: 1,
+			defensa: Number.parseInt(a.formacion.split("-")[0]),
+			medio: Number.parseInt(a.formacion.split("-")[1]),
+			delantero: Number.parseInt(a.formacion.split("-")[2]),
+		};
+		setFormacion(f);
+		setAlineacion(a);
+	};
+
+	useEffect(() => {
+		meterVacios(props.alineacion);
+	}, [props.alineacion]);
 
 	return (
 		<>
 			<MyGrid>
-				<IonRow style={{ justifyContent: "center" }}>
-					{props.porteros
-						.slice(0, 1)
-						.map((jugador) =>
-							crearCartaJugador(
-								jugador,
-								props.setJugadorPulsado,
-								"Portero",
-								props.puntuacionesMap.get(
-									jugador.jugador.id
-								) as PuntuacionJugador[],
-								props.jornada
-							)
-						)}
-				</IonRow>
-				<IonRow style={{ justifyContent: "center" }}>
-					{props.defensas
-						.slice(0, props.formacion.defensa)
-						.map((jugador) =>
-							crearCartaJugador(
-								jugador,
-								props.setJugadorPulsado,
-								"Defensa",
-								props.puntuacionesMap.get(
-									jugador.jugador.id
-								) as PuntuacionJugador[],
-								props.jornada
-							)
-						)}
-				</IonRow>
-				<IonRow style={{ justifyContent: "center" }}>
-					{props.mediocentros
-						.slice(0, props.formacion.medio)
-						.map((jugador) =>
-							crearCartaJugador(
-								jugador,
-								props.setJugadorPulsado,
-								"Mediocentro",
-								props.puntuacionesMap.get(
-									jugador.jugador.id
-								) as PuntuacionJugador[],
-								props.jornada
-							)
-						)}
-				</IonRow>
-				<IonRow style={{ justifyContent: "center" }}>
-					{props.delanteros
-						.slice(0, props.formacion.delantero)
-						.map((jugador) =>
-							crearCartaJugador(
-								jugador,
-								props.setJugadorPulsado,
-								"Delantero",
-								props.puntuacionesMap.get(
-									jugador.jugador.id
-								) as PuntuacionJugador[],
-								props.jornada
-							)
-						)}
-				</IonRow>
+				{alineacion?.porteros.length !== 0 ? (
+					<IonRow style={{ justifyContent: "center" }}>
+						<>
+							{alineacion?.porteros
+								.slice(0, formacion?.portero as number)
+								.map((jugador) =>
+									crearCartaJugador(
+										jugador,
+										props.setJugadorPulsado,
+										"Portero",
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
+										props.jornada
+									)
+								)}
+						</>
+					</IonRow>
+				) : (
+					<>
+						<IonRow style={{ justifyContent: "center" }}>
+							{[1].map((jugador) =>
+								crearCartaJugador(
+									{
+										jugador: crearJugadorEmpty(),
+										usuario: usuario,
+										titular: false,
+										venta: {
+											enVenta: false,
+											ofertas: [],
+											fechaLimite: "",
+										},
+									},
+									props.setJugadorPulsado,
+									"Portero",
+									null as any,
+									props.jornada
+								)
+							)}
+						</IonRow>
+					</>
+				)}
+				{alineacion?.defensas.length !== 0 ? (
+					<IonRow style={{ justifyContent: "center" }}>
+						<>
+							{alineacion?.defensas
+								.slice(0, formacion?.defensa as number)
+								.map((jugador) =>
+									crearCartaJugador(
+										jugador,
+										props.setJugadorPulsado,
+										"Defensa",
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
+										props.jornada
+									)
+								)}
+						</>
+					</IonRow>
+				) : (
+					<>
+						<IonRow style={{ justifyContent: "center" }}>
+							{[1, 2, 3, 4].map((jugador) =>
+								crearCartaJugador(
+									{
+										jugador: crearJugadorEmpty(),
+										usuario: usuario,
+										titular: false,
+										venta: {
+											enVenta: false,
+											ofertas: [],
+											fechaLimite: "",
+										},
+									},
+									props.setJugadorPulsado,
+									"Defensa",
+									null as any,
+									props.jornada
+								)
+							)}
+						</IonRow>
+					</>
+				)}
+				{alineacion?.medios.length !== 0 ? (
+					<IonRow style={{ justifyContent: "center" }}>
+						<>
+							{alineacion?.medios
+								.slice(0, formacion?.medio as number)
+								.map((jugador) =>
+									crearCartaJugador(
+										jugador,
+										props.setJugadorPulsado,
+										"Mediocentro",
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
+										props.jornada
+									)
+								)}
+						</>
+					</IonRow>
+				) : (
+					<>
+						<IonRow style={{ justifyContent: "center" }}>
+							{[1, 2, 3].map((jugador) =>
+								crearCartaJugador(
+									{
+										jugador: crearJugadorEmpty(),
+										usuario: usuario,
+										titular: false,
+										venta: {
+											enVenta: false,
+											ofertas: [],
+											fechaLimite: "",
+										},
+									},
+									props.setJugadorPulsado,
+									"Mediocentro",
+									null as any,
+									props.jornada
+								)
+							)}
+						</IonRow>
+					</>
+				)}
+				{alineacion?.delanteros.length !== 0 ? (
+					<IonRow style={{ justifyContent: "center" }}>
+						<>
+							{alineacion?.delanteros
+								.slice(0, formacion?.delantero as number)
+								.map((jugador) =>
+									crearCartaJugador(
+										jugador,
+										props.setJugadorPulsado,
+										"Delantero",
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
+										props.jornada
+									)
+								)}
+						</>
+					</IonRow>
+				) : (
+					<>
+						<IonRow style={{ justifyContent: "center" }}>
+							{[1, 2, 3].map((jugador) =>
+								crearCartaJugador(
+									{
+										jugador: crearJugadorEmpty(),
+										usuario: usuario,
+										titular: false,
+										venta: {
+											enVenta: false,
+											ofertas: [],
+											fechaLimite: "",
+										},
+									},
+									props.setJugadorPulsado,
+									"Delantero",
+									null as any,
+									props.jornada
+								)
+							)}
+						</IonRow>
+					</>
+				)}
 			</MyGrid>
 		</>
 	);
@@ -152,7 +229,7 @@ function crearCartaJugador(
 	jugador: PropiedadJugador,
 	setJugadorPulsado: (idJugador: string) => void,
 	posicion: string,
-	puntuaciones: PuntuacionJugador[],
+	puntuacion: PuntuacionJugador,
 	jornada: number
 ): JSX.Element {
 	return jugador.titular ? (
@@ -161,7 +238,7 @@ function crearCartaJugador(
 			jugador={jugador}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
-			puntuaciones={puntuaciones}
+			puntuacion={puntuacion}
 			jornada={jornada}
 		/>
 	) : (

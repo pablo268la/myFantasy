@@ -6,12 +6,16 @@ import {
 	IonRow,
 } from "@ionic/react";
 
-export function VolverAlInicio(props: any): JSX.Element {
+type VolverAlInicioProps = {
+	message: string;
+};
+
+export function VolverAlInicio(props: VolverAlInicioProps): JSX.Element {
 	return (
 		<>
 			<IonContent>
 				<IonRow style={{ justifyContent: "center", marginTop: "5%" }}>
-					<IonLabel>Aqui no hay nada para ti</IonLabel>
+					<IonLabel>{props.message}</IonLabel>
 				</IonRow>
 				<IonRow style={{ justifyContent: "center", marginTop: "5%" }}>
 					<IonRouterLink href="/home">

@@ -2,14 +2,15 @@ import {
 	IonCol,
 	IonContent,
 	IonGrid,
-	IonList,
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonText,
+	IonText
 } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPuntuacionJugadorSemana } from "../../../endpoints/puntuacionesEndpoint";
 import {
+	AlineacionJugador,
 	PlantillaUsuario,
 	PropiedadJugador,
 	PuntuacionJugador,
@@ -20,18 +21,15 @@ import { AlineacionPuntuaciones } from "./AlineacionPuntuaciones";
 import { CartaDetallesPuntuacionJugador } from "./CartaDetallesPuntuacionJugador";
 import { ListaJugadoresPuntuaciones } from "./ListaJugadoresPuntuaciones";
 
-type VistaPuntaucionesProps = {
+type VistaPuntuacionesProps = {
 	plantilla: PlantillaUsuario;
 	formacion: Formacion;
 	jugadores: PropiedadJugador[];
-	porteros: PropiedadJugador[];
-	defensas: PropiedadJugador[];
-	mediocentros: PropiedadJugador[];
-	delanteros: PropiedadJugador[];
-	puntuacionesMap: Map<string, PuntuacionJugador[]>;
+	alineacionJugador: AlineacionJugador;
+	jornada: number;
 };
 
-export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
+export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
 
 	const cambiarJugador = (idJugador: string) => {
@@ -44,9 +42,60 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 			setJugadorPulsado(idJugador);
 		else setJugadorPulsado("");
 	};
+	const [jugadores, setJugadores] = useState<PropiedadJugador[]>(
+		props.jugadores
+	);
+	const [alineacion, setAlineacion] = useState<AlineacionJugador>(
+		props.alineacionJugador
+	);
 
-	const [jornada, setJornada] = useState<number>(1);
+	const [jornada, setJornada] = useState<number>(props.jornada);
 	const jornadas = Array.from(Array(38).keys());
+
+	const [puntuacionesMap, setPuntuacionesMap] = useState<
+		Map<string, PuntuacionJugador[]>
+	>(new Map());
+
+	const [arrayPuntuacionesJornada, setArrayPuntuacionesJornada] = useState<
+		Map<string, PuntuacionJugador[]>[]
+	>([]);
+
+	const cambiarJornada = (jornada: number) => {
+		const prev = arrayPuntuacionesJornada[jornada];
+		if (prev === undefined) {
+			const map = new Map<string, PuntuacionJugador[]>();
+			jugadores.forEach(async (j) => {
+				await getPuntuacionJugadorSemana(j.jugador.id, jornada)
+					.then((puntuacionSemana) => {
+						map.set(j.jugador.id, [puntuacionSemana]);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			});
+			let aux = arrayPuntuacionesJornada;
+			aux[jornada] = map;
+			setArrayPuntuacionesJornada(aux);
+			setPuntuacionesMap(map);
+		} else {
+			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
+		}
+
+		setJornada(jornada);
+		const alineacion = props.plantilla.alineacionesJornada[jornada - 1];
+		setAlineacion(alineacion);
+
+		const ju = [];
+		ju.push(...alineacion.porteros);
+		ju.push(...alineacion.defensas);
+		ju.push(...alineacion.medios);
+		ju.push(...alineacion.delanteros);
+		setJugadores(ju);
+	};
+
+	useEffect(() => {
+		cambiarJornada(props.jornada);
+	}, [props.jornada]);
 
 	return (
 		<>
@@ -59,24 +108,22 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 									<IonCol sizeSm="7" sizeXs="12">
 										<IonRow>
 											<IonCol>
-												<IonList>
-													<IonSelect
-														value={jornada}
-														interface="popover"
-														onIonChange={(e) => {
-															setJornada(e.detail.value);
-															setJugadorPulsado("");
-														}}
-													>
-														{jornadas.map((j) => {
-															return (
-																<IonSelectOption key={j + 1} value={j + 1}>
-																	<IonText>Jornada {j + 1}</IonText>
-																</IonSelectOption>
-															);
-														})}
-													</IonSelect>
-												</IonList>
+												<IonSelect
+													value={jornada}
+													interface="popover"
+													onIonChange={(e) => {
+														cambiarJornada(e.detail.value);
+														setJugadorPulsado("");
+													}}
+												>
+													{jornadas.map((j) => {
+														return (
+															<IonSelectOption key={j + 1} value={j + 1}>
+																<IonText>Jornada {j + 1}</IonText>
+															</IonSelectOption>
+														);
+													})}
+												</IonSelect>
 											</IonCol>
 										</IonRow>
 									</IonCol>
@@ -90,15 +137,11 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 											}}
 										>
 											<AlineacionPuntuaciones
-												usuario={props.plantilla.usuario}
-												formacion={props.formacion}
 												setJugadorPulsado={cambiarJugadorSiOSi}
-												porteros={props.porteros}
-												defensas={props.defensas}
-												mediocentros={props.mediocentros}
-												delanteros={props.delanteros}
+												alineacion={alineacion}
+												formacion={props.formacion}
 												jornada={jornada}
-												puntuacionesMap={props.puntuacionesMap}
+												puntuacionesMap={puntuacionesMap}
 											/>
 										</IonRow>
 									</IonCol>
@@ -106,28 +149,21 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 										<IonContent>
 											{jugadorPulsado === "" ? (
 												<ListaJugadoresPuntuaciones
-													porteros={props.porteros}
-													defensas={props.defensas}
-													mediocentros={props.mediocentros}
-													delanteros={props.delanteros}
+													alineacion={alineacion}
 													setJugadorPulsado={cambiarJugador}
 													jornada={jornada}
-													puntuacionesMap={props.puntuacionesMap}
+													puntuacionesMap={puntuacionesMap}
 												/>
 											) : (
 												<>
 													<CartaDetallesPuntuacionJugador
-														propiedadJugador={props.jugadores.find(
+														propiedadJugador={jugadores.find(
 															(j) => j.jugador.id === jugadorPulsado
 														)}
 														showPuntuaciones={true}
 														setJugadorPulsado={cambiarJugador}
 														jornada={jornada}
-														puntuacionesJugador={
-															props.puntuacionesMap.get(
-																jugadorPulsado
-															) as PuntuacionJugador[]
-														}
+														puntuacionesJugador={puntuacionesMap}
 													/>
 												</>
 											)}
@@ -139,7 +175,7 @@ export function VistaPuntauciones(props: VistaPuntaucionesProps): JSX.Element {
 					</IonGrid>
 				</IonContent>
 			) : (
-				<VolverAlInicio />
+				<VolverAlInicio message="No tienes ninguna liga" />
 			)}
 		</>
 	);

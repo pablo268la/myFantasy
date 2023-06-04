@@ -165,6 +165,8 @@ describe("Partidos", () => {
 	testGet500Error("/partidos/puntuaciones/1");
 
 	testPut500Error("/partidos/10408559");
+
+	testGet500Error("/jornada");
 });
 
 describe("Puntuaciones", () => {

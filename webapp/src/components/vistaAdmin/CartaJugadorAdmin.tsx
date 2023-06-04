@@ -1,20 +1,20 @@
 import {
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonGrid,
-    IonIcon,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonList,
-    IonPopover,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    useIonActionSheet,
-    useIonToast,
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonGrid,
+	IonIcon,
+	IonImg,
+	IonInput,
+	IonItem,
+	IonList,
+	IonPopover,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
+	useIonActionSheet,
+	useIonToast,
 } from "@ionic/react";
 import { build, close, ellipsisVertical, remove } from "ionicons/icons";
 import { useState } from "react";
@@ -29,7 +29,6 @@ const MyGrid = styled(IonGrid)`
 
 type CartaJugadorAdminProps = {
 	jugador: Jugador;
-	setAnyEdited: (b: boolean) => void;
 	equipos: Equipo[];
 };
 
@@ -54,7 +53,6 @@ export function CartaJugadorAdmin(props: CartaJugadorAdminProps): JSX.Element {
 
 	const setEditedPlayer = () => {
 		setEdited(true);
-		props.setAnyEdited(true);
 	};
 
 	const resetValores = () => {

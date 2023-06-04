@@ -10,7 +10,7 @@ import {
 	IonProgressBar,
 	IonRow,
 } from "@ionic/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import {
 	PropiedadJugador,
@@ -22,6 +22,7 @@ import styled from "styled-components";
 import "swiper/swiper-bundle.min.css";
 
 import "swiper/swiper.min.css";
+import { getPuntuacionJugador } from "../../endpoints/puntuacionesEndpoint";
 
 const RedIonRow = styled(IonRow)`
 	justify-content: center;
@@ -47,7 +48,8 @@ const GreenIonRow = styled(IonRow)`
 type PuntuacionesJugadorProps = {
 	jugador: PropiedadJugador;
 	jornada: number;
-	puntuaciones: PuntuacionJugador[];
+	addPuntuacion: (idJugador: string, puntuaciones: PuntuacionJugador[]) => void;
+	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function PuntuacionesJugador(
@@ -56,15 +58,38 @@ export function PuntuacionesJugador(
 	const sliderRef = useRef<SwiperRef>(null);
 
 	const [selectedPos, setSelectedPos] = useState<number>(props.jornada - 1);
+	const [puntuaciones, setPuntuaciones] = useState<PuntuacionJugador[]>([]);
+
+	const [loading, setLoading] = useState<boolean>();
+
+	useEffect(() => {
+		setLoading(true);
+		const p = props.puntuacionesMap.get(props.jugador.jugador.id);
+		if (p === undefined)
+			getPuntuacionJugador(props.jugador.jugador.id)
+				.then((puntuaciones) => {
+					setPuntuaciones(puntuaciones);
+					props.addPuntuacion(props.jugador.jugador.id, puntuaciones);
+					setLoading(false);
+				})
+				.catch((error) => {
+					console.log(error);
+					setLoading(false);
+				});
+		else {
+			setPuntuaciones(p);
+			setLoading(false);
+		}
+	}, []);
 
 	return (
 		<>
-			{props.puntuaciones ? (
+			{!loading ? (
 				<IonRow>
 					<IonCol sizeXs="3">
 						<IonList style={{ height: "100%" }}>
 							<IonContent>
-								{props.puntuaciones.map((p) => {
+								{puntuaciones.map((p) => {
 									return (
 										<>
 											<IonCard
@@ -113,7 +138,7 @@ export function PuntuacionesJugador(
 								height: 600,
 							}}
 						>
-							{props.puntuaciones.map((p) => {
+							{puntuaciones.map((p) => {
 								return (
 									<>
 										<SwiperSlide key={p.semana - 1}>

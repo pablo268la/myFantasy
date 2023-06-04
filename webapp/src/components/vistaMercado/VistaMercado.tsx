@@ -49,13 +49,17 @@ export function VistaMercado(props: any): JSX.Element {
 	}
 
 	const actualizarMercado = async () => {
+		setLoading(true);
+
 		await getLiga(getLocalLigaSeleccionada())
 			.then((liga) => {
 				setLiga(liga);
 				setJugadoresEnMercado(liga.mercado);
+				setLoading(false);
 			})
 			.catch((err) => {
 				crearToast(err.message, true, "danger");
+				setLoading(false);
 			});
 	};
 

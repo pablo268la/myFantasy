@@ -1,44 +1,44 @@
 import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonItemDivider,
-    IonLabel,
-    IonModal,
-    IonRow,
-    IonTitle,
-    IonToolbar,
-    useIonToast,
+	IonButton,
+	IonButtons,
+	IonCard,
+	IonCardContent,
+	IonCol,
+	IonContent,
+	IonHeader,
+	IonIcon,
+	IonInput,
+	IonItem,
+	IonItemDivider,
+	IonLabel,
+	IonModal,
+	IonRow,
+	IonTitle,
+	IonToolbar,
+	useIonToast,
 } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import {
-    getPuntuacionJugadorSemana,
-    guardarPuntuacionJugador,
+	getPuntuacionJugadorSemana,
+	guardarPuntuacionJugador,
 } from "../../endpoints/puntuacionesEndpoint";
 import {
-    filterAndPop,
-    filterAndPopByTramos,
-    getByTramos,
-    openJSON,
+	filterAndPop,
+	filterAndPopByTramos,
+	getByTramos,
+	openJSON,
 } from "../../helpers/jsonHelper";
 import {
-    calcularPuntosPuntuacion,
-    getPuntuacionesDeSofaScore,
+	calcularPuntosPuntuacion,
+	getPuntuacionesDeSofaScore,
 } from "../../helpers/sofaScoreHelper";
 import {
-    Jugador,
-    Partido,
-    PuntuacionJSON,
-    PuntuacionJugador,
-    PuntuacionTupple,
+	Jugador,
+	Partido,
+	PuntuacionJSON,
+	PuntuacionJugador,
+	PuntuacionTupple,
 } from "../../shared/sharedTypes";
 
 type PuntuacionJugadorAdminProps = {
@@ -76,10 +76,13 @@ export function VistaAdminPuntuacionJugador(
 			});
 	}
 
-	const actualizarPuntuacionYPuntos = (p: PuntuacionJugador) => {
+	const actualizarPuntuacionYPuntos = (
+		p: PuntuacionJugador,
+		show?: boolean
+	) => {
 		p.puntos = calcularPuntosPuntuacion(p);
 		setPuntuacion(p);
-		crearToast("Puntuación actualizada", true, "success");
+		if (show) crearToast("Puntuación actualizada", true, "success");
 	};
 
 	useEffect(() => {
@@ -99,7 +102,7 @@ export function VistaAdminPuntuacionJugador(
 		if (puntuacion !== undefined)
 			await guardarPuntuacionJugador(puntuacion)
 				.then((p) => {
-					actualizarPuntuacionYPuntos(p);
+					actualizarPuntuacionYPuntos(p, true);
 					setGuardando(false);
 				})
 				.catch((err) => {
@@ -110,13 +113,18 @@ export function VistaAdminPuntuacionJugador(
 	const getPuntuacionDelJugador = async () => {
 		await getPuntuacionJugadorSemana(props.jugador.id, props.jornada)
 			.then(async (p) => {
-				if (p === null) {
+				if (p.idPartido === "") {
 					await getPuntuacionesDeSofaScore(props.partido, j, props.titular)
 						.then((ps) => {
+							props.setPuntuacionesCambiadas(true);
 							actualizarPuntuacionYPuntos(ps[0]);
 						})
 						.catch((err) => {
-							crearToast(err.message, true, "danger");
+							crearToast(
+								"No se pudo obtener la puntuación para " + j.nombre,
+								true,
+								"warning"
+							);
 						});
 				} else {
 					actualizarPuntuacionYPuntos(p);
@@ -301,8 +309,7 @@ export function VistaAdminPuntuacionJugador(
 											},
 										},
 									});
-								},
-								1
+								}
 							)}
 							{CrearItem(
 								j.id,
