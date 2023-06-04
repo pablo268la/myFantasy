@@ -9,7 +9,7 @@ import {
 	IonText,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getPuntuacionJugador as getPuntuacionesJugador } from "../../../endpoints/puntuacionesEndpoint";
+import { getPuntuacionJugadorSemana } from "../../../endpoints/puntuacionesEndpoint";
 import {
 	AlineacionJugador,
 	PlantillaUsuario,
@@ -70,9 +70,9 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 		if (prev === undefined) {
 			const map = new Map<string, PuntuacionJugador[]>();
 			jugadores.forEach(async (j) => {
-				await getPuntuacionesJugador(j.jugador.id)
-					.then((puntuaciones) => {
-						map.set(j.jugador.id, puntuaciones);
+				await getPuntuacionJugadorSemana(j.jugador.id, jornada)
+					.then((puntuacionSemana) => {
+						map.set(j.jugador.id, [puntuacionSemana]);
 					})
 					.catch((err) => {
 						console.log(err);
@@ -82,7 +82,9 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 			aux[jornada] = map;
 			setArrayPuntuacionesJornada(aux);
 			setPuntuacionesMap(map);
+			console.log(map);
 		} else {
+			console.log(arrayPuntuacionesJornada[jornada]);
 			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
 		}
 
@@ -96,11 +98,13 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 		ju.push(...alineacion.medios);
 		ju.push(...alineacion.delanteros);
 		setJugadores(ju);
-		
+
 		setLoading(false);
 	};
 
-	useEffect(() => {}, [jornada]);
+	useEffect(() => {
+		cambiarJornada(props.jornada);
+	}, []);
 
 	return (
 		<>
@@ -156,10 +160,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 										<IonContent>
 											{jugadorPulsado === "" ? (
 												<ListaJugadoresPuntuaciones
-													porteros={alineacion.porteros}
-													defensas={alineacion.defensas}
-													mediocentros={alineacion.medios}
-													delanteros={alineacion.delanteros}
+													alineacion={alineacion}
 													setJugadorPulsado={cambiarJugador}
 													jornada={jornada}
 													puntuacionesMap={puntuacionesMap}
@@ -173,11 +174,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 														showPuntuaciones={true}
 														setJugadorPulsado={cambiarJugador}
 														jornada={jornada}
-														puntuacionesJugador={
-															puntuacionesMap.get(
-																jugadorPulsado
-															) as PuntuacionJugador[]
-														}
+														puntuacionesJugador={puntuacionesMap}
 													/>
 												</>
 											)}

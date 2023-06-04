@@ -1,16 +1,14 @@
 import { IonList, IonRow } from "@ionic/react";
 import {
-    PropiedadJugador,
-    PuntuacionJugador,
+	AlineacionJugador,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 
 import { CartaDetallesPuntuacionJugador } from "./CartaDetallesPuntuacionJugador";
 
 type ListaJugadoresPuntuacionesProps = {
-	porteros: PropiedadJugador[];
-	defensas: PropiedadJugador[];
-	mediocentros: PropiedadJugador[];
-	delanteros: PropiedadJugador[];
+	alineacion: AlineacionJugador;
 	setJugadorPulsado: (idJugador: string) => void;
 	jornada: number;
 	puntuacionesMap: Map<string, PuntuacionJugador[]>;
@@ -21,7 +19,7 @@ export function ListaJugadoresPuntuaciones(
 ): JSX.Element {
 	return (
 		<IonList>
-			{props.porteros
+			{props.alineacion.porteros
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -29,10 +27,10 @@ export function ListaJugadoresPuntuaciones(
 						j,
 						props.setJugadorPulsado,
 						props.jornada,
-						props.puntuacionesMap.get(j.jugador.id) as PuntuacionJugador[]
+						props.puntuacionesMap
 					)
 				)}
-			{props.defensas
+			{props.alineacion.defensas
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -40,10 +38,10 @@ export function ListaJugadoresPuntuaciones(
 						j,
 						props.setJugadorPulsado,
 						props.jornada,
-						props.puntuacionesMap.get(j.jugador.id) as PuntuacionJugador[]
+						props.puntuacionesMap
 					)
 				)}
-			{props.mediocentros
+			{props.alineacion.medios
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -51,10 +49,10 @@ export function ListaJugadoresPuntuaciones(
 						j,
 						props.setJugadorPulsado,
 						props.jornada,
-						props.puntuacionesMap.get(j.jugador.id) as PuntuacionJugador[]
+						props.puntuacionesMap
 					)
 				)}
-			{props.delanteros
+			{props.alineacion.delanteros
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -62,7 +60,7 @@ export function ListaJugadoresPuntuaciones(
 						j,
 						props.setJugadorPulsado,
 						props.jornada,
-						props.puntuacionesMap.get(j.jugador.id) as PuntuacionJugador[]
+						props.puntuacionesMap
 					)
 				)}
 		</IonList>
@@ -73,7 +71,7 @@ function crearCartaDetallesJugador(
 	j: PropiedadJugador,
 	setJugadorPulsado: (idJugador: string) => void,
 	jornada: number,
-	puntuaciones: PuntuacionJugador[]
+	puntuacion: Map<string, PuntuacionJugador[]>
 ): JSX.Element {
 	return (
 		<IonRow key={j.jugador.id}>
@@ -82,7 +80,7 @@ function crearCartaDetallesJugador(
 				showPuntuaciones={false}
 				setJugadorPulsado={setJugadorPulsado}
 				jornada={jornada}
-				puntuacionesJugador={puntuaciones}
+				puntuacionesJugador={puntuacion}
 			/>
 		</IonRow>
 	);

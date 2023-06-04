@@ -10,7 +10,7 @@ import {
 
 type CartaJugadorProps = {
 	jugador?: PropiedadJugador;
-	puntuaciones?: PuntuacionJugador[];
+	puntuacion?: PuntuacionJugador;
 	setJugadorPulsado: (idJugador: string) => void;
 	posicion: string;
 	jornada: number;
@@ -18,8 +18,8 @@ type CartaJugadorProps = {
 };
 
 function CartaJugador(props: CartaJugadorProps): JSX.Element {
-	useEffect(() => {}, [props.puntuaciones]);
-	
+	useEffect(() => {}, [props.puntuacion]);
+
 	return (
 		<IonCol sizeSm="2" sizeXs={props.xsSize ? props.xsSize.toString() : "2"}>
 			<IonCard
@@ -36,14 +36,9 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 				>
 					<IonBadge
 						style={{ float: "right", marginRight: "10%", marginTop: "10%" }}
-						color={getColorPuntos(
-							props.puntuaciones
-								?.filter((p) => p.semana === props.jornada)
-								.at(0)?.puntos as number
-						)}
+						color={getColorPuntos(props.puntuacion?.puntos as number)}
 					>
-						{props.puntuaciones?.filter((p) => p.semana === props.jornada).at(0)
-							?.puntos ?? "-"}
+						{props.puntuacion?.puntos ?? "0"}
 					</IonBadge>
 					<IonImg
 						src={

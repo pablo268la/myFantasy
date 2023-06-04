@@ -30,13 +30,18 @@ type CartaDetallesPuntuacionJugadorProps = {
 	showPuntuaciones: boolean;
 	setJugadorPulsado: (idJugador: string) => void;
 	jornada: number;
-	puntuacionesJugador: PuntuacionJugador[];
+	puntuacionesJugador: Map<string, PuntuacionJugador[]>;
 };
 
 export function CartaDetallesPuntuacionJugador(
 	props: CartaDetallesPuntuacionJugadorProps
 ): JSX.Element {
 	const propiedadJugador = props.propiedadJugador;
+
+	const puntuacion: number =
+		props.puntuacionesJugador
+			?.get(propiedadJugador?.jugador.id as string)
+			?.at(0)?.puntos ?? 0;
 
 	useEffect(() => {}, [props.puntuacionesJugador]);
 
@@ -123,11 +128,7 @@ export function CartaDetallesPuntuacionJugador(
 										slot="end"
 									>
 										{"PTS: "}
-										{props.puntuacionesJugador
-											? props.puntuacionesJugador
-													.filter((p) => p.semana === props.jornada)
-													.at(0)?.puntos
-											: "0"}
+										{puntuacion}
 									</IonLabel>
 								</IonItem>
 								<IonItem lines="none" color="tertiary">
@@ -157,7 +158,7 @@ export function CartaDetallesPuntuacionJugador(
 						jugador={propiedadJugador}
 						jornada={props.jornada}
 						addPuntuacion={() => {}}
-						puntuacionesMap={new Map()}
+						puntuacionesMap={props.puntuacionesJugador}
 					/>
 				</IonGrid>
 			) : (

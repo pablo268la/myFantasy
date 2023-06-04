@@ -62,9 +62,9 @@ export function AlineacionPuntuaciones(
 										jugador,
 										props.setJugadorPulsado,
 										"Portero",
-										props.puntuacionesMap.get(
-											jugador.jugador.id
-										) as PuntuacionJugador[],
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
 										props.jornada
 									)
 								)}
@@ -104,9 +104,9 @@ export function AlineacionPuntuaciones(
 										jugador,
 										props.setJugadorPulsado,
 										"Defensa",
-										props.puntuacionesMap.get(
-											jugador.jugador.id
-										) as PuntuacionJugador[],
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
 										props.jornada
 									)
 								)}
@@ -146,9 +146,9 @@ export function AlineacionPuntuaciones(
 										jugador,
 										props.setJugadorPulsado,
 										"Mediocentro",
-										props.puntuacionesMap.get(
-											jugador.jugador.id
-										) as PuntuacionJugador[],
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
 										props.jornada
 									)
 								)}
@@ -181,16 +181,16 @@ export function AlineacionPuntuaciones(
 				{alineacion?.delanteros.length !== 0 ? (
 					<IonRow style={{ justifyContent: "center" }}>
 						<>
-							{alineacion?.defensas
+							{alineacion?.delanteros
 								.slice(0, formacion?.delantero as number)
 								.map((jugador) =>
 									crearCartaJugador(
 										jugador,
 										props.setJugadorPulsado,
 										"Delantero",
-										props.puntuacionesMap.get(
-											jugador.jugador.id
-										) as PuntuacionJugador[],
+										props.puntuacionesMap
+											.get(jugador.jugador.id)
+											?.at(0) as PuntuacionJugador,
 										props.jornada
 									)
 								)}
@@ -229,7 +229,7 @@ function crearCartaJugador(
 	jugador: PropiedadJugador,
 	setJugadorPulsado: (idJugador: string) => void,
 	posicion: string,
-	puntuaciones: PuntuacionJugador[],
+	puntuacion: PuntuacionJugador,
 	jornada: number
 ): JSX.Element {
 	return jugador.titular ? (
@@ -238,7 +238,7 @@ function crearCartaJugador(
 			jugador={jugador}
 			setJugadorPulsado={setJugadorPulsado}
 			posicion={posicion}
-			puntuaciones={puntuaciones}
+			puntuacion={puntuacion}
 			jornada={jornada}
 		/>
 	) : (
