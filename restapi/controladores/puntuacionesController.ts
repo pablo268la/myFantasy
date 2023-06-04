@@ -1,9 +1,7 @@
 import { RequestHandler } from "express";
 
-import { openJSON } from "../helpers/jsonHelper";
 import {
-	calcularPuntuacion,
-	createPuntuacionJugadorVacia,
+	createPuntuacionJugadorVacia
 } from "../helpers/puntuacionHelper";
 import { modeloJugador } from "../model/jugador";
 import {
@@ -103,8 +101,6 @@ export const guardarPuntuacion: RequestHandler = async (req, res) => {
 			idPartido: puntuacionJugador.idPartido,
 		});
 
-		const PuntuacionJSON = openJSON(jugador.posicion);
-		puntuacionJugador = calcularPuntuacion(puntuacionJugador, PuntuacionJSON);
 		puntuacionJugador.id =
 			puntuacionJugador.idJugador + "-" + puntuacionJugador.idPartido;
 

@@ -1,16 +1,12 @@
 import {
-    IonButton,
-    IonCol,
-    IonLabel,
-    IonList,
-    IonProgressBar,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonText,
-    useIonToast,
+	IonList,
+	IonProgressBar,
+	IonRow,
+	IonSelect,
+	IonSelectOption,
+	useIonToast
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 import { CartaJugadorAdmin } from "./CartaJugadorAdmin";
 
@@ -27,8 +23,6 @@ type VistaAdminJugadoresProps = {
 export function VistaAdminJugadores(
 	props: VistaAdminJugadoresProps
 ): JSX.Element {
-	const [anyEdited, setAnyEdited] = useState<boolean>(false);
-
 	const [present] = useIonToast();
 	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
 		if (mostrarToast)
@@ -73,55 +67,11 @@ export function VistaAdminJugadores(
 				</IonSelect>
 			</IonRow>
 			<IonList>
-				<IonRow style={{ justifyContent: "space-around" }}>
-					<IonCol>
-						<IonRow style={{ justifyContent: "center" }}>
-							<IonLabel>
-								<IonText>Jugador</IonText>
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-					<IonCol style={{ borderInlineStart: "1px solid" }}>
-						<IonRow style={{ justifyContent: "center" }}>
-							<IonLabel>
-								<IonText>Nombre</IonText>
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-					<IonCol style={{ borderInlineStart: "1px solid" }}>
-						<IonRow style={{ justifyContent: "center" }}>
-							<IonLabel>
-								<IonText>Valor</IonText>
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-					<IonCol style={{ borderInlineStart: "1px solid" }}>
-						<IonRow style={{ justifyContent: "center" }}>
-							<IonLabel>
-								<IonText>Estado</IonText>
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-					<IonCol style={{ borderInlineStart: "1px solid" }}>
-						<IonRow style={{ justifyContent: "center" }}>
-							<IonLabel>
-								<IonText>Posicion</IonText>
-							</IonLabel>
-						</IonRow>
-					</IonCol>
-					<IonCol style={{ borderInlineStart: "1px solid" }}>
-						<IonButton disabled={!anyEdited} color="success">
-							Guardar todos
-						</IonButton>
-					</IonCol>
-				</IonRow>
-
 				{!props.loading ? (
 					props.jugadores.map((jugador) => (
 						<CartaJugadorAdmin
 							key={jugador.id}
 							jugador={jugador}
-							setAnyEdited={setAnyEdited}
 							equipos={props.equipos}
 						/>
 					))

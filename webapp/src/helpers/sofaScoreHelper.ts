@@ -30,9 +30,7 @@ export async function getEventosDeSofaScore(
 ): Promise<EventoPartido[]> {
 	const eventos: EventoPartido[] = [];
 	const jugadoresLocales = await getJugadoresPorEquipo(partido.local.id);
-	const jugadoresVisitantes = await getJugadoresPorEquipo(
-		partido.visitante.id
-	);
+	const jugadoresVisitantes = await getJugadoresPorEquipo(partido.visitante.id);
 	const jugadores = jugadoresLocales.concat(jugadoresVisitantes);
 
 	await fetch(
@@ -149,7 +147,6 @@ const getPuntuacionJugadorFromJSON = (
 	titular: boolean
 ): PuntuacionJugador => {
 	const puntuacionJSON: PuntuacionJSON = openJSON(jugador.posicion);
-	let puntosTotales = 0;
 
 	const puntuacionBasica: PuntuacionBasica = {
 		goles: crearPuntuacionTupple(
@@ -181,12 +178,6 @@ const getPuntuacionJugadorFromJSON = (
 			)
 		),
 	};
-
-	puntosTotales +=
-		puntuacionBasica.goles.puntos +
-		puntuacionBasica.asistencias.puntos +
-		puntuacionBasica.minutos.puntos +
-		puntuacionBasica.valoracion.puntos;
 
 	const puntuacionOfensiva: PuntuacionOfensiva = {
 		tirosPuerta: crearPuntuacionTupple(
@@ -262,17 +253,6 @@ const getPuntuacionJugadorFromJSON = (
 		),
 	};
 
-	puntosTotales +=
-		puntuacionOfensiva.tirosPuerta.puntos +
-		puntuacionOfensiva.tirosFuera.puntos +
-		puntuacionOfensiva.tirosBloqueados.puntos +
-		puntuacionOfensiva.regatesIntentados.puntos +
-		puntuacionOfensiva.regatesCompletados.puntos +
-		puntuacionOfensiva.tirosAlPalo.puntos +
-		puntuacionOfensiva.ocasionClaraFallada.puntos +
-		puntuacionOfensiva.penaltiRecibido.puntos +
-		puntuacionOfensiva.penaltiFallado.puntos;
-
 	const puntuacionPosesion: PuntuacionPosesion = {
 		toquesBalon: crearPuntuacionTupple(
 			r.statistics.touches ? r.statistics.touches : 0,
@@ -338,17 +318,6 @@ const getPuntuacionJugadorFromJSON = (
 			)
 		),
 	};
-
-	puntosTotales +=
-		puntuacionPosesion.toquesBalon.puntos +
-		puntuacionPosesion.pasesTotales.puntos +
-		puntuacionPosesion.pasesCompletados.puntos +
-		puntuacionPosesion.pasesClave.puntos +
-		puntuacionPosesion.centrosTotales.puntos +
-		puntuacionPosesion.centrosCompletados.puntos +
-		puntuacionPosesion.pasesLargosTotales.puntos +
-		puntuacionPosesion.pasesLargosCompletados.puntos +
-		puntuacionPosesion.grandesOcasiones.puntos;
 
 	const puntuacionDefensiva: PuntuacionDefensiva = {
 		despejes: crearPuntuacionTupple(
@@ -420,17 +389,6 @@ const getPuntuacionJugadorFromJSON = (
 		),
 	};
 
-	puntosTotales +=
-		puntuacionDefensiva.despejes.puntos +
-		puntuacionDefensiva.tirosBloqueados.puntos +
-		puntuacionDefensiva.intercepciones.puntos +
-		puntuacionDefensiva.entradas.puntos +
-		puntuacionDefensiva.regatesSuperado.puntos +
-		puntuacionDefensiva.erroresParaDisparo.puntos +
-		puntuacionDefensiva.despejesEnLineaDeGol.puntos +
-		puntuacionDefensiva.golesEnPropia.puntos +
-		puntuacionDefensiva.penaltiCometido.puntos;
-
 	const puntuacionFisica: PuntuacionFisica = {
 		duelosGanados: crearPuntuacionTupple(
 			(r.statistics.duelWon ? r.statistics.duelWon : 0) -
@@ -494,16 +452,6 @@ const getPuntuacionJugadorFromJSON = (
 		),
 	};
 
-	puntosTotales +=
-		puntuacionFisica.duelosGanados.puntos +
-		puntuacionFisica.duelosPerdidos.puntos +
-		puntuacionFisica.duelosAereosGanados.puntos +
-		puntuacionFisica.duelosAereosPerdidos.puntos +
-		puntuacionFisica.posesionPerdida.puntos +
-		puntuacionFisica.faltasCometidas.puntos +
-		puntuacionFisica.faltasRecibidas.puntos +
-		puntuacionFisica.fuerasDeJuego.puntos;
-
 	const puntuacionPortero: PuntuacionPortero = {
 		paradas: crearPuntuacionTupple(
 			r.statistics.saves ? r.statistics.saves : 0,
@@ -553,14 +501,6 @@ const getPuntuacionJugadorFromJSON = (
 		),
 	};
 
-	puntosTotales +=
-		puntuacionPortero.paradas.puntos +
-		puntuacionPortero.despejes.puntos +
-		puntuacionPortero.salidas.puntos +
-		puntuacionPortero.highClaim.puntos +
-		puntuacionPortero.paradasArea.puntos +
-		puntuacionPortero.penaltiesParados.puntos;
-
 	const eventos1 = partido.eventos.filter((e) => {
 		if (e.jugador !== undefined) return e.jugador.id === jugador.id;
 	});
@@ -577,7 +517,7 @@ const getPuntuacionJugadorFromJSON = (
 			filterAndPopByTramos(
 				puntuacionJSON.golesRecibidos,
 				golesRecibidos,
-				r.statistics.minutesPlayed + 0
+				r.statistics.minutesPlayed ?? 0
 			)
 		),
 		tarjetasAmarilla: crearPuntuacionTupple(
@@ -605,13 +545,7 @@ const getPuntuacionJugadorFromJSON = (
 		playerOut: getMinutoOut(partido, jugador, titular),
 	};
 
-	puntosTotales +=
-		puntuacionCalculable.golesRecibidos.puntos +
-		puntuacionCalculable.tarjetasAmarilla.puntos +
-		puntuacionCalculable.tarjetasRoja.puntos +
-		puntuacionCalculable.dobleAmarilla.puntos;
-
-	const PuntuacionJugador: PuntuacionJugador = {
+	const puntuacionJugador: PuntuacionJugador = {
 		puntuacionCalculable: puntuacionCalculable,
 		puntuacionBasica: puntuacionBasica,
 		puntuacionOfensiva: puntuacionOfensiva,
@@ -622,18 +556,16 @@ const getPuntuacionJugadorFromJSON = (
 		idJugador: r.player.id,
 		idPartido: partido.id,
 		idEquipo:
-			partido.local.id === r.team.id
-				? partido.local.id
-				: partido.visitante.id,
+			partido.local.id === r.team.id ? partido.local.id : partido.visitante.id,
 		idEquipoRival:
-			partido.local.id === r.team.id
-				? partido.visitante.id
-				: partido.local.id,
-		puntos: puntosTotales,
+			partido.local.id === r.team.id ? partido.visitante.id : partido.local.id,
+		puntos: 0,
 		semana: partido.jornada,
 	};
 
-	return PuntuacionJugador;
+	puntuacionJugador.puntos = calcularPuntosPuntuacion(puntuacionJugador);
+
+	return puntuacionJugador;
 };
 
 function crearPuntuacionTupple(
@@ -781,9 +713,7 @@ function getMinutoOut(
 
 export async function getAlineacionesSofaScore(partido: Partido) {
 	const jugadoresLocales = await getJugadoresPorEquipo(partido.local.id);
-	const jugadoresVisitantes = await getJugadoresPorEquipo(
-		partido.visitante.id
-	);
+	const jugadoresVisitantes = await getJugadoresPorEquipo(partido.visitante.id);
 	const jugadoresAntiguos = await getJugadoresAntiguos(
 		partido.local.id,
 		partido.jornada
