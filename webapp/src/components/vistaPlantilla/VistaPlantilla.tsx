@@ -15,14 +15,12 @@ import {
 } from "../../endpoints/plantillaEndpoints";
 
 import { getJornadaActual } from "../../endpoints/partidosEndpoint";
-import { getPuntuacionJugador } from "../../endpoints/puntuacionesEndpoint";
 import { getLocalLigaSeleccionada } from "../../helpers/helpers";
 import {
 	AlineacionJugador,
 	Jugador,
 	PlantillaUsuario,
 	PropiedadJugador,
-	PuntuacionJugador,
 } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
@@ -58,17 +56,12 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 	const [cambioAlineacion, setCambioAlineacion] = useState<boolean>(false);
 
 	const [jugadores, setJugadores] = useState<PropiedadJugador[]>([]);
-	const [porteros, setPorteros] = useState<PropiedadJugador[]>([]);
-	const [defensas, setDefensas] = useState<PropiedadJugador[]>([]);
-	const [mediocentros, setMediocentros] = useState<PropiedadJugador[]>([]);
-	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>([]);
+
+	const [alineacionJugador, setAlineacionJugador] =
+		useState<AlineacionJugador>();
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [jornada, setJornada] = useState<number>(0);
-
-	const [puntuacionesMap, setPuntuacionesMap] = useState<
-		Map<string, PuntuacionJugador[]>
-	>(new Map());
 
 	const [present] = useIonToast();
 	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
@@ -88,6 +81,9 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		await getPlantilla(idLiga, idPlantillaUsuario)
 			.then((res) => {
 				setPlantilla(res);
+
+				const alineacion = res.alineacionJugador;
+
 				setFormacion({
 					portero: 1,
 					defensa: Number(res.alineacionJugador.formacion.split("-")[0]),
@@ -103,32 +99,21 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 				let dl: PropiedadJugador[] = res.alineacionJugador.delanteros;
 
 				po.sort(ordenarListaJugadoresPorTitular());
-				setPorteros(po);
 				de.sort(ordenarListaJugadoresPorTitular());
-				setDefensas(de);
 				me.sort(ordenarListaJugadoresPorTitular());
-				setMediocentros(me);
 				dl.sort(ordenarListaJugadoresPorTitular());
-				setDelanteros(dl);
 
 				ju.push(...po);
 				ju.push(...de);
 				ju.push(...me);
 				ju.push(...dl);
 
-				let map = new Map<string, PuntuacionJugador[]>();
+				alineacion.porteros = po;
+				alineacion.defensas = de;
+				alineacion.medios = me;
+				alineacion.delanteros = dl;
 
-				ju.forEach((jugador) => {
-					getPuntuacionJugador(jugador.jugador.id)
-						.then((puntuaciones) => {
-							map.set(jugador.jugador.id, puntuaciones);
-						})
-						.catch((err) => {
-							crearToast(err.message, true, "danger");
-						});
-				});
-
-				setPuntuacionesMap(map);
+				setAlineacionJugador(alineacion);
 
 				setJugadores(ju);
 				setLoading(false);
@@ -136,51 +121,52 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			.catch((err) => {
 				setLoading(false);
 				crearToast(err.message, true, "danger");
-				// TODO: Informar de error en content y boton de redirigir al inicio
 			});
 	};
 
 	const cambiarFormacion = (f: Formacion) => {
 		setFormacion(f);
-		defensas
+		const alineacion = alineacionJugador as AlineacionJugador;
+		alineacion.defensas
 			.slice(0, f.defensa)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = true;
 			});
-		defensas
+		alineacion.defensas
 			.slice(f.defensa)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = false;
 			});
 
-		mediocentros
+		alineacion.medios
 			.slice(0, f.medio)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = true;
 			});
-		mediocentros
+		alineacion.medios
 			.slice(f.medio)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = false;
 			});
 
-		delanteros
+		alineacion.delanteros
 			.slice(0, f.delantero)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = true;
 			});
-		delanteros
+		alineacion.delanteros
 			.slice(f.delantero)
 			.filter((j) => j.titular)
 			.forEach((j) => {
 				j.titular = false;
 			});
 
+		setAlineacionJugador(alineacion);
 		setCambioAlineacion(true);
 	};
 
@@ -198,42 +184,37 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			jout.titular = !jout.titular;
 		}
 
+		const alineacion = alineacionJugador as AlineacionJugador;
+
 		switch (lista[0].jugador.posicion) {
 			case "Portero":
-				setPorteros(lista.sort(ordenarListaJugadoresPorTitular()));
+				alineacion.porteros = lista.sort(ordenarListaJugadoresPorTitular());
 				break;
 			case "Defensa":
-				setDefensas(lista.sort(ordenarListaJugadoresPorTitular()));
+				alineacion.defensas = lista.sort(ordenarListaJugadoresPorTitular());
 				break;
 			case "Mediocentro":
-				setMediocentros(lista.sort(ordenarListaJugadoresPorTitular()));
+				alineacion.medios = lista.sort(ordenarListaJugadoresPorTitular());
 				break;
 			case "Delantero":
-				setDelanteros(lista.sort(ordenarListaJugadoresPorTitular()));
+				alineacion.delanteros = lista.sort(ordenarListaJugadoresPorTitular());
 				break;
 		}
 
 		setJugadorPulsado("");
+		setAlineacionJugador(alineacion);
 		setCambioAlineacion(true);
 	};
 
 	const guardarPlantilla = async () => {
 		setShowLoading(true);
-		const alineacionJugador: AlineacionJugador = {
-			id: plantilla?.alineacionJugador.id as string,
-			porteros: porteros,
-			defensas: defensas,
-			medios: mediocentros,
-			delanteros: delanteros,
-			formacion: valueFormacion as string,
-			guardadoEn: new Date().toISOString(),
-			idLiga: plantilla?.alineacionJugador.idLiga as string,
-		};
+		const auxAli = alineacionJugador as AlineacionJugador;
+		auxAli.guardadoEn = new Date().toISOString();
 		const plantillaUsuario: PlantillaUsuario = {
 			id: plantilla?.id as string,
 			usuario: plantilla?.usuario as any,
 			idLiga: plantilla?.idLiga as string,
-			alineacionJugador: alineacionJugador,
+			alineacionJugador: auxAli,
 			alineacionesJornada: plantilla?.alineacionesJornada as any,
 			puntos: plantilla?.puntos as number,
 			valor: plantilla?.valor as number,
@@ -300,10 +281,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 								<VistaPlantillaNormal
 									plantilla={plantilla as PlantillaUsuario}
 									jugadores={jugadores}
-									porteros={porteros}
-									defensas={defensas}
-									mediocentros={mediocentros}
-									delanteros={delanteros}
+									alineacion={alineacionJugador as AlineacionJugador}
 									formacion={formacion}
 									cambiarFormacion={cambiarFormacion}
 									jugadorPulsado={jugadorPulsado}
@@ -312,10 +290,10 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									cambioAlineacion={cambioAlineacion}
 									guardarPlantilla={guardarPlantilla}
 									setValueFormacion={setValueFormacion}
-									puntuacionesMap={puntuacionesMap}
 									setShowLoading={setShowLoading}
 									setMessage={setMessage}
 									crearToast={crearToast}
+									jornada={jornada}
 								/>
 							</>
 						) : (
@@ -324,11 +302,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									plantilla={plantilla as PlantillaUsuario}
 									formacion={formacion}
 									jugadores={jugadores}
-									porteros={porteros}
-									defensas={defensas}
-									mediocentros={mediocentros}
-									delanteros={delanteros}
-									puntuacionesMap={puntuacionesMap}
+									alineacionJugador={alineacionJugador as AlineacionJugador}
 									jornada={jornada}
 								/>
 							</>

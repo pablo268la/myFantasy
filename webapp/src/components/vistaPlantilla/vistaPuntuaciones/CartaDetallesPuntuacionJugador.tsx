@@ -156,7 +156,8 @@ export function CartaDetallesPuntuacionJugador(
 					<PuntuacionesJugador
 						jugador={propiedadJugador}
 						jornada={props.jornada}
-						puntuaciones={props.puntuacionesJugador}
+						addPuntuacion={() => {}}
+						puntuacionesMap={new Map()}
 					/>
 				</IonGrid>
 			) : (

@@ -21,8 +21,9 @@ type ListaJugadoresProps = {
 	) => void;
 	isSameUser: boolean;
 	jornada: number;
-	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 	crearToast: (message: string, show: boolean, color: string) => void;
+	addPuntuacion: (idJugador: string, puntuaciones: PuntuacionJugador[]) => void;
+	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 };
 
 export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
@@ -77,11 +78,8 @@ export function ListaJugadores(props: ListaJugadoresProps): JSX.Element {
 				<PuntuacionesJugador
 					jugador={jugadorSeleccionado as PropiedadJugador}
 					jornada={props.jornada}
-					puntuaciones={
-						props.puntuacionesMap.get(
-							jugadorSeleccionado?.jugador.id as string
-						) as PuntuacionJugador[]
-					}
+					addPuntuacion={props.addPuntuacion}
+					puntuacionesMap={props.puntuacionesMap}
 				/>
 			</IonGrid>
 		</>

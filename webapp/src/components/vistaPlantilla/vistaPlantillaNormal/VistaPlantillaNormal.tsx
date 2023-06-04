@@ -6,10 +6,12 @@ import {
 	IonList,
 	IonRow,
 	IonSelect,
-	IonSelectOption
+	IonSelectOption,
 } from "@ionic/react";
+import { useState } from "react";
 import { getUsuarioLogueado } from "../../../helpers/helpers";
 import {
+	AlineacionJugador,
 	PlantillaUsuario,
 	PropiedadJugador,
 	PuntuacionJugador,
@@ -22,11 +24,8 @@ import { ListaJugadores } from "./ListaJugadores";
 
 type VistaPlantillaNormalProps = {
 	plantilla: PlantillaUsuario;
+	alineacion: AlineacionJugador;
 	jugadores: PropiedadJugador[];
-	porteros: PropiedadJugador[];
-	defensas: PropiedadJugador[];
-	mediocentros: PropiedadJugador[];
-	delanteros: PropiedadJugador[];
 	formacion: Formacion;
 	cambiarFormacion: (f: Formacion) => void;
 	jugadorPulsado: string;
@@ -39,10 +38,10 @@ type VistaPlantillaNormalProps = {
 	cambioAlineacion: boolean;
 	guardarPlantilla: () => Promise<void>;
 	setValueFormacion: (f: string) => void;
-	puntuacionesMap: Map<string, PuntuacionJugador[]>;
 	setShowLoading: (show: boolean) => void;
 	setMessage: (message: string) => void;
 	crearToast: (message: string, show: boolean, color: string) => void;
+	jornada: number;
 };
 
 export function VistaPlantillaNormal(
@@ -51,10 +50,22 @@ export function VistaPlantillaNormal(
 	const idPlantillaUsuario: string = window.location.pathname.split("/")[2];
 	const sameUsuario: boolean = idPlantillaUsuario === getUsuarioLogueado()?.id;
 
+	const [puntuacionesMap, setPuntuacionesMap] = useState<
+		Map<string, PuntuacionJugador[]>
+	>(new Map());
+
 	const cambiarJugadorSiOSi = (idJugador: string) => {
 		if (props.jugadorPulsado === "" && idJugador !== props.jugadorPulsado)
 			props.setJugadorPulsado(idJugador);
 		else props.setJugadorPulsado("");
+	};
+
+	const addPuntuacion = (
+		idJugador: string,
+		puntuaciones: PuntuacionJugador[]
+	) => {
+		const map = puntuacionesMap.set(idJugador, puntuaciones);
+		setPuntuacionesMap(map);
 	};
 
 	return (
@@ -141,10 +152,10 @@ export function VistaPlantillaNormal(
 												usuario={props.plantilla?.usuario}
 												formacion={props.formacion}
 												setJugadorPulsado={cambiarJugadorSiOSi}
-												porteros={props.porteros}
-												defensas={props.defensas}
-												mediocentros={props.mediocentros}
-												delanteros={props.delanteros}
+												porteros={props.alineacion.porteros}
+												defensas={props.alineacion.defensas}
+												mediocentros={props.alineacion.medios}
+												delanteros={props.alineacion.delanteros}
 											/>
 										</IonRow>
 									</IonCol>
@@ -153,16 +164,17 @@ export function VistaPlantillaNormal(
 										<IonContent>
 											{props.jugadorPulsado === "" ? (
 												<ListaJugadores
-													porteros={props.porteros}
-													defensas={props.defensas}
-													mediocentros={props.mediocentros}
-													delanteros={props.delanteros}
+													porteros={props.alineacion.porteros}
+													defensas={props.alineacion.defensas}
+													mediocentros={props.alineacion.medios}
+													delanteros={props.alineacion.delanteros}
 													formacion={props.formacion}
 													cambiarTitulares={props.cambiarTitulares}
 													isSameUser={sameUsuario}
-													jornada={1} //TODO - Get jornada actual
-													puntuacionesMap={props.puntuacionesMap}
+													jornada={props.jornada}
 													crearToast={props.crearToast}
+													addPuntuacion={addPuntuacion}
+													puntuacionesMap={puntuacionesMap}
 												/>
 											) : (
 												<>
@@ -172,10 +184,10 @@ export function VistaPlantillaNormal(
 														)}
 														esParaCambio={true}
 														posicion={props.jugadorPulsado}
-														porteros={props.porteros}
-														defensas={props.defensas}
-														mediocentros={props.mediocentros}
-														delanteros={props.delanteros}
+														porteros={props.alineacion.porteros}
+														defensas={props.alineacion.defensas}
+														mediocentros={props.alineacion.medios}
+														delanteros={props.alineacion.delanteros}
 														formacion={props.formacion}
 														cambiarTitulares={props.cambiarTitulares}
 														isSameUser={sameUsuario}

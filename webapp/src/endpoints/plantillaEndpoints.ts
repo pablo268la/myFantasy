@@ -30,6 +30,8 @@ export async function updatePlantillaUsuario(
 	const email = getUsuarioLogueado()?.email as string;
 	const token = getToken();
 
+	plantilla.alineacionesJornada = [];
+
 	return await doRequest(apiEndPoint + "/plantillas/update", {
 		method: "POST",
 		headers: {

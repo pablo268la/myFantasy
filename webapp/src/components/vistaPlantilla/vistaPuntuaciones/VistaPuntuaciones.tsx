@@ -8,8 +8,10 @@ import {
 	IonSelectOption,
 	IonText,
 } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPuntuacionJugador as getPuntuacionesJugador } from "../../../endpoints/puntuacionesEndpoint";
 import {
+	AlineacionJugador,
 	PlantillaUsuario,
 	PropiedadJugador,
 	PuntuacionJugador,
@@ -24,16 +26,13 @@ type VistaPuntuacionesProps = {
 	plantilla: PlantillaUsuario;
 	formacion: Formacion;
 	jugadores: PropiedadJugador[];
-	porteros: PropiedadJugador[];
-	defensas: PropiedadJugador[];
-	mediocentros: PropiedadJugador[];
-	delanteros: PropiedadJugador[];
-	puntuacionesMap: Map<string, PuntuacionJugador[]>;
+	alineacionJugador: AlineacionJugador;
 	jornada: number;
 };
 
 export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>();
 
 	const cambiarJugador = (idJugador: string) => {
 		if (idJugador === jugadorPulsado) setJugadorPulsado("");
@@ -50,26 +49,58 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 	const [jugadores, setJugadores] = useState<PropiedadJugador[]>(
 		props.jugadores
 	);
-	const [porteros, setPorteros] = useState<PropiedadJugador[]>(props.porteros);
-	const [defensas, setDefensas] = useState<PropiedadJugador[]>(props.defensas);
-	const [mediocentros, setMediocentros] = useState<PropiedadJugador[]>(
-		props.mediocentros
-	);
-	const [delanteros, setDelanteros] = useState<PropiedadJugador[]>(
-		props.delanteros
+	const [alineacion, setAlineacion] = useState<AlineacionJugador>(
+		props.alineacionJugador
 	);
 
 	const [jornada, setJornada] = useState<number>(props.jornada);
 	const jornadas = Array.from(Array(38).keys());
 
+	const [puntuacionesMap, setPuntuacionesMap] = useState<
+		Map<string, PuntuacionJugador[]>
+	>(new Map());
+
+	const [arrayPuntuacionesJornada, setArrayPuntuacionesJornada] = useState<
+		Map<string, PuntuacionJugador[]>[]
+	>(Array());
+
 	const cambiarJornada = (jornada: number) => {
+		setLoading(true);
+		const prev = arrayPuntuacionesJornada[jornada];
+		if (prev === undefined) {
+			const map = new Map<string, PuntuacionJugador[]>();
+			jugadores.forEach(async (j) => {
+				await getPuntuacionesJugador(j.jugador.id)
+					.then((puntuaciones) => {
+						map.set(j.jugador.id, puntuaciones);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			});
+			let aux = arrayPuntuacionesJornada;
+			aux[jornada] = map;
+			setArrayPuntuacionesJornada(aux);
+			setPuntuacionesMap(map);
+		} else {
+			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
+		}
+
 		setJornada(jornada);
-		//setFormacion(props.plantilla.alineacionesJornada[jornada - 1].formacion);
-		setPorteros(props.plantilla.alineacionesJornada[jornada - 1].porteros);
-		setDefensas(props.plantilla.alineacionesJornada[jornada - 1].defensas);
-		setMediocentros(props.plantilla.alineacionesJornada[jornada - 1].medios);
-		setDelanteros(props.plantilla.alineacionesJornada[jornada - 1].delanteros);
+		const alineacion = props.plantilla.alineacionesJornada[jornada - 1];
+		setAlineacion(alineacion);
+
+		const ju = [];
+		ju.push(...alineacion.porteros);
+		ju.push(...alineacion.defensas);
+		ju.push(...alineacion.medios);
+		ju.push(...alineacion.delanteros);
+		setJugadores(ju);
+		
+		setLoading(false);
 	};
+
+	useEffect(() => {}, [jornada]);
 
 	return (
 		<>
@@ -113,15 +144,11 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 											}}
 										>
 											<AlineacionPuntuaciones
-												usuario={props.plantilla.usuario}
-												formacion={props.formacion}
 												setJugadorPulsado={cambiarJugadorSiOSi}
-												porteros={props.porteros}
-												defensas={props.defensas}
-												mediocentros={props.mediocentros}
-												delanteros={props.delanteros}
+												alineacion={alineacion}
+												formacion={formacion}
 												jornada={jornada}
-												puntuacionesMap={props.puntuacionesMap}
+												puntuacionesMap={puntuacionesMap}
 											/>
 										</IonRow>
 									</IonCol>
@@ -129,25 +156,25 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 										<IonContent>
 											{jugadorPulsado === "" ? (
 												<ListaJugadoresPuntuaciones
-													porteros={props.porteros}
-													defensas={props.defensas}
-													mediocentros={props.mediocentros}
-													delanteros={props.delanteros}
+													porteros={alineacion.porteros}
+													defensas={alineacion.defensas}
+													mediocentros={alineacion.medios}
+													delanteros={alineacion.delanteros}
 													setJugadorPulsado={cambiarJugador}
 													jornada={jornada}
-													puntuacionesMap={props.puntuacionesMap}
+													puntuacionesMap={puntuacionesMap}
 												/>
 											) : (
 												<>
 													<CartaDetallesPuntuacionJugador
-														propiedadJugador={props.jugadores.find(
+														propiedadJugador={jugadores.find(
 															(j) => j.jugador.id === jugadorPulsado
 														)}
 														showPuntuaciones={true}
 														setJugadorPulsado={cambiarJugador}
 														jornada={jornada}
 														puntuacionesJugador={
-															props.puntuacionesMap.get(
+															puntuacionesMap.get(
 																jugadorPulsado
 															) as PuntuacionJugador[]
 														}

@@ -81,13 +81,6 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 
 		if (usuario && verified) {
 			const plantillaParaActualizar = req.body.plantilla as IPlantillaUsuario;
-			const nextJornada = await getSiguienteJornada();
-
-			for (let i = 0; i < 38; i++) {
-				if (nextJornada - 1 <= i)
-					plantillaParaActualizar.alineacionesJornada[i] =
-						plantillaParaActualizar.alineacionJugador;
-			}
 
 			const idLiga = req.body.idLiga.toString();
 
@@ -100,6 +93,21 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 				).length === 0
 			)
 				return res.status(404).json({ message: "Plantilla no encontrada" });
+
+			const nextJornada = await getSiguienteJornada();
+
+			const plantillaEnBD = liga.plantillasUsuarios.filter(
+				(plantilla) => plantilla.id === plantillaParaActualizar.id
+			)[0];
+
+			plantillaParaActualizar.alineacionesJornada =
+				plantillaEnBD.alineacionesJornada;
+
+			for (let i = 0; i < 38; i++) {
+				if (nextJornada - 1 <= i)
+					plantillaParaActualizar.alineacionesJornada[i] =
+						plantillaParaActualizar.alineacionJugador;
+			}
 
 			liga.plantillasUsuarios = liga.plantillasUsuarios.map(
 				(plantillaUsuario) => {
@@ -192,12 +200,28 @@ export async function crearPlantillaParaUsuarioYGuardar(
 		guardadoEn: new Date().toISOString(),
 		idLiga: liga.id,
 	});
+
+	const alineacionJugador2 = new modeloAlineacionJugador({
+		id: UUID.v4(),
+		porteros: [],
+		defensas: [],
+		medios: [],
+		delanteros: [],
+		formacion: "4-3-3",
+		guardadoEn: new Date().toISOString(),
+		idLiga: liga.id,
+	});
+	const as = [];
+	for (let i = 0; i < 38; i++) {
+		as.push(alineacionJugador2);
+	}
+
 	const plantillaUsuario = new modeloPlantillaUsuario({
 		id: UUID.v4(),
 		idLiga: liga.id,
 		usuario: usuario,
 		alineacionJugador: alineacionJugador,
-		alineacionesJornada: [],
+		alineacionesJornada: as,
 		valor: calcularValorAlineacion(alineacionJugador),
 		puntos: 0,
 		dinero: 100000000,

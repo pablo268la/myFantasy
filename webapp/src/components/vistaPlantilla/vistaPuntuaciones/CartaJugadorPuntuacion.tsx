@@ -1,13 +1,11 @@
 import { IonBadge, IonCard, IonCol, IonImg } from "@ionic/react";
 
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
+import { getColorPuntos, urlBackground } from "../../../helpers/helpers";
 import {
-    getColorPuntos,
-    urlBackground
-} from "../../../helpers/helpers";
-import {
-    PropiedadJugador,
-    PuntuacionJugador,
+	PropiedadJugador,
+	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 
 type CartaJugadorProps = {
@@ -20,6 +18,8 @@ type CartaJugadorProps = {
 };
 
 function CartaJugador(props: CartaJugadorProps): JSX.Element {
+	useEffect(() => {}, [props.puntuaciones]);
+	
 	return (
 		<IonCol sizeSm="2" sizeXs={props.xsSize ? props.xsSize.toString() : "2"}>
 			<IonCard
@@ -42,11 +42,8 @@ function CartaJugador(props: CartaJugadorProps): JSX.Element {
 								.at(0)?.puntos as number
 						)}
 					>
-						{
-							props.puntuaciones
-								?.filter((p) => p.semana === props.jornada)
-								.at(0)?.puntos
-						}
+						{props.puntuaciones?.filter((p) => p.semana === props.jornada).at(0)
+							?.puntos ?? "-"}
 					</IonBadge>
 					<IonImg
 						src={
