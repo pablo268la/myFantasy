@@ -175,7 +175,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 					</IonGrid>
 				</IonContent>
 			) : (
-				<VolverAlInicio />
+				<VolverAlInicio message="No tienes ninguna liga" />
 			)}
 		</>
 	);

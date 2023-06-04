@@ -1,21 +1,22 @@
 import {
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonSegment,
-    IonSegmentButton,
-    useIonToast,
+	IonContent,
+	IonHeader,
+	IonPage,
+	IonSegment,
+	IonSegmentButton,
+	useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getEquipos } from "../../endpoints/equiposEndpoint";
 import {
-    getJugadores,
-    getJugadoresPorEquipo,
+	getJugadores,
+	getJugadoresPorEquipo,
 } from "../../endpoints/jugadorEndpoints";
-import { comparePosiciones } from "../../helpers/helpers";
+import { comparePosiciones, getUsuarioLogueado } from "../../helpers/helpers";
 import { Equipo, Jugador } from "../../shared/sharedTypes";
 import { FantasyToolbar } from "../comunes/FantasyToolbar";
 import { MenuLateral } from "../comunes/MenuLateral";
+import { VolverAlInicio } from "../comunes/VolverAlInicio";
 import { VistaAdminJugadores } from "./VistaAdminJugadores";
 import { VistaAdminPartidos } from "./VistaAdminPartidos";
 import { VistaAdminPuntuaciones } from "./VistaAdminPuntuaciones";
@@ -100,54 +101,57 @@ export function VistaAdmin(): JSX.Element {
 				<IonHeader>
 					<FantasyToolbar />
 				</IonHeader>
-
-				<IonContent>
-					<IonSegment value={segment}>
-						<IonSegmentButton
-							value="jugadores"
-							onClick={() => {
-								setSegment("jugadores");
-							}}
-						>
-							Jugadores
-						</IonSegmentButton>
-						<IonSegmentButton
-							value="puntuaciones"
-							onClick={() => {
-								setSegment("puntuaciones");
-							}}
-						>
-							Puntuaciones
-						</IonSegmentButton>
-						<IonSegmentButton
-							value="partidos"
-							onClick={() => {
-								setSegment("partidos");
-							}}
-						>
-							Partidos
-						</IonSegmentButton>
-					</IonSegment>
-					{segment === "jugadores" ? (
-						<VistaAdminJugadores
-							equipos={equipos}
-							equipoSeleccionado={equipoSeleccionado}
-							jugadores={jugadores}
-							loading={loading}
-							compararPosiciones={comparePosiciones}
-							getJugadoresFromApi={getJugadoresFromApi}
-							getEquiposFromApi={getEquiposFromApi}
-						/>
-					) : segment === "puntuaciones" ? (
-						<>
-							<VistaAdminPuntuaciones />
-						</>
-					) : (
-						<>
-							<VistaAdminPartidos />
-						</>
-					)}
-				</IonContent>
+				{getUsuarioLogueado()?.admin ? (
+					<IonContent>
+						<IonSegment value={segment}>
+							<IonSegmentButton
+								value="jugadores"
+								onClick={() => {
+									setSegment("jugadores");
+								}}
+							>
+								Jugadores
+							</IonSegmentButton>
+							<IonSegmentButton
+								value="puntuaciones"
+								onClick={() => {
+									setSegment("puntuaciones");
+								}}
+							>
+								Puntuaciones
+							</IonSegmentButton>
+							<IonSegmentButton
+								value="partidos"
+								onClick={() => {
+									setSegment("partidos");
+								}}
+							>
+								Partidos
+							</IonSegmentButton>
+						</IonSegment>
+						{segment === "jugadores" ? (
+							<VistaAdminJugadores
+								equipos={equipos}
+								equipoSeleccionado={equipoSeleccionado}
+								jugadores={jugadores}
+								loading={loading}
+								compararPosiciones={comparePosiciones}
+								getJugadoresFromApi={getJugadoresFromApi}
+								getEquiposFromApi={getEquiposFromApi}
+							/>
+						) : segment === "puntuaciones" ? (
+							<>
+								<VistaAdminPuntuaciones />
+							</>
+						) : (
+							<>
+								<VistaAdminPartidos />
+							</>
+						)}
+					</IonContent>
+				) : (
+					<VolverAlInicio message={"Esta vista es solo para administradores"}/>
+				)}
 			</IonPage>
 		</>
 	);

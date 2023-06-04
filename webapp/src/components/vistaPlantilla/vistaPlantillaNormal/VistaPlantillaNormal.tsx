@@ -204,7 +204,7 @@ export function VistaPlantillaNormal(
 					</IonGrid>
 				</IonContent>
 			) : (
-				<VolverAlInicio />
+				<VolverAlInicio message="No tienes ninguna liga" />
 			)}
 		</>
 	);
