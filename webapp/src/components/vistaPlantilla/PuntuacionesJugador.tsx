@@ -64,7 +64,6 @@ export function PuntuacionesJugador(
 
 	useEffect(() => {
 		setLoading(true);
-		console.log(props)
 		const p = props.puntuacionesMap.get(props.jugador.jugador.id);
 		if (p === undefined)
 			getPuntuacionJugador(props.jugador.jugador.id)

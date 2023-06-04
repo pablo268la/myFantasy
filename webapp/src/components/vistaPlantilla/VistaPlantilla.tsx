@@ -51,7 +51,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		medio: 3,
 		delantero: 3,
 	});
-	const [valueFormacion, setValueFormacion] = useState<string>();
 	const [jugadorPulsado, setJugadorPulsado] = useState<string>("");
 	const [cambioAlineacion, setCambioAlineacion] = useState<boolean>(false);
 
@@ -90,7 +89,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 					medio: Number(res.alineacionJugador.formacion.split("-")[1]),
 					delantero: Number(res.alineacionJugador.formacion.split("-")[2]),
 				});
-				setValueFormacion(res.alineacionJugador.formacion);
 
 				let ju: PropiedadJugador[] = [];
 				let po: PropiedadJugador[] = res.alineacionJugador.porteros;
@@ -289,7 +287,6 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 									cambiarTitulares={cambiarTitulares}
 									cambioAlineacion={cambioAlineacion}
 									guardarPlantilla={guardarPlantilla}
-									setValueFormacion={setValueFormacion}
 									setShowLoading={setShowLoading}
 									setMessage={setMessage}
 									crearToast={crearToast}

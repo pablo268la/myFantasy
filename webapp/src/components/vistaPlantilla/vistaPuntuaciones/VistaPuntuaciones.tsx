@@ -58,7 +58,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 
 	const [arrayPuntuacionesJornada, setArrayPuntuacionesJornada] = useState<
 		Map<string, PuntuacionJugador[]>[]
-	>(Array());
+	>([]);
 
 	const cambiarJornada = (jornada: number) => {
 		const prev = arrayPuntuacionesJornada[jornada];
@@ -95,7 +95,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 
 	useEffect(() => {
 		cambiarJornada(props.jornada);
-	}, []);
+	}, [props.jornada]);
 
 	return (
 		<>

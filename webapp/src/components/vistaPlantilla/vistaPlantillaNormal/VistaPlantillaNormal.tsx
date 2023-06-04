@@ -37,7 +37,6 @@ type VistaPlantillaNormalProps = {
 	) => void;
 	cambioAlineacion: boolean;
 	guardarPlantilla: () => Promise<void>;
-	setValueFormacion: (f: string) => void;
 	setShowLoading: (show: boolean) => void;
 	setMessage: (message: string) => void;
 	crearToast: (message: string, show: boolean, color: string) => void;
@@ -97,7 +96,6 @@ export function VistaPlantillaNormal(
 																medio: Number(e.detail.value.split("-")[1]),
 																delantero: Number(e.detail.value.split("-")[2]),
 															};
-															props.setValueFormacion(e.detail.value);
 															props.cambiarFormacion(f);
 														}}
 													>
