@@ -35,13 +35,22 @@ export function AlineacionPuntuaciones(
 	const [formacion, setFormacion] = useState<Formacion>();
 
 	const meterVacios = (a: AlineacionJugador) => {
-		const f = {
-			portero: 1,
-			defensa: Number.parseInt(a.formacion.split("-")[0]),
-			medio: Number.parseInt(a.formacion.split("-")[1]),
-			delantero: Number.parseInt(a.formacion.split("-")[2]),
-		};
-		setFormacion(f);
+		if (a === undefined) {
+			setFormacion({
+				portero: 1,
+				defensa: 4,
+				medio: 3,
+				delantero: 3,
+			});
+		} else {
+			const f = {
+				portero: 1,
+				defensa: Number.parseInt(a.formacion.split("-")[0]),
+				medio: Number.parseInt(a.formacion.split("-")[1]),
+				delantero: Number.parseInt(a.formacion.split("-")[2]),
+			};
+			setFormacion(f);
+		}
 		setAlineacion(a);
 	};
 
@@ -52,7 +61,7 @@ export function AlineacionPuntuaciones(
 	return (
 		<>
 			<MyGrid>
-				{alineacion?.porteros.length !== 0 ? (
+				{alineacion !== undefined && alineacion?.porteros.length !== 0 ? (
 					<IonRow style={{ justifyContent: "center" }}>
 						<>
 							{alineacion?.porteros

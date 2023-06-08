@@ -22,7 +22,6 @@ import { getUsuarioLogueado } from "../../helpers/helpers";
 export function MenuLateral(props: any): JSX.Element {
 	//const nav = useIonRouter(); onClick={() => nav.push("/home", "forward")}
 
-	console.log(getUsuarioLogueado()?.ligas);
 	return (
 		<>
 			<IonMenu type="reveal" contentId="main-content">

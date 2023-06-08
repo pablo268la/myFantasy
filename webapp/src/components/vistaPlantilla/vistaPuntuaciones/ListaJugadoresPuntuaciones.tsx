@@ -19,7 +19,7 @@ export function ListaJugadoresPuntuaciones(
 ): JSX.Element {
 	return (
 		<IonList>
-			{props.alineacion.porteros
+			{props.alineacion?.porteros
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -30,7 +30,7 @@ export function ListaJugadoresPuntuaciones(
 						props.puntuacionesMap
 					)
 				)}
-			{props.alineacion.defensas
+			{props.alineacion?.defensas
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -41,7 +41,7 @@ export function ListaJugadoresPuntuaciones(
 						props.puntuacionesMap
 					)
 				)}
-			{props.alineacion.medios
+			{props.alineacion?.medios
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>
@@ -52,7 +52,7 @@ export function ListaJugadoresPuntuaciones(
 						props.puntuacionesMap
 					)
 				)}
-			{props.alineacion.delanteros
+			{props.alineacion?.delanteros
 				.filter((j) => j.jugador.id !== "empty")
 				.filter((j) => j.titular === true)
 				.map((j) =>

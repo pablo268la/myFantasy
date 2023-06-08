@@ -5,7 +5,7 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonText
+	IonText,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getPuntuacionJugadorSemana } from "../../../endpoints/puntuacionesEndpoint";
@@ -69,9 +69,7 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 					.then((puntuacionSemana) => {
 						map.set(j.jugador.id, [puntuacionSemana]);
 					})
-					.catch((err) => {
-						console.log(err);
-					});
+					.catch((err) => {});
 			});
 			let aux = arrayPuntuacionesJornada;
 			aux[jornada] = map;
@@ -82,14 +80,27 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 		}
 
 		setJornada(jornada);
-		const alineacion = props.plantilla.alineacionesJornada[jornada - 1];
-		setAlineacion(alineacion);
+		let alineacion = props.plantilla.alineacionesJornada[jornada - 1];
+		if (alineacion === undefined) {
+			alineacion = {
+				id: "",
+				guardadoEn: new Date().toISOString(),
+				formacion: "4-3-3",
+				idLiga: "",
+				porteros: [],
+				defensas: [],
+				medios: [],
+				delanteros: [],
+			};
+		}
+		setAlineacion(alineacion)
 
 		const ju = [];
 		ju.push(...alineacion.porteros);
 		ju.push(...alineacion.defensas);
 		ju.push(...alineacion.medios);
 		ju.push(...alineacion.delanteros);
+
 		setJugadores(ju);
 	};
 
