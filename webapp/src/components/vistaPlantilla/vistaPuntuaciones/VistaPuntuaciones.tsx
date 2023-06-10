@@ -58,27 +58,13 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 
 	const [arrayPuntuacionesJornada, setArrayPuntuacionesJornada] = useState<
 		Map<string, PuntuacionJugador[]>[]
-	>([]);
+	>(
+		Array.from(Array(38).keys()).map(
+			() => new Map<string, PuntuacionJugador[]>()
+		)
+	);
 
 	const cambiarJornada = (jornada: number) => {
-		const prev = arrayPuntuacionesJornada[jornada];
-		if (prev === undefined) {
-			const map = new Map<string, PuntuacionJugador[]>();
-			jugadores.forEach(async (j) => {
-				await getPuntuacionJugadorSemana(j.jugador.id, jornada)
-					.then((puntuacionSemana) => {
-						map.set(j.jugador.id, [puntuacionSemana]);
-					})
-					.catch((err) => {});
-			});
-			let aux = arrayPuntuacionesJornada;
-			aux[jornada] = map;
-			setArrayPuntuacionesJornada(aux);
-			setPuntuacionesMap(map);
-		} else {
-			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
-		}
-
 		setJornada(jornada);
 		let alineacion = props.plantilla.alineacionesJornada[jornada - 1];
 		if (alineacion === undefined) {
@@ -93,7 +79,6 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 				delanteros: [],
 			};
 		}
-		setAlineacion(alineacion)
 
 		const ju = [];
 		ju.push(...alineacion.porteros);
@@ -101,7 +86,31 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 		ju.push(...alineacion.medios);
 		ju.push(...alineacion.delanteros);
 
+		const prev = arrayPuntuacionesJornada[jornada];
+		if (prev === undefined || prev.size === 0) {
+			const map = new Map<string, PuntuacionJugador[]>();
+
+			const a = ju.map(async (j) => {
+				await getPuntuacionJugadorSemana(j.jugador.id, jornada).then(
+					(puntuacionSemana) => {
+						map.set(j.jugador.id, [puntuacionSemana]);
+					}
+				);
+				return j;
+			});
+
+			Promise.all(a).then((ju) => {
+				let aux = arrayPuntuacionesJornada;
+				aux[jornada] = map;
+				setArrayPuntuacionesJornada(aux);
+				setPuntuacionesMap(map);
+			});
+		} else {
+			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
+		}
+
 		setJugadores(ju);
+		setAlineacion(alineacion);
 	};
 
 	useEffect(() => {

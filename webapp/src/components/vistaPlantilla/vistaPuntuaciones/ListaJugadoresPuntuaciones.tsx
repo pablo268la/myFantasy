@@ -5,6 +5,7 @@ import {
 	PuntuacionJugador,
 } from "../../../shared/sharedTypes";
 
+import { useEffect } from "react";
 import { CartaDetallesPuntuacionJugador } from "./CartaDetallesPuntuacionJugador";
 
 type ListaJugadoresPuntuacionesProps = {
@@ -17,6 +18,7 @@ type ListaJugadoresPuntuacionesProps = {
 export function ListaJugadoresPuntuaciones(
 	props: ListaJugadoresPuntuacionesProps
 ): JSX.Element {
+	useEffect(() => {}, [props.puntuacionesMap]);
 	return (
 		<IonList>
 			{props.alineacion?.porteros

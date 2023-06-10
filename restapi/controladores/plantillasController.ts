@@ -104,7 +104,7 @@ export const updatePlantillaUsuario: RequestHandler = async (req, res) => {
 				plantillaEnBD.alineacionesJornada;
 
 			for (let i = 0; i < 38; i++) {
-				if (nextJornada - 1 <= i)
+				//if (nextJornada - 1 <= i)
 					plantillaParaActualizar.alineacionesJornada[i] =
 						plantillaParaActualizar.alineacionJugador;
 			}
