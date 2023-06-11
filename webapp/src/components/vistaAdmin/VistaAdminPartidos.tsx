@@ -204,11 +204,17 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 
 	const callSofaScoreForEventos = async () => {
 		setEventosPartido([]);
-		await getEventosDeSofaScore(partidoSeleccionado as Partido).then(
-			(eventos) => {
+		await getEventosDeSofaScore(partidoSeleccionado as Partido)
+			.then((eventos) => {
 				añadirEventos(eventos, true);
-			}
-		);
+			})
+			.catch((err) => {
+				crearToast(
+					"No se pudieron obtener los eventos para el partido",
+					true,
+					"warning"
+				);
+			});
 
 		setCambiado(true);
 		setEventosLoading(false);
@@ -235,7 +241,13 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				setAlineacionLocalForAll(alineaciones.alineacionLocal);
 				setAlineacionVisitanteForAll(alineaciones.alineacionVisitante);
 			}
-		);
+		).catch((err) => {
+			crearToast(
+				"No se pudieron obtener las alineaciones para el partido",
+				true,
+				"warning"
+			);
+		});
 
 		setCambiado(true);
 		setEventosLoading(false);
@@ -273,9 +285,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const getJugadoresNiTitularesNiSuplLocal = () => {
 		return jugadoresLocales.filter((t) => {
 			return (
-				!alineacionLocal?.jugadoresTitulares
-					.map((j) => j.id)
-					.includes(t.id) &&
+				!alineacionLocal?.jugadoresTitulares.map((j) => j.id).includes(t.id) &&
 				!alineacionLocal?.jugadoresSuplentes.map((j) => j.id).includes(t.id)
 			);
 		});
@@ -329,9 +339,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				!alineacionVisitante?.jugadoresTitulares
 					.map((j) => j.id)
 					.includes(t.id) &&
-				!alineacionVisitante?.jugadoresSuplentes
-					.map((j) => j.id)
-					.includes(t.id)
+				!alineacionVisitante?.jugadoresSuplentes.map((j) => j.id).includes(t.id)
 			);
 		});
 	};
@@ -380,7 +388,7 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 								{!loading ? (
 									<>
 										<IonSelect
-										value={partidoSeleccionado?.id}
+											value={partidoSeleccionado?.id}
 											placeholder="Selecciona un partido"
 											interface="action-sheet"
 											onIonChange={async (e) => {

@@ -5,7 +5,7 @@ import {
 	IonRow,
 	IonSelect,
 	IonSelectOption,
-	IonText
+	IonText,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { getPuntuacionJugadorSemana } from "../../../endpoints/puntuacionesEndpoint";
@@ -58,39 +58,59 @@ export function VistaPuntuaciones(props: VistaPuntuacionesProps): JSX.Element {
 
 	const [arrayPuntuacionesJornada, setArrayPuntuacionesJornada] = useState<
 		Map<string, PuntuacionJugador[]>[]
-	>([]);
+	>(
+		Array.from(Array(38).keys()).map(
+			() => new Map<string, PuntuacionJugador[]>()
+		)
+	);
 
 	const cambiarJornada = (jornada: number) => {
-		const prev = arrayPuntuacionesJornada[jornada];
-		if (prev === undefined) {
-			const map = new Map<string, PuntuacionJugador[]>();
-			jugadores.forEach(async (j) => {
-				await getPuntuacionJugadorSemana(j.jugador.id, jornada)
-					.then((puntuacionSemana) => {
-						map.set(j.jugador.id, [puntuacionSemana]);
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			});
-			let aux = arrayPuntuacionesJornada;
-			aux[jornada] = map;
-			setArrayPuntuacionesJornada(aux);
-			setPuntuacionesMap(map);
-		} else {
-			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
-		}
-
 		setJornada(jornada);
-		const alineacion = props.plantilla.alineacionesJornada[jornada - 1];
-		setAlineacion(alineacion);
+		let alineacion = props.plantilla.alineacionesJornada[jornada - 1];
+		if (alineacion === undefined) {
+			alineacion = {
+				id: "",
+				guardadoEn: new Date().toISOString(),
+				formacion: "4-3-3",
+				idLiga: "",
+				porteros: [],
+				defensas: [],
+				medios: [],
+				delanteros: [],
+			};
+		}
 
 		const ju = [];
 		ju.push(...alineacion.porteros);
 		ju.push(...alineacion.defensas);
 		ju.push(...alineacion.medios);
 		ju.push(...alineacion.delanteros);
+
+		const prev = arrayPuntuacionesJornada[jornada];
+		if (prev === undefined || prev.size === 0) {
+			const map = new Map<string, PuntuacionJugador[]>();
+
+			const a = ju.map(async (j) => {
+				await getPuntuacionJugadorSemana(j.jugador.id, jornada).then(
+					(puntuacionSemana) => {
+						map.set(j.jugador.id, [puntuacionSemana]);
+					}
+				);
+				return j;
+			});
+
+			Promise.all(a).then((ju) => {
+				let aux = arrayPuntuacionesJornada;
+				aux[jornada] = map;
+				setArrayPuntuacionesJornada(aux);
+				setPuntuacionesMap(map);
+			});
+		} else {
+			setPuntuacionesMap(arrayPuntuacionesJornada[jornada]);
+		}
+
 		setJugadores(ju);
+		setAlineacion(alineacion);
 	};
 
 	useEffect(() => {

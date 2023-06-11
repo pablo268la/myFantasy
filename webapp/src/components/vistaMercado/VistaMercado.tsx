@@ -32,11 +32,19 @@ export function VistaMercado(props: any): JSX.Element {
 		PropiedadJugador[]
 	>([]);
 
+	const [dineroUsuario, setDineroUsuario] = useState<number>(0);
+	const [dineroPujasUsuario, setDineroPujasUsuario] = useState<number>(0);
+
 	const [reseteandoMercado, setReseteandoMercado] = useState<boolean>(false);
 
 	const [selectedSegment, setSelectedSegment] = useState<"mercado" | "ofertas">(
 		"mercado"
 	);
+
+	const [showLoading, setShowLoading] = useState<boolean>(false);
+	const [loadingMessage, setLoadingMessage] = useState<string>();
+
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const [present] = useIonToast();
 	function crearToast(mensaje: string, mostrarToast: boolean, color: string) {
@@ -52,15 +60,51 @@ export function VistaMercado(props: any): JSX.Element {
 		setLoading(true);
 
 		await getLiga(getLocalLigaSeleccionada())
-			.then((liga) => {
-				setLiga(liga);
-				setJugadoresEnMercado(liga.mercado);
+			.then((ligaUpdated) => {
+				actualizarInfoLigaYMercado(ligaUpdated);
 				setLoading(false);
 			})
 			.catch((err) => {
 				crearToast(err.message, true, "danger");
 				setLoading(false);
 			});
+	};
+
+	function actualizarInfoLigaYMercado(ligaUpdated: Liga) {
+		setLiga(ligaUpdated);
+		setJugadoresEnMercado(ligaUpdated.mercado);
+		setDineroUsuario(
+			(ligaUpdated.plantillasUsuarios
+				.filter((p) => p.usuario.id === getUsuarioLogueado()?.id)
+				.at(0)?.dinero as number) ?? 0
+		);
+		setDineroPujasUsuario(
+			(ligaUpdated.mercado
+				.map((j) =>
+					j.venta.ofertas
+						.filter(
+							(oferta) => oferta.comprador.id === getUsuarioLogueado()?.id
+						)
+						.map((oferta) => oferta.valorOferta)
+				)
+				.map((valor) => valor[0] ?? 0)
+				.reduce((a, b) => a + b, 0) as number) ?? 0
+		);
+	}
+
+	const resetMercadoFromAPI = async () => {
+		if (!reseteandoMercado) {
+			setReseteandoMercado(true);
+			await resetMercado(liga as Liga)
+				.then((ligaUpdated) => {
+					actualizarInfoLigaYMercado(ligaUpdated);
+					setReseteandoMercado(false);
+				})
+				.catch((err) => {
+					setReseteandoMercado(false);
+					crearToast(err.message, true, "danger");
+				});
+		}
 	};
 
 	useEffect(() => {
@@ -74,26 +118,6 @@ export function VistaMercado(props: any): JSX.Element {
 			});
 	}, []);
 
-	const resetMercadoFromAPI = async () => {
-		if (!reseteandoMercado) {
-			setReseteandoMercado(true);
-			await resetMercado(liga as Liga)
-				.then((liga) => {
-					setLiga(liga);
-					setJugadoresEnMercado(liga.mercado);
-					setReseteandoMercado(false);
-				})
-				.catch((err) => {
-					crearToast(err.message, true, "danger");
-				});
-		}
-	};
-
-	const [showLoading, setShowLoading] = useState<boolean>(false);
-	const [loadingMessage, setLoadingMessage] = useState<string>();
-
-	const [loading, setLoading] = useState<boolean>(false);
-
 	return (
 		<>
 			<MenuLateral />
@@ -102,7 +126,7 @@ export function VistaMercado(props: any): JSX.Element {
 					<FantasyToolbar />
 				</IonHeader>
 				<IonLoading isOpen={showLoading} message={loadingMessage} />
-				{loading ? (
+				{loading || reseteandoMercado || liga === undefined ? (
 					<IonContent>
 						<IonProgressBar type="indeterminate"></IonProgressBar>
 					</IonContent>
@@ -131,31 +155,11 @@ export function VistaMercado(props: any): JSX.Element {
 								<IonItem color="primary">
 									<IonRow>
 										<IonLabel>
-											Saldo:{" "}
-											{ponerPuntosAValor(
-												liga?.plantillasUsuarios
-													.filter(
-														(p) => p.usuario.id === getUsuarioLogueado()?.id
-													)
-													.at(0)?.dinero as number
-											)}
+											Saldo: {ponerPuntosAValor(dineroUsuario)}
 										</IonLabel>
 										<IonLabel color={"danger"} style={{ marginLeft: "10px" }}>
 											{"(-"}
-											{ponerPuntosAValor(
-												liga?.mercado
-													.map((j) =>
-														j.venta.ofertas
-															.filter(
-																(oferta) =>
-																	oferta.comprador.id ===
-																	getUsuarioLogueado()?.id
-															)
-															.map((oferta) => oferta.valorOferta)
-													)
-													.map((valor) => valor[0] ?? 0)
-													.reduce((a, b) => a + b, 0) as number
-											)}
+											{ponerPuntosAValor(dineroPujasUsuario)}
 											{" )"}
 										</IonLabel>
 									</IonRow>

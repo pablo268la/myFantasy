@@ -163,7 +163,7 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 			.forEach((j) => {
 				j.titular = false;
 			});
-
+		alineacion.formacion = `${f.defensa}-${f.medio}-${f.delantero}`;
 		setAlineacionJugador(alineacion);
 		setCambioAlineacion(true);
 	};
