@@ -90,7 +90,11 @@ export const resetmercado: RequestHandler = async (req, res) => {
 			});
 
 		liga.mercado = newMercado;
-		const newLiga = await modeloLiga.updateOne({ id: req.params.idLiga }, liga);
+		const newLiga = await modeloLiga.findOneAndUpdate(
+			{ id: req.params.idLiga },
+			liga,
+			{ new: true }
+		);
 
 		return res.status(200).json(newLiga);
 	} catch (error) {

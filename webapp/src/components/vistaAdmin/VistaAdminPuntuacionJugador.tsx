@@ -176,9 +176,18 @@ export function VistaAdminPuntuacionJugador(
 												props.partido,
 												j,
 												props.titular
-											).then((ps) => {
-												actualizarPuntuacionYPuntos(ps[0]);
-											});
+											)
+												.then((ps) => {
+													props.setPuntuacionesCambiadas(true);
+													actualizarPuntuacionYPuntos(ps[0]);
+												})
+												.catch((err) => {
+													crearToast(
+														"No se pudo obtener la puntuación para " + j.nombre,
+														true,
+														"warning"
+													);
+												});
 										}}
 									>
 										SofaScore
