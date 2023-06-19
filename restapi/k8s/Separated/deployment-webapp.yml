@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    tier: frontend
+    app: HeadlineCoach
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: frontend
+      app: HeadlineCoach
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        app: HeadlineCoach
+    spec:
+      containers:
+        - name: webapp
+          image: pablo268la/headline_coach_webapp_linux
+          ports:
+            - containerPort: 8100
+          envFrom:
+            - configMapRef:
+                name: webapp-configmap

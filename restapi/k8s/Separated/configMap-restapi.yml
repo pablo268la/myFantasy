@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restapi-configmap
+  labels:
+    tier: backend
+    app: HeadlineCoach
+data:
+  MONGO_DB_URI: //

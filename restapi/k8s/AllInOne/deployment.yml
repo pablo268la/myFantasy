@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi-deployment
+  labels:
+    tier: backend
+    app: HeadlineCoach
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+      app: HeadlineCoach
+  template:
+    metadata:
+      labels:
+        tier: backend
+        app: HeadlineCoach
+    spec:
+      containers:
+        - name: restapi
+          image: pablo268la/headline_coach_restapi_linux
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: restapi-configmap
+        - name: webapp
+          image: pablo268la/headline_coach_webapp_linux
+          ports:
+            - containerPort: 8100
+          envFrom:
+            - configMapRef:
+                name: webapp-configmap

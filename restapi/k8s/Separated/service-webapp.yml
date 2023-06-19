@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  labels:
+    app: HeadlineCoach
+    tier: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: HeadlineCoach
+  ports:
+    - protocol: TCP
+      port: 8100
+      targetPort: 8100
