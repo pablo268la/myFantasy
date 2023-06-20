@@ -9,6 +9,7 @@ spec:
   type: ClusterIP
   selector:
     app: HeadlineCoach
+    tier: backend
   ports:
     - protocol: TCP
       port: 5000

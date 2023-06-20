@@ -9,6 +9,7 @@ spec:
   type: ClusterIP
   selector:
     app: HeadlineCoach
+    tier: frontend
   ports:
     - protocol: TCP
       port: 8100

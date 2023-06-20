@@ -6,4 +6,4 @@ metadata:
     tier: frontend
     app: HeadlineCoach
 data:
-  REACT_APP_API_URI: restapi-service
+  REACT_APP_API_URI: localhost
