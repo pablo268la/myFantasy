@@ -67,6 +67,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const [jugadoresVisitantes, setJugadoresVisitantes] = useState<Jugador[]>([]);
 
 	const [cambiado, setCambiado] = useState<boolean>(false);
+	const [resultadoLocal, setResultadoLocal] = useState<number>(0);
+	const [resultadoVisitante, setResultadoVisitante] = useState<number>(0);
 	const [alineacionLocal, setAlineacionLocal] = useState<Alineacion>();
 	const [alineacionVisitante, setAlineacionVisitante] = useState<Alineacion>();
 	const [estado, setEstado] = useState<string>();
@@ -153,6 +155,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 				setAlineacionLocalForAll(p.alineacionLocal);
 				setAlineacionVisitanteForAll(p.alineacionVisitante);
 
+				setResultadoLocal(p.resultadoLocal);
+				setResultadoVisitante(p.resultadoVisitante);
 				setEstado(p.estado);
 				setFecha(p.fecha);
 				setLink(p.linkSofaScore);
@@ -166,6 +170,8 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	const guardarPartido = async () => {
 		setLoading(true);
 		if (partidoSeleccionado) {
+			partidoSeleccionado.resultadoLocal = resultadoLocal;
+			partidoSeleccionado.resultadoVisitante = resultadoVisitante;
 			if (alineacionLocal)
 				partidoSeleccionado.alineacionLocal = alineacionLocal;
 			if (alineacionVisitante)
@@ -236,18 +242,18 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 	};
 
 	const callSofaScoreForAlineaciones = async () => {
-		await getAlineacionesSofaScore(partidoSeleccionado as Partido).then(
-			(alineaciones) => {
+		await getAlineacionesSofaScore(partidoSeleccionado as Partido)
+			.then((alineaciones) => {
 				setAlineacionLocalForAll(alineaciones.alineacionLocal);
 				setAlineacionVisitanteForAll(alineaciones.alineacionVisitante);
-			}
-		).catch((err) => {
-			crearToast(
-				"No se pudieron obtener las alineaciones para el partido",
-				true,
-				"warning"
-			);
-		});
+			})
+			.catch((err) => {
+				crearToast(
+					"No se pudieron obtener las alineaciones para el partido",
+					true,
+					"warning"
+				);
+			});
 
 		setCambiado(true);
 		setEventosLoading(false);
@@ -450,14 +456,52 @@ export function VistaAdminPartidos(props: any): JSX.Element {
 			{!loading && partidoSeleccionado !== undefined ? (
 				<>
 					<IonItemDivider>Informacion</IonItemDivider>
-					<IonButton
-						onClick={async () => {
-							setEventosLoading(true);
-							await callSofaScoreForEventos();
-						}}
-					>
-						COGER DE SOFASCORE
-					</IonButton>
+					<IonRow>
+						<IonItem key={"resultadoLocal"} lines="none">
+							<IonCol size="7">
+								<IonLabel>
+									Resultado {partidoSeleccionado.local.nombre}
+								</IonLabel>
+							</IonCol>
+							<IonCol size="2">
+								<IonInput
+									type="number"
+									min={0}
+									value={resultadoLocal}
+									onIonChange={(e) => {
+										setCambiado(true);
+										setResultadoLocal(Number.parseInt(e.detail.value + ""));
+									}}
+								/>
+							</IonCol>
+						</IonItem>
+						<IonItem key={"resultadoVisitante"} lines="none">
+							<IonCol size="7">
+								<IonLabel>
+									Resultado {partidoSeleccionado.visitante.nombre}
+								</IonLabel>
+							</IonCol>
+							<IonCol size="2">
+								<IonInput
+									type="number"
+									min={0}
+									value={resultadoVisitante}
+									onIonChange={(e) => {
+										setCambiado(true);
+										setResultadoVisitante(Number.parseInt(e.detail.value + ""));
+									}}
+								/>
+							</IonCol>
+						</IonItem>
+						<IonButton
+							onClick={async () => {
+								setEventosLoading(true);
+								await callSofaScoreForEventos();
+							}}
+						>
+							COGER EVENTOS DE SOFASCORE
+						</IonButton>
+					</IonRow>
 					<IonRow>
 						<IonCol sizeSm="4" sizeXs="6">
 							<IonItem lines="none">

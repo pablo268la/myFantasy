@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-service
+  labels:
+    app: HeadlineCoach
+    tier: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: HeadlineCoach
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

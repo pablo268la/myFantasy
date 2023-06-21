@@ -208,6 +208,12 @@ function VistaPlantilla(props: PlantillaProps): JSX.Element {
 		setShowLoading(true);
 		const auxAli = alineacionJugador as AlineacionJugador;
 		auxAli.guardadoEn = new Date().toISOString();
+		auxAli.porteros = auxAli.porteros.filter((j) => j.jugador.id !== "empty");
+		auxAli.defensas = auxAli.defensas.filter((j) => j.jugador.id !== "empty");
+		auxAli.medios = auxAli.medios.filter((j) => j.jugador.id !== "empty");
+		auxAli.delanteros = auxAli.delanteros.filter(
+			(j) => j.jugador.id !== "empty"
+		);
 		const plantillaUsuario: PlantillaUsuario = {
 			id: plantilla?.id as string,
 			usuario: plantilla?.usuario as any,
